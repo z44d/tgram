@@ -1,0 +1,2 @@
+class Decorators:
+    pass

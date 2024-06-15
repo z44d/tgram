@@ -1,10 +1,12 @@
-from typing import Optional, List, Any
-from types_ import *
+from typing import List, Union
+from .types import *
+
+import tgram
 
 
-class TelegramBotMethods:
-    def get_updates(
-        self,
+class Methods:
+    async def get_updates(
+        self: "tgram.TgBot",
         offset: int = None,
         limit: int = None,
         timeout: int = None,
@@ -13,8 +15,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#getupdates"""
         ...
 
-    def set_webhook(
-        self,
+    async def set_webhook(
+        self: "tgram.TgBot",
         url: str,
         certificate: InputFile = None,
         ip_address: str = None,
@@ -26,28 +28,30 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setwebhook"""
         ...
 
-    def delete_webhook(self, drop_pending_updates: bool = None) -> bool:
+    async def delete_webhook(
+        self: "tgram.TgBot", drop_pending_updates: bool = None
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletewebhook"""
         ...
 
-    def get_webhook_info(self) -> WebhookInfo:
+    async def get_webhook_info(self: "tgram.TgBot") -> WebhookInfo:
         """https://core.telegram.org/bots/api/#getwebhookinfo"""
         ...
 
-    def get_me(self) -> User:
+    async def get_me(self: "tgram.TgBot") -> User:
         """https://core.telegram.org/bots/api/#getme"""
         ...
 
-    def log_out(self) -> bool:
+    async def log_out(self: "tgram.TgBot") -> bool:
         """https://core.telegram.org/bots/api/#logout"""
         ...
 
-    def close(self) -> bool:
+    async def close(self: "tgram.TgBot") -> bool:
         """https://core.telegram.org/bots/api/#close"""
         ...
 
-    def send_message(
-        self,
+    async def send_message(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         text: str,
         business_connection_id: str = None,
@@ -66,8 +70,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendmessage"""
         ...
 
-    def forward_message(
-        self,
+    async def forward_message(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_id: int,
@@ -78,8 +82,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#forwardmessage"""
         ...
 
-    def forward_messages(
-        self,
+    async def forward_messages(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_ids: List[int],
@@ -90,8 +94,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#forwardmessages"""
         ...
 
-    def copy_message(
-        self,
+    async def copy_message(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_id: int,
@@ -110,8 +114,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#copymessage"""
         ...
 
-    def copy_messages(
-        self,
+    async def copy_messages(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_ids: List[int],
@@ -123,8 +127,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#copymessages"""
         ...
 
-    def send_photo(
-        self,
+    async def send_photo(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         photo: Union[InputFile, str],
         business_connection_id: str = None,
@@ -145,8 +149,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendphoto"""
         ...
 
-    def send_audio(
-        self,
+    async def send_audio(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         audio: Union[InputFile, str],
         business_connection_id: str = None,
@@ -169,8 +173,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendaudio"""
         ...
 
-    def send_document(
-        self,
+    async def send_document(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         document: Union[InputFile, str],
         business_connection_id: str = None,
@@ -191,8 +195,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#senddocument"""
         ...
 
-    def send_video(
-        self,
+    async def send_video(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         video: Union[InputFile, str],
         business_connection_id: str = None,
@@ -218,8 +222,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendvideo"""
         ...
 
-    def send_animation(
-        self,
+    async def send_animation(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         animation: Union[InputFile, str],
         business_connection_id: str = None,
@@ -244,8 +248,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendanimation"""
         ...
 
-    def send_voice(
-        self,
+    async def send_voice(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         voice: Union[InputFile, str],
         business_connection_id: str = None,
@@ -265,8 +269,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendvoice"""
         ...
 
-    def send_video_note(
-        self,
+    async def send_video_note(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         video_note: Union[InputFile, str],
         business_connection_id: str = None,
@@ -285,8 +289,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendvideonote"""
         ...
 
-    def send_media_group(
-        self,
+    async def send_media_group(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         media: List[bool],
         business_connection_id: str = None,
@@ -299,8 +303,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendmediagroup"""
         ...
 
-    def send_location(
-        self,
+    async def send_location(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         latitude: float,
         longitude: float,
@@ -321,8 +325,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendlocation"""
         ...
 
-    def send_venue(
-        self,
+    async def send_venue(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         latitude: float,
         longitude: float,
@@ -345,8 +349,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendvenue"""
         ...
 
-    def send_contact(
-        self,
+    async def send_contact(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         phone_number: str,
         first_name: str,
@@ -365,8 +369,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendcontact"""
         ...
 
-    def send_poll(
-        self,
+    async def send_poll(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         question: str,
         options: List[InputPollOption],
@@ -395,8 +399,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendpoll"""
         ...
 
-    def send_dice(
-        self,
+    async def send_dice(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         business_connection_id: str = None,
         message_thread_id: int = None,
@@ -412,8 +416,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#senddice"""
         ...
 
-    def send_chat_action(
-        self,
+    async def send_chat_action(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         action: str,
         business_connection_id: str = None,
@@ -422,8 +426,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendchataction"""
         ...
 
-    def set_message_reaction(
-        self,
+    async def set_message_reaction(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         reaction: List[ReactionType] = None,
@@ -432,18 +436,18 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setmessagereaction"""
         ...
 
-    def get_user_profile_photos(
-        self, user_id: int, offset: int = None, limit: int = None
+    async def get_user_profile_photos(
+        self: "tgram.TgBot", user_id: int, offset: int = None, limit: int = None
     ) -> UserProfilePhotos:
         """https://core.telegram.org/bots/api/#getuserprofilephotos"""
         ...
 
-    def get_file(self, file_id: str) -> File:
+    async def get_file(self: "tgram.TgBot", file_id: str) -> File:
         """https://core.telegram.org/bots/api/#getfile"""
         ...
 
-    def ban_chat_member(
-        self,
+    async def ban_chat_member(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         until_date: int = None,
@@ -452,14 +456,17 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#banchatmember"""
         ...
 
-    def unban_chat_member(
-        self, chat_id: Union[int, str], user_id: int, only_if_banned: bool = None
+    async def unban_chat_member(
+        self: "tgram.TgBot",
+        chat_id: Union[int, str],
+        user_id: int,
+        only_if_banned: bool = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#unbanchatmember"""
         ...
 
-    def restrict_chat_member(
-        self,
+    async def restrict_chat_member(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         permissions: ChatPermissions,
@@ -469,8 +476,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#restrictchatmember"""
         ...
 
-    def promote_chat_member(
-        self,
+    async def promote_chat_member(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         is_anonymous: bool = None,
@@ -492,26 +499,26 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#promotechatmember"""
         ...
 
-    def set_chat_administrator_custom_title(
-        self, chat_id: Union[int, str], user_id: int, custom_title: str
+    async def set_chat_administrator_custom_title(
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int, custom_title: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatadministratorcustomtitle"""
         ...
 
-    def ban_chat_sender_chat(
-        self, chat_id: Union[int, str], sender_chat_id: int
+    async def ban_chat_sender_chat(
+        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#banchatsenderchat"""
         ...
 
-    def unban_chat_sender_chat(
-        self, chat_id: Union[int, str], sender_chat_id: int
+    async def unban_chat_sender_chat(
+        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#unbanchatsenderchat"""
         ...
 
-    def set_chat_permissions(
-        self,
+    async def set_chat_permissions(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         permissions: ChatPermissions,
         use_independent_chat_permissions: bool = None,
@@ -519,12 +526,14 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setchatpermissions"""
         ...
 
-    def export_chat_invite_link(self, chat_id: Union[int, str]) -> str:
+    async def export_chat_invite_link(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> str:
         """https://core.telegram.org/bots/api/#exportchatinvitelink"""
         ...
 
-    def create_chat_invite_link(
-        self,
+    async def create_chat_invite_link(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         name: str = None,
         expire_date: int = None,
@@ -534,8 +543,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#createchatinvitelink"""
         ...
 
-    def edit_chat_invite_link(
-        self,
+    async def edit_chat_invite_link(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         invite_link: str,
         name: str = None,
@@ -546,40 +555,48 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editchatinvitelink"""
         ...
 
-    def revoke_chat_invite_link(
-        self, chat_id: Union[int, str], invite_link: str
+    async def revoke_chat_invite_link(
+        self: "tgram.TgBot", chat_id: Union[int, str], invite_link: str
     ) -> ChatInviteLink:
         """https://core.telegram.org/bots/api/#revokechatinvitelink"""
         ...
 
-    def approve_chat_join_request(self, chat_id: Union[int, str], user_id: int) -> bool:
+    async def approve_chat_join_request(
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#approvechatjoinrequest"""
         ...
 
-    def decline_chat_join_request(self, chat_id: Union[int, str], user_id: int) -> bool:
+    async def decline_chat_join_request(
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#declinechatjoinrequest"""
         ...
 
-    def set_chat_photo(self, chat_id: Union[int, str], photo: InputFile) -> bool:
+    async def set_chat_photo(
+        self: "tgram.TgBot", chat_id: Union[int, str], photo: InputFile
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setchatphoto"""
         ...
 
-    def delete_chat_photo(self, chat_id: Union[int, str]) -> bool:
+    async def delete_chat_photo(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
         """https://core.telegram.org/bots/api/#deletechatphoto"""
         ...
 
-    def set_chat_title(self, chat_id: Union[int, str], title: str) -> bool:
+    async def set_chat_title(
+        self: "tgram.TgBot", chat_id: Union[int, str], title: str
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setchattitle"""
         ...
 
-    def set_chat_description(
-        self, chat_id: Union[int, str], description: str = None
+    async def set_chat_description(
+        self: "tgram.TgBot", chat_id: Union[int, str], description: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatdescription"""
         ...
 
-    def pin_chat_message(
-        self,
+    async def pin_chat_message(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         disable_notification: bool = None,
@@ -587,52 +604,62 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#pinchatmessage"""
         ...
 
-    def unpin_chat_message(
-        self, chat_id: Union[int, str], message_id: int = None
+    async def unpin_chat_message(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#unpinchatmessage"""
         ...
 
-    def unpin_all_chat_messages(self, chat_id: Union[int, str]) -> bool:
+    async def unpin_all_chat_messages(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallchatmessages"""
         ...
 
-    def leave_chat(self, chat_id: Union[int, str]) -> bool:
+    async def leave_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
         """https://core.telegram.org/bots/api/#leavechat"""
         ...
 
-    def get_chat(self, chat_id: Union[int, str]) -> ChatFullInfo:
+    async def get_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> ChatFullInfo:
         """https://core.telegram.org/bots/api/#getchat"""
         ...
 
-    def get_chat_administrators(self, chat_id: Union[int, str]) -> List[ChatMember]:
+    async def get_chat_administrators(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> List[ChatMember]:
         """https://core.telegram.org/bots/api/#getchatadministrators"""
         ...
 
-    def get_chat_member_count(self, chat_id: Union[int, str]) -> int:
+    async def get_chat_member_count(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> int:
         """https://core.telegram.org/bots/api/#getchatmembercount"""
         ...
 
-    def get_chat_member(self, chat_id: Union[int, str], user_id: int) -> ChatMember:
+    async def get_chat_member(
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+    ) -> ChatMember:
         """https://core.telegram.org/bots/api/#getchatmember"""
         ...
 
-    def set_chat_sticker_set(
-        self, chat_id: Union[int, str], sticker_set_name: str
+    async def set_chat_sticker_set(
+        self: "tgram.TgBot", chat_id: Union[int, str], sticker_set_name: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatstickerset"""
         ...
 
-    def delete_chat_sticker_set(self, chat_id: Union[int, str]) -> bool:
+    async def delete_chat_sticker_set(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletechatstickerset"""
         ...
 
-    def get_forum_topic_icon_stickers(self) -> List[Sticker]:
+    async def get_forum_topic_icon_stickers(self: "tgram.TgBot") -> List[Sticker]:
         """https://core.telegram.org/bots/api/#getforumtopiciconstickers"""
         ...
 
-    def create_forum_topic(
-        self,
+    async def create_forum_topic(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         name: str,
         icon_color: int = None,
@@ -641,8 +668,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#createforumtopic"""
         ...
 
-    def edit_forum_topic(
-        self,
+    async def edit_forum_topic(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_thread_id: int,
         name: str = None,
@@ -651,56 +678,68 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editforumtopic"""
         ...
 
-    def close_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+    async def close_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#closeforumtopic"""
         ...
 
-    def reopen_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+    async def reopen_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#reopenforumtopic"""
         ...
 
-    def delete_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+    async def delete_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#deleteforumtopic"""
         ...
 
-    def unpin_all_forum_topic_messages(
-        self, chat_id: Union[int, str], message_thread_id: int
+    async def unpin_all_forum_topic_messages(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallforumtopicmessages"""
         ...
 
-    def edit_general_forum_topic(self, chat_id: Union[int, str], name: str) -> bool:
+    async def edit_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str], name: str
+    ) -> bool:
         """https://core.telegram.org/bots/api/#editgeneralforumtopic"""
         ...
 
-    def close_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def close_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#closegeneralforumtopic"""
         ...
 
-    def reopen_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def reopen_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#reopengeneralforumtopic"""
         ...
 
-    def hide_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def hide_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#hidegeneralforumtopic"""
         ...
 
-    def unhide_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def unhide_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#unhidegeneralforumtopic"""
         ...
 
-    def unpin_all_general_forum_topic_messages(self, chat_id: Union[int, str]) -> bool:
+    async def unpin_all_general_forum_topic_messages(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallgeneralforumtopicmessages"""
         ...
 
-    def answer_callback_query(
-        self,
+    async def answer_callback_query(
+        self: "tgram.TgBot",
         callback_query_id: str,
         text: str = None,
         show_alert: bool = None,
@@ -710,20 +749,20 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#answercallbackquery"""
         ...
 
-    def get_user_chat_boosts(
-        self, chat_id: Union[int, str], user_id: int
+    async def get_user_chat_boosts(
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
     ) -> UserChatBoosts:
         """https://core.telegram.org/bots/api/#getuserchatboosts"""
         ...
 
-    def get_business_connection(
-        self, business_connection_id: str
+    async def get_business_connection(
+        self: "tgram.TgBot", business_connection_id: str
     ) -> BusinessConnection:
         """https://core.telegram.org/bots/api/#getbusinessconnection"""
         ...
 
-    def set_my_commands(
-        self,
+    async def set_my_commands(
+        self: "tgram.TgBot",
         commands: List[BotCommand],
         scope: BotCommandScope = None,
         language_code: str = None,
@@ -731,72 +770,80 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setmycommands"""
         ...
 
-    def delete_my_commands(
-        self, scope: BotCommandScope = None, language_code: str = None
+    async def delete_my_commands(
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#deletemycommands"""
         ...
 
-    def get_my_commands(
-        self, scope: BotCommandScope = None, language_code: str = None
+    async def get_my_commands(
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
     ) -> List[BotCommand]:
         """https://core.telegram.org/bots/api/#getmycommands"""
         ...
 
-    def set_my_name(self, name: str = None, language_code: str = None) -> bool:
+    async def set_my_name(
+        self: "tgram.TgBot", name: str = None, language_code: str = None
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setmyname"""
         ...
 
-    def get_my_name(self, language_code: str = None) -> BotName:
+    async def get_my_name(self: "tgram.TgBot", language_code: str = None) -> BotName:
         """https://core.telegram.org/bots/api/#getmyname"""
         ...
 
-    def set_my_description(
-        self, description: str = None, language_code: str = None
+    async def set_my_description(
+        self: "tgram.TgBot", description: str = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmydescription"""
         ...
 
-    def get_my_description(self, language_code: str = None) -> BotDescription:
+    async def get_my_description(
+        self: "tgram.TgBot", language_code: str = None
+    ) -> BotDescription:
         """https://core.telegram.org/bots/api/#getmydescription"""
         ...
 
-    def set_my_short_description(
-        self, short_description: str = None, language_code: str = None
+    async def set_my_short_description(
+        self: "tgram.TgBot", short_description: str = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmyshortdescription"""
         ...
 
-    def get_my_short_description(
-        self, language_code: str = None
+    async def get_my_short_description(
+        self: "tgram.TgBot", language_code: str = None
     ) -> BotShortDescription:
         """https://core.telegram.org/bots/api/#getmyshortdescription"""
         ...
 
-    def set_chat_menu_button(
-        self, chat_id: int = None, menu_button: MenuButton = None
+    async def set_chat_menu_button(
+        self: "tgram.TgBot", chat_id: int = None, menu_button: MenuButton = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatmenubutton"""
         ...
 
-    def get_chat_menu_button(self, chat_id: int = None) -> MenuButton:
+    async def get_chat_menu_button(
+        self: "tgram.TgBot", chat_id: int = None
+    ) -> MenuButton:
         """https://core.telegram.org/bots/api/#getchatmenubutton"""
         ...
 
-    def set_my_default_administrator_rights(
-        self, rights: ChatAdministratorRights = None, for_channels: bool = None
+    async def set_my_default_administrator_rights(
+        self: "tgram.TgBot",
+        rights: ChatAdministratorRights = None,
+        for_channels: bool = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmydefaultadministratorrights"""
         ...
 
-    def get_my_default_administrator_rights(
-        self, for_channels: bool = None
+    async def get_my_default_administrator_rights(
+        self: "tgram.TgBot", for_channels: bool = None
     ) -> ChatAdministratorRights:
         """https://core.telegram.org/bots/api/#getmydefaultadministratorrights"""
         ...
 
-    def edit_message_text(
-        self,
+    async def edit_message_text(
+        self: "tgram.TgBot",
         text: str,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -809,8 +856,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagetext"""
         ...
 
-    def edit_message_caption(
-        self,
+    async def edit_message_caption(
+        self: "tgram.TgBot",
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -823,8 +870,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagecaption"""
         ...
 
-    def edit_message_media(
-        self,
+    async def edit_message_media(
+        self: "tgram.TgBot",
         media: InputMedia,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -834,8 +881,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagemedia"""
         ...
 
-    def edit_message_live_location(
-        self,
+    async def edit_message_live_location(
+        self: "tgram.TgBot",
         latitude: float,
         longitude: float,
         chat_id: Union[int, str] = None,
@@ -850,8 +897,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagelivelocation"""
         ...
 
-    def stop_message_live_location(
-        self,
+    async def stop_message_live_location(
+        self: "tgram.TgBot",
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -860,8 +907,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#stopmessagelivelocation"""
         ...
 
-    def edit_message_reply_markup(
-        self,
+    async def edit_message_reply_markup(
+        self: "tgram.TgBot",
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -870,8 +917,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagereplymarkup"""
         ...
 
-    def stop_poll(
-        self,
+    async def stop_poll(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         reply_markup: InlineKeyboardMarkup = None,
@@ -879,16 +926,20 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#stoppoll"""
         ...
 
-    def delete_message(self, chat_id: Union[int, str], message_id: int) -> bool:
+    async def delete_message(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletemessage"""
         ...
 
-    def delete_messages(self, chat_id: Union[int, str], message_ids: List[int]) -> bool:
+    async def delete_messages(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_ids: List[int]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletemessages"""
         ...
 
-    def send_sticker(
-        self,
+    async def send_sticker(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         sticker: Union[InputFile, str],
         business_connection_id: str = None,
@@ -905,22 +956,24 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendsticker"""
         ...
 
-    def get_sticker_set(self, name: str) -> StickerSet:
+    async def get_sticker_set(self: "tgram.TgBot", name: str) -> StickerSet:
         """https://core.telegram.org/bots/api/#getstickerset"""
         ...
 
-    def get_custom_emoji_stickers(self, custom_emoji_ids: List[str]) -> List[Sticker]:
+    async def get_custom_emoji_stickers(
+        self: "tgram.TgBot", custom_emoji_ids: List[str]
+    ) -> List[Sticker]:
         """https://core.telegram.org/bots/api/#getcustomemojistickers"""
         ...
 
-    def upload_sticker_file(
-        self, user_id: int, sticker: InputFile, sticker_format: str
+    async def upload_sticker_file(
+        self: "tgram.TgBot", user_id: int, sticker: InputFile, sticker_format: str
     ) -> File:
         """https://core.telegram.org/bots/api/#uploadstickerfile"""
         ...
 
-    def create_new_sticker_set(
-        self,
+    async def create_new_sticker_set(
+        self: "tgram.TgBot",
         user_id: int,
         name: str,
         title: str,
@@ -931,46 +984,56 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#createnewstickerset"""
         ...
 
-    def add_sticker_to_set(
-        self, user_id: int, name: str, sticker: InputSticker
+    async def add_sticker_to_set(
+        self: "tgram.TgBot", user_id: int, name: str, sticker: InputSticker
     ) -> bool:
         """https://core.telegram.org/bots/api/#addstickertoset"""
         ...
 
-    def set_sticker_position_in_set(self, sticker: str, position: int) -> bool:
+    async def set_sticker_position_in_set(
+        self: "tgram.TgBot", sticker: str, position: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setstickerpositioninset"""
         ...
 
-    def delete_sticker_from_set(self, sticker: str) -> bool:
+    async def delete_sticker_from_set(self: "tgram.TgBot", sticker: str) -> bool:
         """https://core.telegram.org/bots/api/#deletestickerfromset"""
         ...
 
-    def replace_sticker_in_set(
-        self, user_id: int, name: str, old_sticker: str, sticker: InputSticker
+    async def replace_sticker_in_set(
+        self: "tgram.TgBot",
+        user_id: int,
+        name: str,
+        old_sticker: str,
+        sticker: InputSticker,
     ) -> bool:
         """https://core.telegram.org/bots/api/#replacestickerinset"""
         ...
 
-    def set_sticker_emoji_list(self, sticker: str, emoji_list: List[str]) -> bool:
+    async def set_sticker_emoji_list(
+        self: "tgram.TgBot", sticker: str, emoji_list: List[str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setstickeremojilist"""
         ...
 
-    def set_sticker_keywords(self, sticker: str, keywords: List[str] = None) -> bool:
+    async def set_sticker_keywords(
+        self: "tgram.TgBot", sticker: str, keywords: List[str] = None
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setstickerkeywords"""
         ...
 
-    def set_sticker_mask_position(
-        self, sticker: str, mask_position: MaskPosition = None
+    async def set_sticker_mask_position(
+        self: "tgram.TgBot", sticker: str, mask_position: MaskPosition = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setstickermaskposition"""
         ...
 
-    def set_sticker_set_title(self, name: str, title: str) -> bool:
+    async def set_sticker_set_title(self: "tgram.TgBot", name: str, title: str) -> bool:
         """https://core.telegram.org/bots/api/#setstickersettitle"""
         ...
 
-    def set_sticker_set_thumbnail(
-        self,
+    async def set_sticker_set_thumbnail(
+        self: "tgram.TgBot",
         name: str,
         user_id: int,
         format: str,
@@ -979,18 +1042,18 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setstickersetthumbnail"""
         ...
 
-    def set_custom_emoji_sticker_set_thumbnail(
-        self, name: str, custom_emoji_id: str = None
+    async def set_custom_emoji_sticker_set_thumbnail(
+        self: "tgram.TgBot", name: str, custom_emoji_id: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setcustomemojistickersetthumbnail"""
         ...
 
-    def delete_sticker_set(self, name: str) -> bool:
+    async def delete_sticker_set(self: "tgram.TgBot", name: str) -> bool:
         """https://core.telegram.org/bots/api/#deletestickerset"""
         ...
 
-    def answer_inline_query(
-        self,
+    async def answer_inline_query(
+        self: "tgram.TgBot",
         inline_query_id: str,
         results: List[InlineQueryResult],
         cache_time: int = None,
@@ -1001,14 +1064,14 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#answerinlinequery"""
         ...
 
-    def answer_web_app_query(
-        self, web_app_query_id: str, result: InlineQueryResult
+    async def answer_web_app_query(
+        self: "tgram.TgBot", web_app_query_id: str, result: InlineQueryResult
     ) -> SentWebAppMessage:
         """https://core.telegram.org/bots/api/#answerwebappquery"""
         ...
 
-    def send_invoice(
-        self,
+    async def send_invoice(
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         title: str,
         description: str,
@@ -1041,8 +1104,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendinvoice"""
         ...
 
-    def create_invoice_link(
-        self,
+    async def create_invoice_link(
+        self: "tgram.TgBot",
         title: str,
         description: str,
         payload: str,
@@ -1067,8 +1130,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#createinvoicelink"""
         ...
 
-    def answer_shipping_query(
-        self,
+    async def answer_shipping_query(
+        self: "tgram.TgBot",
         shipping_query_id: str,
         ok: bool,
         shipping_options: List[ShippingOption] = None,
@@ -1077,26 +1140,29 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#answershippingquery"""
         ...
 
-    def answer_pre_checkout_query(
-        self, pre_checkout_query_id: str, ok: bool, error_message: str = None
+    async def answer_pre_checkout_query(
+        self: "tgram.TgBot",
+        pre_checkout_query_id: str,
+        ok: bool,
+        error_message: str = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#answerprecheckoutquery"""
         ...
 
-    def refund_star_payment(
-        self, user_id: int, telegram_payment_charge_id: str
+    async def refund_star_payment(
+        self: "tgram.TgBot", user_id: int, telegram_payment_charge_id: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#refundstarpayment"""
         ...
 
-    def set_passport_data_errors(
-        self, user_id: int, errors: List[PassportElementError]
+    async def set_passport_data_errors(
+        self: "tgram.TgBot", user_id: int, errors: List[PassportElementError]
     ) -> bool:
         """https://core.telegram.org/bots/api/#setpassportdataerrors"""
         ...
 
-    def send_game(
-        self,
+    async def send_game(
+        self: "tgram.TgBot",
         chat_id: int,
         game_short_name: str,
         business_connection_id: str = None,
@@ -1110,8 +1176,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#sendgame"""
         ...
 
-    def set_game_score(
-        self,
+    async def set_game_score(
+        self: "tgram.TgBot",
         user_id: int,
         score: int,
         force: bool = None,
@@ -1123,8 +1189,8 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#setgamescore"""
         ...
 
-    def get_game_high_scores(
-        self,
+    async def get_game_high_scores(
+        self: "tgram.TgBot",
         user_id: int,
         chat_id: int = None,
         message_id: int = None,
