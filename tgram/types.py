@@ -1,3 +1,5 @@
+# This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
+
 from typing import List, Union
 
 

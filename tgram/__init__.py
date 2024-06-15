@@ -3,10 +3,8 @@ from .decorators import Decorators
 
 from . import types
 
-__all__ = [
-    "types",
-    "TgBot"
-]
+__all__ = ["types", "TgBot"]
+
 
 class TgBot(Methods, Decorators):
     pass  # TODO
