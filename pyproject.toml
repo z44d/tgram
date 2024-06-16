@@ -19,35 +19,5 @@ classifiers = [
 
 keywords = ["telegram bot api client"]
 
-[tool.hatch.version]
-path = "tgram/__init__.py"
-
-# Used to call hatch_build.py
-[tool.hatch.build.hooks.custom]
-
 [project.urls]
 Homepage = "https://github.com/2ei/tgram"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build]
-exclude = [".github", ".gitignore", "examples"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "tgram",
-]
-exclude = [
-    ".github/",
-    ".gitignore",
-    "examples/"
-]
-
-[tool.hatch.build.targets.wheel]
-ignore-vcs = true
-packages = ["tgram"]
