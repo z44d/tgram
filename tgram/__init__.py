@@ -1,37 +1,14 @@
+import aiohttp
+
 from .methods import Methods
 from .decorators import Decorators
-
+from .filters import Filter
+from .handlers import Handlers, Handler
 from . import types
 
-from typing import List
+from typing import List, Callable
 
 __all__ = ["types", "TgBot", "Handlers"]
-
-
-class Handlers:
-    MESSAGE = "message"
-    EDITED_MESSAGE = "edited_message"
-    CHANNEL_POST = "channel_post"
-    EDITED_CHANNEL_POST = "edited_channel_post"
-    BUSINESS_CONNECTION = "business_connection"
-    BUSINESS_MESSAGE = "business_message"
-    EDITED_BUSINESS_MESSAGE = "edited_business_message"
-    DELETED_BUSINESS_MESSAGES = "deleted_business_messages"
-    MESSAGE_REACTION = "message_reaction"
-    MESSAGE_REACTION_COUNT = "message_reaction_count"
-    INLINE_QUERY = "inline_query"
-    CHOSEN_INLINE_RESULT = "chosen_inline_result"
-    CALLBACK_QUERY = "callback_query"
-    SHIPPING_QUERY = "shipping_query"
-    PRE_CHECKOUT_QUERY = "pre_checkout_query"
-    POLL = "poll"
-    POLL_ANSWER = "poll_answer"
-    MY_CHAT_MEMBER = "my_chat_member"
-    CHAT_MEMBER = "chat_member"
-    CHAT_JOIN_REQUEST = "chat_join_request"
-    CHAT_BOOST = "chat_boost"
-    REMOVED_CHAT_BOOST = "removed_chat_boost"
-
 
 API_URL = "https://api.telegram.org/"
 ALL_UPDATES = [
@@ -41,9 +18,40 @@ ALL_UPDATES = [
 
 
 class TgBot(Methods, Decorators):
+    _session: "aiohttp.ClientSession" = None
+    _handlers: List["Handler"] = []
+    _api_url: str = None
+
     def __init__(
         self, bot_token: str, api_url: str = API_URL, allowed_updates: List[str] = []
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
         self.allowed_updates = allowed_updates
+
+        if not api_url.endswith("/"):
+            api_url += "/"
+
+        self._api_url = f"{api_url}bot{bot_token}/"
+
+    def add_handler(self, func: Callable, handler: Handlers, filters: Filter) -> bool:
+        self._handlers.append(Handler(func, handler, filters))
+        return True
+
+    async def _new_session(self) -> None:
+        session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=50))
+        self._session = session
+
+    async def _get_session(self) -> "aiohttp.ClientSession":
+        if self._session is None or self._session.closed:
+            await self._new_session()
+        elif not self._session.loop.is_running():
+            await self._session.close()
+            await self._new_session()
+
+        return self._session
+
+    async def _send_request(self, method: str, data: dict):
+        request_url = self._api_url + method
+        session = await self._get_session()
+        # TODO

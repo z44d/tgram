@@ -13,7 +13,7 @@ class Methods:
         offset: int = None,
         limit: int = None,
         timeout: int = None,
-        allowed_updates: List[str] = None,
+        allowed_updates: List[str] = [],
     ) -> List[Update]:
         """https://core.telegram.org/bots/api/#getupdates"""
         ...
