@@ -2,8 +2,12 @@
 
 from typing import List, Union
 
+import tgram
+
 
 class Type_:
+    _client: "tgram.TgBot"
+
     def __str__(self) -> str:
         return self.__parse()
 
@@ -83,6 +87,17 @@ class Type_:
                 value = value.to_json()
 
             d.update({key: value})
+        return d
+
+    @staticmethod
+    def __prepare(d: dict) -> dict:
+        for i in d:
+            value = d[i]
+            if isinstance(value, dict):
+                d.update({i: Type_.__prepare(value)})
+            elif i == "from":
+                del d[i]
+                d.update({"from_user": value})
         return d
 
 
