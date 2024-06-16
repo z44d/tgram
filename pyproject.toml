@@ -1,23 +1,26 @@
 [project]
 name = "tgram"
-dynamic = ["version"]
-description = "HTTP Bot API Client"
-
-
-authors = [{ name = "Zaid", email = "2ei@zaid.pro" }]
-dependencies = [
-    "asyncio",
-    "aiohttp",
-    "aiofiles"
+version = "0.1"
+authors = [
+  { name="ZAID", email="2ei@zaid.pro" },
 ]
+description = "tgram is python client based on Telegram BOT API"
 readme = "README.md"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-keywords = ["telegram bot api client"]
+dependencies = [
+  "aiohttp",
+  "asyncio",
+  "aiofiles",
+]
 
 [project.urls]
 Homepage = "https://github.com/2ei/tgram"
+Issues = "https://github.com/2ei/tgram/issues"
+
+[tool.setuptools]
+include-package-data = false
