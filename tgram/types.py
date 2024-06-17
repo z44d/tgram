@@ -78,7 +78,7 @@ class Type_:
     def to_json(self) -> dict:
         d = {}
         for key in filter(
-            lambda x: not x.startswith("_") and getattr(self, x), self.__dict__
+            lambda x: not x.startswith("_") and getattr(self, x, None) is not None, self.__dict__
         ):
             value = getattr(self, key)
             if isinstance(value, list):

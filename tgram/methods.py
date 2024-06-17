@@ -16,7 +16,16 @@ class Methods:
         allowed_updates: List[str] = [],
     ) -> List[Update]:
         """https://core.telegram.org/bots/api/#getupdates"""
-        ...
+        result = await self._send_request(
+            "getUpdates",
+            {
+                "offset": offset,
+                "limit": limit,
+                "timeout": timeout,
+                "allowed_updates": allowed_updates
+            }
+        )
+        return result
 
     async def set_webhook(
         self: "tgram.TgBot",
