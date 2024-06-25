@@ -5,3 +5,4 @@ test.py
 *.json
 parser_.py
 types_.py
+methods_.py

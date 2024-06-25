@@ -1,5 +1,5 @@
 import tgram
-from typing import List, Union
+from typing import List, Optional, Union
 
 
 class Type_:
@@ -147,40 +147,60 @@ class Update(Type_):
                 client=client,
                 json=d,
                 update_id=d.get("update_id"),
-                message=Message._parse(d.get("message")),
-                edited_message=Message._parse(d.get("edited_message")),
-                channel_post=Message._parse(d.get("channel_post")),
-                edited_channel_post=Message._parse(d.get("edited_channel_post")),
-                business_connection=BusinessConnection._parse(
-                    d.get("business_connection")
+                message=Message._parse(client=client, d=d.get("message")),
+                edited_message=Message._parse(client=client, d=d.get("edited_message")),
+                channel_post=Message._parse(client=client, d=d.get("channel_post")),
+                edited_channel_post=Message._parse(
+                    client=client, d=d.get("edited_channel_post")
                 ),
-                business_message=Message._parse(d.get("business_message")),
+                business_connection=BusinessConnection._parse(
+                    client=client, d=d.get("business_connection")
+                ),
+                business_message=Message._parse(
+                    client=client, d=d.get("business_message")
+                ),
                 edited_business_message=Message._parse(
-                    d.get("edited_business_message")
+                    client=client, d=d.get("edited_business_message")
                 ),
                 deleted_business_messages=BusinessMessagesDeleted._parse(
-                    d.get("deleted_business_messages")
+                    client=client, d=d.get("deleted_business_messages")
                 ),
                 message_reaction=MessageReactionUpdated._parse(
-                    d.get("message_reaction")
+                    client=client, d=d.get("message_reaction")
                 ),
                 message_reaction_count=MessageReactionCountUpdated._parse(
-                    d.get("message_reaction_count")
+                    client=client, d=d.get("message_reaction_count")
                 ),
-                inline_query=InlineQuery._parse(d.get("inline_query")),
+                inline_query=InlineQuery._parse(client=client, d=d.get("inline_query")),
                 chosen_inline_result=ChosenInlineResult._parse(
-                    d.get("chosen_inline_result")
+                    client=client, d=d.get("chosen_inline_result")
                 ),
-                callback_query=CallbackQuery._parse(d.get("callback_query")),
-                shipping_query=ShippingQuery._parse(d.get("shipping_query")),
-                pre_checkout_query=PreCheckoutQuery._parse(d.get("pre_checkout_query")),
-                poll=Poll._parse(d.get("poll")),
-                poll_answer=PollAnswer._parse(d.get("poll_answer")),
-                my_chat_member=ChatMemberUpdated._parse(d.get("my_chat_member")),
-                chat_member=ChatMemberUpdated._parse(d.get("chat_member")),
-                chat_join_request=ChatJoinRequest._parse(d.get("chat_join_request")),
-                chat_boost=ChatBoostUpdated._parse(d.get("chat_boost")),
-                removed_chat_boost=ChatBoostRemoved._parse(d.get("removed_chat_boost")),
+                callback_query=CallbackQuery._parse(
+                    client=client, d=d.get("callback_query")
+                ),
+                shipping_query=ShippingQuery._parse(
+                    client=client, d=d.get("shipping_query")
+                ),
+                pre_checkout_query=PreCheckoutQuery._parse(
+                    client=client, d=d.get("pre_checkout_query")
+                ),
+                poll=Poll._parse(client=client, d=d.get("poll")),
+                poll_answer=PollAnswer._parse(client=client, d=d.get("poll_answer")),
+                my_chat_member=ChatMemberUpdated._parse(
+                    client=client, d=d.get("my_chat_member")
+                ),
+                chat_member=ChatMemberUpdated._parse(
+                    client=client, d=d.get("chat_member")
+                ),
+                chat_join_request=ChatJoinRequest._parse(
+                    client=client, d=d.get("chat_join_request")
+                ),
+                chat_boost=ChatBoostUpdated._parse(
+                    client=client, d=d.get("chat_boost")
+                ),
+                removed_chat_boost=ChatBoostRemoved._parse(
+                    client=client, d=d.get("removed_chat_boost")
+                ),
             )
             if d
             else None
@@ -444,19 +464,24 @@ class ChatFullInfo(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 is_forum=d.get("is_forum"),
-                photo=ChatPhoto._parse(d.get("photo")),
+                photo=ChatPhoto._parse(client=client, d=d.get("photo")),
                 active_usernames=d.get("active_usernames"),
-                birthdate=Birthdate._parse(d.get("birthdate")),
-                business_intro=BusinessIntro._parse(d.get("business_intro")),
-                business_location=BusinessLocation._parse(d.get("business_location")),
-                business_opening_hours=BusinessOpeningHours._parse(
-                    d.get("business_opening_hours")
+                birthdate=Birthdate._parse(client=client, d=d.get("birthdate")),
+                business_intro=BusinessIntro._parse(
+                    client=client, d=d.get("business_intro")
                 ),
-                personal_chat=Chat._parse(d.get("personal_chat")),
+                business_location=BusinessLocation._parse(
+                    client=client, d=d.get("business_location")
+                ),
+                business_opening_hours=BusinessOpeningHours._parse(
+                    client=client, d=d.get("business_opening_hours")
+                ),
+                personal_chat=Chat._parse(client=client, d=d.get("personal_chat")),
                 available_reactions=[
-                    ReactionType._parse(i) for i in d.get("available_reactions")
+                    ReactionType._parse(client=client, d=i)
+                    for i in d.get("available_reactions")
                 ]
-                if d.get("available_reactions", None)
+                if d.get("available_reactions")
                 else None,
                 background_custom_emoji_id=d.get("background_custom_emoji_id"),
                 profile_accent_color_id=d.get("profile_accent_color_id"),
@@ -474,8 +499,10 @@ class ChatFullInfo(Type_):
                 join_by_request=d.get("join_by_request"),
                 description=d.get("description"),
                 invite_link=d.get("invite_link"),
-                pinned_message=Message._parse(d.get("pinned_message")),
-                permissions=ChatPermissions._parse(d.get("permissions")),
+                pinned_message=Message._parse(client=client, d=d.get("pinned_message")),
+                permissions=ChatPermissions._parse(
+                    client=client, d=d.get("permissions")
+                ),
                 slow_mode_delay=d.get("slow_mode_delay"),
                 unrestrict_boost_count=d.get("unrestrict_boost_count"),
                 message_auto_delete_time=d.get("message_auto_delete_time"),
@@ -489,7 +516,7 @@ class ChatFullInfo(Type_):
                 can_set_sticker_set=d.get("can_set_sticker_set"),
                 custom_emoji_sticker_set_name=d.get("custom_emoji_sticker_set_name"),
                 linked_chat_id=d.get("linked_chat_id"),
-                location=ChatLocation._parse(d.get("location")),
+                location=ChatLocation._parse(client=client, d=d.get("location")),
             )
             if d
             else None
@@ -678,123 +705,163 @@ class Message(Type_):
                 json=d,
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_thread_id=d.get("message_thread_id"),
-                from_user=User._parse(d.get("from")),
-                sender_chat=Chat._parse(d.get("sender_chat")),
+                from_user=User._parse(client=client, d=d.get("from")),
+                sender_chat=Chat._parse(client=client, d=d.get("sender_chat")),
                 sender_boost_count=d.get("sender_boost_count"),
-                sender_business_bot=User._parse(d.get("sender_business_bot")),
+                sender_business_bot=User._parse(
+                    client=client, d=d.get("sender_business_bot")
+                ),
                 business_connection_id=d.get("business_connection_id"),
-                forward_origin=MessageOrigin._parse(d.get("forward_origin")),
+                forward_origin=MessageOrigin._parse(
+                    client=client, d=d.get("forward_origin")
+                ),
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
-                reply_to_message=Message._parse(d.get("reply_to_message")),
-                external_reply=ExternalReplyInfo._parse(d.get("external_reply")),
-                quote=TextQuote._parse(d.get("quote")),
-                reply_to_story=Story._parse(d.get("reply_to_story")),
-                via_bot=User._parse(d.get("via_bot")),
+                reply_to_message=Message._parse(
+                    client=client, d=d.get("reply_to_message")
+                ),
+                external_reply=ExternalReplyInfo._parse(
+                    client=client, d=d.get("external_reply")
+                ),
+                quote=TextQuote._parse(client=client, d=d.get("quote")),
+                reply_to_story=Story._parse(client=client, d=d.get("reply_to_story")),
+                via_bot=User._parse(client=client, d=d.get("via_bot")),
                 edit_date=d.get("edit_date"),
                 has_protected_content=d.get("has_protected_content"),
                 is_from_offline=d.get("is_from_offline"),
                 media_group_id=d.get("media_group_id"),
                 author_signature=d.get("author_signature"),
                 text=d.get("text"),
-                entities=[MessageEntity._parse(i) for i in d.get("entities")]
-                if d.get("entities", None)
+                entities=[
+                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
+                ]
+                if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    d.get("link_preview_options")
+                    client=client, d=d.get("link_preview_options")
                 ),
                 effect_id=d.get("effect_id"),
-                animation=Animation._parse(d.get("animation")),
-                audio=Audio._parse(d.get("audio")),
-                document=Document._parse(d.get("document")),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                animation=Animation._parse(client=client, d=d.get("animation")),
+                audio=Audio._parse(client=client, d=d.get("audio")),
+                document=Document._parse(client=client, d=d.get("document")),
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
-                sticker=Sticker._parse(d.get("sticker")),
-                story=Story._parse(d.get("story")),
-                video=Video._parse(d.get("video")),
-                video_note=VideoNote._parse(d.get("video_note")),
-                voice=Voice._parse(d.get("voice")),
+                sticker=Sticker._parse(client=client, d=d.get("sticker")),
+                story=Story._parse(client=client, d=d.get("story")),
+                video=Video._parse(client=client, d=d.get("video")),
+                video_note=VideoNote._parse(client=client, d=d.get("video_note")),
+                voice=Voice._parse(client=client, d=d.get("voice")),
                 caption=d.get("caption"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_media_spoiler=d.get("has_media_spoiler"),
-                contact=Contact._parse(d.get("contact")),
-                dice=Dice._parse(d.get("dice")),
-                game=Game._parse(d.get("game")),
-                poll=Poll._parse(d.get("poll")),
-                venue=Venue._parse(d.get("venue")),
-                location=Location._parse(d.get("location")),
-                new_chat_members=[User._parse(i) for i in d.get("new_chat_members")]
-                if d.get("new_chat_members", None)
+                contact=Contact._parse(client=client, d=d.get("contact")),
+                dice=Dice._parse(client=client, d=d.get("dice")),
+                game=Game._parse(client=client, d=d.get("game")),
+                poll=Poll._parse(client=client, d=d.get("poll")),
+                venue=Venue._parse(client=client, d=d.get("venue")),
+                location=Location._parse(client=client, d=d.get("location")),
+                new_chat_members=[
+                    User._parse(client=client, d=i) for i in d.get("new_chat_members")
+                ]
+                if d.get("new_chat_members")
                 else None,
-                left_chat_member=User._parse(d.get("left_chat_member")),
+                left_chat_member=User._parse(
+                    client=client, d=d.get("left_chat_member")
+                ),
                 new_chat_title=d.get("new_chat_title"),
-                new_chat_photo=[PhotoSize._parse(i) for i in d.get("new_chat_photo")]
-                if d.get("new_chat_photo", None)
+                new_chat_photo=[
+                    PhotoSize._parse(client=client, d=i)
+                    for i in d.get("new_chat_photo")
+                ]
+                if d.get("new_chat_photo")
                 else None,
                 delete_chat_photo=d.get("delete_chat_photo"),
                 group_chat_created=d.get("group_chat_created"),
                 supergroup_chat_created=d.get("supergroup_chat_created"),
                 channel_chat_created=d.get("channel_chat_created"),
                 message_auto_delete_timer_changed=MessageAutoDeleteTimerChanged._parse(
-                    d.get("message_auto_delete_timer_changed")
+                    client=client, d=d.get("message_auto_delete_timer_changed")
                 ),
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 migrate_from_chat_id=d.get("migrate_from_chat_id"),
-                pinned_message=MaybeInaccessibleMessage._parse(d.get("pinned_message")),
-                invoice=Invoice._parse(d.get("invoice")),
-                successful_payment=SuccessfulPayment._parse(
-                    d.get("successful_payment")
+                pinned_message=MaybeInaccessibleMessage._parse(
+                    client=client, d=d.get("pinned_message")
                 ),
-                users_shared=UsersShared._parse(d.get("users_shared")),
-                chat_shared=ChatShared._parse(d.get("chat_shared")),
+                invoice=Invoice._parse(client=client, d=d.get("invoice")),
+                successful_payment=SuccessfulPayment._parse(
+                    client=client, d=d.get("successful_payment")
+                ),
+                users_shared=UsersShared._parse(client=client, d=d.get("users_shared")),
+                chat_shared=ChatShared._parse(client=client, d=d.get("chat_shared")),
                 connected_website=d.get("connected_website"),
                 write_access_allowed=WriteAccessAllowed._parse(
-                    d.get("write_access_allowed")
+                    client=client, d=d.get("write_access_allowed")
                 ),
-                passport_data=PassportData._parse(d.get("passport_data")),
+                passport_data=PassportData._parse(
+                    client=client, d=d.get("passport_data")
+                ),
                 proximity_alert_triggered=ProximityAlertTriggered._parse(
-                    d.get("proximity_alert_triggered")
+                    client=client, d=d.get("proximity_alert_triggered")
                 ),
-                boost_added=ChatBoostAdded._parse(d.get("boost_added")),
-                chat_background_set=ChatBackground._parse(d.get("chat_background_set")),
+                boost_added=ChatBoostAdded._parse(
+                    client=client, d=d.get("boost_added")
+                ),
+                chat_background_set=ChatBackground._parse(
+                    client=client, d=d.get("chat_background_set")
+                ),
                 forum_topic_created=ForumTopicCreated._parse(
-                    d.get("forum_topic_created")
+                    client=client, d=d.get("forum_topic_created")
                 ),
-                forum_topic_edited=ForumTopicEdited._parse(d.get("forum_topic_edited")),
-                forum_topic_closed=ForumTopicClosed._parse(d.get("forum_topic_closed")),
+                forum_topic_edited=ForumTopicEdited._parse(
+                    client=client, d=d.get("forum_topic_edited")
+                ),
+                forum_topic_closed=ForumTopicClosed._parse(
+                    client=client, d=d.get("forum_topic_closed")
+                ),
                 forum_topic_reopened=ForumTopicReopened._parse(
-                    d.get("forum_topic_reopened")
+                    client=client, d=d.get("forum_topic_reopened")
                 ),
                 general_forum_topic_hidden=GeneralForumTopicHidden._parse(
-                    d.get("general_forum_topic_hidden")
+                    client=client, d=d.get("general_forum_topic_hidden")
                 ),
                 general_forum_topic_unhidden=GeneralForumTopicUnhidden._parse(
-                    d.get("general_forum_topic_unhidden")
+                    client=client, d=d.get("general_forum_topic_unhidden")
                 ),
-                giveaway_created=GiveawayCreated._parse(d.get("giveaway_created")),
-                giveaway=Giveaway._parse(d.get("giveaway")),
-                giveaway_winners=GiveawayWinners._parse(d.get("giveaway_winners")),
+                giveaway_created=GiveawayCreated._parse(
+                    client=client, d=d.get("giveaway_created")
+                ),
+                giveaway=Giveaway._parse(client=client, d=d.get("giveaway")),
+                giveaway_winners=GiveawayWinners._parse(
+                    client=client, d=d.get("giveaway_winners")
+                ),
                 giveaway_completed=GiveawayCompleted._parse(
-                    d.get("giveaway_completed")
+                    client=client, d=d.get("giveaway_completed")
                 ),
                 video_chat_scheduled=VideoChatScheduled._parse(
-                    d.get("video_chat_scheduled")
+                    client=client, d=d.get("video_chat_scheduled")
                 ),
-                video_chat_started=VideoChatStarted._parse(d.get("video_chat_started")),
-                video_chat_ended=VideoChatEnded._parse(d.get("video_chat_ended")),
+                video_chat_started=VideoChatStarted._parse(
+                    client=client, d=d.get("video_chat_started")
+                ),
+                video_chat_ended=VideoChatEnded._parse(
+                    client=client, d=d.get("video_chat_ended")
+                ),
                 video_chat_participants_invited=VideoChatParticipantsInvited._parse(
-                    d.get("video_chat_participants_invited")
+                    client=client, d=d.get("video_chat_participants_invited")
                 ),
-                web_app_data=WebAppData._parse(d.get("web_app_data")),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                web_app_data=WebAppData._parse(client=client, d=d.get("web_app_data")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
             )
             if d
             else None
@@ -843,7 +910,7 @@ class InaccessibleMessage(Type_):
             InaccessibleMessage(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
             )
@@ -886,7 +953,7 @@ class MaybeInaccessibleMessage(Type_):
                 offset=d.get("offset"),
                 length=d.get("length"),
                 url=d.get("url"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 language=d.get("language"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
@@ -927,7 +994,7 @@ class MessageEntity(Type_):
                 offset=d.get("offset"),
                 length=d.get("length"),
                 url=d.get("url"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 language=d.get("language"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
@@ -960,8 +1027,10 @@ class TextQuote(Type_):
                 json=d,
                 text=d.get("text"),
                 position=d.get("position"),
-                entities=[MessageEntity._parse(i) for i in d.get("entities")]
-                if d.get("entities", None)
+                entities=[
+                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
+                ]
+                if d.get("entities")
                 else None,
                 is_manual=d.get("is_manual"),
             )
@@ -1032,33 +1101,35 @@ class ExternalReplyInfo(Type_):
             ExternalReplyInfo(
                 client=client,
                 json=d,
-                origin=MessageOrigin._parse(d.get("origin")),
-                chat=Chat._parse(d.get("chat")),
+                origin=MessageOrigin._parse(client=client, d=d.get("origin")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 link_preview_options=LinkPreviewOptions._parse(
-                    d.get("link_preview_options")
+                    client=client, d=d.get("link_preview_options")
                 ),
-                animation=Animation._parse(d.get("animation")),
-                audio=Audio._parse(d.get("audio")),
-                document=Document._parse(d.get("document")),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                animation=Animation._parse(client=client, d=d.get("animation")),
+                audio=Audio._parse(client=client, d=d.get("audio")),
+                document=Document._parse(client=client, d=d.get("document")),
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
-                sticker=Sticker._parse(d.get("sticker")),
-                story=Story._parse(d.get("story")),
-                video=Video._parse(d.get("video")),
-                video_note=VideoNote._parse(d.get("video_note")),
-                voice=Voice._parse(d.get("voice")),
+                sticker=Sticker._parse(client=client, d=d.get("sticker")),
+                story=Story._parse(client=client, d=d.get("story")),
+                video=Video._parse(client=client, d=d.get("video")),
+                video_note=VideoNote._parse(client=client, d=d.get("video_note")),
+                voice=Voice._parse(client=client, d=d.get("voice")),
                 has_media_spoiler=d.get("has_media_spoiler"),
-                contact=Contact._parse(d.get("contact")),
-                dice=Dice._parse(d.get("dice")),
-                game=Game._parse(d.get("game")),
-                giveaway=Giveaway._parse(d.get("giveaway")),
-                giveaway_winners=GiveawayWinners._parse(d.get("giveaway_winners")),
-                invoice=Invoice._parse(d.get("invoice")),
-                location=Location._parse(d.get("location")),
-                poll=Poll._parse(d.get("poll")),
-                venue=Venue._parse(d.get("venue")),
+                contact=Contact._parse(client=client, d=d.get("contact")),
+                dice=Dice._parse(client=client, d=d.get("dice")),
+                game=Game._parse(client=client, d=d.get("game")),
+                giveaway=Giveaway._parse(client=client, d=d.get("giveaway")),
+                giveaway_winners=GiveawayWinners._parse(
+                    client=client, d=d.get("giveaway_winners")
+                ),
+                invoice=Invoice._parse(client=client, d=d.get("invoice")),
+                location=Location._parse(client=client, d=d.get("location")),
+                poll=Poll._parse(client=client, d=d.get("poll")),
+                venue=Venue._parse(client=client, d=d.get("venue")),
             )
             if d
             else None
@@ -1101,9 +1172,10 @@ class ReplyParameters(Type_):
                 quote=d.get("quote"),
                 quote_parse_mode=d.get("quote_parse_mode"),
                 quote_entities=[
-                    MessageEntity._parse(i) for i in d.get("quote_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("quote_entities")
                 ]
-                if d.get("quote_entities", None)
+                if d.get("quote_entities")
                 else None,
                 quote_position=d.get("quote_position"),
             )
@@ -1134,7 +1206,7 @@ class MessageOrigin(Type_):
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_user=User._parse(d.get("sender_user")),
+                sender_user=User._parse(client=client, d=d.get("sender_user")),
             )
             if d
             else None
@@ -1165,7 +1237,7 @@ class MessageOriginUser(Type_):
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_user=User._parse(d.get("sender_user")),
+                sender_user=User._parse(client=client, d=d.get("sender_user")),
             )
             if d
             else None
@@ -1229,7 +1301,7 @@ class MessageOriginChat(Type_):
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_chat=Chat._parse(d.get("sender_chat")),
+                sender_chat=Chat._parse(client=client, d=d.get("sender_chat")),
                 author_signature=d.get("author_signature"),
             )
             if d
@@ -1265,7 +1337,7 @@ class MessageOriginChannel(Type_):
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 author_signature=d.get("author_signature"),
             )
@@ -1346,7 +1418,7 @@ class Animation(Type_):
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1396,7 +1468,7 @@ class Audio(Type_):
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
             )
             if d
             else None
@@ -1431,7 +1503,7 @@ class Document(Type_):
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1455,7 +1527,7 @@ class Story(Type_):
             Story(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 id=d.get("id"),
             )
             if d
@@ -1500,7 +1572,7 @@ class Video(Type_):
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1540,7 +1612,7 @@ class VideoNote(Type_):
                 file_unique_id=d.get("file_unique_id"),
                 length=d.get("length"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
                 file_size=d.get("file_size"),
             )
             if d
@@ -1666,8 +1738,11 @@ class PollOption(Type_):
                 json=d,
                 text=d.get("text"),
                 voter_count=d.get("voter_count"),
-                text_entities=[MessageEntity._parse(i) for i in d.get("text_entities")]
-                if d.get("text_entities", None)
+                text_entities=[
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("text_entities")
+                ]
+                if d.get("text_entities")
                 else None,
             )
             if d
@@ -1699,8 +1774,11 @@ class InputPollOption(Type_):
                 json=d,
                 text=d.get("text"),
                 text_parse_mode=d.get("text_parse_mode"),
-                text_entities=[MessageEntity._parse(i) for i in d.get("text_entities")]
-                if d.get("text_entities", None)
+                text_entities=[
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("text_entities")
+                ]
+                if d.get("text_entities")
                 else None,
             )
             if d
@@ -1732,8 +1810,8 @@ class PollAnswer(Type_):
                 json=d,
                 poll_id=d.get("poll_id"),
                 option_ids=d.get("option_ids"),
-                voter_chat=Chat._parse(d.get("voter_chat")),
-                user=User._parse(d.get("user")),
+                voter_chat=Chat._parse(client=client, d=d.get("voter_chat")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -1784,8 +1862,10 @@ class Poll(Type_):
                 json=d,
                 id=d.get("id"),
                 question=d.get("question"),
-                options=[PollOption._parse(i) for i in d.get("options")]
-                if d.get("options", None)
+                options=[
+                    PollOption._parse(client=client, d=i) for i in d.get("options")
+                ]
+                if d.get("options")
                 else None,
                 total_voter_count=d.get("total_voter_count"),
                 is_closed=d.get("is_closed"),
@@ -1793,16 +1873,18 @@ class Poll(Type_):
                 type=d.get("type"),
                 allows_multiple_answers=d.get("allows_multiple_answers"),
                 question_entities=[
-                    MessageEntity._parse(i) for i in d.get("question_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("question_entities")
                 ]
-                if d.get("question_entities", None)
+                if d.get("question_entities")
                 else None,
                 correct_option_id=d.get("correct_option_id"),
                 explanation=d.get("explanation"),
                 explanation_entities=[
-                    MessageEntity._parse(i) for i in d.get("explanation_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("explanation_entities")
                 ]
-                if d.get("explanation_entities", None)
+                if d.get("explanation_entities")
                 else None,
                 open_period=d.get("open_period"),
                 close_date=d.get("close_date"),
@@ -1878,7 +1960,7 @@ class Venue(Type_):
             Venue(
                 client=client,
                 json=d,
-                location=Location._parse(d.get("location")),
+                location=Location._parse(client=client, d=d.get("location")),
                 title=d.get("title"),
                 address=d.get("address"),
                 foursquare_id=d.get("foursquare_id"),
@@ -1939,8 +2021,8 @@ class ProximityAlertTriggered(Type_):
             ProximityAlertTriggered(
                 client=client,
                 json=d,
-                traveler=User._parse(d.get("traveler")),
-                watcher=User._parse(d.get("watcher")),
+                traveler=User._parse(client=client, d=d.get("traveler")),
+                watcher=User._parse(client=client, d=d.get("watcher")),
                 distance=d.get("distance"),
             )
             if d
@@ -2130,7 +2212,7 @@ class BackgroundType(Type_):
                 client=client,
                 json=d,
                 type=d.get("type"),
-                fill=BackgroundFill._parse(d.get("fill")),
+                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
             if d
@@ -2161,7 +2243,7 @@ class BackgroundTypeFill(Type_):
                 client=client,
                 json=d,
                 type=d.get("type"),
-                fill=BackgroundFill._parse(d.get("fill")),
+                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
             if d
@@ -2196,7 +2278,7 @@ class BackgroundTypeWallpaper(Type_):
                 client=client,
                 json=d,
                 type=d.get("type"),
-                document=Document._parse(d.get("document")),
+                document=Document._parse(client=client, d=d.get("document")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
                 is_blurred=d.get("is_blurred"),
                 is_moving=d.get("is_moving"),
@@ -2235,8 +2317,8 @@ class BackgroundTypePattern(Type_):
                 client=client,
                 json=d,
                 type=d.get("type"),
-                document=Document._parse(d.get("document")),
-                fill=BackgroundFill._parse(d.get("fill")),
+                document=Document._parse(client=client, d=d.get("document")),
+                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
                 intensity=d.get("intensity"),
                 is_inverted=d.get("is_inverted"),
                 is_moving=d.get("is_moving"),
@@ -2287,7 +2369,7 @@ class ChatBackground(Type_):
             ChatBackground(
                 client=client,
                 json=d,
-                type=BackgroundType._parse(d.get("type")),
+                type=BackgroundType._parse(client=client, d=d.get("type")),
             )
             if d
             else None
@@ -2411,8 +2493,8 @@ class ForumTopicReopened(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
             )
             if d
@@ -2450,8 +2532,8 @@ class GeneralForumTopicHidden(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
             )
             if d
@@ -2489,8 +2571,8 @@ class GeneralForumTopicUnhidden(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
             )
             if d
@@ -2526,8 +2608,8 @@ class SharedUser(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
             )
             if d
@@ -2554,8 +2636,8 @@ class UsersShared(Type_):
                 client=client,
                 json=d,
                 request_id=d.get("request_id"),
-                users=[SharedUser._parse(i) for i in d.get("users")]
-                if d.get("users", None)
+                users=[SharedUser._parse(client=client, d=i) for i in d.get("users")]
+                if d.get("users")
                 else None,
             )
             if d
@@ -2591,8 +2673,8 @@ class ChatShared(Type_):
                 chat_id=d.get("chat_id"),
                 title=d.get("title"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
             )
             if d
@@ -2710,8 +2792,8 @@ class VideoChatParticipantsInvited(Type_):
             VideoChatParticipantsInvited(
                 client=client,
                 json=d,
-                users=[User._parse(i) for i in d.get("users")]
-                if d.get("users", None)
+                users=[User._parse(client=client, d=i) for i in d.get("users")]
+                if d.get("users")
                 else None,
             )
             if d
@@ -2751,8 +2833,8 @@ class GiveawayCreated(Type_):
             GiveawayCreated(
                 client=client,
                 json=d,
-                chats=[Chat._parse(i) for i in d.get("chats")]
-                if d.get("chats", None)
+                chats=[Chat._parse(client=client, d=i) for i in d.get("chats")]
+                if d.get("chats")
                 else None,
                 winners_selection_date=d.get("winners_selection_date"),
                 winner_count=d.get("winner_count"),
@@ -2799,8 +2881,8 @@ class Giveaway(Type_):
             Giveaway(
                 client=client,
                 json=d,
-                chats=[Chat._parse(i) for i in d.get("chats")]
-                if d.get("chats", None)
+                chats=[Chat._parse(client=client, d=i) for i in d.get("chats")]
+                if d.get("chats")
                 else None,
                 winners_selection_date=d.get("winners_selection_date"),
                 winner_count=d.get("winner_count"),
@@ -2855,12 +2937,12 @@ class GiveawayWinners(Type_):
             GiveawayWinners(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 giveaway_message_id=d.get("giveaway_message_id"),
                 winners_selection_date=d.get("winners_selection_date"),
                 winner_count=d.get("winner_count"),
-                winners=[User._parse(i) for i in d.get("winners")]
-                if d.get("winners", None)
+                winners=[User._parse(client=client, d=i) for i in d.get("winners")]
+                if d.get("winners")
                 else None,
                 additional_chat_count=d.get("additional_chat_count"),
                 premium_subscription_month_count=d.get(
@@ -2900,7 +2982,9 @@ class GiveawayCompleted(Type_):
                 json=d,
                 winner_count=d.get("winner_count"),
                 unclaimed_prize_count=d.get("unclaimed_prize_count"),
-                giveaway_message=Message._parse(d.get("giveaway_message")),
+                giveaway_message=Message._parse(
+                    client=client, d=d.get("giveaway_message")
+                ),
             )
             if d
             else None
@@ -2965,8 +3049,8 @@ class UserProfilePhotos(Type_):
                 client=client,
                 json=d,
                 total_count=d.get("total_count"),
-                photos=[PhotoSize._parse(i) for i in d.get("photos")]
-                if d.get("photos", None)
+                photos=[PhotoSize._parse(client=client, d=i) for i in d.get("photos")]
+                if d.get("photos")
                 else None,
             )
             if d
@@ -3052,8 +3136,10 @@ class ReplyKeyboardMarkup(Type_):
             ReplyKeyboardMarkup(
                 client=client,
                 json=d,
-                keyboard=[KeyboardButton._parse(i) for i in d.get("keyboard")]
-                if d.get("keyboard", None)
+                keyboard=[
+                    KeyboardButton._parse(client=client, d=i) for i in d.get("keyboard")
+                ]
+                if d.get("keyboard")
                 else None,
                 is_persistent=d.get("is_persistent"),
                 resize_keyboard=d.get("resize_keyboard"),
@@ -3095,12 +3181,18 @@ class KeyboardButton(Type_):
                 client=client,
                 json=d,
                 text=d.get("text"),
-                request_users=KeyboardButtonRequestUsers._parse(d.get("request_users")),
-                request_chat=KeyboardButtonRequestChat._parse(d.get("request_chat")),
+                request_users=KeyboardButtonRequestUsers._parse(
+                    client=client, d=d.get("request_users")
+                ),
+                request_chat=KeyboardButtonRequestChat._parse(
+                    client=client, d=d.get("request_chat")
+                ),
                 request_contact=d.get("request_contact"),
                 request_location=d.get("request_location"),
-                request_poll=KeyboardButtonPollType._parse(d.get("request_poll")),
-                web_app=WebAppInfo._parse(d.get("web_app")),
+                request_poll=KeyboardButtonPollType._parse(
+                    client=client, d=d.get("request_poll")
+                ),
+                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
             )
             if d
             else None
@@ -3194,10 +3286,10 @@ class KeyboardButtonRequestChat(Type_):
                 chat_has_username=d.get("chat_has_username"),
                 chat_is_created=d.get("chat_is_created"),
                 user_administrator_rights=ChatAdministratorRights._parse(
-                    d.get("user_administrator_rights")
+                    client=client, d=d.get("user_administrator_rights")
                 ),
                 bot_administrator_rights=ChatAdministratorRights._parse(
-                    d.get("bot_administrator_rights")
+                    client=client, d=d.get("bot_administrator_rights")
                 ),
                 bot_is_member=d.get("bot_is_member"),
                 request_title=d.get("request_title"),
@@ -3278,9 +3370,10 @@ class InlineKeyboardMarkup(Type_):
                 client=client,
                 json=d,
                 inline_keyboard=[
-                    InlineKeyboardButton._parse(i) for i in d.get("inline_keyboard")
+                    InlineKeyboardButton._parse(client=client, d=i)
+                    for i in d.get("inline_keyboard")
                 ]
-                if d.get("inline_keyboard", None)
+                if d.get("inline_keyboard")
                 else None,
             )
             if d
@@ -3327,16 +3420,18 @@ class InlineKeyboardButton(Type_):
                 text=d.get("text"),
                 url=d.get("url"),
                 callback_data=d.get("callback_data"),
-                web_app=WebAppInfo._parse(d.get("web_app")),
-                login_url=LoginUrl._parse(d.get("login_url")),
+                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
+                login_url=LoginUrl._parse(client=client, d=d.get("login_url")),
                 switch_inline_query=d.get("switch_inline_query"),
                 switch_inline_query_current_chat=d.get(
                     "switch_inline_query_current_chat"
                 ),
                 switch_inline_query_chosen_chat=SwitchInlineQueryChosenChat._parse(
-                    d.get("switch_inline_query_chosen_chat")
+                    client=client, d=d.get("switch_inline_query_chosen_chat")
                 ),
-                callback_game=CallbackGame._parse(d.get("callback_game")),
+                callback_game=CallbackGame._parse(
+                    client=client, d=d.get("callback_game")
+                ),
                 pay=d.get("pay"),
             )
             if d
@@ -3442,9 +3537,11 @@ class CallbackQuery(Type_):
                 client=client,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(d.get("from")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 chat_instance=d.get("chat_instance"),
-                message=MaybeInaccessibleMessage._parse(d.get("message")),
+                message=MaybeInaccessibleMessage._parse(
+                    client=client, d=d.get("message")
+                ),
                 inline_message_id=d.get("inline_message_id"),
                 data=d.get("data"),
                 game_short_name=d.get("game_short_name"),
@@ -3548,7 +3645,7 @@ class ChatInviteLink(Type_):
                 client=client,
                 json=d,
                 invite_link=d.get("invite_link"),
-                creator=User._parse(d.get("creator")),
+                creator=User._parse(client=client, d=d.get("creator")),
                 creates_join_request=d.get("creates_join_request"),
                 is_primary=d.get("is_primary"),
                 is_revoked=d.get("is_revoked"),
@@ -3661,12 +3758,18 @@ class ChatMemberUpdated(Type_):
             ChatMemberUpdated(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
-                from_user=User._parse(d.get("from")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 date=d.get("date"),
-                old_chat_member=ChatMember._parse(d.get("old_chat_member")),
-                new_chat_member=ChatMember._parse(d.get("new_chat_member")),
-                invite_link=ChatInviteLink._parse(d.get("invite_link")),
+                old_chat_member=ChatMember._parse(
+                    client=client, d=d.get("old_chat_member")
+                ),
+                new_chat_member=ChatMember._parse(
+                    client=client, d=d.get("new_chat_member")
+                ),
+                invite_link=ChatInviteLink._parse(
+                    client=client, d=d.get("invite_link")
+                ),
                 via_join_request=d.get("via_join_request"),
                 via_chat_folder_invite_link=d.get("via_chat_folder_invite_link"),
             )
@@ -3698,7 +3801,7 @@ class ChatMember(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
                 custom_title=d.get("custom_title"),
             )
@@ -3732,7 +3835,7 @@ class ChatMemberOwner(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
                 custom_title=d.get("custom_title"),
             )
@@ -3796,7 +3899,7 @@ class ChatMemberAdministrator(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 can_be_edited=d.get("can_be_edited"),
                 is_anonymous=d.get("is_anonymous"),
                 can_manage_chat=d.get("can_manage_chat"),
@@ -3841,7 +3944,7 @@ class ChatMemberMember(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -3901,7 +4004,7 @@ class ChatMemberRestricted(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 is_member=d.get("is_member"),
                 can_send_messages=d.get("can_send_messages"),
                 can_send_audios=d.get("can_send_audios"),
@@ -3943,7 +4046,7 @@ class ChatMemberLeft(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -3973,7 +4076,7 @@ class ChatMemberBanned(Type_):
                 client=client,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 until_date=d.get("until_date"),
             )
             if d
@@ -4009,12 +4112,14 @@ class ChatJoinRequest(Type_):
             ChatJoinRequest(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
-                from_user=User._parse(d.get("from")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 user_chat_id=d.get("user_chat_id"),
                 date=d.get("date"),
                 bio=d.get("bio"),
-                invite_link=ChatInviteLink._parse(d.get("invite_link")),
+                invite_link=ChatInviteLink._parse(
+                    client=client, d=d.get("invite_link")
+                ),
             )
             if d
             else None
@@ -4136,7 +4241,7 @@ class BusinessIntro(Type_):
                 json=d,
                 title=d.get("title"),
                 message=d.get("message"),
-                sticker=Sticker._parse(d.get("sticker")),
+                sticker=Sticker._parse(client=client, d=d.get("sticker")),
             )
             if d
             else None
@@ -4164,7 +4269,7 @@ class BusinessLocation(Type_):
                 client=client,
                 json=d,
                 address=d.get("address"),
-                location=Location._parse(d.get("location")),
+                location=Location._parse(client=client, d=d.get("location")),
             )
             if d
             else None
@@ -4221,10 +4326,10 @@ class BusinessOpeningHours(Type_):
                 json=d,
                 time_zone_name=d.get("time_zone_name"),
                 opening_hours=[
-                    BusinessOpeningHoursInterval._parse(i)
+                    BusinessOpeningHoursInterval._parse(client=client, d=i)
                     for i in d.get("opening_hours")
                 ]
-                if d.get("opening_hours", None)
+                if d.get("opening_hours")
                 else None,
             )
             if d
@@ -4250,7 +4355,7 @@ class ChatLocation(Type_):
             ChatLocation(
                 client=client,
                 json=d,
-                location=Location._parse(d.get("location")),
+                location=Location._parse(client=client, d=d.get("location")),
                 address=d.get("address"),
             )
             if d
@@ -4358,7 +4463,7 @@ class ReactionCount(Type_):
             ReactionCount(
                 client=client,
                 json=d,
-                type=ReactionType._parse(d.get("type")),
+                type=ReactionType._parse(client=client, d=d.get("type")),
                 total_count=d.get("total_count"),
             )
             if d
@@ -4396,17 +4501,23 @@ class MessageReactionUpdated(Type_):
             MessageReactionUpdated(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                old_reaction=[ReactionType._parse(i) for i in d.get("old_reaction")]
-                if d.get("old_reaction", None)
+                old_reaction=[
+                    ReactionType._parse(client=client, d=i)
+                    for i in d.get("old_reaction")
+                ]
+                if d.get("old_reaction")
                 else None,
-                new_reaction=[ReactionType._parse(i) for i in d.get("new_reaction")]
-                if d.get("new_reaction", None)
+                new_reaction=[
+                    ReactionType._parse(client=client, d=i)
+                    for i in d.get("new_reaction")
+                ]
+                if d.get("new_reaction")
                 else None,
-                user=User._parse(d.get("user")),
-                actor_chat=Chat._parse(d.get("actor_chat")),
+                user=User._parse(client=client, d=d.get("user")),
+                actor_chat=Chat._parse(client=client, d=d.get("actor_chat")),
             )
             if d
             else None
@@ -4437,11 +4548,13 @@ class MessageReactionCountUpdated(Type_):
             MessageReactionCountUpdated(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                reactions=[ReactionCount._parse(i) for i in d.get("reactions")]
-                if d.get("reactions", None)
+                reactions=[
+                    ReactionCount._parse(client=client, d=i) for i in d.get("reactions")
+                ]
+                if d.get("reactions")
                 else None,
             )
             if d
@@ -4819,7 +4932,7 @@ class MenuButtonWebApp(Type_):
                 json=d,
                 type=d.get("type"),
                 text=d.get("text"),
-                web_app=WebAppInfo._parse(d.get("web_app")),
+                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
             )
             if d
             else None
@@ -4867,7 +4980,7 @@ class ChatBoostSource(Type_):
                 client=client,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -4895,7 +5008,7 @@ class ChatBoostSourcePremium(Type_):
                 client=client,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -4923,7 +5036,7 @@ class ChatBoostSourceGiftCode(Type_):
                 client=client,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -4956,7 +5069,7 @@ class ChatBoostSourceGiveaway(Type_):
                 json=d,
                 source=d.get("source"),
                 giveaway_message_id=d.get("giveaway_message_id"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 is_unclaimed=d.get("is_unclaimed"),
             )
             if d
@@ -4989,7 +5102,7 @@ class ChatBoost(Type_):
                 boost_id=d.get("boost_id"),
                 add_date=d.get("add_date"),
                 expiration_date=d.get("expiration_date"),
-                source=ChatBoostSource._parse(d.get("source")),
+                source=ChatBoostSource._parse(client=client, d=d.get("source")),
             )
             if d
             else None
@@ -5016,8 +5129,8 @@ class ChatBoostUpdated(Type_):
             ChatBoostUpdated(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
-                boost=ChatBoost._parse(d.get("boost")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
+                boost=ChatBoost._parse(client=client, d=d.get("boost")),
             )
             if d
             else None
@@ -5048,10 +5161,10 @@ class ChatBoostRemoved(Type_):
             ChatBoostRemoved(
                 client=client,
                 json=d,
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 boost_id=d.get("boost_id"),
                 remove_date=d.get("remove_date"),
-                source=ChatBoostSource._parse(d.get("source")),
+                source=ChatBoostSource._parse(client=client, d=d.get("source")),
             )
             if d
             else None
@@ -5074,8 +5187,8 @@ class UserChatBoosts(Type_):
             UserChatBoosts(
                 client=client,
                 json=d,
-                boosts=[ChatBoost._parse(i) for i in d.get("boosts")]
-                if d.get("boosts", None)
+                boosts=[ChatBoost._parse(client=client, d=i) for i in d.get("boosts")]
+                if d.get("boosts")
                 else None,
             )
             if d
@@ -5112,7 +5225,7 @@ class BusinessConnection(Type_):
                 client=client,
                 json=d,
                 id=d.get("id"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 user_chat_id=d.get("user_chat_id"),
                 date=d.get("date"),
                 can_reply=d.get("can_reply"),
@@ -5146,7 +5259,7 @@ class BusinessMessagesDeleted(Type_):
                 client=client,
                 json=d,
                 business_connection_id=d.get("business_connection_id"),
-                chat=Chat._parse(d.get("chat")),
+                chat=Chat._parse(client=client, d=d.get("chat")),
                 message_ids=d.get("message_ids"),
             )
             if d
@@ -5215,9 +5328,10 @@ class InputMedia(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_spoiler=d.get("has_spoiler"),
@@ -5262,9 +5376,10 @@ class InputMediaPhoto(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_spoiler=d.get("has_spoiler"),
@@ -5320,9 +5435,10 @@ class InputMediaVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 width=d.get("width"),
@@ -5380,9 +5496,10 @@ class InputMediaAnimation(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 width=d.get("width"),
@@ -5435,9 +5552,10 @@ class InputMediaAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 duration=d.get("duration"),
                 performer=d.get("performer"),
@@ -5484,9 +5602,10 @@ class InputMediaDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 disable_content_type_detection=d.get("disable_content_type_detection"),
             )
@@ -5543,16 +5662,20 @@ class InputFile(Type_):
                 business_connection_id=d.get("business_connection_id"),
                 message_thread_id=d.get("message_thread_id"),
                 parse_mode=d.get("parse_mode"),
-                entities=[MessageEntity._parse(i) for i in d.get("entities")]
-                if d.get("entities", None)
+                entities=[
+                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
+                ]
+                if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    d.get("link_preview_options")
+                    client=client, d=d.get("link_preview_options")
                 ),
                 disable_notification=d.get("disable_notification"),
                 protect_content=d.get("protect_content"),
                 message_effect_id=d.get("message_effect_id"),
-                reply_parameters=ReplyParameters._parse(d.get("reply_parameters")),
+                reply_parameters=ReplyParameters._parse(
+                    client=client, d=d.get("reply_parameters")
+                ),
                 reply_markup=d.get("reply_markup"),
             )
             if d
@@ -5611,11 +5734,15 @@ class Sticker(Type_):
                 height=d.get("height"),
                 is_animated=d.get("is_animated"),
                 is_video=d.get("is_video"),
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
                 emoji=d.get("emoji"),
                 set_name=d.get("set_name"),
-                premium_animation=File._parse(d.get("premium_animation")),
-                mask_position=MaskPosition._parse(d.get("mask_position")),
+                premium_animation=File._parse(
+                    client=client, d=d.get("premium_animation")
+                ),
+                mask_position=MaskPosition._parse(
+                    client=client, d=d.get("mask_position")
+                ),
                 custom_emoji_id=d.get("custom_emoji_id"),
                 needs_repainting=d.get("needs_repainting"),
                 file_size=d.get("file_size"),
@@ -5652,10 +5779,10 @@ class StickerSet(Type_):
                 name=d.get("name"),
                 title=d.get("title"),
                 sticker_type=d.get("sticker_type"),
-                stickers=[Sticker._parse(i) for i in d.get("stickers")]
-                if d.get("stickers", None)
+                stickers=[Sticker._parse(client=client, d=i) for i in d.get("stickers")]
+                if d.get("stickers")
                 else None,
-                thumbnail=PhotoSize._parse(d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
             )
             if d
             else None
@@ -5721,7 +5848,9 @@ class InputSticker(Type_):
                 sticker=d.get("sticker"),
                 format=d.get("format"),
                 emoji_list=d.get("emoji_list"),
-                mask_position=MaskPosition._parse(d.get("mask_position")),
+                mask_position=MaskPosition._parse(
+                    client=client, d=d.get("mask_position")
+                ),
                 keywords=d.get("keywords"),
             )
             if d
@@ -5756,11 +5885,11 @@ class InlineQuery(Type_):
                 client=client,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(d.get("from")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 query=d.get("query"),
                 offset=d.get("offset"),
                 chat_type=d.get("chat_type"),
-                location=Location._parse(d.get("location")),
+                location=Location._parse(client=client, d=d.get("location")),
             )
             if d
             else None
@@ -5790,7 +5919,7 @@ class InlineQueryResultsButton(Type_):
                 client=client,
                 json=d,
                 text=d.get("text"),
-                web_app=WebAppInfo._parse(d.get("web_app")),
+                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
                 start_parameter=d.get("start_parameter"),
             )
             if d
@@ -5840,9 +5969,11 @@ class InlineQueryResult(Type_):
                 id=d.get("id"),
                 title=d.get("title"),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 url=d.get("url"),
                 hide_url=d.get("hide_url"),
                 description=d.get("description"),
@@ -5897,9 +6028,11 @@ class InlineQueryResultArticle(Type_):
                 id=d.get("id"),
                 title=d.get("title"),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 url=d.get("url"),
                 hide_url=d.get("hide_url"),
                 description=d.get("description"),
@@ -5967,14 +6100,17 @@ class InlineQueryResultPhoto(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6040,14 +6176,17 @@ class InlineQueryResultGif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6113,14 +6252,17 @@ class InlineQueryResultMpeg4Gif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6185,18 +6327,21 @@ class InlineQueryResultVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 video_width=d.get("video_width"),
                 video_height=d.get("video_height"),
                 video_duration=d.get("video_duration"),
                 description=d.get("description"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6249,15 +6394,18 @@ class InlineQueryResultAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 performer=d.get("performer"),
                 audio_duration=d.get("audio_duration"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6308,14 +6456,17 @@ class InlineQueryResultVoice(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 voice_duration=d.get("voice_duration"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6375,14 +6526,17 @@ class InlineQueryResultDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 description=d.get("description"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6446,9 +6600,11 @@ class InlineQueryResultLocation(Type_):
                 live_period=d.get("live_period"),
                 heading=d.get("heading"),
                 proximity_alert_radius=d.get("proximity_alert_radius"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6515,9 +6671,11 @@ class InlineQueryResultVenue(Type_):
                 foursquare_type=d.get("foursquare_type"),
                 google_place_id=d.get("google_place_id"),
                 google_place_type=d.get("google_place_type"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6572,9 +6730,11 @@ class InlineQueryResultContact(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 vcard=d.get("vcard"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6612,7 +6772,9 @@ class InlineQueryResultGame(Type_):
                 type=d.get("type"),
                 id=d.get("id"),
                 game_short_name=d.get("game_short_name"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
             )
             if d
             else None
@@ -6665,14 +6827,17 @@ class InlineQueryResultCachedPhoto(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6723,14 +6888,17 @@ class InlineQueryResultCachedGif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6781,14 +6949,17 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6825,9 +6996,11 @@ class InlineQueryResultCachedSticker(Type_):
                 type=d.get("type"),
                 id=d.get("id"),
                 sticker_file_id=d.get("sticker_file_id"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6879,13 +7052,16 @@ class InlineQueryResultCachedDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6939,14 +7115,17 @@ class InlineQueryResultCachedVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6995,13 +7174,16 @@ class InlineQueryResultCachedVoice(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7047,13 +7229,16 @@ class InlineQueryResultCachedAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(i) for i in d.get("caption_entities")
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("caption_entities")
                 ]
-                if d.get("caption_entities", None)
+                if d.get("caption_entities")
                 else None,
-                reply_markup=InlineKeyboardMarkup._parse(d.get("reply_markup")),
+                reply_markup=InlineKeyboardMarkup._parse(
+                    client=client, d=d.get("reply_markup")
+                ),
                 input_message_content=InputMessageContent._parse(
-                    d.get("input_message_content")
+                    client=client, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7087,11 +7272,13 @@ class InputMessageContent(Type_):
                 json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
-                entities=[MessageEntity._parse(i) for i in d.get("entities")]
-                if d.get("entities", None)
+                entities=[
+                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
+                ]
+                if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    d.get("link_preview_options")
+                    client=client, d=d.get("link_preview_options")
                 ),
             )
             if d
@@ -7125,11 +7312,13 @@ class InputTextMessageContent(Type_):
                 json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
-                entities=[MessageEntity._parse(i) for i in d.get("entities")]
-                if d.get("entities", None)
+                entities=[
+                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
+                ]
+                if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    d.get("link_preview_options")
+                    client=client, d=d.get("link_preview_options")
                 ),
             )
             if d
@@ -7317,8 +7506,10 @@ class InputInvoiceMessageContent(Type_):
                 description=d.get("description"),
                 payload=d.get("payload"),
                 currency=d.get("currency"),
-                prices=[LabeledPrice._parse(i) for i in d.get("prices")]
-                if d.get("prices", None)
+                prices=[
+                    LabeledPrice._parse(client=client, d=i) for i in d.get("prices")
+                ]
+                if d.get("prices")
                 else None,
                 provider_token=d.get("provider_token"),
                 max_tip_amount=d.get("max_tip_amount"),
@@ -7368,9 +7559,9 @@ class ChosenInlineResult(Type_):
                 client=client,
                 json=d,
                 result_id=d.get("result_id"),
-                from_user=User._parse(d.get("from")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 query=d.get("query"),
-                location=Location._parse(d.get("location")),
+                location=Location._parse(client=client, d=d.get("location")),
                 inline_message_id=d.get("inline_message_id"),
             )
             if d
@@ -7557,7 +7748,9 @@ class OrderInfo(Type_):
                 name=d.get("name"),
                 phone_number=d.get("phone_number"),
                 email=d.get("email"),
-                shipping_address=ShippingAddress._parse(d.get("shipping_address")),
+                shipping_address=ShippingAddress._parse(
+                    client=client, d=d.get("shipping_address")
+                ),
             )
             if d
             else None
@@ -7586,8 +7779,10 @@ class ShippingOption(Type_):
                 json=d,
                 id=d.get("id"),
                 title=d.get("title"),
-                prices=[LabeledPrice._parse(i) for i in d.get("prices")]
-                if d.get("prices", None)
+                prices=[
+                    LabeledPrice._parse(client=client, d=i) for i in d.get("prices")
+                ]
+                if d.get("prices")
                 else None,
             )
             if d
@@ -7631,7 +7826,7 @@ class SuccessfulPayment(Type_):
                 telegram_payment_charge_id=d.get("telegram_payment_charge_id"),
                 provider_payment_charge_id=d.get("provider_payment_charge_id"),
                 shipping_option_id=d.get("shipping_option_id"),
-                order_info=OrderInfo._parse(d.get("order_info")),
+                order_info=OrderInfo._parse(client=client, d=d.get("order_info")),
             )
             if d
             else None
@@ -7661,9 +7856,11 @@ class ShippingQuery(Type_):
                 client=client,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(d.get("from")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 invoice_payload=d.get("invoice_payload"),
-                shipping_address=ShippingAddress._parse(d.get("shipping_address")),
+                shipping_address=ShippingAddress._parse(
+                    client=client, d=d.get("shipping_address")
+                ),
             )
             if d
             else None
@@ -7701,12 +7898,12 @@ class PreCheckoutQuery(Type_):
                 client=client,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(d.get("from")),
+                from_user=User._parse(client=client, d=d.get("from")),
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
                 invoice_payload=d.get("invoice_payload"),
                 shipping_option_id=d.get("shipping_option_id"),
-                order_info=OrderInfo._parse(d.get("order_info")),
+                order_info=OrderInfo._parse(client=client, d=d.get("order_info")),
             )
             if d
             else None
@@ -7826,7 +8023,7 @@ class TransactionPartner(Type_):
                 json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
-                    d.get("withdrawal_state")
+                    client=client, d=d.get("withdrawal_state")
                 ),
             )
             if d
@@ -7856,7 +8053,7 @@ class TransactionPartnerFragment(Type_):
                 json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
-                    d.get("withdrawal_state")
+                    client=client, d=d.get("withdrawal_state")
                 ),
             )
             if d
@@ -7885,7 +8082,7 @@ class TransactionPartnerUser(Type_):
                 client=client,
                 json=d,
                 type=d.get("type"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
             )
             if d
             else None
@@ -7941,8 +8138,8 @@ class StarTransaction(Type_):
                 id=d.get("id"),
                 amount=d.get("amount"),
                 date=d.get("date"),
-                source=TransactionPartner._parse(d.get("source")),
-                receiver=TransactionPartner._parse(d.get("receiver")),
+                source=TransactionPartner._parse(client=client, d=d.get("source")),
+                receiver=TransactionPartner._parse(client=client, d=d.get("receiver")),
             )
             if d
             else None
@@ -7967,8 +8164,11 @@ class StarTransactions(Type_):
             StarTransactions(
                 client=client,
                 json=d,
-                transactions=[StarTransaction._parse(i) for i in d.get("transactions")]
-                if d.get("transactions", None)
+                transactions=[
+                    StarTransaction._parse(client=client, d=i)
+                    for i in d.get("transactions")
+                ]
+                if d.get("transactions")
                 else None,
             )
             if d
@@ -7994,10 +8194,15 @@ class PassportData(Type_):
             PassportData(
                 client=client,
                 json=d,
-                data=[EncryptedPassportElement._parse(i) for i in d.get("data")]
-                if d.get("data", None)
+                data=[
+                    EncryptedPassportElement._parse(client=client, d=i)
+                    for i in d.get("data")
+                ]
+                if d.get("data")
                 else None,
-                credentials=EncryptedCredentials._parse(d.get("credentials")),
+                credentials=EncryptedCredentials._parse(
+                    client=client, d=d.get("credentials")
+                ),
             )
             if d
             else None
@@ -8077,14 +8282,19 @@ class EncryptedPassportElement(Type_):
                 data=d.get("data"),
                 phone_number=d.get("phone_number"),
                 email=d.get("email"),
-                files=[PassportFile._parse(i) for i in d.get("files")]
-                if d.get("files", None)
+                files=[PassportFile._parse(client=client, d=i) for i in d.get("files")]
+                if d.get("files")
                 else None,
-                front_side=PassportFile._parse(d.get("front_side")),
-                reverse_side=PassportFile._parse(d.get("reverse_side")),
-                selfie=PassportFile._parse(d.get("selfie")),
-                translation=[PassportFile._parse(i) for i in d.get("translation")]
-                if d.get("translation", None)
+                front_side=PassportFile._parse(client=client, d=d.get("front_side")),
+                reverse_side=PassportFile._parse(
+                    client=client, d=d.get("reverse_side")
+                ),
+                selfie=PassportFile._parse(client=client, d=d.get("selfie")),
+                translation=[
+                    PassportFile._parse(client=client, d=i)
+                    for i in d.get("translation")
+                ]
+                if d.get("translation")
                 else None,
             )
             if d
@@ -8497,14 +8707,17 @@ class Game(Type_):
                 json=d,
                 title=d.get("title"),
                 description=d.get("description"),
-                photo=[PhotoSize._parse(i) for i in d.get("photo")]
-                if d.get("photo", None)
+                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                if d.get("photo")
                 else None,
                 text=d.get("text"),
-                text_entities=[MessageEntity._parse(i) for i in d.get("text_entities")]
-                if d.get("text_entities", None)
+                text_entities=[
+                    MessageEntity._parse(client=client, d=i)
+                    for i in d.get("text_entities")
+                ]
+                if d.get("text_entities")
                 else None,
-                animation=Animation._parse(d.get("animation")),
+                animation=Animation._parse(client=client, d=d.get("animation")),
             )
             if d
             else None
@@ -8573,7 +8786,7 @@ class GameHighScore(Type_):
                 client=client,
                 json=d,
                 position=d.get("position"),
-                user=User._parse(d.get("user")),
+                user=User._parse(client=client, d=d.get("user")),
                 score=d.get("score"),
             )
             if d
