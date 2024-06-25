@@ -2,6 +2,7 @@
 
 from typing import List, Union
 from .types import (
+    StarTransactions,
     Update,
     InputFile,
     WebhookInfo,
@@ -44,6 +45,7 @@ from .types import (
     SentWebAppMessage,
     LabeledPrice,
     ShippingOption,
+    Telegram,
     PassportElementError,
     GameHighScore,
 )
@@ -1501,6 +1503,7 @@ class TelegramBotMethods:
     async def edit_message_text(
         self,
         text: str,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1513,6 +1516,7 @@ class TelegramBotMethods:
         result = await self._request(
             "editMessageText",
             text=text,
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
@@ -1521,10 +1525,15 @@ class TelegramBotMethods:
             link_preview_options=link_preview_options,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def edit_message_caption(
         self,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1537,6 +1546,7 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagecaption"""
         result = await self._request(
             "editMessageCaption",
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
@@ -1546,11 +1556,16 @@ class TelegramBotMethods:
             show_caption_above_media=show_caption_above_media,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def edit_message_media(
         self,
         media: InputMedia,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1560,17 +1575,23 @@ class TelegramBotMethods:
         result = await self._request(
             "editMessageMedia",
             media=media,
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def edit_message_live_location(
         self,
         latitude: float,
         longitude: float,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1585,6 +1606,7 @@ class TelegramBotMethods:
             "editMessageLiveLocation",
             latitude=latitude,
             longitude=longitude,
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
@@ -1594,10 +1616,15 @@ class TelegramBotMethods:
             proximity_alert_radius=proximity_alert_radius,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def stop_message_live_location(
         self,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1606,15 +1633,21 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#stopmessagelivelocation"""
         result = await self._request(
             "stopMessageLiveLocation",
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def edit_message_reply_markup(
         self,
+        business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
@@ -1623,17 +1656,23 @@ class TelegramBotMethods:
         """https://core.telegram.org/bots/api/#editmessagereplymarkup"""
         result = await self._request(
             "editMessageReplyMarkup",
+            business_connection_id=business_connection_id,
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
             reply_markup=reply_markup,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def stop_poll(
         self,
         chat_id: Union[int, str],
         message_id: int,
+        business_connection_id: str = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Poll:
         """https://core.telegram.org/bots/api/#stoppoll"""
@@ -1641,6 +1680,7 @@ class TelegramBotMethods:
             "stopPoll",
             chat_id=chat_id,
             message_id=message_id,
+            business_connection_id=business_connection_id,
             reply_markup=reply_markup,
         )
         return Poll._parse(client=self, d=result["result"])
@@ -2040,6 +2080,17 @@ class TelegramBotMethods:
         )
         return result["result"]
 
+    async def get_star_transactions(
+        self, offset: int = None, limit: int = None
+    ) -> StarTransactions:
+        """https://core.telegram.org/bots/api/#getstartransactions"""
+        result = await self._request(
+            "getStarTransactions",
+            offset=offset,
+            limit=limit,
+        )
+        return StarTransactions._parse(client=self, d=result["result"])
+
     async def refund_star_payment(
         self, user_id: int, telegram_payment_charge_id: str
     ) -> bool:
@@ -2110,7 +2161,11 @@ class TelegramBotMethods:
             message_id=message_id,
             inline_message_id=inline_message_id,
         )
-        return Union[Message, bool]._parse(client=self, d=result["result"])
+        return (
+            Message._parse(client=self, d=result["result"])
+            if isinstance(result["result"], dict)
+            else result["result"]
+        )
 
     async def get_game_high_scores(
         self,
