@@ -22,8 +22,8 @@ class Methods:
                 "offset": offset,
                 "limit": limit,
                 "timeout": timeout,
-                "allowed_updates": allowed_updates
-            }
+                "allowed_updates": allowed_updates,
+            },
         )
         return result
 

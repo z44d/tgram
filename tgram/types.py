@@ -1,10 +1,11 @@
 import tgram
-from typing import List, Optional, Union
+from typing import List, Union
 
 
 class Type_:
-    def __init__(self, client: "tgram.TgBot") -> None:
+    def __init__(self, client: "tgram.TgBot" = None, json: dict = None) -> None:
         self._client = client
+        self._json = json or self.to_json()
 
     def __str__(self) -> str:
         return self.__parse()
@@ -59,9 +60,9 @@ class Type_:
         )
 
     @staticmethod
-    def list_to_json(l) -> list:
+    def _list_to_json(_list: list) -> list:
         _ = []
-        for i in l:
+        for i in _list:
             if isinstance(i, list):
                 _.append(Type_.list_to_json(i))
             elif isinstance(i, Type_):
@@ -70,16 +71,16 @@ class Type_:
                 _.append(i)
         return _
 
-    def to_json(self) -> dict:
+    def _to_json(self) -> dict:
         d = {}
         for key in filter(
             lambda x: not x.startswith("_") and getattr(self, x), self.__dict__
         ):
             value = getattr(self, key)
             if isinstance(value, list):
-                value = Type_.list_to_json(value)
+                value = Type_._list_to_json(value)
             elif isinstance(value, Type_):
-                value = value.to_json()
+                value = value._to_json()
 
             d.update({key: value})
         return d
@@ -112,8 +113,9 @@ class Update(Type_):
         chat_boost: "ChatBoostUpdated" = None,
         removed_chat_boost: "ChatBoostRemoved" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.update_id = update_id
         self.message = message
         self.edited_message = edited_message
@@ -143,6 +145,7 @@ class Update(Type_):
         return (
             Update(
                 client=client,
+                json=d,
                 update_id=d.get("update_id"),
                 message=Message._parse(d.get("message")),
                 edited_message=Message._parse(d.get("edited_message")),
@@ -197,8 +200,9 @@ class WebhookInfo(Type_):
         max_connections: "int" = None,
         allowed_updates: List["str"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.url = url
         self.has_custom_certificate = has_custom_certificate
         self.pending_update_count = pending_update_count
@@ -214,6 +218,7 @@ class WebhookInfo(Type_):
         return (
             WebhookInfo(
                 client=client,
+                json=d,
                 url=d.get("url"),
                 has_custom_certificate=d.get("has_custom_certificate"),
                 pending_update_count=d.get("pending_update_count"),
@@ -224,9 +229,7 @@ class WebhookInfo(Type_):
                     "last_synchronization_error_date"
                 ),
                 max_connections=d.get("max_connections"),
-                allowed_updates=[str._parse(i) for i in d.get("allowed_updates")]
-                if d.get("allowed_updates", None)
-                else None,
+                allowed_updates=d.get("allowed_updates"),
             )
             if d
             else None
@@ -249,8 +252,9 @@ class User(Type_):
         supports_inline_queries: "bool" = None,
         can_connect_to_business: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.is_bot = is_bot
         self.first_name = first_name
@@ -269,6 +273,7 @@ class User(Type_):
         return (
             User(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 is_bot=d.get("is_bot"),
                 first_name=d.get("first_name"),
@@ -298,8 +303,9 @@ class Chat(Type_):
         last_name: "str" = None,
         is_forum: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.type = type
         self.title = title
@@ -313,6 +319,7 @@ class Chat(Type_):
         return (
             Chat(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 type=d.get("type"),
                 title=d.get("title"),
@@ -373,8 +380,9 @@ class ChatFullInfo(Type_):
         linked_chat_id: "int" = None,
         location: "ChatLocation" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.type = type
         self.title = title
@@ -426,6 +434,7 @@ class ChatFullInfo(Type_):
         return (
             ChatFullInfo(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 type=d.get("type"),
                 accent_color_id=d.get("accent_color_id"),
@@ -436,9 +445,7 @@ class ChatFullInfo(Type_):
                 last_name=d.get("last_name"),
                 is_forum=d.get("is_forum"),
                 photo=ChatPhoto._parse(d.get("photo")),
-                active_usernames=[str._parse(i) for i in d.get("active_usernames")]
-                if d.get("active_usernames", None)
-                else None,
+                active_usernames=d.get("active_usernames"),
                 birthdate=Birthdate._parse(d.get("birthdate")),
                 business_intro=BusinessIntro._parse(d.get("business_intro")),
                 business_location=BusinessLocation._parse(d.get("business_location")),
@@ -576,8 +583,9 @@ class Message(Type_):
         web_app_data: "WebAppData" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.message_id = message_id
         self.message_thread_id = message_thread_id
         self.from_user = from_user
@@ -667,6 +675,7 @@ class Message(Type_):
         return (
             Message(
                 client=client,
+                json=d,
                 message_id=d.get("message_id"),
                 date=d.get("date"),
                 chat=Chat._parse(d.get("chat")),
@@ -793,8 +802,10 @@ class Message(Type_):
 
 
 class MessageId(Type_):
-    def __init__(self, message_id: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, message_id: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.message_id = message_id
 
     @staticmethod
@@ -802,6 +813,7 @@ class MessageId(Type_):
         return (
             MessageId(
                 client=client,
+                json=d,
                 message_id=d.get("message_id"),
             )
             if d
@@ -811,9 +823,14 @@ class MessageId(Type_):
 
 class InaccessibleMessage(Type_):
     def __init__(
-        self, chat: "Chat", message_id: "int", date: "int", client: "tgram.TgBot" = None
+        self,
+        chat: "Chat",
+        message_id: "int",
+        date: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.message_id = message_id
         self.date = date
@@ -825,6 +842,7 @@ class InaccessibleMessage(Type_):
         return (
             InaccessibleMessage(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
@@ -845,8 +863,9 @@ class MaybeInaccessibleMessage(Type_):
         language: "str" = None,
         custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.offset = offset
         self.length = length
@@ -862,6 +881,7 @@ class MaybeInaccessibleMessage(Type_):
         return (
             MaybeInaccessibleMessage(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 offset=d.get("offset"),
                 length=d.get("length"),
@@ -886,8 +906,9 @@ class MessageEntity(Type_):
         language: "str" = None,
         custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.offset = offset
         self.length = length
@@ -901,6 +922,7 @@ class MessageEntity(Type_):
         return (
             MessageEntity(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 offset=d.get("offset"),
                 length=d.get("length"),
@@ -922,8 +944,9 @@ class TextQuote(Type_):
         entities: List["MessageEntity"] = None,
         is_manual: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.entities = entities
         self.position = position
@@ -934,6 +957,7 @@ class TextQuote(Type_):
         return (
             TextQuote(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 position=d.get("position"),
                 entities=[MessageEntity._parse(i) for i in d.get("entities")]
@@ -973,8 +997,9 @@ class ExternalReplyInfo(Type_):
         poll: "Poll" = None,
         venue: "Venue" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.origin = origin
         self.chat = chat
         self.message_id = message_id
@@ -1006,6 +1031,7 @@ class ExternalReplyInfo(Type_):
         return (
             ExternalReplyInfo(
                 client=client,
+                json=d,
                 origin=MessageOrigin._parse(d.get("origin")),
                 chat=Chat._parse(d.get("chat")),
                 message_id=d.get("message_id"),
@@ -1050,8 +1076,9 @@ class ReplyParameters(Type_):
         quote_entities: List["MessageEntity"] = None,
         quote_position: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.message_id = message_id
         self.chat_id = chat_id
         self.allow_sending_without_reply = allow_sending_without_reply
@@ -1067,6 +1094,7 @@ class ReplyParameters(Type_):
         return (
             ReplyParameters(
                 client=client,
+                json=d,
                 message_id=d.get("message_id"),
                 chat_id=d.get("chat_id"),
                 allow_sending_without_reply=d.get("allow_sending_without_reply"),
@@ -1091,8 +1119,9 @@ class MessageOrigin(Type_):
         date: "int",
         sender_user: "User",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.sender_user = sender_user
@@ -1102,6 +1131,7 @@ class MessageOrigin(Type_):
         return (
             MessageOrigin(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 sender_user=User._parse(d.get("sender_user")),
@@ -1118,8 +1148,9 @@ class MessageOriginUser(Type_):
         date: "int",
         sender_user: "User",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.sender_user = sender_user
@@ -1131,6 +1162,7 @@ class MessageOriginUser(Type_):
         return (
             MessageOriginUser(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 sender_user=User._parse(d.get("sender_user")),
@@ -1147,8 +1179,9 @@ class MessageOriginHiddenUser(Type_):
         date: "int",
         sender_user_name: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.sender_user_name = sender_user_name
@@ -1160,6 +1193,7 @@ class MessageOriginHiddenUser(Type_):
         return (
             MessageOriginHiddenUser(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 sender_user_name=d.get("sender_user_name"),
@@ -1177,8 +1211,9 @@ class MessageOriginChat(Type_):
         sender_chat: "Chat",
         author_signature: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.sender_chat = sender_chat
@@ -1191,6 +1226,7 @@ class MessageOriginChat(Type_):
         return (
             MessageOriginChat(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 sender_chat=Chat._parse(d.get("sender_chat")),
@@ -1210,8 +1246,9 @@ class MessageOriginChannel(Type_):
         message_id: "int",
         author_signature: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.chat = chat
@@ -1225,6 +1262,7 @@ class MessageOriginChannel(Type_):
         return (
             MessageOriginChannel(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 chat=Chat._parse(d.get("chat")),
@@ -1245,8 +1283,9 @@ class PhotoSize(Type_):
         height: "int",
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1258,6 +1297,7 @@ class PhotoSize(Type_):
         return (
             PhotoSize(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 width=d.get("width"),
@@ -1282,8 +1322,9 @@ class Animation(Type_):
         mime_type: "str" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1299,6 +1340,7 @@ class Animation(Type_):
         return (
             Animation(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 width=d.get("width"),
@@ -1327,8 +1369,9 @@ class Audio(Type_):
         file_size: "int" = None,
         thumbnail: "PhotoSize" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.duration = duration
@@ -1344,6 +1387,7 @@ class Audio(Type_):
         return (
             Audio(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 duration=d.get("duration"),
@@ -1369,8 +1413,9 @@ class Document(Type_):
         mime_type: "str" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.thumbnail = thumbnail
@@ -1383,6 +1428,7 @@ class Document(Type_):
         return (
             Document(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 thumbnail=PhotoSize._parse(d.get("thumbnail")),
@@ -1396,8 +1442,10 @@ class Document(Type_):
 
 
 class Story(Type_):
-    def __init__(self, chat: "Chat", id: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, chat: "Chat", id: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.id = id
 
@@ -1406,6 +1454,7 @@ class Story(Type_):
         return (
             Story(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 id=d.get("id"),
             )
@@ -1427,8 +1476,9 @@ class Video(Type_):
         mime_type: "str" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1444,6 +1494,7 @@ class Video(Type_):
         return (
             Video(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 width=d.get("width"),
@@ -1469,8 +1520,9 @@ class VideoNote(Type_):
         thumbnail: "PhotoSize" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.length = length
@@ -1483,6 +1535,7 @@ class VideoNote(Type_):
         return (
             VideoNote(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 length=d.get("length"),
@@ -1504,8 +1557,9 @@ class Voice(Type_):
         mime_type: "str" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.duration = duration
@@ -1517,6 +1571,7 @@ class Voice(Type_):
         return (
             Voice(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 duration=d.get("duration"),
@@ -1537,8 +1592,9 @@ class Contact(Type_):
         user_id: "int" = None,
         vcard: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
@@ -1550,6 +1606,7 @@ class Contact(Type_):
         return (
             Contact(
                 client=client,
+                json=d,
                 phone_number=d.get("phone_number"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -1562,8 +1619,14 @@ class Contact(Type_):
 
 
 class Dice(Type_):
-    def __init__(self, emoji: "str", value: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        emoji: "str",
+        value: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.emoji = emoji
         self.value = value
 
@@ -1572,6 +1635,7 @@ class Dice(Type_):
         return (
             Dice(
                 client=client,
+                json=d,
                 emoji=d.get("emoji"),
                 value=d.get("value"),
             )
@@ -1587,8 +1651,9 @@ class PollOption(Type_):
         voter_count: "int",
         text_entities: List["MessageEntity"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.text_entities = text_entities
         self.voter_count = voter_count
@@ -1598,6 +1663,7 @@ class PollOption(Type_):
         return (
             PollOption(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 voter_count=d.get("voter_count"),
                 text_entities=[MessageEntity._parse(i) for i in d.get("text_entities")]
@@ -1616,8 +1682,9 @@ class InputPollOption(Type_):
         text_parse_mode: "str" = None,
         text_entities: List["MessageEntity"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.text_parse_mode = text_parse_mode
         self.text_entities = text_entities
@@ -1629,6 +1696,7 @@ class InputPollOption(Type_):
         return (
             InputPollOption(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 text_parse_mode=d.get("text_parse_mode"),
                 text_entities=[MessageEntity._parse(i) for i in d.get("text_entities")]
@@ -1648,8 +1716,9 @@ class PollAnswer(Type_):
         voter_chat: "Chat" = None,
         user: "User" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.poll_id = poll_id
         self.voter_chat = voter_chat
         self.user = user
@@ -1660,10 +1729,9 @@ class PollAnswer(Type_):
         return (
             PollAnswer(
                 client=client,
+                json=d,
                 poll_id=d.get("poll_id"),
-                option_ids=[int._parse(i) for i in d.get("option_ids")]
-                if d.get("option_ids", None)
-                else None,
+                option_ids=d.get("option_ids"),
                 voter_chat=Chat._parse(d.get("voter_chat")),
                 user=User._parse(d.get("user")),
             )
@@ -1690,8 +1758,9 @@ class Poll(Type_):
         open_period: "int" = None,
         close_date: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.question = question
         self.question_entities = question_entities
@@ -1712,6 +1781,7 @@ class Poll(Type_):
         return (
             Poll(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 question=d.get("question"),
                 options=[PollOption._parse(i) for i in d.get("options")]
@@ -1752,8 +1822,9 @@ class Location(Type_):
         heading: "int" = None,
         proximity_alert_radius: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.horizontal_accuracy = horizontal_accuracy
@@ -1766,6 +1837,7 @@ class Location(Type_):
         return (
             Location(
                 client=client,
+                json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
                 horizontal_accuracy=d.get("horizontal_accuracy"),
@@ -1789,8 +1861,9 @@ class Venue(Type_):
         google_place_id: "str" = None,
         google_place_type: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.location = location
         self.title = title
         self.address = address
@@ -1804,6 +1877,7 @@ class Venue(Type_):
         return (
             Venue(
                 client=client,
+                json=d,
                 location=Location._parse(d.get("location")),
                 title=d.get("title"),
                 address=d.get("address"),
@@ -1818,8 +1892,14 @@ class Venue(Type_):
 
 
 class WebAppData(Type_):
-    def __init__(self, data: "str", button_text: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        data: "str",
+        button_text: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.data = data
         self.button_text = button_text
 
@@ -1828,6 +1908,7 @@ class WebAppData(Type_):
         return (
             WebAppData(
                 client=client,
+                json=d,
                 data=d.get("data"),
                 button_text=d.get("button_text"),
             )
@@ -1843,8 +1924,9 @@ class ProximityAlertTriggered(Type_):
         watcher: "User",
         distance: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.traveler = traveler
         self.watcher = watcher
         self.distance = distance
@@ -1856,6 +1938,7 @@ class ProximityAlertTriggered(Type_):
         return (
             ProximityAlertTriggered(
                 client=client,
+                json=d,
                 traveler=User._parse(d.get("traveler")),
                 watcher=User._parse(d.get("watcher")),
                 distance=d.get("distance"),
@@ -1866,8 +1949,13 @@ class ProximityAlertTriggered(Type_):
 
 
 class MessageAutoDeleteTimerChanged(Type_):
-    def __init__(self, message_auto_delete_time: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        message_auto_delete_time: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.message_auto_delete_time = message_auto_delete_time
 
     @staticmethod
@@ -1877,6 +1965,7 @@ class MessageAutoDeleteTimerChanged(Type_):
         return (
             MessageAutoDeleteTimerChanged(
                 client=client,
+                json=d,
                 message_auto_delete_time=d.get("message_auto_delete_time"),
             )
             if d
@@ -1885,8 +1974,10 @@ class MessageAutoDeleteTimerChanged(Type_):
 
 
 class ChatBoostAdded(Type_):
-    def __init__(self, boost_count: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, boost_count: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.boost_count = boost_count
 
     @staticmethod
@@ -1894,6 +1985,7 @@ class ChatBoostAdded(Type_):
         return (
             ChatBoostAdded(
                 client=client,
+                json=d,
                 boost_count=d.get("boost_count"),
             )
             if d
@@ -1902,8 +1994,14 @@ class ChatBoostAdded(Type_):
 
 
 class BackgroundFill(Type_):
-    def __init__(self, type: "str", color: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        color: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.color = color
 
@@ -1912,6 +2010,7 @@ class BackgroundFill(Type_):
         return (
             BackgroundFill(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 color=d.get("color"),
             )
@@ -1921,8 +2020,14 @@ class BackgroundFill(Type_):
 
 
 class BackgroundFillSolid(Type_):
-    def __init__(self, type: "str", color: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        color: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.color = color
 
@@ -1933,6 +2038,7 @@ class BackgroundFillSolid(Type_):
         return (
             BackgroundFillSolid(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 color=d.get("color"),
             )
@@ -1949,8 +2055,9 @@ class BackgroundFillGradient(Type_):
         bottom_color: "int",
         rotation_angle: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.top_color = top_color
         self.bottom_color = bottom_color
@@ -1963,6 +2070,7 @@ class BackgroundFillGradient(Type_):
         return (
             BackgroundFillGradient(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 top_color=d.get("top_color"),
                 bottom_color=d.get("bottom_color"),
@@ -1974,8 +2082,14 @@ class BackgroundFillGradient(Type_):
 
 
 class BackgroundFillFreeformGradient(Type_):
-    def __init__(self, type: "str", colors: List["int"], client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        colors: List["int"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.colors = colors
 
@@ -1986,10 +2100,9 @@ class BackgroundFillFreeformGradient(Type_):
         return (
             BackgroundFillFreeformGradient(
                 client=client,
+                json=d,
                 type=d.get("type"),
-                colors=[int._parse(i) for i in d.get("colors")]
-                if d.get("colors", None)
-                else None,
+                colors=d.get("colors"),
             )
             if d
             else None
@@ -2003,8 +2116,9 @@ class BackgroundType(Type_):
         fill: "BackgroundFill",
         dark_theme_dimming: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.fill = fill
         self.dark_theme_dimming = dark_theme_dimming
@@ -2014,6 +2128,7 @@ class BackgroundType(Type_):
         return (
             BackgroundType(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 fill=BackgroundFill._parse(d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
@@ -2030,8 +2145,9 @@ class BackgroundTypeFill(Type_):
         fill: "BackgroundFill",
         dark_theme_dimming: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.fill = fill
         self.dark_theme_dimming = dark_theme_dimming
@@ -2043,6 +2159,7 @@ class BackgroundTypeFill(Type_):
         return (
             BackgroundTypeFill(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 fill=BackgroundFill._parse(d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
@@ -2061,8 +2178,9 @@ class BackgroundTypeWallpaper(Type_):
         is_blurred: "bool" = None,
         is_moving: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.document = document
         self.dark_theme_dimming = dark_theme_dimming
@@ -2076,6 +2194,7 @@ class BackgroundTypeWallpaper(Type_):
         return (
             BackgroundTypeWallpaper(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 document=Document._parse(d.get("document")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
@@ -2097,8 +2216,9 @@ class BackgroundTypePattern(Type_):
         is_inverted: "bool" = None,
         is_moving: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.document = document
         self.fill = fill
@@ -2113,6 +2233,7 @@ class BackgroundTypePattern(Type_):
         return (
             BackgroundTypePattern(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 document=Document._parse(d.get("document")),
                 fill=BackgroundFill._parse(d.get("fill")),
@@ -2126,8 +2247,14 @@ class BackgroundTypePattern(Type_):
 
 
 class BackgroundTypeChatTheme(Type_):
-    def __init__(self, type: "str", theme_name: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        theme_name: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.theme_name = theme_name
 
@@ -2138,6 +2265,7 @@ class BackgroundTypeChatTheme(Type_):
         return (
             BackgroundTypeChatTheme(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 theme_name=d.get("theme_name"),
             )
@@ -2147,8 +2275,10 @@ class BackgroundTypeChatTheme(Type_):
 
 
 class ChatBackground(Type_):
-    def __init__(self, type: "BackgroundType", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, type: "BackgroundType", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -2156,6 +2286,7 @@ class ChatBackground(Type_):
         return (
             ChatBackground(
                 client=client,
+                json=d,
                 type=BackgroundType._parse(d.get("type")),
             )
             if d
@@ -2170,8 +2301,9 @@ class ForumTopicCreated(Type_):
         icon_color: "int",
         icon_custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.name = name
         self.icon_color = icon_color
         self.icon_custom_emoji_id = icon_custom_emoji_id
@@ -2183,6 +2315,7 @@ class ForumTopicCreated(Type_):
         return (
             ForumTopicCreated(
                 client=client,
+                json=d,
                 name=d.get("name"),
                 icon_color=d.get("icon_color"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
@@ -2198,8 +2331,9 @@ class ForumTopicClosed(Type_):
         name: "str" = None,
         icon_custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.name = name
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
@@ -2210,6 +2344,7 @@ class ForumTopicClosed(Type_):
         return (
             ForumTopicClosed(
                 client=client,
+                json=d,
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
@@ -2224,8 +2359,9 @@ class ForumTopicEdited(Type_):
         name: "str" = None,
         icon_custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.name = name
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
@@ -2236,6 +2372,7 @@ class ForumTopicEdited(Type_):
         return (
             ForumTopicEdited(
                 client=client,
+                json=d,
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
@@ -2253,8 +2390,9 @@ class ForumTopicReopened(Type_):
         username: "str" = None,
         photo: List["PhotoSize"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2268,6 +2406,7 @@ class ForumTopicReopened(Type_):
         return (
             ForumTopicReopened(
                 client=client,
+                json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -2290,8 +2429,9 @@ class GeneralForumTopicHidden(Type_):
         username: "str" = None,
         photo: List["PhotoSize"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2305,6 +2445,7 @@ class GeneralForumTopicHidden(Type_):
         return (
             GeneralForumTopicHidden(
                 client=client,
+                json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -2327,8 +2468,9 @@ class GeneralForumTopicUnhidden(Type_):
         username: "str" = None,
         photo: List["PhotoSize"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2342,6 +2484,7 @@ class GeneralForumTopicUnhidden(Type_):
         return (
             GeneralForumTopicUnhidden(
                 client=client,
+                json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -2364,8 +2507,9 @@ class SharedUser(Type_):
         username: "str" = None,
         photo: List["PhotoSize"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2377,6 +2521,7 @@ class SharedUser(Type_):
         return (
             SharedUser(
                 client=client,
+                json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -2392,9 +2537,13 @@ class SharedUser(Type_):
 
 class UsersShared(Type_):
     def __init__(
-        self, request_id: "int", users: List["SharedUser"], client: "tgram.TgBot" = None
+        self,
+        request_id: "int",
+        users: List["SharedUser"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.request_id = request_id
         self.users = users
 
@@ -2403,6 +2552,7 @@ class UsersShared(Type_):
         return (
             UsersShared(
                 client=client,
+                json=d,
                 request_id=d.get("request_id"),
                 users=[SharedUser._parse(i) for i in d.get("users")]
                 if d.get("users", None)
@@ -2422,8 +2572,9 @@ class ChatShared(Type_):
         username: "str" = None,
         photo: List["PhotoSize"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.request_id = request_id
         self.chat_id = chat_id
         self.title = title
@@ -2435,6 +2586,7 @@ class ChatShared(Type_):
         return (
             ChatShared(
                 client=client,
+                json=d,
                 request_id=d.get("request_id"),
                 chat_id=d.get("chat_id"),
                 title=d.get("title"),
@@ -2455,8 +2607,9 @@ class WriteAccessAllowed(Type_):
         web_app_name: "str" = None,
         from_attachment_menu: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.from_request = from_request
         self.web_app_name = web_app_name
         self.from_attachment_menu = from_attachment_menu
@@ -2468,6 +2621,7 @@ class WriteAccessAllowed(Type_):
         return (
             WriteAccessAllowed(
                 client=client,
+                json=d,
                 from_request=d.get("from_request"),
                 web_app_name=d.get("web_app_name"),
                 from_attachment_menu=d.get("from_attachment_menu"),
@@ -2478,8 +2632,10 @@ class WriteAccessAllowed(Type_):
 
 
 class VideoChatScheduled(Type_):
-    def __init__(self, start_date: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, start_date: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.start_date = start_date
 
     @staticmethod
@@ -2489,6 +2645,7 @@ class VideoChatScheduled(Type_):
         return (
             VideoChatScheduled(
                 client=client,
+                json=d,
                 start_date=d.get("start_date"),
             )
             if d
@@ -2497,8 +2654,10 @@ class VideoChatScheduled(Type_):
 
 
 class VideoChatStarted(Type_):
-    def __init__(self, duration: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, duration: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.duration = duration
 
     @staticmethod
@@ -2508,6 +2667,7 @@ class VideoChatStarted(Type_):
         return (
             VideoChatStarted(
                 client=client,
+                json=d,
                 duration=d.get("duration"),
             )
             if d
@@ -2516,8 +2676,10 @@ class VideoChatStarted(Type_):
 
 
 class VideoChatEnded(Type_):
-    def __init__(self, duration: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, duration: "int", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.duration = duration
 
     @staticmethod
@@ -2525,6 +2687,7 @@ class VideoChatEnded(Type_):
         return (
             VideoChatEnded(
                 client=client,
+                json=d,
                 duration=d.get("duration"),
             )
             if d
@@ -2533,8 +2696,10 @@ class VideoChatEnded(Type_):
 
 
 class VideoChatParticipantsInvited(Type_):
-    def __init__(self, users: List["User"], client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, users: List["User"], client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.users = users
 
     @staticmethod
@@ -2544,6 +2709,7 @@ class VideoChatParticipantsInvited(Type_):
         return (
             VideoChatParticipantsInvited(
                 client=client,
+                json=d,
                 users=[User._parse(i) for i in d.get("users")]
                 if d.get("users", None)
                 else None,
@@ -2565,8 +2731,9 @@ class GiveawayCreated(Type_):
         country_codes: List["str"] = None,
         premium_subscription_month_count: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chats = chats
         self.winners_selection_date = winners_selection_date
         self.winner_count = winner_count
@@ -2583,6 +2750,7 @@ class GiveawayCreated(Type_):
         return (
             GiveawayCreated(
                 client=client,
+                json=d,
                 chats=[Chat._parse(i) for i in d.get("chats")]
                 if d.get("chats", None)
                 else None,
@@ -2591,9 +2759,7 @@ class GiveawayCreated(Type_):
                 only_new_members=d.get("only_new_members"),
                 has_public_winners=d.get("has_public_winners"),
                 prize_description=d.get("prize_description"),
-                country_codes=[str._parse(i) for i in d.get("country_codes")]
-                if d.get("country_codes", None)
-                else None,
+                country_codes=d.get("country_codes"),
                 premium_subscription_month_count=d.get(
                     "premium_subscription_month_count"
                 ),
@@ -2615,8 +2781,9 @@ class Giveaway(Type_):
         country_codes: List["str"] = None,
         premium_subscription_month_count: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chats = chats
         self.winners_selection_date = winners_selection_date
         self.winner_count = winner_count
@@ -2631,6 +2798,7 @@ class Giveaway(Type_):
         return (
             Giveaway(
                 client=client,
+                json=d,
                 chats=[Chat._parse(i) for i in d.get("chats")]
                 if d.get("chats", None)
                 else None,
@@ -2639,9 +2807,7 @@ class Giveaway(Type_):
                 only_new_members=d.get("only_new_members"),
                 has_public_winners=d.get("has_public_winners"),
                 prize_description=d.get("prize_description"),
-                country_codes=[str._parse(i) for i in d.get("country_codes")]
-                if d.get("country_codes", None)
-                else None,
+                country_codes=d.get("country_codes"),
                 premium_subscription_month_count=d.get(
                     "premium_subscription_month_count"
                 ),
@@ -2666,8 +2832,9 @@ class GiveawayWinners(Type_):
         was_refunded: "bool" = None,
         prize_description: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.giveaway_message_id = giveaway_message_id
         self.winners_selection_date = winners_selection_date
@@ -2687,6 +2854,7 @@ class GiveawayWinners(Type_):
         return (
             GiveawayWinners(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 giveaway_message_id=d.get("giveaway_message_id"),
                 winners_selection_date=d.get("winners_selection_date"),
@@ -2715,8 +2883,9 @@ class GiveawayCompleted(Type_):
         unclaimed_prize_count: "int" = None,
         giveaway_message: "Message" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.winner_count = winner_count
         self.unclaimed_prize_count = unclaimed_prize_count
         self.giveaway_message = giveaway_message
@@ -2728,6 +2897,7 @@ class GiveawayCompleted(Type_):
         return (
             GiveawayCompleted(
                 client=client,
+                json=d,
                 winner_count=d.get("winner_count"),
                 unclaimed_prize_count=d.get("unclaimed_prize_count"),
                 giveaway_message=Message._parse(d.get("giveaway_message")),
@@ -2746,8 +2916,9 @@ class LinkPreviewOptions(Type_):
         prefer_large_media: "bool" = None,
         show_above_text: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.is_disabled = is_disabled
         self.url = url
         self.prefer_small_media = prefer_small_media
@@ -2761,6 +2932,7 @@ class LinkPreviewOptions(Type_):
         return (
             LinkPreviewOptions(
                 client=client,
+                json=d,
                 is_disabled=d.get("is_disabled"),
                 url=d.get("url"),
                 prefer_small_media=d.get("prefer_small_media"),
@@ -2778,8 +2950,9 @@ class UserProfilePhotos(Type_):
         total_count: "int",
         photos: List[List["PhotoSize"]],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.total_count = total_count
         self.photos = photos
 
@@ -2790,6 +2963,7 @@ class UserProfilePhotos(Type_):
         return (
             UserProfilePhotos(
                 client=client,
+                json=d,
                 total_count=d.get("total_count"),
                 photos=[PhotoSize._parse(i) for i in d.get("photos")]
                 if d.get("photos", None)
@@ -2808,8 +2982,9 @@ class File(Type_):
         file_size: "int" = None,
         file_path: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.file_size = file_size
@@ -2820,6 +2995,7 @@ class File(Type_):
         return (
             File(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 file_size=d.get("file_size"),
@@ -2831,8 +3007,8 @@ class File(Type_):
 
 
 class WebAppInfo(Type_):
-    def __init__(self, url: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, url: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.url = url
 
     @staticmethod
@@ -2840,6 +3016,7 @@ class WebAppInfo(Type_):
         return (
             WebAppInfo(
                 client=client,
+                json=d,
                 url=d.get("url"),
             )
             if d
@@ -2857,8 +3034,9 @@ class ReplyKeyboardMarkup(Type_):
         input_field_placeholder: "str" = None,
         selective: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.keyboard = keyboard
         self.is_persistent = is_persistent
         self.resize_keyboard = resize_keyboard
@@ -2873,6 +3051,7 @@ class ReplyKeyboardMarkup(Type_):
         return (
             ReplyKeyboardMarkup(
                 client=client,
+                json=d,
                 keyboard=[KeyboardButton._parse(i) for i in d.get("keyboard")]
                 if d.get("keyboard", None)
                 else None,
@@ -2898,8 +3077,9 @@ class KeyboardButton(Type_):
         request_poll: "KeyboardButtonPollType" = None,
         web_app: "WebAppInfo" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.request_users = request_users
         self.request_chat = request_chat
@@ -2913,6 +3093,7 @@ class KeyboardButton(Type_):
         return (
             KeyboardButton(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 request_users=KeyboardButtonRequestUsers._parse(d.get("request_users")),
                 request_chat=KeyboardButtonRequestChat._parse(d.get("request_chat")),
@@ -2937,8 +3118,9 @@ class KeyboardButtonRequestUsers(Type_):
         request_username: "bool" = None,
         request_photo: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.request_id = request_id
         self.user_is_bot = user_is_bot
         self.user_is_premium = user_is_premium
@@ -2954,6 +3136,7 @@ class KeyboardButtonRequestUsers(Type_):
         return (
             KeyboardButtonRequestUsers(
                 client=client,
+                json=d,
                 request_id=d.get("request_id"),
                 user_is_bot=d.get("user_is_bot"),
                 user_is_premium=d.get("user_is_premium"),
@@ -2982,8 +3165,9 @@ class KeyboardButtonRequestChat(Type_):
         request_username: "bool" = None,
         request_photo: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.request_id = request_id
         self.chat_is_channel = chat_is_channel
         self.chat_is_forum = chat_is_forum
@@ -3003,6 +3187,7 @@ class KeyboardButtonRequestChat(Type_):
         return (
             KeyboardButtonRequestChat(
                 client=client,
+                json=d,
                 request_id=d.get("request_id"),
                 chat_is_channel=d.get("chat_is_channel"),
                 chat_is_forum=d.get("chat_is_forum"),
@@ -3025,8 +3210,10 @@ class KeyboardButtonRequestChat(Type_):
 
 
 class KeyboardButtonPollType(Type_):
-    def __init__(self, type: "str" = None, client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, type: "str" = None, client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -3036,6 +3223,7 @@ class KeyboardButtonPollType(Type_):
         return (
             KeyboardButtonPollType(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -3049,8 +3237,9 @@ class ReplyKeyboardRemove(Type_):
         remove_keyboard: "bool",
         selective: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.remove_keyboard = remove_keyboard
         self.selective = selective
 
@@ -3061,6 +3250,7 @@ class ReplyKeyboardRemove(Type_):
         return (
             ReplyKeyboardRemove(
                 client=client,
+                json=d,
                 remove_keyboard=d.get("remove_keyboard"),
                 selective=d.get("selective"),
             )
@@ -3074,8 +3264,9 @@ class InlineKeyboardMarkup(Type_):
         self,
         inline_keyboard: List[List["InlineKeyboardButton"]],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.inline_keyboard = inline_keyboard
 
     @staticmethod
@@ -3085,6 +3276,7 @@ class InlineKeyboardMarkup(Type_):
         return (
             InlineKeyboardMarkup(
                 client=client,
+                json=d,
                 inline_keyboard=[
                     InlineKeyboardButton._parse(i) for i in d.get("inline_keyboard")
                 ]
@@ -3110,8 +3302,9 @@ class InlineKeyboardButton(Type_):
         callback_game: "CallbackGame" = None,
         pay: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.url = url
         self.callback_data = callback_data
@@ -3130,6 +3323,7 @@ class InlineKeyboardButton(Type_):
         return (
             InlineKeyboardButton(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 url=d.get("url"),
                 callback_data=d.get("callback_data"),
@@ -3158,8 +3352,9 @@ class LoginUrl(Type_):
         bot_username: "str" = None,
         request_write_access: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.url = url
         self.forward_text = forward_text
         self.bot_username = bot_username
@@ -3170,6 +3365,7 @@ class LoginUrl(Type_):
         return (
             LoginUrl(
                 client=client,
+                json=d,
                 url=d.get("url"),
                 forward_text=d.get("forward_text"),
                 bot_username=d.get("bot_username"),
@@ -3189,8 +3385,9 @@ class SwitchInlineQueryChosenChat(Type_):
         allow_group_chats: "bool" = None,
         allow_channel_chats: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.query = query
         self.allow_user_chats = allow_user_chats
         self.allow_bot_chats = allow_bot_chats
@@ -3204,6 +3401,7 @@ class SwitchInlineQueryChosenChat(Type_):
         return (
             SwitchInlineQueryChosenChat(
                 client=client,
+                json=d,
                 query=d.get("query"),
                 allow_user_chats=d.get("allow_user_chats"),
                 allow_bot_chats=d.get("allow_bot_chats"),
@@ -3226,8 +3424,9 @@ class CallbackQuery(Type_):
         data: "str" = None,
         game_short_name: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.from_user = from_user
         self.message = message
@@ -3241,6 +3440,7 @@ class CallbackQuery(Type_):
         return (
             CallbackQuery(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 from_user=User._parse(d.get("from")),
                 chat_instance=d.get("chat_instance"),
@@ -3261,8 +3461,9 @@ class ForceReply(Type_):
         input_field_placeholder: "str" = None,
         selective: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.force_reply = force_reply
         self.input_field_placeholder = input_field_placeholder
         self.selective = selective
@@ -3272,6 +3473,7 @@ class ForceReply(Type_):
         return (
             ForceReply(
                 client=client,
+                json=d,
                 force_reply=d.get("force_reply"),
                 input_field_placeholder=d.get("input_field_placeholder"),
                 selective=d.get("selective"),
@@ -3289,8 +3491,9 @@ class ChatPhoto(Type_):
         big_file_id: "str",
         big_file_unique_id: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.small_file_id = small_file_id
         self.small_file_unique_id = small_file_unique_id
         self.big_file_id = big_file_id
@@ -3301,6 +3504,7 @@ class ChatPhoto(Type_):
         return (
             ChatPhoto(
                 client=client,
+                json=d,
                 small_file_id=d.get("small_file_id"),
                 small_file_unique_id=d.get("small_file_unique_id"),
                 big_file_id=d.get("big_file_id"),
@@ -3324,8 +3528,9 @@ class ChatInviteLink(Type_):
         member_limit: "int" = None,
         pending_join_request_count: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.invite_link = invite_link
         self.creator = creator
         self.creates_join_request = creates_join_request
@@ -3341,6 +3546,7 @@ class ChatInviteLink(Type_):
         return (
             ChatInviteLink(
                 client=client,
+                json=d,
                 invite_link=d.get("invite_link"),
                 creator=User._parse(d.get("creator")),
                 creates_join_request=d.get("creates_join_request"),
@@ -3375,8 +3581,9 @@ class ChatAdministratorRights(Type_):
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.is_anonymous = is_anonymous
         self.can_manage_chat = can_manage_chat
         self.can_delete_messages = can_delete_messages
@@ -3400,6 +3607,7 @@ class ChatAdministratorRights(Type_):
         return (
             ChatAdministratorRights(
                 client=client,
+                json=d,
                 is_anonymous=d.get("is_anonymous"),
                 can_manage_chat=d.get("can_manage_chat"),
                 can_delete_messages=d.get("can_delete_messages"),
@@ -3433,8 +3641,9 @@ class ChatMemberUpdated(Type_):
         via_join_request: "bool" = None,
         via_chat_folder_invite_link: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.from_user = from_user
         self.date = date
@@ -3451,6 +3660,7 @@ class ChatMemberUpdated(Type_):
         return (
             ChatMemberUpdated(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 from_user=User._parse(d.get("from")),
                 date=d.get("date"),
@@ -3473,8 +3683,9 @@ class ChatMember(Type_):
         is_anonymous: "bool",
         custom_title: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
         self.is_anonymous = is_anonymous
@@ -3485,6 +3696,7 @@ class ChatMember(Type_):
         return (
             ChatMember(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
@@ -3503,8 +3715,9 @@ class ChatMemberOwner(Type_):
         is_anonymous: "bool",
         custom_title: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
         self.is_anonymous = is_anonymous
@@ -3517,6 +3730,7 @@ class ChatMemberOwner(Type_):
         return (
             ChatMemberOwner(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
@@ -3550,8 +3764,9 @@ class ChatMemberAdministrator(Type_):
         can_manage_topics: "bool" = None,
         custom_title: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
         self.can_be_edited = can_be_edited
@@ -3579,6 +3794,7 @@ class ChatMemberAdministrator(Type_):
         return (
             ChatMemberAdministrator(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
                 can_be_edited=d.get("can_be_edited"),
@@ -3605,8 +3821,14 @@ class ChatMemberAdministrator(Type_):
 
 
 class ChatMemberMember(Type_):
-    def __init__(self, status: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        status: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
 
@@ -3617,6 +3839,7 @@ class ChatMemberMember(Type_):
         return (
             ChatMemberMember(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
             )
@@ -3647,8 +3870,9 @@ class ChatMemberRestricted(Type_):
         can_manage_topics: "bool",
         until_date: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
         self.is_member = is_member
@@ -3675,6 +3899,7 @@ class ChatMemberRestricted(Type_):
         return (
             ChatMemberRestricted(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
                 is_member=d.get("is_member"),
@@ -3700,8 +3925,14 @@ class ChatMemberRestricted(Type_):
 
 
 class ChatMemberLeft(Type_):
-    def __init__(self, status: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        status: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
 
@@ -3710,6 +3941,7 @@ class ChatMemberLeft(Type_):
         return (
             ChatMemberLeft(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
             )
@@ -3725,8 +3957,9 @@ class ChatMemberBanned(Type_):
         user: "User",
         until_date: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.status = status
         self.user = user
         self.until_date = until_date
@@ -3738,6 +3971,7 @@ class ChatMemberBanned(Type_):
         return (
             ChatMemberBanned(
                 client=client,
+                json=d,
                 status=d.get("status"),
                 user=User._parse(d.get("user")),
                 until_date=d.get("until_date"),
@@ -3757,8 +3991,9 @@ class ChatJoinRequest(Type_):
         bio: "str" = None,
         invite_link: "ChatInviteLink" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.from_user = from_user
         self.user_chat_id = user_chat_id
@@ -3773,6 +4008,7 @@ class ChatJoinRequest(Type_):
         return (
             ChatJoinRequest(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 from_user=User._parse(d.get("from")),
                 user_chat_id=d.get("user_chat_id"),
@@ -3803,8 +4039,9 @@ class ChatPermissions(Type_):
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.can_send_messages = can_send_messages
         self.can_send_audios = can_send_audios
         self.can_send_documents = can_send_documents
@@ -3827,6 +4064,7 @@ class ChatPermissions(Type_):
         return (
             ChatPermissions(
                 client=client,
+                json=d,
                 can_send_messages=d.get("can_send_messages"),
                 can_send_audios=d.get("can_send_audios"),
                 can_send_documents=d.get("can_send_documents"),
@@ -3849,9 +4087,14 @@ class ChatPermissions(Type_):
 
 class Birthdate(Type_):
     def __init__(
-        self, day: "int", month: "int", year: "int" = None, client: "tgram.TgBot" = None
+        self,
+        day: "int",
+        month: "int",
+        year: "int" = None,
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.day = day
         self.month = month
         self.year = year
@@ -3861,6 +4104,7 @@ class Birthdate(Type_):
         return (
             Birthdate(
                 client=client,
+                json=d,
                 day=d.get("day"),
                 month=d.get("month"),
                 year=d.get("year"),
@@ -3877,8 +4121,9 @@ class BusinessIntro(Type_):
         message: "str" = None,
         sticker: "Sticker" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.title = title
         self.message = message
         self.sticker = sticker
@@ -3888,6 +4133,7 @@ class BusinessIntro(Type_):
         return (
             BusinessIntro(
                 client=client,
+                json=d,
                 title=d.get("title"),
                 message=d.get("message"),
                 sticker=Sticker._parse(d.get("sticker")),
@@ -3899,9 +4145,13 @@ class BusinessIntro(Type_):
 
 class BusinessLocation(Type_):
     def __init__(
-        self, address: "str", location: "Location" = None, client: "tgram.TgBot" = None
+        self,
+        address: "str",
+        location: "Location" = None,
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.address = address
         self.location = location
 
@@ -3912,6 +4162,7 @@ class BusinessLocation(Type_):
         return (
             BusinessLocation(
                 client=client,
+                json=d,
                 address=d.get("address"),
                 location=Location._parse(d.get("location")),
             )
@@ -3922,9 +4173,13 @@ class BusinessLocation(Type_):
 
 class BusinessOpeningHoursInterval(Type_):
     def __init__(
-        self, opening_minute: "int", closing_minute: "int", client: "tgram.TgBot" = None
+        self,
+        opening_minute: "int",
+        closing_minute: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.opening_minute = opening_minute
         self.closing_minute = closing_minute
 
@@ -3935,6 +4190,7 @@ class BusinessOpeningHoursInterval(Type_):
         return (
             BusinessOpeningHoursInterval(
                 client=client,
+                json=d,
                 opening_minute=d.get("opening_minute"),
                 closing_minute=d.get("closing_minute"),
             )
@@ -3949,8 +4205,9 @@ class BusinessOpeningHours(Type_):
         time_zone_name: "str",
         opening_hours: List["BusinessOpeningHoursInterval"],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.time_zone_name = time_zone_name
         self.opening_hours = opening_hours
 
@@ -3961,6 +4218,7 @@ class BusinessOpeningHours(Type_):
         return (
             BusinessOpeningHours(
                 client=client,
+                json=d,
                 time_zone_name=d.get("time_zone_name"),
                 opening_hours=[
                     BusinessOpeningHoursInterval._parse(i)
@@ -3976,9 +4234,13 @@ class BusinessOpeningHours(Type_):
 
 class ChatLocation(Type_):
     def __init__(
-        self, location: "Location", address: "str", client: "tgram.TgBot" = None
+        self,
+        location: "Location",
+        address: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.location = location
         self.address = address
 
@@ -3987,6 +4249,7 @@ class ChatLocation(Type_):
         return (
             ChatLocation(
                 client=client,
+                json=d,
                 location=Location._parse(d.get("location")),
                 address=d.get("address"),
             )
@@ -3996,8 +4259,14 @@ class ChatLocation(Type_):
 
 
 class ReactionType(Type_):
-    def __init__(self, type: "str", emoji: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        emoji: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.emoji = emoji
 
@@ -4006,6 +4275,7 @@ class ReactionType(Type_):
         return (
             ReactionType(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 emoji=d.get("emoji"),
             )
@@ -4015,8 +4285,14 @@ class ReactionType(Type_):
 
 
 class ReactionTypeEmoji(Type_):
-    def __init__(self, type: "str", emoji: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        emoji: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.emoji = emoji
 
@@ -4027,6 +4303,7 @@ class ReactionTypeEmoji(Type_):
         return (
             ReactionTypeEmoji(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 emoji=d.get("emoji"),
             )
@@ -4037,9 +4314,13 @@ class ReactionTypeEmoji(Type_):
 
 class ReactionTypeCustomEmoji(Type_):
     def __init__(
-        self, type: "str", custom_emoji_id: "str", client: "tgram.TgBot" = None
+        self,
+        type: "str",
+        custom_emoji_id: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.custom_emoji_id = custom_emoji_id
 
@@ -4050,6 +4331,7 @@ class ReactionTypeCustomEmoji(Type_):
         return (
             ReactionTypeCustomEmoji(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
@@ -4060,9 +4342,13 @@ class ReactionTypeCustomEmoji(Type_):
 
 class ReactionCount(Type_):
     def __init__(
-        self, type: "ReactionType", total_count: "int", client: "tgram.TgBot" = None
+        self,
+        type: "ReactionType",
+        total_count: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.total_count = total_count
 
@@ -4071,6 +4357,7 @@ class ReactionCount(Type_):
         return (
             ReactionCount(
                 client=client,
+                json=d,
                 type=ReactionType._parse(d.get("type")),
                 total_count=d.get("total_count"),
             )
@@ -4090,8 +4377,9 @@ class MessageReactionUpdated(Type_):
         user: "User" = None,
         actor_chat: "Chat" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.message_id = message_id
         self.user = user
@@ -4107,6 +4395,7 @@ class MessageReactionUpdated(Type_):
         return (
             MessageReactionUpdated(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
@@ -4132,8 +4421,9 @@ class MessageReactionCountUpdated(Type_):
         date: "int",
         reactions: List["ReactionCount"],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.message_id = message_id
         self.date = date
@@ -4146,6 +4436,7 @@ class MessageReactionCountUpdated(Type_):
         return (
             MessageReactionCountUpdated(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
@@ -4166,8 +4457,9 @@ class ForumTopic(Type_):
         icon_color: "int",
         icon_custom_emoji_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.message_thread_id = message_thread_id
         self.name = name
         self.icon_color = icon_color
@@ -4178,6 +4470,7 @@ class ForumTopic(Type_):
         return (
             ForumTopic(
                 client=client,
+                json=d,
                 message_thread_id=d.get("message_thread_id"),
                 name=d.get("name"),
                 icon_color=d.get("icon_color"),
@@ -4190,9 +4483,13 @@ class ForumTopic(Type_):
 
 class BotCommand(Type_):
     def __init__(
-        self, command: "str", description: "str", client: "tgram.TgBot" = None
+        self,
+        command: "str",
+        description: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.command = command
         self.description = description
 
@@ -4201,6 +4498,7 @@ class BotCommand(Type_):
         return (
             BotCommand(
                 client=client,
+                json=d,
                 command=d.get("command"),
                 description=d.get("description"),
             )
@@ -4210,8 +4508,8 @@ class BotCommand(Type_):
 
 
 class BotCommandScope(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4221,6 +4519,7 @@ class BotCommandScope(Type_):
         return (
             BotCommandScope(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4229,8 +4528,8 @@ class BotCommandScope(Type_):
 
 
 class BotCommandScopeDefault(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4240,6 +4539,7 @@ class BotCommandScopeDefault(Type_):
         return (
             BotCommandScopeDefault(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4248,8 +4548,8 @@ class BotCommandScopeDefault(Type_):
 
 
 class BotCommandScopeAllPrivateChats(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4259,6 +4559,7 @@ class BotCommandScopeAllPrivateChats(Type_):
         return (
             BotCommandScopeAllPrivateChats(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4267,8 +4568,8 @@ class BotCommandScopeAllPrivateChats(Type_):
 
 
 class BotCommandScopeAllGroupChats(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4278,6 +4579,7 @@ class BotCommandScopeAllGroupChats(Type_):
         return (
             BotCommandScopeAllGroupChats(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4286,8 +4588,8 @@ class BotCommandScopeAllGroupChats(Type_):
 
 
 class BotCommandScopeAllChatAdministrators(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4297,6 +4599,7 @@ class BotCommandScopeAllChatAdministrators(Type_):
         return (
             BotCommandScopeAllChatAdministrators(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4306,9 +4609,13 @@ class BotCommandScopeAllChatAdministrators(Type_):
 
 class BotCommandScopeChat(Type_):
     def __init__(
-        self, type: "str", chat_id: Union["int", "str"], client: "tgram.TgBot" = None
+        self,
+        type: "str",
+        chat_id: Union["int", "str"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.chat_id = chat_id
 
@@ -4319,6 +4626,7 @@ class BotCommandScopeChat(Type_):
         return (
             BotCommandScopeChat(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
             )
@@ -4329,9 +4637,13 @@ class BotCommandScopeChat(Type_):
 
 class BotCommandScopeChatAdministrators(Type_):
     def __init__(
-        self, type: "str", chat_id: Union["int", "str"], client: "tgram.TgBot" = None
+        self,
+        type: "str",
+        chat_id: Union["int", "str"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.chat_id = chat_id
 
@@ -4342,6 +4654,7 @@ class BotCommandScopeChatAdministrators(Type_):
         return (
             BotCommandScopeChatAdministrators(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
             )
@@ -4357,8 +4670,9 @@ class BotCommandScopeChatMember(Type_):
         chat_id: Union["int", "str"],
         user_id: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.chat_id = chat_id
         self.user_id = user_id
@@ -4370,6 +4684,7 @@ class BotCommandScopeChatMember(Type_):
         return (
             BotCommandScopeChatMember(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
                 user_id=d.get("user_id"),
@@ -4380,8 +4695,8 @@ class BotCommandScopeChatMember(Type_):
 
 
 class BotName(Type_):
-    def __init__(self, name: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, name: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.name = name
 
     @staticmethod
@@ -4389,6 +4704,7 @@ class BotName(Type_):
         return (
             BotName(
                 client=client,
+                json=d,
                 name=d.get("name"),
             )
             if d
@@ -4397,8 +4713,10 @@ class BotName(Type_):
 
 
 class BotDescription(Type_):
-    def __init__(self, description: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self, description: "str", client: "tgram.TgBot" = None, json: "dict" = None
+    ):
+        super().__init__(client=client, json=json)
         self.description = description
 
     @staticmethod
@@ -4406,6 +4724,7 @@ class BotDescription(Type_):
         return (
             BotDescription(
                 client=client,
+                json=d,
                 description=d.get("description"),
             )
             if d
@@ -4414,8 +4733,13 @@ class BotDescription(Type_):
 
 
 class BotShortDescription(Type_):
-    def __init__(self, short_description: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        short_description: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.short_description = short_description
 
     @staticmethod
@@ -4425,6 +4749,7 @@ class BotShortDescription(Type_):
         return (
             BotShortDescription(
                 client=client,
+                json=d,
                 short_description=d.get("short_description"),
             )
             if d
@@ -4433,8 +4758,8 @@ class BotShortDescription(Type_):
 
 
 class MenuButton(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4442,6 +4767,7 @@ class MenuButton(Type_):
         return (
             MenuButton(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4450,8 +4776,8 @@ class MenuButton(Type_):
 
 
 class MenuButtonCommands(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4461,6 +4787,7 @@ class MenuButtonCommands(Type_):
         return (
             MenuButtonCommands(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4475,8 +4802,9 @@ class MenuButtonWebApp(Type_):
         text: "str",
         web_app: "WebAppInfo",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.text = text
         self.web_app = web_app
@@ -4488,6 +4816,7 @@ class MenuButtonWebApp(Type_):
         return (
             MenuButtonWebApp(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 text=d.get("text"),
                 web_app=WebAppInfo._parse(d.get("web_app")),
@@ -4498,8 +4827,8 @@ class MenuButtonWebApp(Type_):
 
 
 class MenuButtonDefault(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -4509,6 +4838,7 @@ class MenuButtonDefault(Type_):
         return (
             MenuButtonDefault(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -4517,8 +4847,14 @@ class MenuButtonDefault(Type_):
 
 
 class ChatBoostSource(Type_):
-    def __init__(self, source: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        source: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.source = source
         self.user = user
 
@@ -4529,6 +4865,7 @@ class ChatBoostSource(Type_):
         return (
             ChatBoostSource(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 user=User._parse(d.get("user")),
             )
@@ -4538,8 +4875,14 @@ class ChatBoostSource(Type_):
 
 
 class ChatBoostSourcePremium(Type_):
-    def __init__(self, source: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        source: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.source = source
         self.user = user
 
@@ -4550,6 +4893,7 @@ class ChatBoostSourcePremium(Type_):
         return (
             ChatBoostSourcePremium(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 user=User._parse(d.get("user")),
             )
@@ -4559,8 +4903,14 @@ class ChatBoostSourcePremium(Type_):
 
 
 class ChatBoostSourceGiftCode(Type_):
-    def __init__(self, source: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        source: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.source = source
         self.user = user
 
@@ -4571,6 +4921,7 @@ class ChatBoostSourceGiftCode(Type_):
         return (
             ChatBoostSourceGiftCode(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 user=User._parse(d.get("user")),
             )
@@ -4587,8 +4938,9 @@ class ChatBoostSourceGiveaway(Type_):
         user: "User" = None,
         is_unclaimed: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.giveaway_message_id = giveaway_message_id
         self.user = user
@@ -4601,6 +4953,7 @@ class ChatBoostSourceGiveaway(Type_):
         return (
             ChatBoostSourceGiveaway(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 giveaway_message_id=d.get("giveaway_message_id"),
                 user=User._parse(d.get("user")),
@@ -4619,8 +4972,9 @@ class ChatBoost(Type_):
         expiration_date: "int",
         source: "ChatBoostSource",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.boost_id = boost_id
         self.add_date = add_date
         self.expiration_date = expiration_date
@@ -4631,6 +4985,7 @@ class ChatBoost(Type_):
         return (
             ChatBoost(
                 client=client,
+                json=d,
                 boost_id=d.get("boost_id"),
                 add_date=d.get("add_date"),
                 expiration_date=d.get("expiration_date"),
@@ -4642,8 +4997,14 @@ class ChatBoost(Type_):
 
 
 class ChatBoostUpdated(Type_):
-    def __init__(self, chat: "Chat", boost: "ChatBoost", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        chat: "Chat",
+        boost: "ChatBoost",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.boost = boost
 
@@ -4654,6 +5015,7 @@ class ChatBoostUpdated(Type_):
         return (
             ChatBoostUpdated(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 boost=ChatBoost._parse(d.get("boost")),
             )
@@ -4670,8 +5032,9 @@ class ChatBoostRemoved(Type_):
         remove_date: "int",
         source: "ChatBoostSource",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.chat = chat
         self.boost_id = boost_id
         self.remove_date = remove_date
@@ -4684,6 +5047,7 @@ class ChatBoostRemoved(Type_):
         return (
             ChatBoostRemoved(
                 client=client,
+                json=d,
                 chat=Chat._parse(d.get("chat")),
                 boost_id=d.get("boost_id"),
                 remove_date=d.get("remove_date"),
@@ -4695,8 +5059,13 @@ class ChatBoostRemoved(Type_):
 
 
 class UserChatBoosts(Type_):
-    def __init__(self, boosts: List["ChatBoost"], client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        boosts: List["ChatBoost"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.boosts = boosts
 
     @staticmethod
@@ -4704,6 +5073,7 @@ class UserChatBoosts(Type_):
         return (
             UserChatBoosts(
                 client=client,
+                json=d,
                 boosts=[ChatBoost._parse(i) for i in d.get("boosts")]
                 if d.get("boosts", None)
                 else None,
@@ -4723,8 +5093,9 @@ class BusinessConnection(Type_):
         can_reply: "bool",
         is_enabled: "bool",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.user = user
         self.user_chat_id = user_chat_id
@@ -4739,6 +5110,7 @@ class BusinessConnection(Type_):
         return (
             BusinessConnection(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 user=User._parse(d.get("user")),
                 user_chat_id=d.get("user_chat_id"),
@@ -4758,8 +5130,9 @@ class BusinessMessagesDeleted(Type_):
         chat: "Chat",
         message_ids: List["int"],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.business_connection_id = business_connection_id
         self.chat = chat
         self.message_ids = message_ids
@@ -4771,11 +5144,10 @@ class BusinessMessagesDeleted(Type_):
         return (
             BusinessMessagesDeleted(
                 client=client,
+                json=d,
                 business_connection_id=d.get("business_connection_id"),
                 chat=Chat._parse(d.get("chat")),
-                message_ids=[int._parse(i) for i in d.get("message_ids")]
-                if d.get("message_ids", None)
-                else None,
+                message_ids=d.get("message_ids"),
             )
             if d
             else None
@@ -4788,8 +5160,9 @@ class ResponseParameters(Type_):
         migrate_to_chat_id: "int" = None,
         retry_after: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.migrate_to_chat_id = migrate_to_chat_id
         self.retry_after = retry_after
 
@@ -4800,6 +5173,7 @@ class ResponseParameters(Type_):
         return (
             ResponseParameters(
                 client=client,
+                json=d,
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 retry_after=d.get("retry_after"),
             )
@@ -4819,8 +5193,9 @@ class InputMedia(Type_):
         show_caption_above_media: "bool" = None,
         has_spoiler: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.caption = caption
@@ -4834,6 +5209,7 @@ class InputMedia(Type_):
         return (
             InputMedia(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 caption=d.get("caption"),
@@ -4862,8 +5238,9 @@ class InputMediaPhoto(Type_):
         show_caption_above_media: "bool" = None,
         has_spoiler: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.caption = caption
@@ -4879,6 +5256,7 @@ class InputMediaPhoto(Type_):
         return (
             InputMediaPhoto(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 caption=d.get("caption"),
@@ -4912,8 +5290,9 @@ class InputMediaVideo(Type_):
         supports_streaming: "bool" = None,
         has_spoiler: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -4934,6 +5313,7 @@ class InputMediaVideo(Type_):
         return (
             InputMediaVideo(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
@@ -4971,8 +5351,9 @@ class InputMediaAnimation(Type_):
         duration: "int" = None,
         has_spoiler: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -4992,6 +5373,7 @@ class InputMediaAnimation(Type_):
         return (
             InputMediaAnimation(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
@@ -5026,8 +5408,9 @@ class InputMediaAudio(Type_):
         performer: "str" = None,
         title: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5045,6 +5428,7 @@ class InputMediaAudio(Type_):
         return (
             InputMediaAudio(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
@@ -5075,8 +5459,9 @@ class InputMediaDocument(Type_):
         caption_entities: List["MessageEntity"] = None,
         disable_content_type_detection: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5092,6 +5477,7 @@ class InputMediaDocument(Type_):
         return (
             InputMediaDocument(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
@@ -5130,8 +5516,9 @@ class InputFile(Type_):
             "ForceReply",
         ] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.business_connection_id = business_connection_id
         self.chat_id = chat_id
         self.message_thread_id = message_thread_id
@@ -5150,6 +5537,7 @@ class InputFile(Type_):
         return (
             InputFile(
                 client=client,
+                json=d,
                 chat_id=d.get("chat_id"),
                 text=d.get("text"),
                 business_connection_id=d.get("business_connection_id"),
@@ -5191,8 +5579,9 @@ class Sticker(Type_):
         needs_repainting: "bool" = None,
         file_size: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.type = type
@@ -5214,6 +5603,7 @@ class Sticker(Type_):
         return (
             Sticker(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 type=d.get("type"),
@@ -5244,8 +5634,9 @@ class StickerSet(Type_):
         stickers: List["Sticker"],
         thumbnail: "PhotoSize" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.name = name
         self.title = title
         self.sticker_type = sticker_type
@@ -5257,6 +5648,7 @@ class StickerSet(Type_):
         return (
             StickerSet(
                 client=client,
+                json=d,
                 name=d.get("name"),
                 title=d.get("title"),
                 sticker_type=d.get("sticker_type"),
@@ -5278,8 +5670,9 @@ class MaskPosition(Type_):
         y_shift: "float",
         scale: "float",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.point = point
         self.x_shift = x_shift
         self.y_shift = y_shift
@@ -5290,6 +5683,7 @@ class MaskPosition(Type_):
         return (
             MaskPosition(
                 client=client,
+                json=d,
                 point=d.get("point"),
                 x_shift=d.get("x_shift"),
                 y_shift=d.get("y_shift"),
@@ -5309,8 +5703,9 @@ class InputSticker(Type_):
         mask_position: "MaskPosition" = None,
         keywords: List["str"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.sticker = sticker
         self.format = format
         self.emoji_list = emoji_list
@@ -5322,15 +5717,12 @@ class InputSticker(Type_):
         return (
             InputSticker(
                 client=client,
+                json=d,
                 sticker=d.get("sticker"),
                 format=d.get("format"),
-                emoji_list=[str._parse(i) for i in d.get("emoji_list")]
-                if d.get("emoji_list", None)
-                else None,
+                emoji_list=d.get("emoji_list"),
                 mask_position=MaskPosition._parse(d.get("mask_position")),
-                keywords=[str._parse(i) for i in d.get("keywords")]
-                if d.get("keywords", None)
-                else None,
+                keywords=d.get("keywords"),
             )
             if d
             else None
@@ -5347,8 +5739,9 @@ class InlineQuery(Type_):
         chat_type: "str" = None,
         location: "Location" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.from_user = from_user
         self.query = query
@@ -5361,6 +5754,7 @@ class InlineQuery(Type_):
         return (
             InlineQuery(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 from_user=User._parse(d.get("from")),
                 query=d.get("query"),
@@ -5380,8 +5774,9 @@ class InlineQueryResultsButton(Type_):
         web_app: "WebAppInfo" = None,
         start_parameter: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.text = text
         self.web_app = web_app
         self.start_parameter = start_parameter
@@ -5393,6 +5788,7 @@ class InlineQueryResultsButton(Type_):
         return (
             InlineQueryResultsButton(
                 client=client,
+                json=d,
                 text=d.get("text"),
                 web_app=WebAppInfo._parse(d.get("web_app")),
                 start_parameter=d.get("start_parameter"),
@@ -5417,8 +5813,9 @@ class InlineQueryResult(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -5438,6 +5835,7 @@ class InlineQueryResult(Type_):
         return (
             InlineQueryResult(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
@@ -5472,8 +5870,9 @@ class InlineQueryResultArticle(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -5493,6 +5892,7 @@ class InlineQueryResultArticle(Type_):
         return (
             InlineQueryResultArticle(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
@@ -5530,8 +5930,9 @@ class InlineQueryResultPhoto(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.photo_url = photo_url
@@ -5554,6 +5955,7 @@ class InlineQueryResultPhoto(Type_):
         return (
             InlineQueryResultPhoto(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 photo_url=d.get("photo_url"),
@@ -5599,8 +6001,9 @@ class InlineQueryResultGif(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.gif_url = gif_url
@@ -5624,6 +6027,7 @@ class InlineQueryResultGif(Type_):
         return (
             InlineQueryResultGif(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 gif_url=d.get("gif_url"),
@@ -5670,8 +6074,9 @@ class InlineQueryResultMpeg4Gif(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.mpeg4_url = mpeg4_url
@@ -5695,6 +6100,7 @@ class InlineQueryResultMpeg4Gif(Type_):
         return (
             InlineQueryResultMpeg4Gif(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 mpeg4_url=d.get("mpeg4_url"),
@@ -5742,8 +6148,9 @@ class InlineQueryResultVideo(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.video_url = video_url
@@ -5768,6 +6175,7 @@ class InlineQueryResultVideo(Type_):
         return (
             InlineQueryResultVideo(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 video_url=d.get("video_url"),
@@ -5811,8 +6219,9 @@ class InlineQueryResultAudio(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.audio_url = audio_url
@@ -5832,6 +6241,7 @@ class InlineQueryResultAudio(Type_):
         return (
             InlineQueryResultAudio(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 audio_url=d.get("audio_url"),
@@ -5869,8 +6279,9 @@ class InlineQueryResultVoice(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.voice_url = voice_url
@@ -5889,6 +6300,7 @@ class InlineQueryResultVoice(Type_):
         return (
             InlineQueryResultVoice(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 voice_url=d.get("voice_url"),
@@ -5929,8 +6341,9 @@ class InlineQueryResultDocument(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -5953,6 +6366,7 @@ class InlineQueryResultDocument(Type_):
         return (
             InlineQueryResultDocument(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
@@ -5997,8 +6411,9 @@ class InlineQueryResultLocation(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.latitude = latitude
@@ -6021,6 +6436,7 @@ class InlineQueryResultLocation(Type_):
         return (
             InlineQueryResultLocation(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 latitude=d.get("latitude"),
@@ -6062,8 +6478,9 @@ class InlineQueryResultVenue(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.latitude = latitude
@@ -6087,6 +6504,7 @@ class InlineQueryResultVenue(Type_):
         return (
             InlineQueryResultVenue(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 latitude=d.get("latitude"),
@@ -6125,8 +6543,9 @@ class InlineQueryResultContact(Type_):
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.phone_number = phone_number
@@ -6146,6 +6565,7 @@ class InlineQueryResultContact(Type_):
         return (
             InlineQueryResultContact(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 phone_number=d.get("phone_number"),
@@ -6173,8 +6593,9 @@ class InlineQueryResultGame(Type_):
         game_short_name: "str",
         reply_markup: "InlineKeyboardMarkup" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.game_short_name = game_short_name
@@ -6187,6 +6608,7 @@ class InlineQueryResultGame(Type_):
         return (
             InlineQueryResultGame(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 game_short_name=d.get("game_short_name"),
@@ -6212,8 +6634,9 @@ class InlineQueryResultCachedPhoto(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.photo_file_id = photo_file_id
@@ -6233,6 +6656,7 @@ class InlineQueryResultCachedPhoto(Type_):
         return (
             InlineQueryResultCachedPhoto(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 photo_file_id=d.get("photo_file_id"),
@@ -6270,8 +6694,9 @@ class InlineQueryResultCachedGif(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.gif_file_id = gif_file_id
@@ -6290,6 +6715,7 @@ class InlineQueryResultCachedGif(Type_):
         return (
             InlineQueryResultCachedGif(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 gif_file_id=d.get("gif_file_id"),
@@ -6326,8 +6752,9 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.mpeg4_file_id = mpeg4_file_id
@@ -6346,6 +6773,7 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
         return (
             InlineQueryResultCachedMpeg4Gif(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 mpeg4_file_id=d.get("mpeg4_file_id"),
@@ -6377,8 +6805,9 @@ class InlineQueryResultCachedSticker(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.sticker_file_id = sticker_file_id
@@ -6392,6 +6821,7 @@ class InlineQueryResultCachedSticker(Type_):
         return (
             InlineQueryResultCachedSticker(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 sticker_file_id=d.get("sticker_file_id"),
@@ -6419,8 +6849,9 @@ class InlineQueryResultCachedDocument(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -6439,6 +6870,7 @@ class InlineQueryResultCachedDocument(Type_):
         return (
             InlineQueryResultCachedDocument(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
@@ -6476,8 +6908,9 @@ class InlineQueryResultCachedVideo(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.video_file_id = video_file_id
@@ -6497,6 +6930,7 @@ class InlineQueryResultCachedVideo(Type_):
         return (
             InlineQueryResultCachedVideo(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 video_file_id=d.get("video_file_id"),
@@ -6533,8 +6967,9 @@ class InlineQueryResultCachedVoice(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.voice_file_id = voice_file_id
@@ -6552,6 +6987,7 @@ class InlineQueryResultCachedVoice(Type_):
         return (
             InlineQueryResultCachedVoice(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 voice_file_id=d.get("voice_file_id"),
@@ -6585,8 +7021,9 @@ class InlineQueryResultCachedAudio(Type_):
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.id = id
         self.audio_file_id = audio_file_id
@@ -6603,6 +7040,7 @@ class InlineQueryResultCachedAudio(Type_):
         return (
             InlineQueryResultCachedAudio(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 audio_file_id=d.get("audio_file_id"),
@@ -6631,8 +7069,9 @@ class InputMessageContent(Type_):
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.message_text = message_text
         self.parse_mode = parse_mode
         self.entities = entities
@@ -6645,6 +7084,7 @@ class InputMessageContent(Type_):
         return (
             InputMessageContent(
                 client=client,
+                json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
                 entities=[MessageEntity._parse(i) for i in d.get("entities")]
@@ -6667,8 +7107,9 @@ class InputTextMessageContent(Type_):
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.message_text = message_text
         self.parse_mode = parse_mode
         self.entities = entities
@@ -6681,6 +7122,7 @@ class InputTextMessageContent(Type_):
         return (
             InputTextMessageContent(
                 client=client,
+                json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
                 entities=[MessageEntity._parse(i) for i in d.get("entities")]
@@ -6705,8 +7147,9 @@ class InputLocationMessageContent(Type_):
         heading: "int" = None,
         proximity_alert_radius: "int" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.horizontal_accuracy = horizontal_accuracy
@@ -6721,6 +7164,7 @@ class InputLocationMessageContent(Type_):
         return (
             InputLocationMessageContent(
                 client=client,
+                json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
                 horizontal_accuracy=d.get("horizontal_accuracy"),
@@ -6745,8 +7189,9 @@ class InputVenueMessageContent(Type_):
         google_place_id: "str" = None,
         google_place_type: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.title = title
@@ -6763,6 +7208,7 @@ class InputVenueMessageContent(Type_):
         return (
             InputVenueMessageContent(
                 client=client,
+                json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
                 title=d.get("title"),
@@ -6785,8 +7231,9 @@ class InputContactMessageContent(Type_):
         last_name: "str" = None,
         vcard: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
@@ -6799,6 +7246,7 @@ class InputContactMessageContent(Type_):
         return (
             InputContactMessageContent(
                 client=client,
+                json=d,
                 phone_number=d.get("phone_number"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -6833,8 +7281,9 @@ class InputInvoiceMessageContent(Type_):
         send_email_to_provider: "bool" = None,
         is_flexible: "bool" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.title = title
         self.description = description
         self.payload = payload
@@ -6863,6 +7312,7 @@ class InputInvoiceMessageContent(Type_):
         return (
             InputInvoiceMessageContent(
                 client=client,
+                json=d,
                 title=d.get("title"),
                 description=d.get("description"),
                 payload=d.get("payload"),
@@ -6872,11 +7322,7 @@ class InputInvoiceMessageContent(Type_):
                 else None,
                 provider_token=d.get("provider_token"),
                 max_tip_amount=d.get("max_tip_amount"),
-                suggested_tip_amounts=[
-                    int._parse(i) for i in d.get("suggested_tip_amounts")
-                ]
-                if d.get("suggested_tip_amounts", None)
-                else None,
+                suggested_tip_amounts=d.get("suggested_tip_amounts"),
                 provider_data=d.get("provider_data"),
                 photo_url=d.get("photo_url"),
                 photo_size=d.get("photo_size"),
@@ -6904,8 +7350,9 @@ class ChosenInlineResult(Type_):
         location: "Location" = None,
         inline_message_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.result_id = result_id
         self.from_user = from_user
         self.location = location
@@ -6919,6 +7366,7 @@ class ChosenInlineResult(Type_):
         return (
             ChosenInlineResult(
                 client=client,
+                json=d,
                 result_id=d.get("result_id"),
                 from_user=User._parse(d.get("from")),
                 query=d.get("query"),
@@ -6931,8 +7379,13 @@ class ChosenInlineResult(Type_):
 
 
 class SentWebAppMessage(Type_):
-    def __init__(self, inline_message_id: "str" = None, client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        inline_message_id: "str" = None,
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.inline_message_id = inline_message_id
 
     @staticmethod
@@ -6942,6 +7395,7 @@ class SentWebAppMessage(Type_):
         return (
             SentWebAppMessage(
                 client=client,
+                json=d,
                 inline_message_id=d.get("inline_message_id"),
             )
             if d
@@ -6951,9 +7405,13 @@ class SentWebAppMessage(Type_):
 
 class getStarTransactions(Type_):
     def __init__(
-        self, offset: "int" = None, limit: "int" = None, client: "tgram.TgBot" = None
+        self,
+        offset: "int" = None,
+        limit: "int" = None,
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.offset = offset
         self.limit = limit
 
@@ -6964,6 +7422,7 @@ class getStarTransactions(Type_):
         return (
             getStarTransactions(
                 client=client,
+                json=d,
                 offset=d.get("offset"),
                 limit=d.get("limit"),
             )
@@ -6973,8 +7432,14 @@ class getStarTransactions(Type_):
 
 
 class LabeledPrice(Type_):
-    def __init__(self, label: "str", amount: "int", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        label: "str",
+        amount: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.label = label
         self.amount = amount
 
@@ -6983,6 +7448,7 @@ class LabeledPrice(Type_):
         return (
             LabeledPrice(
                 client=client,
+                json=d,
                 label=d.get("label"),
                 amount=d.get("amount"),
             )
@@ -7000,8 +7466,9 @@ class Invoice(Type_):
         currency: "str",
         total_amount: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.title = title
         self.description = description
         self.start_parameter = start_parameter
@@ -7013,6 +7480,7 @@ class Invoice(Type_):
         return (
             Invoice(
                 client=client,
+                json=d,
                 title=d.get("title"),
                 description=d.get("description"),
                 start_parameter=d.get("start_parameter"),
@@ -7034,8 +7502,9 @@ class ShippingAddress(Type_):
         street_line2: "str",
         post_code: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.country_code = country_code
         self.state = state
         self.city = city
@@ -7050,6 +7519,7 @@ class ShippingAddress(Type_):
         return (
             ShippingAddress(
                 client=client,
+                json=d,
                 country_code=d.get("country_code"),
                 state=d.get("state"),
                 city=d.get("city"),
@@ -7070,8 +7540,9 @@ class OrderInfo(Type_):
         email: "str" = None,
         shipping_address: "ShippingAddress" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.name = name
         self.phone_number = phone_number
         self.email = email
@@ -7082,6 +7553,7 @@ class OrderInfo(Type_):
         return (
             OrderInfo(
                 client=client,
+                json=d,
                 name=d.get("name"),
                 phone_number=d.get("phone_number"),
                 email=d.get("email"),
@@ -7099,8 +7571,9 @@ class ShippingOption(Type_):
         title: "str",
         prices: List["LabeledPrice"],
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.title = title
         self.prices = prices
@@ -7110,6 +7583,7 @@ class ShippingOption(Type_):
         return (
             ShippingOption(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 title=d.get("title"),
                 prices=[LabeledPrice._parse(i) for i in d.get("prices")]
@@ -7132,8 +7606,9 @@ class SuccessfulPayment(Type_):
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.currency = currency
         self.total_amount = total_amount
         self.invoice_payload = invoice_payload
@@ -7149,6 +7624,7 @@ class SuccessfulPayment(Type_):
         return (
             SuccessfulPayment(
                 client=client,
+                json=d,
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
                 invoice_payload=d.get("invoice_payload"),
@@ -7170,8 +7646,9 @@ class ShippingQuery(Type_):
         invoice_payload: "str",
         shipping_address: "ShippingAddress",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.from_user = from_user
         self.invoice_payload = invoice_payload
@@ -7182,6 +7659,7 @@ class ShippingQuery(Type_):
         return (
             ShippingQuery(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 from_user=User._parse(d.get("from")),
                 invoice_payload=d.get("invoice_payload"),
@@ -7203,8 +7681,9 @@ class PreCheckoutQuery(Type_):
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.from_user = from_user
         self.currency = currency
@@ -7220,6 +7699,7 @@ class PreCheckoutQuery(Type_):
         return (
             PreCheckoutQuery(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 from_user=User._parse(d.get("from")),
                 currency=d.get("currency"),
@@ -7234,8 +7714,8 @@ class PreCheckoutQuery(Type_):
 
 
 class RevenueWithdrawalState(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -7245,6 +7725,7 @@ class RevenueWithdrawalState(Type_):
         return (
             RevenueWithdrawalState(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -7253,8 +7734,8 @@ class RevenueWithdrawalState(Type_):
 
 
 class RevenueWithdrawalStatePending(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -7264,6 +7745,7 @@ class RevenueWithdrawalStatePending(Type_):
         return (
             RevenueWithdrawalStatePending(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -7273,9 +7755,14 @@ class RevenueWithdrawalStatePending(Type_):
 
 class RevenueWithdrawalStateSucceeded(Type_):
     def __init__(
-        self, type: "str", date: "int", url: "str", client: "tgram.TgBot" = None
+        self,
+        type: "str",
+        date: "int",
+        url: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.date = date
         self.url = url
@@ -7287,6 +7774,7 @@ class RevenueWithdrawalStateSucceeded(Type_):
         return (
             RevenueWithdrawalStateSucceeded(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 date=d.get("date"),
                 url=d.get("url"),
@@ -7297,8 +7785,8 @@ class RevenueWithdrawalStateSucceeded(Type_):
 
 
 class RevenueWithdrawalStateFailed(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -7308,6 +7796,7 @@ class RevenueWithdrawalStateFailed(Type_):
         return (
             RevenueWithdrawalStateFailed(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -7321,8 +7810,9 @@ class TransactionPartner(Type_):
         type: "str",
         withdrawal_state: "RevenueWithdrawalState" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.withdrawal_state = withdrawal_state
 
@@ -7333,6 +7823,7 @@ class TransactionPartner(Type_):
         return (
             TransactionPartner(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
                     d.get("withdrawal_state")
@@ -7349,8 +7840,9 @@ class TransactionPartnerFragment(Type_):
         type: "str",
         withdrawal_state: "RevenueWithdrawalState" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.withdrawal_state = withdrawal_state
 
@@ -7361,6 +7853,7 @@ class TransactionPartnerFragment(Type_):
         return (
             TransactionPartnerFragment(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
                     d.get("withdrawal_state")
@@ -7372,8 +7865,14 @@ class TransactionPartnerFragment(Type_):
 
 
 class TransactionPartnerUser(Type_):
-    def __init__(self, type: "str", user: "User", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(
+        self,
+        type: "str",
+        user: "User",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(client=client, json=json)
         self.type = type
         self.user = user
 
@@ -7384,6 +7883,7 @@ class TransactionPartnerUser(Type_):
         return (
             TransactionPartnerUser(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 user=User._parse(d.get("user")),
             )
@@ -7393,8 +7893,8 @@ class TransactionPartnerUser(Type_):
 
 
 class TransactionPartnerOther(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None):
-        super().__init__(client=client)
+    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(client=client, json=json)
         self.type = type
 
     @staticmethod
@@ -7404,6 +7904,7 @@ class TransactionPartnerOther(Type_):
         return (
             TransactionPartnerOther(
                 client=client,
+                json=d,
                 type=d.get("type"),
             )
             if d
@@ -7420,8 +7921,9 @@ class StarTransaction(Type_):
         source: "TransactionPartner" = None,
         receiver: "TransactionPartner" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.id = id
         self.amount = amount
         self.date = date
@@ -7435,6 +7937,7 @@ class StarTransaction(Type_):
         return (
             StarTransaction(
                 client=client,
+                json=d,
                 id=d.get("id"),
                 amount=d.get("amount"),
                 date=d.get("date"),
@@ -7448,9 +7951,12 @@ class StarTransaction(Type_):
 
 class StarTransactions(Type_):
     def __init__(
-        self, transactions: List["StarTransaction"], client: "tgram.TgBot" = None
+        self,
+        transactions: List["StarTransaction"],
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.transactions = transactions
 
     @staticmethod
@@ -7460,6 +7966,7 @@ class StarTransactions(Type_):
         return (
             StarTransactions(
                 client=client,
+                json=d,
                 transactions=[StarTransaction._parse(i) for i in d.get("transactions")]
                 if d.get("transactions", None)
                 else None,
@@ -7475,8 +7982,9 @@ class PassportData(Type_):
         data: List["EncryptedPassportElement"],
         credentials: "EncryptedCredentials",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.data = data
         self.credentials = credentials
 
@@ -7485,6 +7993,7 @@ class PassportData(Type_):
         return (
             PassportData(
                 client=client,
+                json=d,
                 data=[EncryptedPassportElement._parse(i) for i in d.get("data")]
                 if d.get("data", None)
                 else None,
@@ -7503,8 +8012,9 @@ class PassportFile(Type_):
         file_size: "int",
         file_date: "int",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.file_size = file_size
@@ -7515,6 +8025,7 @@ class PassportFile(Type_):
         return (
             PassportFile(
                 client=client,
+                json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 file_size=d.get("file_size"),
@@ -7539,8 +8050,9 @@ class EncryptedPassportElement(Type_):
         selfie: "PassportFile" = None,
         translation: List["PassportFile"] = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.type = type
         self.data = data
         self.phone_number = phone_number
@@ -7559,6 +8071,7 @@ class EncryptedPassportElement(Type_):
         return (
             EncryptedPassportElement(
                 client=client,
+                json=d,
                 type=d.get("type"),
                 hash=d.get("hash"),
                 data=d.get("data"),
@@ -7581,9 +8094,14 @@ class EncryptedPassportElement(Type_):
 
 class EncryptedCredentials(Type_):
     def __init__(
-        self, data: "str", hash: "str", secret: "str", client: "tgram.TgBot" = None
+        self,
+        data: "str",
+        hash: "str",
+        secret: "str",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.data = data
         self.hash = hash
         self.secret = secret
@@ -7595,6 +8113,7 @@ class EncryptedCredentials(Type_):
         return (
             EncryptedCredentials(
                 client=client,
+                json=d,
                 data=d.get("data"),
                 hash=d.get("hash"),
                 secret=d.get("secret"),
@@ -7613,8 +8132,9 @@ class PassportElementError(Type_):
         data_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.field_name = field_name
@@ -7628,6 +8148,7 @@ class PassportElementError(Type_):
         return (
             PassportElementError(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 field_name=d.get("field_name"),
@@ -7648,8 +8169,9 @@ class PassportElementErrorDataField(Type_):
         data_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.field_name = field_name
@@ -7663,6 +8185,7 @@ class PassportElementErrorDataField(Type_):
         return (
             PassportElementErrorDataField(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 field_name=d.get("field_name"),
@@ -7682,8 +8205,9 @@ class PassportElementErrorFrontSide(Type_):
         file_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -7696,6 +8220,7 @@ class PassportElementErrorFrontSide(Type_):
         return (
             PassportElementErrorFrontSide(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 file_hash=d.get("file_hash"),
@@ -7714,8 +8239,9 @@ class PassportElementErrorReverseSide(Type_):
         file_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -7728,6 +8254,7 @@ class PassportElementErrorReverseSide(Type_):
         return (
             PassportElementErrorReverseSide(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 file_hash=d.get("file_hash"),
@@ -7746,8 +8273,9 @@ class PassportElementErrorSelfie(Type_):
         file_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -7760,6 +8288,7 @@ class PassportElementErrorSelfie(Type_):
         return (
             PassportElementErrorSelfie(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 file_hash=d.get("file_hash"),
@@ -7778,8 +8307,9 @@ class PassportElementErrorFile(Type_):
         file_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -7792,6 +8322,7 @@ class PassportElementErrorFile(Type_):
         return (
             PassportElementErrorFile(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 file_hash=d.get("file_hash"),
@@ -7810,8 +8341,9 @@ class PassportElementErrorFiles(Type_):
         file_hashes: List["str"],
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hashes = file_hashes
@@ -7824,11 +8356,10 @@ class PassportElementErrorFiles(Type_):
         return (
             PassportElementErrorFiles(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
-                file_hashes=[str._parse(i) for i in d.get("file_hashes")]
-                if d.get("file_hashes", None)
-                else None,
+                file_hashes=d.get("file_hashes"),
                 message=d.get("message"),
             )
             if d
@@ -7844,8 +8375,9 @@ class PassportElementErrorTranslationFile(Type_):
         file_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -7858,6 +8390,7 @@ class PassportElementErrorTranslationFile(Type_):
         return (
             PassportElementErrorTranslationFile(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 file_hash=d.get("file_hash"),
@@ -7876,8 +8409,9 @@ class PassportElementErrorTranslationFiles(Type_):
         file_hashes: List["str"],
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.file_hashes = file_hashes
@@ -7890,11 +8424,10 @@ class PassportElementErrorTranslationFiles(Type_):
         return (
             PassportElementErrorTranslationFiles(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
-                file_hashes=[str._parse(i) for i in d.get("file_hashes")]
-                if d.get("file_hashes", None)
-                else None,
+                file_hashes=d.get("file_hashes"),
                 message=d.get("message"),
             )
             if d
@@ -7910,8 +8443,9 @@ class PassportElementErrorUnspecified(Type_):
         element_hash: "str",
         message: "str",
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.source = source
         self.type = type
         self.element_hash = element_hash
@@ -7924,6 +8458,7 @@ class PassportElementErrorUnspecified(Type_):
         return (
             PassportElementErrorUnspecified(
                 client=client,
+                json=d,
                 source=d.get("source"),
                 type=d.get("type"),
                 element_hash=d.get("element_hash"),
@@ -7944,8 +8479,9 @@ class Game(Type_):
         text_entities: List["MessageEntity"] = None,
         animation: "Animation" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.title = title
         self.description = description
         self.photo = photo
@@ -7958,6 +8494,7 @@ class Game(Type_):
         return (
             Game(
                 client=client,
+                json=d,
                 title=d.get("title"),
                 description=d.get("description"),
                 photo=[PhotoSize._parse(i) for i in d.get("photo")]
@@ -7985,8 +8522,9 @@ class CallbackGame(Type_):
         message_id: "int" = None,
         inline_message_id: "str" = None,
         client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.user_id = user_id
         self.score = score
         self.force = force
@@ -8000,6 +8538,7 @@ class CallbackGame(Type_):
         return (
             CallbackGame(
                 client=client,
+                json=d,
                 user_id=d.get("user_id"),
                 score=d.get("score"),
                 force=d.get("force"),
@@ -8015,9 +8554,14 @@ class CallbackGame(Type_):
 
 class GameHighScore(Type_):
     def __init__(
-        self, position: "int", user: "User", score: "int", client: "tgram.TgBot" = None
+        self,
+        position: "int",
+        user: "User",
+        score: "int",
+        client: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
-        super().__init__(client=client)
+        super().__init__(client=client, json=json)
         self.position = position
         self.user = user
         self.score = score
@@ -8027,6 +8571,7 @@ class GameHighScore(Type_):
         return (
             GameHighScore(
                 client=client,
+                json=d,
                 position=d.get("position"),
                 user=User._parse(d.get("user")),
                 score=d.get("score"),
