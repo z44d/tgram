@@ -45,7 +45,6 @@ from .types import (
     SentWebAppMessage,
     LabeledPrice,
     ShippingOption,
-    Telegram,
     PassportElementError,
     GameHighScore,
 )
