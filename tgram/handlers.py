@@ -29,7 +29,9 @@ class Handlers:
 
 
 class Handler:
-    def __init__(self, callback: Callable, type: str, filters: Filter) -> None:
+    def __init__(
+        self, callback: Callable, type: str = "all", filters: Filter = None
+    ) -> None:
         self.callback = callback
         self.type = type
         self.filter = filters
