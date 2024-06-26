@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot.jpg" width="300" height="300" alt="tgram" />
+<img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot-small.png" alt="tgram" />
 <p align="center">
     <b>A Very friendly BOT API library for python devs.</b>
     <br>
