@@ -1,10 +1,10 @@
 [project]
 name = "tgram"
-version = "0.1"
+version = "1.0"
 authors = [
   { name="ZAID", email="2ei@zaid.pro" },
 ]
-description = "tgram is python client based on Telegram BOT API"
+description = "Very friendly BOT API library for python devs."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -13,9 +13,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "aiohttp",
+  "aiohttp==3.9.4",
   "asyncio",
-  "aiofiles",
 ]
 
 [project.urls]
