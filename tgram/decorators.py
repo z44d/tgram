@@ -6,6 +6,13 @@ from .filters import Filter, all
 
 
 class Decorators:
+    def on_all(self: "tgram.TgBot"):
+        def decorator(func: Callable) -> Callable:
+            self.add_handler(Handler(callback=func))
+            return func
+
+        return decorator
+
     def on_message(self: "tgram.TgBot", filters: Filter = None):
         def decorator(func: Callable) -> Callable:
             self.add_handler(
