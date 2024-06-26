@@ -1,12 +1,15 @@
 import aiohttp
+import logging
+import json
 
 from .methods import Methods
 from .decorators import Decorators
 from .filters import Filter
 from .handlers import Handlers, Handler
+from .errors import APIException
 from . import types
 
-from typing import List, Callable
+from typing import List, Callable, Any
 
 __all__ = ["types", "TgBot", "Handlers"]
 
@@ -16,9 +19,13 @@ ALL_UPDATES = [
     for i in filter(lambda x: not x.startswith("_"), Handlers.__dict__)
 ]
 
+logger = logging.getLogger(__name__)
+
 
 class TgBot(Methods, Decorators):
-    _session: "aiohttp.ClientSession" = None
+    _session: "aiohttp.ClientSession" = aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(limit=50)
+    )
     _handlers: List["Handler"] = []
     _api_url: str = None
 
@@ -34,16 +41,17 @@ class TgBot(Methods, Decorators):
 
         self._api_url = f"{api_url}bot{bot_token}/"
 
-    def add_handler(self, func: Callable, handler: Handlers, filters: Filter) -> bool:
+    def add_handler(
+        self, func: Callable, handler: Handlers = None, filters: Filter = None
+    ) -> None:
         self._handlers.append(Handler(func, handler, filters))
-        return True
 
     async def _new_session(self) -> None:
         session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=50))
         self._session = session
 
     async def _get_session(self) -> "aiohttp.ClientSession":
-        if self._session is None or self._session.closed:
+        if self._session.closed:
             await self._new_session()
         elif not self._session.loop.is_running():
             await self._session.close()
@@ -51,7 +59,26 @@ class TgBot(Methods, Decorators):
 
         return self._session
 
-    async def _send_request(self, method: str, data: dict):
+    async def _request(self, method: str, **kwargs) -> Any:
         request_url = self._api_url + method
+        logger.info("Sending request using the method: %s", method)
         session = await self._get_session()
-        # TODO
+        data = aiohttp.FormData(quote_fields=False)
+
+        for key, value in kwargs.items():
+            data.add_field(
+                key,
+                json.dumps(value._json, ensure_ascii=False)
+                if isinstance(value, types.Type_)
+                else str(value),
+            )
+
+        response = await session.request("POST", request_url, data=data)
+
+        response_json = await response.json()
+
+        if not response_json["ok"]:
+            del response_json["ok"]
+            raise APIException(json.dumps(response_json))
+
+        return response_json
