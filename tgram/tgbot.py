@@ -77,6 +77,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         parse_mode: Literal["Markdown", "MarkdownV2", "HTML"] = None,
         protect_content: bool = None,
         workers: int = None,
+        skip_updates=False
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -87,6 +88,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.workers = workers or min(32, (os.cpu_count() or 0) + 4)
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
+        self.skip_updates = skip_updates
 
         if not api_url.endswith("/"):
             api_url += "/"
@@ -147,6 +149,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             "POST" if has_files else "GET",
             request_url,
             data=data,
+            params = {"offset": -1} if self.skip_updates and method == "getUpdates" else None
             timeout=aiohttp.ClientTimeout(total=kwargs.get("timeout", 60)),
         )
 
