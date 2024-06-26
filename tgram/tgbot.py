@@ -52,6 +52,7 @@ class Dispatcher:
                 await self._process_update(attr, handler.callback)
 
     async def _process_update(self: "TgBot", update: Any, callback: Callable) -> None:
+        logger.info("Processing update to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
                 await callback(self, update)
@@ -95,6 +96,12 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
         if (t := handler.type != "all") and t not in self.allowed_updates:
             self.allowed_updates.append(t)
+
+        logger.info(
+            "(%s) added to %s handlers",
+            handler.callback.__name__,
+            "Update." + handler.type if handler.type != "all" else "all",
+        )
         self._handlers.append(handler)
 
     async def _new_session(self) -> None:
