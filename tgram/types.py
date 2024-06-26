@@ -1,5 +1,5 @@
 import tgram
-from typing import List, Union
+from typing import List, Union, Optional
 
 
 class Type_:
@@ -141,7 +141,7 @@ class Update(Type_):
         self.removed_chat_boost = removed_chat_boost
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Update" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Update"]:
         return (
             Update(
                 client=client,
@@ -234,7 +234,7 @@ class WebhookInfo(Type_):
         self.allowed_updates = allowed_updates
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "WebhookInfo" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebhookInfo"]:
         return (
             WebhookInfo(
                 client=client,
@@ -289,7 +289,7 @@ class User(Type_):
         self.can_connect_to_business = can_connect_to_business
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "User" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["User"]:
         return (
             User(
                 client=client,
@@ -335,7 +335,7 @@ class Chat(Type_):
         self.is_forum = is_forum
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Chat" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Chat"]:
         return (
             Chat(
                 client=client,
@@ -450,7 +450,9 @@ class ChatFullInfo(Type_):
         self.location = location
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatFullInfo" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatFullInfo"]:
         return (
             ChatFullInfo(
                 client=client,
@@ -698,7 +700,7 @@ class Message(Type_):
         self.reply_markup = reply_markup
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Message" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Message"]:
         return (
             Message(
                 client=client,
@@ -876,7 +878,7 @@ class MessageId(Type_):
         self.message_id = message_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "MessageId" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageId"]:
         return (
             MessageId(
                 client=client,
@@ -905,7 +907,7 @@ class InaccessibleMessage(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InaccessibleMessage" | None:
+    ) -> Optional["InaccessibleMessage"]:
         return (
             InaccessibleMessage(
                 client=client,
@@ -944,7 +946,7 @@ class MaybeInaccessibleMessage(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MaybeInaccessibleMessage" | None:
+    ) -> Optional["MaybeInaccessibleMessage"]:
         return (
             MaybeInaccessibleMessage(
                 client=client,
@@ -985,7 +987,9 @@ class MessageEntity(Type_):
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "MessageEntity" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["MessageEntity"]:
         return (
             MessageEntity(
                 client=client,
@@ -1020,7 +1024,7 @@ class TextQuote(Type_):
         self.is_manual = is_manual
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "TextQuote" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["TextQuote"]:
         return (
             TextQuote(
                 client=client,
@@ -1096,7 +1100,7 @@ class ExternalReplyInfo(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ExternalReplyInfo" | None:
+    ) -> Optional["ExternalReplyInfo"]:
         return (
             ExternalReplyInfo(
                 client=client,
@@ -1161,7 +1165,7 @@ class ReplyParameters(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ReplyParameters" | None:
+    ) -> Optional["ReplyParameters"]:
         return (
             ReplyParameters(
                 client=client,
@@ -1199,7 +1203,9 @@ class MessageOrigin(Type_):
         self.sender_user = sender_user
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "MessageOrigin" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["MessageOrigin"]:
         return (
             MessageOrigin(
                 client=client,
@@ -1230,7 +1236,7 @@ class MessageOriginUser(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageOriginUser" | None:
+    ) -> Optional["MessageOriginUser"]:
         return (
             MessageOriginUser(
                 client=client,
@@ -1261,7 +1267,7 @@ class MessageOriginHiddenUser(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageOriginHiddenUser" | None:
+    ) -> Optional["MessageOriginHiddenUser"]:
         return (
             MessageOriginHiddenUser(
                 client=client,
@@ -1294,7 +1300,7 @@ class MessageOriginChat(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageOriginChat" | None:
+    ) -> Optional["MessageOriginChat"]:
         return (
             MessageOriginChat(
                 client=client,
@@ -1330,7 +1336,7 @@ class MessageOriginChannel(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageOriginChannel" | None:
+    ) -> Optional["MessageOriginChannel"]:
         return (
             MessageOriginChannel(
                 client=client,
@@ -1365,7 +1371,7 @@ class PhotoSize(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "PhotoSize" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PhotoSize"]:
         return (
             PhotoSize(
                 client=client,
@@ -1408,7 +1414,7 @@ class Animation(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Animation" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Animation"]:
         return (
             Animation(
                 client=client,
@@ -1455,7 +1461,7 @@ class Audio(Type_):
         self.thumbnail = thumbnail
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Audio" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Audio"]:
         return (
             Audio(
                 client=client,
@@ -1496,7 +1502,7 @@ class Document(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Document" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Document"]:
         return (
             Document(
                 client=client,
@@ -1522,7 +1528,7 @@ class Story(Type_):
         self.id = id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Story" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Story"]:
         return (
             Story(
                 client=client,
@@ -1562,7 +1568,7 @@ class Video(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Video" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Video"]:
         return (
             Video(
                 client=client,
@@ -1603,7 +1609,7 @@ class VideoNote(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "VideoNote" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["VideoNote"]:
         return (
             VideoNote(
                 client=client,
@@ -1639,7 +1645,7 @@ class Voice(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Voice" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Voice"]:
         return (
             Voice(
                 client=client,
@@ -1674,7 +1680,7 @@ class Contact(Type_):
         self.vcard = vcard
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Contact" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Contact"]:
         return (
             Contact(
                 client=client,
@@ -1703,7 +1709,7 @@ class Dice(Type_):
         self.value = value
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Dice" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Dice"]:
         return (
             Dice(
                 client=client,
@@ -1731,7 +1737,7 @@ class PollOption(Type_):
         self.voter_count = voter_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "PollOption" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PollOption"]:
         return (
             PollOption(
                 client=client,
@@ -1767,7 +1773,7 @@ class InputPollOption(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputPollOption" | None:
+    ) -> Optional["InputPollOption"]:
         return (
             InputPollOption(
                 client=client,
@@ -1803,7 +1809,7 @@ class PollAnswer(Type_):
         self.option_ids = option_ids
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "PollAnswer" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PollAnswer"]:
         return (
             PollAnswer(
                 client=client,
@@ -1855,7 +1861,7 @@ class Poll(Type_):
         self.close_date = close_date
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Poll" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Poll"]:
         return (
             Poll(
                 client=client,
@@ -1915,7 +1921,7 @@ class Location(Type_):
         self.proximity_alert_radius = proximity_alert_radius
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Location" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Location"]:
         return (
             Location(
                 client=client,
@@ -1955,7 +1961,7 @@ class Venue(Type_):
         self.google_place_type = google_place_type
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Venue" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Venue"]:
         return (
             Venue(
                 client=client,
@@ -1986,7 +1992,7 @@ class WebAppData(Type_):
         self.button_text = button_text
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "WebAppData" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppData"]:
         return (
             WebAppData(
                 client=client,
@@ -2016,7 +2022,7 @@ class ProximityAlertTriggered(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ProximityAlertTriggered" | None:
+    ) -> Optional["ProximityAlertTriggered"]:
         return (
             ProximityAlertTriggered(
                 client=client,
@@ -2043,7 +2049,7 @@ class MessageAutoDeleteTimerChanged(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageAutoDeleteTimerChanged" | None:
+    ) -> Optional["MessageAutoDeleteTimerChanged"]:
         return (
             MessageAutoDeleteTimerChanged(
                 client=client,
@@ -2063,7 +2069,9 @@ class ChatBoostAdded(Type_):
         self.boost_count = boost_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatBoostAdded" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatBoostAdded"]:
         return (
             ChatBoostAdded(
                 client=client,
@@ -2088,7 +2096,9 @@ class BackgroundFill(Type_):
         self.color = color
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BackgroundFill" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["BackgroundFill"]:
         return (
             BackgroundFill(
                 client=client,
@@ -2116,7 +2126,7 @@ class BackgroundFillSolid(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundFillSolid" | None:
+    ) -> Optional["BackgroundFillSolid"]:
         return (
             BackgroundFillSolid(
                 client=client,
@@ -2148,7 +2158,7 @@ class BackgroundFillGradient(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundFillGradient" | None:
+    ) -> Optional["BackgroundFillGradient"]:
         return (
             BackgroundFillGradient(
                 client=client,
@@ -2178,7 +2188,7 @@ class BackgroundFillFreeformGradient(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundFillFreeformGradient" | None:
+    ) -> Optional["BackgroundFillFreeformGradient"]:
         return (
             BackgroundFillFreeformGradient(
                 client=client,
@@ -2206,7 +2216,9 @@ class BackgroundType(Type_):
         self.dark_theme_dimming = dark_theme_dimming
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BackgroundType" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["BackgroundType"]:
         return (
             BackgroundType(
                 client=client,
@@ -2237,7 +2249,7 @@ class BackgroundTypeFill(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundTypeFill" | None:
+    ) -> Optional["BackgroundTypeFill"]:
         return (
             BackgroundTypeFill(
                 client=client,
@@ -2272,7 +2284,7 @@ class BackgroundTypeWallpaper(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundTypeWallpaper" | None:
+    ) -> Optional["BackgroundTypeWallpaper"]:
         return (
             BackgroundTypeWallpaper(
                 client=client,
@@ -2311,7 +2323,7 @@ class BackgroundTypePattern(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundTypePattern" | None:
+    ) -> Optional["BackgroundTypePattern"]:
         return (
             BackgroundTypePattern(
                 client=client,
@@ -2343,7 +2355,7 @@ class BackgroundTypeChatTheme(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BackgroundTypeChatTheme" | None:
+    ) -> Optional["BackgroundTypeChatTheme"]:
         return (
             BackgroundTypeChatTheme(
                 client=client,
@@ -2364,7 +2376,9 @@ class ChatBackground(Type_):
         self.type = type
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatBackground" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatBackground"]:
         return (
             ChatBackground(
                 client=client,
@@ -2393,7 +2407,7 @@ class ForumTopicCreated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ForumTopicCreated" | None:
+    ) -> Optional["ForumTopicCreated"]:
         return (
             ForumTopicCreated(
                 client=client,
@@ -2422,7 +2436,7 @@ class ForumTopicClosed(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ForumTopicClosed" | None:
+    ) -> Optional["ForumTopicClosed"]:
         return (
             ForumTopicClosed(
                 client=client,
@@ -2450,7 +2464,7 @@ class ForumTopicEdited(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ForumTopicEdited" | None:
+    ) -> Optional["ForumTopicEdited"]:
         return (
             ForumTopicEdited(
                 client=client,
@@ -2484,7 +2498,7 @@ class ForumTopicReopened(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ForumTopicReopened" | None:
+    ) -> Optional["ForumTopicReopened"]:
         return (
             ForumTopicReopened(
                 client=client,
@@ -2523,7 +2537,7 @@ class GeneralForumTopicHidden(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "GeneralForumTopicHidden" | None:
+    ) -> Optional["GeneralForumTopicHidden"]:
         return (
             GeneralForumTopicHidden(
                 client=client,
@@ -2562,7 +2576,7 @@ class GeneralForumTopicUnhidden(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "GeneralForumTopicUnhidden" | None:
+    ) -> Optional["GeneralForumTopicUnhidden"]:
         return (
             GeneralForumTopicUnhidden(
                 client=client,
@@ -2599,7 +2613,7 @@ class SharedUser(Type_):
         self.photo = photo
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "SharedUser" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["SharedUser"]:
         return (
             SharedUser(
                 client=client,
@@ -2630,7 +2644,7 @@ class UsersShared(Type_):
         self.users = users
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "UsersShared" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["UsersShared"]:
         return (
             UsersShared(
                 client=client,
@@ -2664,7 +2678,7 @@ class ChatShared(Type_):
         self.photo = photo
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatShared" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatShared"]:
         return (
             ChatShared(
                 client=client,
@@ -2699,7 +2713,7 @@ class WriteAccessAllowed(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "WriteAccessAllowed" | None:
+    ) -> Optional["WriteAccessAllowed"]:
         return (
             WriteAccessAllowed(
                 client=client,
@@ -2723,7 +2737,7 @@ class VideoChatScheduled(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "VideoChatScheduled" | None:
+    ) -> Optional["VideoChatScheduled"]:
         return (
             VideoChatScheduled(
                 client=client,
@@ -2745,7 +2759,7 @@ class VideoChatStarted(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "VideoChatStarted" | None:
+    ) -> Optional["VideoChatStarted"]:
         return (
             VideoChatStarted(
                 client=client,
@@ -2765,7 +2779,9 @@ class VideoChatEnded(Type_):
         self.duration = duration
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "VideoChatEnded" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["VideoChatEnded"]:
         return (
             VideoChatEnded(
                 client=client,
@@ -2787,7 +2803,7 @@ class VideoChatParticipantsInvited(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "VideoChatParticipantsInvited" | None:
+    ) -> Optional["VideoChatParticipantsInvited"]:
         return (
             VideoChatParticipantsInvited(
                 client=client,
@@ -2828,7 +2844,7 @@ class GiveawayCreated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "GiveawayCreated" | None:
+    ) -> Optional["GiveawayCreated"]:
         return (
             GiveawayCreated(
                 client=client,
@@ -2876,7 +2892,7 @@ class Giveaway(Type_):
         self.premium_subscription_month_count = premium_subscription_month_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Giveaway" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Giveaway"]:
         return (
             Giveaway(
                 client=client,
@@ -2932,7 +2948,7 @@ class GiveawayWinners(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "GiveawayWinners" | None:
+    ) -> Optional["GiveawayWinners"]:
         return (
             GiveawayWinners(
                 client=client,
@@ -2975,7 +2991,7 @@ class GiveawayCompleted(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "GiveawayCompleted" | None:
+    ) -> Optional["GiveawayCompleted"]:
         return (
             GiveawayCompleted(
                 client=client,
@@ -3012,7 +3028,7 @@ class LinkPreviewOptions(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "LinkPreviewOptions" | None:
+    ) -> Optional["LinkPreviewOptions"]:
         return (
             LinkPreviewOptions(
                 client=client,
@@ -3043,7 +3059,7 @@ class UserProfilePhotos(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "UserProfilePhotos" | None:
+    ) -> Optional["UserProfilePhotos"]:
         return (
             UserProfilePhotos(
                 client=client,
@@ -3075,7 +3091,7 @@ class File(Type_):
         self.file_path = file_path
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "File" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["File"]:
         return (
             File(
                 client=client,
@@ -3096,7 +3112,7 @@ class WebAppInfo(Type_):
         self.url = url
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "WebAppInfo" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppInfo"]:
         return (
             WebAppInfo(
                 client=client,
@@ -3131,7 +3147,7 @@ class ReplyKeyboardMarkup(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ReplyKeyboardMarkup" | None:
+    ) -> Optional["ReplyKeyboardMarkup"]:
         return (
             ReplyKeyboardMarkup(
                 client=client,
@@ -3175,7 +3191,9 @@ class KeyboardButton(Type_):
         self.web_app = web_app
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "KeyboardButton" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["KeyboardButton"]:
         return (
             KeyboardButton(
                 client=client,
@@ -3224,7 +3242,7 @@ class KeyboardButtonRequestUsers(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "KeyboardButtonRequestUsers" | None:
+    ) -> Optional["KeyboardButtonRequestUsers"]:
         return (
             KeyboardButtonRequestUsers(
                 client=client,
@@ -3275,7 +3293,7 @@ class KeyboardButtonRequestChat(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "KeyboardButtonRequestChat" | None:
+    ) -> Optional["KeyboardButtonRequestChat"]:
         return (
             KeyboardButtonRequestChat(
                 client=client,
@@ -3311,7 +3329,7 @@ class KeyboardButtonPollType(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "KeyboardButtonPollType" | None:
+    ) -> Optional["KeyboardButtonPollType"]:
         return (
             KeyboardButtonPollType(
                 client=client,
@@ -3338,7 +3356,7 @@ class ReplyKeyboardRemove(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ReplyKeyboardRemove" | None:
+    ) -> Optional["ReplyKeyboardRemove"]:
         return (
             ReplyKeyboardRemove(
                 client=client,
@@ -3364,7 +3382,7 @@ class InlineKeyboardMarkup(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineKeyboardMarkup" | None:
+    ) -> Optional["InlineKeyboardMarkup"]:
         return (
             InlineKeyboardMarkup(
                 client=client,
@@ -3412,7 +3430,7 @@ class InlineKeyboardButton(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineKeyboardButton" | None:
+    ) -> Optional["InlineKeyboardButton"]:
         return (
             InlineKeyboardButton(
                 client=client,
@@ -3456,7 +3474,7 @@ class LoginUrl(Type_):
         self.request_write_access = request_write_access
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "LoginUrl" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["LoginUrl"]:
         return (
             LoginUrl(
                 client=client,
@@ -3492,7 +3510,7 @@ class SwitchInlineQueryChosenChat(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "SwitchInlineQueryChosenChat" | None:
+    ) -> Optional["SwitchInlineQueryChosenChat"]:
         return (
             SwitchInlineQueryChosenChat(
                 client=client,
@@ -3531,7 +3549,9 @@ class CallbackQuery(Type_):
         self.game_short_name = game_short_name
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "CallbackQuery" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["CallbackQuery"]:
         return (
             CallbackQuery(
                 client=client,
@@ -3566,7 +3586,7 @@ class ForceReply(Type_):
         self.selective = selective
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ForceReply" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ForceReply"]:
         return (
             ForceReply(
                 client=client,
@@ -3597,7 +3617,7 @@ class ChatPhoto(Type_):
         self.big_file_unique_id = big_file_unique_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatPhoto" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatPhoto"]:
         return (
             ChatPhoto(
                 client=client,
@@ -3639,7 +3659,9 @@ class ChatInviteLink(Type_):
         self.pending_join_request_count = pending_join_request_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatInviteLink" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatInviteLink"]:
         return (
             ChatInviteLink(
                 client=client,
@@ -3700,7 +3722,7 @@ class ChatAdministratorRights(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatAdministratorRights" | None:
+    ) -> Optional["ChatAdministratorRights"]:
         return (
             ChatAdministratorRights(
                 client=client,
@@ -3753,7 +3775,7 @@ class ChatMemberUpdated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberUpdated" | None:
+    ) -> Optional["ChatMemberUpdated"]:
         return (
             ChatMemberUpdated(
                 client=client,
@@ -3795,7 +3817,7 @@ class ChatMember(Type_):
         self.custom_title = custom_title
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatMember" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMember"]:
         return (
             ChatMember(
                 client=client,
@@ -3829,7 +3851,7 @@ class ChatMemberOwner(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberOwner" | None:
+    ) -> Optional["ChatMemberOwner"]:
         return (
             ChatMemberOwner(
                 client=client,
@@ -3893,7 +3915,7 @@ class ChatMemberAdministrator(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberAdministrator" | None:
+    ) -> Optional["ChatMemberAdministrator"]:
         return (
             ChatMemberAdministrator(
                 client=client,
@@ -3938,7 +3960,7 @@ class ChatMemberMember(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberMember" | None:
+    ) -> Optional["ChatMemberMember"]:
         return (
             ChatMemberMember(
                 client=client,
@@ -3998,7 +4020,7 @@ class ChatMemberRestricted(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberRestricted" | None:
+    ) -> Optional["ChatMemberRestricted"]:
         return (
             ChatMemberRestricted(
                 client=client,
@@ -4040,7 +4062,9 @@ class ChatMemberLeft(Type_):
         self.user = user
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatMemberLeft" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatMemberLeft"]:
         return (
             ChatMemberLeft(
                 client=client,
@@ -4070,7 +4094,7 @@ class ChatMemberBanned(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatMemberBanned" | None:
+    ) -> Optional["ChatMemberBanned"]:
         return (
             ChatMemberBanned(
                 client=client,
@@ -4107,7 +4131,7 @@ class ChatJoinRequest(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatJoinRequest" | None:
+    ) -> Optional["ChatJoinRequest"]:
         return (
             ChatJoinRequest(
                 client=client,
@@ -4165,7 +4189,7 @@ class ChatPermissions(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatPermissions" | None:
+    ) -> Optional["ChatPermissions"]:
         return (
             ChatPermissions(
                 client=client,
@@ -4205,7 +4229,7 @@ class Birthdate(Type_):
         self.year = year
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Birthdate" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Birthdate"]:
         return (
             Birthdate(
                 client=client,
@@ -4234,7 +4258,9 @@ class BusinessIntro(Type_):
         self.sticker = sticker
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BusinessIntro" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["BusinessIntro"]:
         return (
             BusinessIntro(
                 client=client,
@@ -4263,7 +4289,7 @@ class BusinessLocation(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BusinessLocation" | None:
+    ) -> Optional["BusinessLocation"]:
         return (
             BusinessLocation(
                 client=client,
@@ -4291,7 +4317,7 @@ class BusinessOpeningHoursInterval(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BusinessOpeningHoursInterval" | None:
+    ) -> Optional["BusinessOpeningHoursInterval"]:
         return (
             BusinessOpeningHoursInterval(
                 client=client,
@@ -4319,7 +4345,7 @@ class BusinessOpeningHours(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BusinessOpeningHours" | None:
+    ) -> Optional["BusinessOpeningHours"]:
         return (
             BusinessOpeningHours(
                 client=client,
@@ -4350,7 +4376,9 @@ class ChatLocation(Type_):
         self.address = address
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatLocation" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ChatLocation"]:
         return (
             ChatLocation(
                 client=client,
@@ -4376,7 +4404,9 @@ class ReactionType(Type_):
         self.emoji = emoji
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ReactionType" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ReactionType"]:
         return (
             ReactionType(
                 client=client,
@@ -4404,7 +4434,7 @@ class ReactionTypeEmoji(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ReactionTypeEmoji" | None:
+    ) -> Optional["ReactionTypeEmoji"]:
         return (
             ReactionTypeEmoji(
                 client=client,
@@ -4432,7 +4462,7 @@ class ReactionTypeCustomEmoji(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ReactionTypeCustomEmoji" | None:
+    ) -> Optional["ReactionTypeCustomEmoji"]:
         return (
             ReactionTypeCustomEmoji(
                 client=client,
@@ -4458,7 +4488,9 @@ class ReactionCount(Type_):
         self.total_count = total_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ReactionCount" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ReactionCount"]:
         return (
             ReactionCount(
                 client=client,
@@ -4496,7 +4528,7 @@ class MessageReactionUpdated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageReactionUpdated" | None:
+    ) -> Optional["MessageReactionUpdated"]:
         return (
             MessageReactionUpdated(
                 client=client,
@@ -4543,7 +4575,7 @@ class MessageReactionCountUpdated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MessageReactionCountUpdated" | None:
+    ) -> Optional["MessageReactionCountUpdated"]:
         return (
             MessageReactionCountUpdated(
                 client=client,
@@ -4579,7 +4611,7 @@ class ForumTopic(Type_):
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ForumTopic" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ForumTopic"]:
         return (
             ForumTopic(
                 client=client,
@@ -4607,7 +4639,7 @@ class BotCommand(Type_):
         self.description = description
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BotCommand" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["BotCommand"]:
         return (
             BotCommand(
                 client=client,
@@ -4628,7 +4660,7 @@ class BotCommandScope(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScope" | None:
+    ) -> Optional["BotCommandScope"]:
         return (
             BotCommandScope(
                 client=client,
@@ -4648,7 +4680,7 @@ class BotCommandScopeDefault(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeDefault" | None:
+    ) -> Optional["BotCommandScopeDefault"]:
         return (
             BotCommandScopeDefault(
                 client=client,
@@ -4668,7 +4700,7 @@ class BotCommandScopeAllPrivateChats(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeAllPrivateChats" | None:
+    ) -> Optional["BotCommandScopeAllPrivateChats"]:
         return (
             BotCommandScopeAllPrivateChats(
                 client=client,
@@ -4688,7 +4720,7 @@ class BotCommandScopeAllGroupChats(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeAllGroupChats" | None:
+    ) -> Optional["BotCommandScopeAllGroupChats"]:
         return (
             BotCommandScopeAllGroupChats(
                 client=client,
@@ -4708,7 +4740,7 @@ class BotCommandScopeAllChatAdministrators(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeAllChatAdministrators" | None:
+    ) -> Optional["BotCommandScopeAllChatAdministrators"]:
         return (
             BotCommandScopeAllChatAdministrators(
                 client=client,
@@ -4735,7 +4767,7 @@ class BotCommandScopeChat(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeChat" | None:
+    ) -> Optional["BotCommandScopeChat"]:
         return (
             BotCommandScopeChat(
                 client=client,
@@ -4763,7 +4795,7 @@ class BotCommandScopeChatAdministrators(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeChatAdministrators" | None:
+    ) -> Optional["BotCommandScopeChatAdministrators"]:
         return (
             BotCommandScopeChatAdministrators(
                 client=client,
@@ -4793,7 +4825,7 @@ class BotCommandScopeChatMember(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotCommandScopeChatMember" | None:
+    ) -> Optional["BotCommandScopeChatMember"]:
         return (
             BotCommandScopeChatMember(
                 client=client,
@@ -4813,7 +4845,7 @@ class BotName(Type_):
         self.name = name
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BotName" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["BotName"]:
         return (
             BotName(
                 client=client,
@@ -4833,7 +4865,9 @@ class BotDescription(Type_):
         self.description = description
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "BotDescription" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["BotDescription"]:
         return (
             BotDescription(
                 client=client,
@@ -4858,7 +4892,7 @@ class BotShortDescription(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BotShortDescription" | None:
+    ) -> Optional["BotShortDescription"]:
         return (
             BotShortDescription(
                 client=client,
@@ -4876,7 +4910,7 @@ class MenuButton(Type_):
         self.type = type
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "MenuButton" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["MenuButton"]:
         return (
             MenuButton(
                 client=client,
@@ -4896,7 +4930,7 @@ class MenuButtonCommands(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MenuButtonCommands" | None:
+    ) -> Optional["MenuButtonCommands"]:
         return (
             MenuButtonCommands(
                 client=client,
@@ -4925,7 +4959,7 @@ class MenuButtonWebApp(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MenuButtonWebApp" | None:
+    ) -> Optional["MenuButtonWebApp"]:
         return (
             MenuButtonWebApp(
                 client=client,
@@ -4947,7 +4981,7 @@ class MenuButtonDefault(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "MenuButtonDefault" | None:
+    ) -> Optional["MenuButtonDefault"]:
         return (
             MenuButtonDefault(
                 client=client,
@@ -4974,7 +5008,7 @@ class ChatBoostSource(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostSource" | None:
+    ) -> Optional["ChatBoostSource"]:
         return (
             ChatBoostSource(
                 client=client,
@@ -5002,7 +5036,7 @@ class ChatBoostSourcePremium(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostSourcePremium" | None:
+    ) -> Optional["ChatBoostSourcePremium"]:
         return (
             ChatBoostSourcePremium(
                 client=client,
@@ -5030,7 +5064,7 @@ class ChatBoostSourceGiftCode(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostSourceGiftCode" | None:
+    ) -> Optional["ChatBoostSourceGiftCode"]:
         return (
             ChatBoostSourceGiftCode(
                 client=client,
@@ -5062,7 +5096,7 @@ class ChatBoostSourceGiveaway(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostSourceGiveaway" | None:
+    ) -> Optional["ChatBoostSourceGiveaway"]:
         return (
             ChatBoostSourceGiveaway(
                 client=client,
@@ -5094,7 +5128,7 @@ class ChatBoost(Type_):
         self.source = source
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ChatBoost" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBoost"]:
         return (
             ChatBoost(
                 client=client,
@@ -5124,7 +5158,7 @@ class ChatBoostUpdated(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostUpdated" | None:
+    ) -> Optional["ChatBoostUpdated"]:
         return (
             ChatBoostUpdated(
                 client=client,
@@ -5156,7 +5190,7 @@ class ChatBoostRemoved(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChatBoostRemoved" | None:
+    ) -> Optional["ChatBoostRemoved"]:
         return (
             ChatBoostRemoved(
                 client=client,
@@ -5182,7 +5216,9 @@ class UserChatBoosts(Type_):
         self.boosts = boosts
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "UserChatBoosts" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["UserChatBoosts"]:
         return (
             UserChatBoosts(
                 client=client,
@@ -5219,7 +5255,7 @@ class BusinessConnection(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BusinessConnection" | None:
+    ) -> Optional["BusinessConnection"]:
         return (
             BusinessConnection(
                 client=client,
@@ -5253,7 +5289,7 @@ class BusinessMessagesDeleted(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "BusinessMessagesDeleted" | None:
+    ) -> Optional["BusinessMessagesDeleted"]:
         return (
             BusinessMessagesDeleted(
                 client=client,
@@ -5282,7 +5318,7 @@ class ResponseParameters(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ResponseParameters" | None:
+    ) -> Optional["ResponseParameters"]:
         return (
             ResponseParameters(
                 client=client,
@@ -5318,7 +5354,7 @@ class InputMedia(Type_):
         self.has_spoiler = has_spoiler
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "InputMedia" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMedia"]:
         return (
             InputMedia(
                 client=client,
@@ -5366,7 +5402,7 @@ class InputMediaPhoto(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMediaPhoto" | None:
+    ) -> Optional["InputMediaPhoto"]:
         return (
             InputMediaPhoto(
                 client=client,
@@ -5424,7 +5460,7 @@ class InputMediaVideo(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMediaVideo" | None:
+    ) -> Optional["InputMediaVideo"]:
         return (
             InputMediaVideo(
                 client=client,
@@ -5485,7 +5521,7 @@ class InputMediaAnimation(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMediaAnimation" | None:
+    ) -> Optional["InputMediaAnimation"]:
         return (
             InputMediaAnimation(
                 client=client,
@@ -5541,7 +5577,7 @@ class InputMediaAudio(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMediaAudio" | None:
+    ) -> Optional["InputMediaAudio"]:
         return (
             InputMediaAudio(
                 client=client,
@@ -5591,7 +5627,7 @@ class InputMediaDocument(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMediaDocument" | None:
+    ) -> Optional["InputMediaDocument"]:
         return (
             InputMediaDocument(
                 client=client,
@@ -5652,7 +5688,7 @@ class InputFile(Type_):
         self.reply_markup = reply_markup
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "InputFile" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InputFile"]:
         return (
             InputFile(
                 client=client,
@@ -5722,7 +5758,7 @@ class Sticker(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Sticker" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Sticker"]:
         return (
             Sticker(
                 client=client,
@@ -5771,7 +5807,7 @@ class StickerSet(Type_):
         self.thumbnail = thumbnail
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "StickerSet" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["StickerSet"]:
         return (
             StickerSet(
                 client=client,
@@ -5806,7 +5842,9 @@ class MaskPosition(Type_):
         self.scale = scale
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "MaskPosition" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["MaskPosition"]:
         return (
             MaskPosition(
                 client=client,
@@ -5840,7 +5878,9 @@ class InputSticker(Type_):
         self.keywords = keywords
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "InputSticker" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["InputSticker"]:
         return (
             InputSticker(
                 client=client,
@@ -5879,7 +5919,7 @@ class InlineQuery(Type_):
         self.location = location
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "InlineQuery" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InlineQuery"]:
         return (
             InlineQuery(
                 client=client,
@@ -5913,7 +5953,7 @@ class InlineQueryResultsButton(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultsButton" | None:
+    ) -> Optional["InlineQueryResultsButton"]:
         return (
             InlineQueryResultsButton(
                 client=client,
@@ -5960,7 +6000,7 @@ class InlineQueryResult(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResult" | None:
+    ) -> Optional["InlineQueryResult"]:
         return (
             InlineQueryResult(
                 client=client,
@@ -6019,7 +6059,7 @@ class InlineQueryResultArticle(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultArticle" | None:
+    ) -> Optional["InlineQueryResultArticle"]:
         return (
             InlineQueryResultArticle(
                 client=client,
@@ -6084,7 +6124,7 @@ class InlineQueryResultPhoto(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultPhoto" | None:
+    ) -> Optional["InlineQueryResultPhoto"]:
         return (
             InlineQueryResultPhoto(
                 client=client,
@@ -6159,7 +6199,7 @@ class InlineQueryResultGif(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultGif" | None:
+    ) -> Optional["InlineQueryResultGif"]:
         return (
             InlineQueryResultGif(
                 client=client,
@@ -6235,7 +6275,7 @@ class InlineQueryResultMpeg4Gif(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultMpeg4Gif" | None:
+    ) -> Optional["InlineQueryResultMpeg4Gif"]:
         return (
             InlineQueryResultMpeg4Gif(
                 client=client,
@@ -6313,7 +6353,7 @@ class InlineQueryResultVideo(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultVideo" | None:
+    ) -> Optional["InlineQueryResultVideo"]:
         return (
             InlineQueryResultVideo(
                 client=client,
@@ -6382,7 +6422,7 @@ class InlineQueryResultAudio(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultAudio" | None:
+    ) -> Optional["InlineQueryResultAudio"]:
         return (
             InlineQueryResultAudio(
                 client=client,
@@ -6444,7 +6484,7 @@ class InlineQueryResultVoice(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultVoice" | None:
+    ) -> Optional["InlineQueryResultVoice"]:
         return (
             InlineQueryResultVoice(
                 client=client,
@@ -6513,7 +6553,7 @@ class InlineQueryResultDocument(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultDocument" | None:
+    ) -> Optional["InlineQueryResultDocument"]:
         return (
             InlineQueryResultDocument(
                 client=client,
@@ -6586,7 +6626,7 @@ class InlineQueryResultLocation(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultLocation" | None:
+    ) -> Optional["InlineQueryResultLocation"]:
         return (
             InlineQueryResultLocation(
                 client=client,
@@ -6656,7 +6696,7 @@ class InlineQueryResultVenue(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultVenue" | None:
+    ) -> Optional["InlineQueryResultVenue"]:
         return (
             InlineQueryResultVenue(
                 client=client,
@@ -6719,7 +6759,7 @@ class InlineQueryResultContact(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultContact" | None:
+    ) -> Optional["InlineQueryResultContact"]:
         return (
             InlineQueryResultContact(
                 client=client,
@@ -6764,7 +6804,7 @@ class InlineQueryResultGame(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultGame" | None:
+    ) -> Optional["InlineQueryResultGame"]:
         return (
             InlineQueryResultGame(
                 client=client,
@@ -6814,7 +6854,7 @@ class InlineQueryResultCachedPhoto(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedPhoto" | None:
+    ) -> Optional["InlineQueryResultCachedPhoto"]:
         return (
             InlineQueryResultCachedPhoto(
                 client=client,
@@ -6876,7 +6916,7 @@ class InlineQueryResultCachedGif(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedGif" | None:
+    ) -> Optional["InlineQueryResultCachedGif"]:
         return (
             InlineQueryResultCachedGif(
                 client=client,
@@ -6937,7 +6977,7 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedMpeg4Gif" | None:
+    ) -> Optional["InlineQueryResultCachedMpeg4Gif"]:
         return (
             InlineQueryResultCachedMpeg4Gif(
                 client=client,
@@ -6988,7 +7028,7 @@ class InlineQueryResultCachedSticker(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedSticker" | None:
+    ) -> Optional["InlineQueryResultCachedSticker"]:
         return (
             InlineQueryResultCachedSticker(
                 client=client,
@@ -7039,7 +7079,7 @@ class InlineQueryResultCachedDocument(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedDocument" | None:
+    ) -> Optional["InlineQueryResultCachedDocument"]:
         return (
             InlineQueryResultCachedDocument(
                 client=client,
@@ -7102,7 +7142,7 @@ class InlineQueryResultCachedVideo(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedVideo" | None:
+    ) -> Optional["InlineQueryResultCachedVideo"]:
         return (
             InlineQueryResultCachedVideo(
                 client=client,
@@ -7162,7 +7202,7 @@ class InlineQueryResultCachedVoice(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedVoice" | None:
+    ) -> Optional["InlineQueryResultCachedVoice"]:
         return (
             InlineQueryResultCachedVoice(
                 client=client,
@@ -7218,7 +7258,7 @@ class InlineQueryResultCachedAudio(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InlineQueryResultCachedAudio" | None:
+    ) -> Optional["InlineQueryResultCachedAudio"]:
         return (
             InlineQueryResultCachedAudio(
                 client=client,
@@ -7265,7 +7305,7 @@ class InputMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputMessageContent" | None:
+    ) -> Optional["InputMessageContent"]:
         return (
             InputMessageContent(
                 client=client,
@@ -7305,7 +7345,7 @@ class InputTextMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputTextMessageContent" | None:
+    ) -> Optional["InputTextMessageContent"]:
         return (
             InputTextMessageContent(
                 client=client,
@@ -7349,7 +7389,7 @@ class InputLocationMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputLocationMessageContent" | None:
+    ) -> Optional["InputLocationMessageContent"]:
         return (
             InputLocationMessageContent(
                 client=client,
@@ -7393,7 +7433,7 @@ class InputVenueMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputVenueMessageContent" | None:
+    ) -> Optional["InputVenueMessageContent"]:
         return (
             InputVenueMessageContent(
                 client=client,
@@ -7431,7 +7471,7 @@ class InputContactMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputContactMessageContent" | None:
+    ) -> Optional["InputContactMessageContent"]:
         return (
             InputContactMessageContent(
                 client=client,
@@ -7497,7 +7537,7 @@ class InputInvoiceMessageContent(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "InputInvoiceMessageContent" | None:
+    ) -> Optional["InputInvoiceMessageContent"]:
         return (
             InputInvoiceMessageContent(
                 client=client,
@@ -7553,7 +7593,7 @@ class ChosenInlineResult(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ChosenInlineResult" | None:
+    ) -> Optional["ChosenInlineResult"]:
         return (
             ChosenInlineResult(
                 client=client,
@@ -7582,40 +7622,12 @@ class SentWebAppMessage(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "SentWebAppMessage" | None:
+    ) -> Optional["SentWebAppMessage"]:
         return (
             SentWebAppMessage(
                 client=client,
                 json=d,
                 inline_message_id=d.get("inline_message_id"),
-            )
-            if d
-            else None
-        )
-
-
-class getStarTransactions(Type_):
-    def __init__(
-        self,
-        offset: "int" = None,
-        limit: "int" = None,
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(client=client, json=json)
-        self.offset = offset
-        self.limit = limit
-
-    @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> "getStarTransactions" | None:
-        return (
-            getStarTransactions(
-                client=client,
-                json=d,
-                offset=d.get("offset"),
-                limit=d.get("limit"),
             )
             if d
             else None
@@ -7635,7 +7647,9 @@ class LabeledPrice(Type_):
         self.amount = amount
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "LabeledPrice" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["LabeledPrice"]:
         return (
             LabeledPrice(
                 client=client,
@@ -7667,7 +7681,7 @@ class Invoice(Type_):
         self.total_amount = total_amount
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Invoice" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Invoice"]:
         return (
             Invoice(
                 client=client,
@@ -7706,7 +7720,7 @@ class ShippingAddress(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "ShippingAddress" | None:
+    ) -> Optional["ShippingAddress"]:
         return (
             ShippingAddress(
                 client=client,
@@ -7740,7 +7754,7 @@ class OrderInfo(Type_):
         self.shipping_address = shipping_address
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "OrderInfo" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["OrderInfo"]:
         return (
             OrderInfo(
                 client=client,
@@ -7772,7 +7786,9 @@ class ShippingOption(Type_):
         self.prices = prices
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ShippingOption" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ShippingOption"]:
         return (
             ShippingOption(
                 client=client,
@@ -7815,7 +7831,7 @@ class SuccessfulPayment(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "SuccessfulPayment" | None:
+    ) -> Optional["SuccessfulPayment"]:
         return (
             SuccessfulPayment(
                 client=client,
@@ -7850,7 +7866,9 @@ class ShippingQuery(Type_):
         self.shipping_address = shipping_address
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "ShippingQuery" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["ShippingQuery"]:
         return (
             ShippingQuery(
                 client=client,
@@ -7892,7 +7910,7 @@ class PreCheckoutQuery(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PreCheckoutQuery" | None:
+    ) -> Optional["PreCheckoutQuery"]:
         return (
             PreCheckoutQuery(
                 client=client,
@@ -7918,7 +7936,7 @@ class RevenueWithdrawalState(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "RevenueWithdrawalState" | None:
+    ) -> Optional["RevenueWithdrawalState"]:
         return (
             RevenueWithdrawalState(
                 client=client,
@@ -7938,7 +7956,7 @@ class RevenueWithdrawalStatePending(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "RevenueWithdrawalStatePending" | None:
+    ) -> Optional["RevenueWithdrawalStatePending"]:
         return (
             RevenueWithdrawalStatePending(
                 client=client,
@@ -7967,7 +7985,7 @@ class RevenueWithdrawalStateSucceeded(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "RevenueWithdrawalStateSucceeded" | None:
+    ) -> Optional["RevenueWithdrawalStateSucceeded"]:
         return (
             RevenueWithdrawalStateSucceeded(
                 client=client,
@@ -7989,7 +8007,7 @@ class RevenueWithdrawalStateFailed(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "RevenueWithdrawalStateFailed" | None:
+    ) -> Optional["RevenueWithdrawalStateFailed"]:
         return (
             RevenueWithdrawalStateFailed(
                 client=client,
@@ -8016,7 +8034,7 @@ class TransactionPartner(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "TransactionPartner" | None:
+    ) -> Optional["TransactionPartner"]:
         return (
             TransactionPartner(
                 client=client,
@@ -8046,7 +8064,7 @@ class TransactionPartnerFragment(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "TransactionPartnerFragment" | None:
+    ) -> Optional["TransactionPartnerFragment"]:
         return (
             TransactionPartnerFragment(
                 client=client,
@@ -8076,7 +8094,7 @@ class TransactionPartnerUser(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "TransactionPartnerUser" | None:
+    ) -> Optional["TransactionPartnerUser"]:
         return (
             TransactionPartnerUser(
                 client=client,
@@ -8097,7 +8115,7 @@ class TransactionPartnerOther(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "TransactionPartnerOther" | None:
+    ) -> Optional["TransactionPartnerOther"]:
         return (
             TransactionPartnerOther(
                 client=client,
@@ -8130,7 +8148,7 @@ class StarTransaction(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "StarTransaction" | None:
+    ) -> Optional["StarTransaction"]:
         return (
             StarTransaction(
                 client=client,
@@ -8159,7 +8177,7 @@ class StarTransactions(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "StarTransactions" | None:
+    ) -> Optional["StarTransactions"]:
         return (
             StarTransactions(
                 client=client,
@@ -8189,7 +8207,9 @@ class PassportData(Type_):
         self.credentials = credentials
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "PassportData" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["PassportData"]:
         return (
             PassportData(
                 client=client,
@@ -8226,7 +8246,9 @@ class PassportFile(Type_):
         self.file_date = file_date
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "PassportFile" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["PassportFile"]:
         return (
             PassportFile(
                 client=client,
@@ -8272,7 +8294,7 @@ class EncryptedPassportElement(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "EncryptedPassportElement" | None:
+    ) -> Optional["EncryptedPassportElement"]:
         return (
             EncryptedPassportElement(
                 client=client,
@@ -8319,7 +8341,7 @@ class EncryptedCredentials(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "EncryptedCredentials" | None:
+    ) -> Optional["EncryptedCredentials"]:
         return (
             EncryptedCredentials(
                 client=client,
@@ -8354,7 +8376,7 @@ class PassportElementError(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementError" | None:
+    ) -> Optional["PassportElementError"]:
         return (
             PassportElementError(
                 client=client,
@@ -8391,7 +8413,7 @@ class PassportElementErrorDataField(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorDataField" | None:
+    ) -> Optional["PassportElementErrorDataField"]:
         return (
             PassportElementErrorDataField(
                 client=client,
@@ -8426,7 +8448,7 @@ class PassportElementErrorFrontSide(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorFrontSide" | None:
+    ) -> Optional["PassportElementErrorFrontSide"]:
         return (
             PassportElementErrorFrontSide(
                 client=client,
@@ -8460,7 +8482,7 @@ class PassportElementErrorReverseSide(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorReverseSide" | None:
+    ) -> Optional["PassportElementErrorReverseSide"]:
         return (
             PassportElementErrorReverseSide(
                 client=client,
@@ -8494,7 +8516,7 @@ class PassportElementErrorSelfie(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorSelfie" | None:
+    ) -> Optional["PassportElementErrorSelfie"]:
         return (
             PassportElementErrorSelfie(
                 client=client,
@@ -8528,7 +8550,7 @@ class PassportElementErrorFile(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorFile" | None:
+    ) -> Optional["PassportElementErrorFile"]:
         return (
             PassportElementErrorFile(
                 client=client,
@@ -8562,7 +8584,7 @@ class PassportElementErrorFiles(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorFiles" | None:
+    ) -> Optional["PassportElementErrorFiles"]:
         return (
             PassportElementErrorFiles(
                 client=client,
@@ -8596,7 +8618,7 @@ class PassportElementErrorTranslationFile(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorTranslationFile" | None:
+    ) -> Optional["PassportElementErrorTranslationFile"]:
         return (
             PassportElementErrorTranslationFile(
                 client=client,
@@ -8630,7 +8652,7 @@ class PassportElementErrorTranslationFiles(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorTranslationFiles" | None:
+    ) -> Optional["PassportElementErrorTranslationFiles"]:
         return (
             PassportElementErrorTranslationFiles(
                 client=client,
@@ -8664,7 +8686,7 @@ class PassportElementErrorUnspecified(Type_):
     @staticmethod
     def _parse(
         client: "tgram.TgBot" = None, d: dict = None
-    ) -> "PassportElementErrorUnspecified" | None:
+    ) -> Optional["PassportElementErrorUnspecified"]:
         return (
             PassportElementErrorUnspecified(
                 client=client,
@@ -8700,7 +8722,7 @@ class Game(Type_):
         self.animation = animation
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "Game" | None:
+    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Game"]:
         return (
             Game(
                 client=client,
@@ -8747,7 +8769,9 @@ class CallbackGame(Type_):
         self.inline_message_id = inline_message_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "CallbackGame" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["CallbackGame"]:
         return (
             CallbackGame(
                 client=client,
@@ -8780,7 +8804,9 @@ class GameHighScore(Type_):
         self.score = score
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> "GameHighScore" | None:
+    def _parse(
+        client: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["GameHighScore"]:
         return (
             GameHighScore(
                 client=client,

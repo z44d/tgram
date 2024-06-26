@@ -66,6 +66,8 @@ class TgBot(TelegramBotMethods, Decorators):
         data = aiohttp.FormData(quote_fields=False)
 
         for key, value in kwargs.items():
+            if value is None:
+                continue
             data.add_field(
                 key,
                 json.dumps(value._json, ensure_ascii=False)
