@@ -1,6 +1,7 @@
 # This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
 
 from typing import List, Union
+import tgram
 from .types import (
     StarTransactions,
     Update,
@@ -52,7 +53,7 @@ from .types import (
 
 class TelegramBotMethods:
     async def get_updates(
-        self,
+        self: "tgram.TgBot",
         offset: int = None,
         limit: int = None,
         timeout: int = None,
@@ -69,7 +70,7 @@ class TelegramBotMethods:
         return [Update._parse(client=self, d=i) for i in result["result"]]
 
     async def set_webhook(
-        self,
+        self: "tgram.TgBot",
         url: str,
         certificate: InputFile = None,
         ip_address: str = None,
@@ -91,7 +92,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def delete_webhook(self, drop_pending_updates: bool = None) -> bool:
+    async def delete_webhook(
+        self: "tgram.TgBot", drop_pending_updates: bool = None
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletewebhook"""
         result = await self._request(
             "deleteWebhook",
@@ -99,28 +102,28 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_webhook_info(self) -> WebhookInfo:
+    async def get_webhook_info(self: "tgram.TgBot") -> WebhookInfo:
         """https://core.telegram.org/bots/api/#getwebhookinfo"""
         result = await self._request(
             "getWebhookInfo",
         )
         return WebhookInfo._parse(client=self, d=result["result"])
 
-    async def get_me(self) -> User:
+    async def get_me(self: "tgram.TgBot") -> User:
         """https://core.telegram.org/bots/api/#getme"""
         result = await self._request(
             "getMe",
         )
         return User._parse(client=self, d=result["result"])
 
-    async def log_out(self) -> bool:
+    async def log_out(self: "tgram.TgBot") -> bool:
         """https://core.telegram.org/bots/api/#logout"""
         result = await self._request(
             "logOut",
         )
         return result["result"]
 
-    async def close(self) -> bool:
+    async def close(self: "tgram.TgBot") -> bool:
         """https://core.telegram.org/bots/api/#close"""
         result = await self._request(
             "close",
@@ -128,7 +131,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def send_message(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         text: str,
         business_connection_id: str = None,
@@ -163,7 +166,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def forward_message(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_id: int,
@@ -184,7 +187,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def forward_messages(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_ids: List[int],
@@ -205,7 +208,7 @@ class TelegramBotMethods:
         return [MessageId._parse(client=self, d=i) for i in result["result"]]
 
     async def copy_message(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_id: int,
@@ -240,7 +243,7 @@ class TelegramBotMethods:
         return MessageId._parse(client=self, d=result["result"])
 
     async def copy_messages(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         from_chat_id: Union[int, str],
         message_ids: List[int],
@@ -263,7 +266,7 @@ class TelegramBotMethods:
         return [MessageId._parse(client=self, d=i) for i in result["result"]]
 
     async def send_photo(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         photo: Union[InputFile, str],
         business_connection_id: str = None,
@@ -302,7 +305,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_audio(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         audio: Union[InputFile, str],
         business_connection_id: str = None,
@@ -345,7 +348,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_document(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         document: Union[InputFile, str],
         business_connection_id: str = None,
@@ -384,7 +387,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_video(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         video: Union[InputFile, str],
         business_connection_id: str = None,
@@ -433,7 +436,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_animation(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         animation: Union[InputFile, str],
         business_connection_id: str = None,
@@ -480,7 +483,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_voice(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         voice: Union[InputFile, str],
         business_connection_id: str = None,
@@ -517,7 +520,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_video_note(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         video_note: Union[InputFile, str],
         business_connection_id: str = None,
@@ -552,7 +555,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_media_group(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         media: List[bool],
         business_connection_id: str = None,
@@ -577,7 +580,7 @@ class TelegramBotMethods:
         return [Message._parse(client=self, d=i) for i in result["result"]]
 
     async def send_location(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         latitude: float,
         longitude: float,
@@ -616,7 +619,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_venue(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         latitude: float,
         longitude: float,
@@ -659,7 +662,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_contact(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         phone_number: str,
         first_name: str,
@@ -694,7 +697,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_poll(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         question: str,
         options: List[InputPollOption],
@@ -749,7 +752,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_dice(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         business_connection_id: str = None,
         message_thread_id: int = None,
@@ -778,7 +781,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def send_chat_action(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         action: str,
         business_connection_id: str = None,
@@ -795,7 +798,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_message_reaction(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         reaction: List[ReactionType] = None,
@@ -812,7 +815,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_user_profile_photos(
-        self, user_id: int, offset: int = None, limit: int = None
+        self: "tgram.TgBot", user_id: int, offset: int = None, limit: int = None
     ) -> UserProfilePhotos:
         """https://core.telegram.org/bots/api/#getuserprofilephotos"""
         result = await self._request(
@@ -823,7 +826,7 @@ class TelegramBotMethods:
         )
         return UserProfilePhotos._parse(client=self, d=result["result"])
 
-    async def get_file(self, file_id: str) -> File:
+    async def get_file(self: "tgram.TgBot", file_id: str) -> File:
         """https://core.telegram.org/bots/api/#getfile"""
         result = await self._request(
             "getFile",
@@ -832,7 +835,7 @@ class TelegramBotMethods:
         return File._parse(client=self, d=result["result"])
 
     async def ban_chat_member(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         until_date: int = None,
@@ -849,7 +852,10 @@ class TelegramBotMethods:
         return result["result"]
 
     async def unban_chat_member(
-        self, chat_id: Union[int, str], user_id: int, only_if_banned: bool = None
+        self: "tgram.TgBot",
+        chat_id: Union[int, str],
+        user_id: int,
+        only_if_banned: bool = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#unbanchatmember"""
         result = await self._request(
@@ -861,7 +867,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def restrict_chat_member(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         permissions: ChatPermissions,
@@ -880,7 +886,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def promote_chat_member(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         user_id: int,
         is_anonymous: bool = None,
@@ -923,7 +929,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_chat_administrator_custom_title(
-        self, chat_id: Union[int, str], user_id: int, custom_title: str
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int, custom_title: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatadministratorcustomtitle"""
         result = await self._request(
@@ -935,7 +941,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def ban_chat_sender_chat(
-        self, chat_id: Union[int, str], sender_chat_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#banchatsenderchat"""
         result = await self._request(
@@ -946,7 +952,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def unban_chat_sender_chat(
-        self, chat_id: Union[int, str], sender_chat_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#unbanchatsenderchat"""
         result = await self._request(
@@ -957,7 +963,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_chat_permissions(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         permissions: ChatPermissions,
         use_independent_chat_permissions: bool = None,
@@ -971,7 +977,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def export_chat_invite_link(self, chat_id: Union[int, str]) -> str:
+    async def export_chat_invite_link(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> str:
         """https://core.telegram.org/bots/api/#exportchatinvitelink"""
         result = await self._request(
             "exportChatInviteLink",
@@ -980,7 +988,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def create_chat_invite_link(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         name: str = None,
         expire_date: int = None,
@@ -999,7 +1007,7 @@ class TelegramBotMethods:
         return ChatInviteLink._parse(client=self, d=result["result"])
 
     async def edit_chat_invite_link(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         invite_link: str,
         name: str = None,
@@ -1020,7 +1028,7 @@ class TelegramBotMethods:
         return ChatInviteLink._parse(client=self, d=result["result"])
 
     async def revoke_chat_invite_link(
-        self, chat_id: Union[int, str], invite_link: str
+        self: "tgram.TgBot", chat_id: Union[int, str], invite_link: str
     ) -> ChatInviteLink:
         """https://core.telegram.org/bots/api/#revokechatinvitelink"""
         result = await self._request(
@@ -1031,7 +1039,7 @@ class TelegramBotMethods:
         return ChatInviteLink._parse(client=self, d=result["result"])
 
     async def approve_chat_join_request(
-        self, chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#approvechatjoinrequest"""
         result = await self._request(
@@ -1042,7 +1050,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def decline_chat_join_request(
-        self, chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#declinechatjoinrequest"""
         result = await self._request(
@@ -1052,7 +1060,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def set_chat_photo(self, chat_id: Union[int, str], photo: InputFile) -> bool:
+    async def set_chat_photo(
+        self: "tgram.TgBot", chat_id: Union[int, str], photo: InputFile
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setchatphoto"""
         result = await self._request(
             "setChatPhoto",
@@ -1061,7 +1071,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def delete_chat_photo(self, chat_id: Union[int, str]) -> bool:
+    async def delete_chat_photo(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
         """https://core.telegram.org/bots/api/#deletechatphoto"""
         result = await self._request(
             "deleteChatPhoto",
@@ -1069,7 +1079,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def set_chat_title(self, chat_id: Union[int, str], title: str) -> bool:
+    async def set_chat_title(
+        self: "tgram.TgBot", chat_id: Union[int, str], title: str
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setchattitle"""
         result = await self._request(
             "setChatTitle",
@@ -1079,7 +1091,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_chat_description(
-        self, chat_id: Union[int, str], description: str = None
+        self: "tgram.TgBot", chat_id: Union[int, str], description: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatdescription"""
         result = await self._request(
@@ -1090,7 +1102,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def pin_chat_message(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         disable_notification: bool = None,
@@ -1105,7 +1117,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def unpin_chat_message(
-        self, chat_id: Union[int, str], message_id: int = None
+        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#unpinchatmessage"""
         result = await self._request(
@@ -1115,7 +1127,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def unpin_all_chat_messages(self, chat_id: Union[int, str]) -> bool:
+    async def unpin_all_chat_messages(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallchatmessages"""
         result = await self._request(
             "unpinAllChatMessages",
@@ -1123,7 +1137,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def leave_chat(self, chat_id: Union[int, str]) -> bool:
+    async def leave_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
         """https://core.telegram.org/bots/api/#leavechat"""
         result = await self._request(
             "leaveChat",
@@ -1131,7 +1145,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_chat(self, chat_id: Union[int, str]) -> ChatFullInfo:
+    async def get_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> ChatFullInfo:
         """https://core.telegram.org/bots/api/#getchat"""
         result = await self._request(
             "getChat",
@@ -1140,7 +1154,7 @@ class TelegramBotMethods:
         return ChatFullInfo._parse(client=self, d=result["result"])
 
     async def get_chat_administrators(
-        self, chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: Union[int, str]
     ) -> List[ChatMember]:
         """https://core.telegram.org/bots/api/#getchatadministrators"""
         result = await self._request(
@@ -1149,7 +1163,9 @@ class TelegramBotMethods:
         )
         return [ChatMember._parse(client=self, d=i) for i in result["result"]]
 
-    async def get_chat_member_count(self, chat_id: Union[int, str]) -> int:
+    async def get_chat_member_count(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> int:
         """https://core.telegram.org/bots/api/#getchatmembercount"""
         result = await self._request(
             "getChatMemberCount",
@@ -1158,7 +1174,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_chat_member(
-        self, chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
     ) -> ChatMember:
         """https://core.telegram.org/bots/api/#getchatmember"""
         result = await self._request(
@@ -1169,7 +1185,7 @@ class TelegramBotMethods:
         return ChatMember._parse(client=self, d=result["result"])
 
     async def set_chat_sticker_set(
-        self, chat_id: Union[int, str], sticker_set_name: str
+        self: "tgram.TgBot", chat_id: Union[int, str], sticker_set_name: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatstickerset"""
         result = await self._request(
@@ -1179,7 +1195,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def delete_chat_sticker_set(self, chat_id: Union[int, str]) -> bool:
+    async def delete_chat_sticker_set(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletechatstickerset"""
         result = await self._request(
             "deleteChatStickerSet",
@@ -1187,7 +1205,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_forum_topic_icon_stickers(self) -> List[Sticker]:
+    async def get_forum_topic_icon_stickers(self: "tgram.TgBot") -> List[Sticker]:
         """https://core.telegram.org/bots/api/#getforumtopiciconstickers"""
         result = await self._request(
             "getForumTopicIconStickers",
@@ -1195,7 +1213,7 @@ class TelegramBotMethods:
         return [Sticker._parse(client=self, d=i) for i in result["result"]]
 
     async def create_forum_topic(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         name: str,
         icon_color: int = None,
@@ -1212,7 +1230,7 @@ class TelegramBotMethods:
         return ForumTopic._parse(client=self, d=result["result"])
 
     async def edit_forum_topic(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_thread_id: int,
         name: str = None,
@@ -1229,7 +1247,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def close_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#closeforumtopic"""
         result = await self._request(
@@ -1240,7 +1258,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def reopen_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#reopenforumtopic"""
         result = await self._request(
@@ -1251,7 +1269,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def delete_forum_topic(
-        self, chat_id: Union[int, str], message_thread_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#deleteforumtopic"""
         result = await self._request(
@@ -1262,7 +1280,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def unpin_all_forum_topic_messages(
-        self, chat_id: Union[int, str], message_thread_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
     ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallforumtopicmessages"""
         result = await self._request(
@@ -1273,7 +1291,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def edit_general_forum_topic(
-        self, chat_id: Union[int, str], name: str
+        self: "tgram.TgBot", chat_id: Union[int, str], name: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#editgeneralforumtopic"""
         result = await self._request(
@@ -1283,7 +1301,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def close_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def close_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#closegeneralforumtopic"""
         result = await self._request(
             "closeGeneralForumTopic",
@@ -1291,7 +1311,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def reopen_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def reopen_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#reopengeneralforumtopic"""
         result = await self._request(
             "reopenGeneralForumTopic",
@@ -1299,7 +1321,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def hide_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def hide_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#hidegeneralforumtopic"""
         result = await self._request(
             "hideGeneralForumTopic",
@@ -1307,7 +1331,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def unhide_general_forum_topic(self, chat_id: Union[int, str]) -> bool:
+    async def unhide_general_forum_topic(
+        self: "tgram.TgBot", chat_id: Union[int, str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#unhidegeneralforumtopic"""
         result = await self._request(
             "unhideGeneralForumTopic",
@@ -1316,7 +1342,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def unpin_all_general_forum_topic_messages(
-        self, chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: Union[int, str]
     ) -> bool:
         """https://core.telegram.org/bots/api/#unpinallgeneralforumtopicmessages"""
         result = await self._request(
@@ -1326,7 +1352,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def answer_callback_query(
-        self,
+        self: "tgram.TgBot",
         callback_query_id: str,
         text: str = None,
         show_alert: bool = None,
@@ -1345,7 +1371,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_user_chat_boosts(
-        self, chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
     ) -> UserChatBoosts:
         """https://core.telegram.org/bots/api/#getuserchatboosts"""
         result = await self._request(
@@ -1356,7 +1382,7 @@ class TelegramBotMethods:
         return UserChatBoosts._parse(client=self, d=result["result"])
 
     async def get_business_connection(
-        self, business_connection_id: str
+        self: "tgram.TgBot", business_connection_id: str
     ) -> BusinessConnection:
         """https://core.telegram.org/bots/api/#getbusinessconnection"""
         result = await self._request(
@@ -1366,7 +1392,7 @@ class TelegramBotMethods:
         return BusinessConnection._parse(client=self, d=result["result"])
 
     async def set_my_commands(
-        self,
+        self: "tgram.TgBot",
         commands: List[BotCommand],
         scope: BotCommandScope = None,
         language_code: str = None,
@@ -1381,7 +1407,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def delete_my_commands(
-        self, scope: BotCommandScope = None, language_code: str = None
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#deletemycommands"""
         result = await self._request(
@@ -1392,7 +1418,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_my_commands(
-        self, scope: BotCommandScope = None, language_code: str = None
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
     ) -> List[BotCommand]:
         """https://core.telegram.org/bots/api/#getmycommands"""
         result = await self._request(
@@ -1402,7 +1428,9 @@ class TelegramBotMethods:
         )
         return [BotCommand._parse(client=self, d=i) for i in result["result"]]
 
-    async def set_my_name(self, name: str = None, language_code: str = None) -> bool:
+    async def set_my_name(
+        self: "tgram.TgBot", name: str = None, language_code: str = None
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setmyname"""
         result = await self._request(
             "setMyName",
@@ -1411,7 +1439,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_my_name(self, language_code: str = None) -> BotName:
+    async def get_my_name(self: "tgram.TgBot", language_code: str = None) -> BotName:
         """https://core.telegram.org/bots/api/#getmyname"""
         result = await self._request(
             "getMyName",
@@ -1420,7 +1448,7 @@ class TelegramBotMethods:
         return BotName._parse(client=self, d=result["result"])
 
     async def set_my_description(
-        self, description: str = None, language_code: str = None
+        self: "tgram.TgBot", description: str = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmydescription"""
         result = await self._request(
@@ -1430,7 +1458,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_my_description(self, language_code: str = None) -> BotDescription:
+    async def get_my_description(
+        self: "tgram.TgBot", language_code: str = None
+    ) -> BotDescription:
         """https://core.telegram.org/bots/api/#getmydescription"""
         result = await self._request(
             "getMyDescription",
@@ -1439,7 +1469,7 @@ class TelegramBotMethods:
         return BotDescription._parse(client=self, d=result["result"])
 
     async def set_my_short_description(
-        self, short_description: str = None, language_code: str = None
+        self: "tgram.TgBot", short_description: str = None, language_code: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmyshortdescription"""
         result = await self._request(
@@ -1450,7 +1480,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_my_short_description(
-        self, language_code: str = None
+        self: "tgram.TgBot", language_code: str = None
     ) -> BotShortDescription:
         """https://core.telegram.org/bots/api/#getmyshortdescription"""
         result = await self._request(
@@ -1460,7 +1490,7 @@ class TelegramBotMethods:
         return BotShortDescription._parse(client=self, d=result["result"])
 
     async def set_chat_menu_button(
-        self, chat_id: int = None, menu_button: MenuButton = None
+        self: "tgram.TgBot", chat_id: int = None, menu_button: MenuButton = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatmenubutton"""
         result = await self._request(
@@ -1470,7 +1500,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def get_chat_menu_button(self, chat_id: int = None) -> MenuButton:
+    async def get_chat_menu_button(
+        self: "tgram.TgBot", chat_id: int = None
+    ) -> MenuButton:
         """https://core.telegram.org/bots/api/#getchatmenubutton"""
         result = await self._request(
             "getChatMenuButton",
@@ -1479,7 +1511,9 @@ class TelegramBotMethods:
         return MenuButton._parse(client=self, d=result["result"])
 
     async def set_my_default_administrator_rights(
-        self, rights: ChatAdministratorRights = None, for_channels: bool = None
+        self: "tgram.TgBot",
+        rights: ChatAdministratorRights = None,
+        for_channels: bool = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#setmydefaultadministratorrights"""
         result = await self._request(
@@ -1490,7 +1524,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_my_default_administrator_rights(
-        self, for_channels: bool = None
+        self: "tgram.TgBot", for_channels: bool = None
     ) -> ChatAdministratorRights:
         """https://core.telegram.org/bots/api/#getmydefaultadministratorrights"""
         result = await self._request(
@@ -1500,7 +1534,7 @@ class TelegramBotMethods:
         return ChatAdministratorRights._parse(client=self, d=result["result"])
 
     async def edit_message_text(
-        self,
+        self: "tgram.TgBot",
         text: str,
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
@@ -1531,7 +1565,7 @@ class TelegramBotMethods:
         )
 
     async def edit_message_caption(
-        self,
+        self: "tgram.TgBot",
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -1562,7 +1596,7 @@ class TelegramBotMethods:
         )
 
     async def edit_message_media(
-        self,
+        self: "tgram.TgBot",
         media: InputMedia,
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
@@ -1587,7 +1621,7 @@ class TelegramBotMethods:
         )
 
     async def edit_message_live_location(
-        self,
+        self: "tgram.TgBot",
         latitude: float,
         longitude: float,
         business_connection_id: str = None,
@@ -1622,7 +1656,7 @@ class TelegramBotMethods:
         )
 
     async def stop_message_live_location(
-        self,
+        self: "tgram.TgBot",
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -1645,7 +1679,7 @@ class TelegramBotMethods:
         )
 
     async def edit_message_reply_markup(
-        self,
+        self: "tgram.TgBot",
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -1668,7 +1702,7 @@ class TelegramBotMethods:
         )
 
     async def stop_poll(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         message_id: int,
         business_connection_id: str = None,
@@ -1684,7 +1718,9 @@ class TelegramBotMethods:
         )
         return Poll._parse(client=self, d=result["result"])
 
-    async def delete_message(self, chat_id: Union[int, str], message_id: int) -> bool:
+    async def delete_message(
+        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#deletemessage"""
         result = await self._request(
             "deleteMessage",
@@ -1694,7 +1730,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def delete_messages(
-        self, chat_id: Union[int, str], message_ids: List[int]
+        self: "tgram.TgBot", chat_id: Union[int, str], message_ids: List[int]
     ) -> bool:
         """https://core.telegram.org/bots/api/#deletemessages"""
         result = await self._request(
@@ -1705,7 +1741,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def send_sticker(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         sticker: Union[InputFile, str],
         business_connection_id: str = None,
@@ -1735,7 +1771,7 @@ class TelegramBotMethods:
         )
         return Message._parse(client=self, d=result["result"])
 
-    async def get_sticker_set(self, name: str) -> StickerSet:
+    async def get_sticker_set(self: "tgram.TgBot", name: str) -> StickerSet:
         """https://core.telegram.org/bots/api/#getstickerset"""
         result = await self._request(
             "getStickerSet",
@@ -1744,7 +1780,7 @@ class TelegramBotMethods:
         return StickerSet._parse(client=self, d=result["result"])
 
     async def get_custom_emoji_stickers(
-        self, custom_emoji_ids: List[str]
+        self: "tgram.TgBot", custom_emoji_ids: List[str]
     ) -> List[Sticker]:
         """https://core.telegram.org/bots/api/#getcustomemojistickers"""
         result = await self._request(
@@ -1754,7 +1790,7 @@ class TelegramBotMethods:
         return [Sticker._parse(client=self, d=i) for i in result["result"]]
 
     async def upload_sticker_file(
-        self, user_id: int, sticker: InputFile, sticker_format: str
+        self: "tgram.TgBot", user_id: int, sticker: InputFile, sticker_format: str
     ) -> File:
         """https://core.telegram.org/bots/api/#uploadstickerfile"""
         result = await self._request(
@@ -1766,7 +1802,7 @@ class TelegramBotMethods:
         return File._parse(client=self, d=result["result"])
 
     async def create_new_sticker_set(
-        self,
+        self: "tgram.TgBot",
         user_id: int,
         name: str,
         title: str,
@@ -1787,7 +1823,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def add_sticker_to_set(
-        self, user_id: int, name: str, sticker: InputSticker
+        self: "tgram.TgBot", user_id: int, name: str, sticker: InputSticker
     ) -> bool:
         """https://core.telegram.org/bots/api/#addstickertoset"""
         result = await self._request(
@@ -1798,7 +1834,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def set_sticker_position_in_set(self, sticker: str, position: int) -> bool:
+    async def set_sticker_position_in_set(
+        self: "tgram.TgBot", sticker: str, position: int
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setstickerpositioninset"""
         result = await self._request(
             "setStickerPositionInSet",
@@ -1807,7 +1845,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def delete_sticker_from_set(self, sticker: str) -> bool:
+    async def delete_sticker_from_set(self: "tgram.TgBot", sticker: str) -> bool:
         """https://core.telegram.org/bots/api/#deletestickerfromset"""
         result = await self._request(
             "deleteStickerFromSet",
@@ -1816,7 +1854,11 @@ class TelegramBotMethods:
         return result["result"]
 
     async def replace_sticker_in_set(
-        self, user_id: int, name: str, old_sticker: str, sticker: InputSticker
+        self: "tgram.TgBot",
+        user_id: int,
+        name: str,
+        old_sticker: str,
+        sticker: InputSticker,
     ) -> bool:
         """https://core.telegram.org/bots/api/#replacestickerinset"""
         result = await self._request(
@@ -1828,7 +1870,9 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def set_sticker_emoji_list(self, sticker: str, emoji_list: List[str]) -> bool:
+    async def set_sticker_emoji_list(
+        self: "tgram.TgBot", sticker: str, emoji_list: List[str]
+    ) -> bool:
         """https://core.telegram.org/bots/api/#setstickeremojilist"""
         result = await self._request(
             "setStickerEmojiList",
@@ -1838,7 +1882,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_sticker_keywords(
-        self, sticker: str, keywords: List[str] = None
+        self: "tgram.TgBot", sticker: str, keywords: List[str] = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setstickerkeywords"""
         result = await self._request(
@@ -1849,7 +1893,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_sticker_mask_position(
-        self, sticker: str, mask_position: MaskPosition = None
+        self: "tgram.TgBot", sticker: str, mask_position: MaskPosition = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setstickermaskposition"""
         result = await self._request(
@@ -1859,7 +1903,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def set_sticker_set_title(self, name: str, title: str) -> bool:
+    async def set_sticker_set_title(self: "tgram.TgBot", name: str, title: str) -> bool:
         """https://core.telegram.org/bots/api/#setstickersettitle"""
         result = await self._request(
             "setStickerSetTitle",
@@ -1869,7 +1913,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_sticker_set_thumbnail(
-        self,
+        self: "tgram.TgBot",
         name: str,
         user_id: int,
         format: str,
@@ -1886,7 +1930,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_custom_emoji_sticker_set_thumbnail(
-        self, name: str, custom_emoji_id: str = None
+        self: "tgram.TgBot", name: str, custom_emoji_id: str = None
     ) -> bool:
         """https://core.telegram.org/bots/api/#setcustomemojistickersetthumbnail"""
         result = await self._request(
@@ -1896,7 +1940,7 @@ class TelegramBotMethods:
         )
         return result["result"]
 
-    async def delete_sticker_set(self, name: str) -> bool:
+    async def delete_sticker_set(self: "tgram.TgBot", name: str) -> bool:
         """https://core.telegram.org/bots/api/#deletestickerset"""
         result = await self._request(
             "deleteStickerSet",
@@ -1905,7 +1949,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def answer_inline_query(
-        self,
+        self: "tgram.TgBot",
         inline_query_id: str,
         results: List[InlineQueryResult],
         cache_time: int = None,
@@ -1926,7 +1970,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def answer_web_app_query(
-        self, web_app_query_id: str, result: InlineQueryResult
+        self: "tgram.TgBot", web_app_query_id: str, result: InlineQueryResult
     ) -> SentWebAppMessage:
         """https://core.telegram.org/bots/api/#answerwebappquery"""
         result = await self._request(
@@ -1937,7 +1981,7 @@ class TelegramBotMethods:
         return SentWebAppMessage._parse(client=self, d=result["result"])
 
     async def send_invoice(
-        self,
+        self: "tgram.TgBot",
         chat_id: Union[int, str],
         title: str,
         description: str,
@@ -2002,7 +2046,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def create_invoice_link(
-        self,
+        self: "tgram.TgBot",
         title: str,
         description: str,
         payload: str,
@@ -2051,7 +2095,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def answer_shipping_query(
-        self,
+        self: "tgram.TgBot",
         shipping_query_id: str,
         ok: bool,
         shipping_options: List[ShippingOption] = None,
@@ -2068,7 +2112,10 @@ class TelegramBotMethods:
         return result["result"]
 
     async def answer_pre_checkout_query(
-        self, pre_checkout_query_id: str, ok: bool, error_message: str = None
+        self: "tgram.TgBot",
+        pre_checkout_query_id: str,
+        ok: bool,
+        error_message: str = None,
     ) -> bool:
         """https://core.telegram.org/bots/api/#answerprecheckoutquery"""
         result = await self._request(
@@ -2080,7 +2127,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def get_star_transactions(
-        self, offset: int = None, limit: int = None
+        self: "tgram.TgBot", offset: int = None, limit: int = None
     ) -> StarTransactions:
         """https://core.telegram.org/bots/api/#getstartransactions"""
         result = await self._request(
@@ -2091,7 +2138,7 @@ class TelegramBotMethods:
         return StarTransactions._parse(client=self, d=result["result"])
 
     async def refund_star_payment(
-        self, user_id: int, telegram_payment_charge_id: str
+        self: "tgram.TgBot", user_id: int, telegram_payment_charge_id: str
     ) -> bool:
         """https://core.telegram.org/bots/api/#refundstarpayment"""
         result = await self._request(
@@ -2102,7 +2149,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_passport_data_errors(
-        self, user_id: int, errors: List[PassportElementError]
+        self: "tgram.TgBot", user_id: int, errors: List[PassportElementError]
     ) -> bool:
         """https://core.telegram.org/bots/api/#setpassportdataerrors"""
         result = await self._request(
@@ -2113,7 +2160,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def send_game(
-        self,
+        self: "tgram.TgBot",
         chat_id: int,
         game_short_name: str,
         business_connection_id: str = None,
@@ -2140,7 +2187,7 @@ class TelegramBotMethods:
         return Message._parse(client=self, d=result["result"])
 
     async def set_game_score(
-        self,
+        self: "tgram.TgBot",
         user_id: int,
         score: int,
         force: bool = None,
@@ -2167,7 +2214,7 @@ class TelegramBotMethods:
         )
 
     async def get_game_high_scores(
-        self,
+        self: "tgram.TgBot",
         user_id: int,
         chat_id: int = None,
         message_id: int = None,
