@@ -3,7 +3,7 @@
         <img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot-small.png" alt="tgram" width="128">
     </a>
     <br>
-    <b>A Very friendly BOT API library for python devs.</b>
+    <b>A very friendly BOT API library for python developers.</b>
     </br>
     <a href="https://t.me/tgbot_channel">
         Channel
@@ -39,15 +39,15 @@ bot.run_for_updates()
 
 ## TODO
 - Bound methods for types.
-- Smart plugins with auto load.
-- Docs site.
+- Smart plugins with auto-load.
+- Documentation site.
 
 ## Requirements
 - Python 3.8 or higher.
 - A [Telegram BOT Token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ## How to install?
-Here's how to install the tgram lib, the commands are given below:
+Here's how to install the tgram library. The commands are given below:
 
 ``` bash
 # With Git
