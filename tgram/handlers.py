@@ -1,4 +1,4 @@
-from .filters import Filter
+from .filters import Filter, all
 
 from typing import Callable
 
@@ -34,4 +34,4 @@ class Handler:
     ) -> None:
         self.callback = callback
         self.type = type
-        self.filter = filters
+        self.filter = filters or all
