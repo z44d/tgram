@@ -2,7 +2,7 @@
 name = "tgram"
 version = "1.0"
 authors = [
-  { name="ZAID", email="2ei@zaid.pro" },
+  { name="ZAID", email="me@zaid.pro" },
 ]
 description = "Very friendly BOT API library for python devs."
 readme = "README.md"
