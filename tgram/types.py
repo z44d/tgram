@@ -1,11 +1,12 @@
 import tgram
-from typing import List, Union, Optional
+from typing import List, Union, Optional, TypeAlias
+from pathlib import Path
 
 
 class Type_:
     def __init__(self, client: "tgram.TgBot" = None, json: dict = None) -> None:
         self._client = client
-        self._json = json or self.to_json()
+        self._json = json or self._to_json()
 
     def __str__(self) -> str:
         return self.__parse()
@@ -64,9 +65,9 @@ class Type_:
         _ = []
         for i in _list:
             if isinstance(i, list):
-                _.append(Type_.list_to_json(i))
+                _.append(Type_._list_to_json(i))
             elif isinstance(i, Type_):
-                _.append(i.to_json())
+                _.append(i._to_json())
             else:
                 _.append(i)
         return _
@@ -584,7 +585,7 @@ class Message(Type_):
         message_auto_delete_timer_changed: "MessageAutoDeleteTimerChanged" = None,
         migrate_to_chat_id: "int" = None,
         migrate_from_chat_id: "int" = None,
-        pinned_message: "MaybeInaccessibleMessage" = None,
+        pinned_message: "Message" = None,
         invoice: "Invoice" = None,
         successful_payment: "SuccessfulPayment" = None,
         users_shared: "UsersShared" = None,
@@ -795,9 +796,7 @@ class Message(Type_):
                 ),
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 migrate_from_chat_id=d.get("migrate_from_chat_id"),
-                pinned_message=MaybeInaccessibleMessage._parse(
-                    client=client, d=d.get("pinned_message")
-                ),
+                pinned_message=Message._parse(client=client, d=d.get("pinned_message")),
                 invoice=Invoice._parse(client=client, d=d.get("invoice")),
                 successful_payment=SuccessfulPayment._parse(
                     client=client, d=d.get("successful_payment")
@@ -921,47 +920,7 @@ class InaccessibleMessage(Type_):
         )
 
 
-class MaybeInaccessibleMessage(Type_):
-    def __init__(
-        self,
-        type: "str",
-        offset: "int",
-        length: "int",
-        url: "str" = None,
-        user: "User" = None,
-        language: "str" = None,
-        custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(client=client, json=json)
-        self.type = type
-        self.offset = offset
-        self.length = length
-        self.url = url
-        self.user = user
-        self.language = language
-        self.custom_emoji_id = custom_emoji_id
-
-    @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["MaybeInaccessibleMessage"]:
-        return (
-            MaybeInaccessibleMessage(
-                client=client,
-                json=d,
-                type=d.get("type"),
-                offset=d.get("offset"),
-                length=d.get("length"),
-                url=d.get("url"),
-                user=User._parse(client=client, d=d.get("user")),
-                language=d.get("language"),
-                custom_emoji_id=d.get("custom_emoji_id"),
-            )
-            if d
-            else None
-        )
+MaybeInaccessibleMessage: TypeAlias = Union["InaccessibleMessage", "Message"]
 
 
 class MessageEntity(Type_):
@@ -3153,7 +3112,8 @@ class ReplyKeyboardMarkup(Type_):
                 client=client,
                 json=d,
                 keyboard=[
-                    KeyboardButton._parse(client=client, d=i) for i in d.get("keyboard")
+                    [KeyboardButton._parse(client=client, d=x) for x in i]
+                    for i in d.get("keyboard")
                 ]
                 if d.get("keyboard")
                 else None,
@@ -3388,7 +3348,7 @@ class InlineKeyboardMarkup(Type_):
                 client=client,
                 json=d,
                 inline_keyboard=[
-                    InlineKeyboardButton._parse(client=client, d=i)
+                    [InlineKeyboardButton._parse(client=client, d=x) for x in i]
                     for i in d.get("inline_keyboard")
                 ]
                 if d.get("inline_keyboard")
@@ -3532,7 +3492,7 @@ class CallbackQuery(Type_):
         id: "str",
         from_user: "User",
         chat_instance: "str",
-        message: "MaybeInaccessibleMessage" = None,
+        message: "Message" = None,
         inline_message_id: "str" = None,
         data: "str" = None,
         game_short_name: "str" = None,
@@ -3559,9 +3519,7 @@ class CallbackQuery(Type_):
                 id=d.get("id"),
                 from_user=User._parse(client=client, d=d.get("from")),
                 chat_instance=d.get("chat_instance"),
-                message=MaybeInaccessibleMessage._parse(
-                    client=client, d=d.get("message")
-                ),
+                message=Message._parse(client=client, d=d.get("message")),
                 inline_message_id=d.get("inline_message_id"),
                 data=d.get("data"),
                 game_short_name=d.get("game_short_name"),
@@ -5650,73 +5608,7 @@ class InputMediaDocument(Type_):
         )
 
 
-class InputFile(Type_):
-    def __init__(
-        self,
-        chat_id: Union["int", "str"],
-        text: "str",
-        business_connection_id: "str" = None,
-        message_thread_id: "int" = None,
-        parse_mode: "str" = None,
-        entities: List["MessageEntity"] = None,
-        link_preview_options: "LinkPreviewOptions" = None,
-        disable_notification: "bool" = None,
-        protect_content: "bool" = None,
-        message_effect_id: "str" = None,
-        reply_parameters: "ReplyParameters" = None,
-        reply_markup: Union[
-            "InlineKeyboardMarkup",
-            "ReplyKeyboardMarkup",
-            "ReplyKeyboardRemove",
-            "ForceReply",
-        ] = None,
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(client=client, json=json)
-        self.business_connection_id = business_connection_id
-        self.chat_id = chat_id
-        self.message_thread_id = message_thread_id
-        self.text = text
-        self.parse_mode = parse_mode
-        self.entities = entities
-        self.link_preview_options = link_preview_options
-        self.disable_notification = disable_notification
-        self.protect_content = protect_content
-        self.message_effect_id = message_effect_id
-        self.reply_parameters = reply_parameters
-        self.reply_markup = reply_markup
-
-    @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InputFile"]:
-        return (
-            InputFile(
-                client=client,
-                json=d,
-                chat_id=d.get("chat_id"),
-                text=d.get("text"),
-                business_connection_id=d.get("business_connection_id"),
-                message_thread_id=d.get("message_thread_id"),
-                parse_mode=d.get("parse_mode"),
-                entities=[
-                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
-                ]
-                if d.get("entities")
-                else None,
-                link_preview_options=LinkPreviewOptions._parse(
-                    client=client, d=d.get("link_preview_options")
-                ),
-                disable_notification=d.get("disable_notification"),
-                protect_content=d.get("protect_content"),
-                message_effect_id=d.get("message_effect_id"),
-                reply_parameters=ReplyParameters._parse(
-                    client=client, d=d.get("reply_parameters")
-                ),
-                reply_markup=d.get("reply_markup"),
-            )
-            if d
-            else None
-        )
+InputFile: TypeAlias = Union[bytes, Path, str]
 
 
 class Sticker(Type_):
