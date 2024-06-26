@@ -1,5 +1,5 @@
 import tgram
-from typing import List, Union, Optional, TypeAlias
+from typing import List, Union, Optional
 from pathlib import Path
 
 
@@ -888,7 +888,7 @@ class InaccessibleMessage(Type_):
         )
 
 
-MaybeInaccessibleMessage: TypeAlias = Union["InaccessibleMessage", "Message"]
+MaybeInaccessibleMessage = Union["InaccessibleMessage", "Message"]
 
 
 class MessageEntity(Type_):
@@ -5438,7 +5438,7 @@ class InputMediaDocument(Type_):
         )
 
 
-InputFile: TypeAlias = Union[bytes, Path, str]
+InputFile = Union[bytes, Path, str]
 
 
 class Sticker(Type_):
