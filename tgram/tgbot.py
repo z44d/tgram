@@ -40,8 +40,6 @@ class Dispatcher:
                 self._is_running = False
             except Exception as e:
                 logger.exception(e)
-            finally:
-                self._is_running = False
 
         session = await self._get_session()
         await session.close()
@@ -114,7 +112,8 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
     async def _send_request(self, method: str, **kwargs) -> Any:
         request_url = self._api_url + method
-        logger.info("Sending request using the method: %s", method)
+        if method != "getUpdates":
+            logger.info("Sending request using the method: %s", method)
         session = await self._get_session()
         data = aiohttp.FormData(quote_fields=False)
         has_files = False
