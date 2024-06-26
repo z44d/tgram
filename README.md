@@ -1,7 +1,10 @@
-<img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot-small.png" alt="tgram" />
 <p align="center">
-    <b>A Very friendly BOT API library for python devs.</b>
+    <a href="https://github.com/2ei/tgram">
+        <img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot-small.png" alt="tgram" width="300">
+    </a>
     <br>
+    <b>A Very friendly BOT API library for python devs.</b>
+    </br>
     <a href="https://t.me/tgbot_channel">
         Channel
     </a>
