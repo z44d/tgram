@@ -18,6 +18,7 @@ class Filter:
         return Filter(lambda v: self(v) or other(v))
 
 
+all = Filter(lambda _: True)
 threaded = Filter(lambda m: getattr(m, "message_thread_id"))
 from_user = Filter(lambda m: getattr(m, "from_user"))
 sender_chat = Filter(lambda m: getattr(m, "sender_chat"))
