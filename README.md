@@ -18,10 +18,12 @@
 
 #### Example Usage
 ```python
+import logging
 from tgram import TgBot, filters
 from tgram.types import Message
 
 bot = TgBot("TOKEN")
+logger = logging.basicConfig(level=logging.INFO)
 
 @bot.on_message(filters.text)
 async def on_message(bot: TgBot, message: Message) -> Message:
@@ -31,6 +33,8 @@ async def on_message(bot: TgBot, message: Message) -> Message:
         message.text,
         entities=message.entities
     )
+
+bot.run_for_updates()
 ```
 
 ## TODO
