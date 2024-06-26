@@ -2,7 +2,7 @@ import aiohttp
 import logging
 import json
 
-from .methods import Methods
+from .methods import TelegramBotMethods
 from .decorators import Decorators
 from .filters import Filter
 from .handlers import Handlers, Handler
@@ -22,7 +22,7 @@ ALL_UPDATES = [
 logger = logging.getLogger(__name__)
 
 
-class TgBot(Methods, Decorators):
+class TgBot(TelegramBotMethods, Decorators):
     _session: "aiohttp.ClientSession" = aiohttp.ClientSession(
         connector=aiohttp.TCPConnector(limit=50)
     )
