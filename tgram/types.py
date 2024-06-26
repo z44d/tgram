@@ -4,8 +4,8 @@ from pathlib import Path
 
 
 class Type_:
-    def __init__(self, client: "tgram.TgBot" = None, json: dict = None) -> None:
-        self._client = client
+    def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
+        self._me = me
         self._json = json or self._to_json()
 
     def __str__(self) -> str:
@@ -113,10 +113,10 @@ class Update(Type_):
         chat_join_request: "ChatJoinRequest" = None,
         chat_boost: "ChatBoostUpdated" = None,
         removed_chat_boost: "ChatBoostRemoved" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.update_id = update_id
         self.message = message
         self.edited_message = edited_message
@@ -142,65 +142,55 @@ class Update(Type_):
         self.removed_chat_boost = removed_chat_boost
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Update"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Update"]:
         return (
             Update(
-                client=client,
+                me=me,
                 json=d,
                 update_id=d.get("update_id"),
-                message=Message._parse(client=client, d=d.get("message")),
-                edited_message=Message._parse(client=client, d=d.get("edited_message")),
-                channel_post=Message._parse(client=client, d=d.get("channel_post")),
+                message=Message._parse(me=me, d=d.get("message")),
+                edited_message=Message._parse(me=me, d=d.get("edited_message")),
+                channel_post=Message._parse(me=me, d=d.get("channel_post")),
                 edited_channel_post=Message._parse(
-                    client=client, d=d.get("edited_channel_post")
+                    me=me, d=d.get("edited_channel_post")
                 ),
                 business_connection=BusinessConnection._parse(
-                    client=client, d=d.get("business_connection")
+                    me=me, d=d.get("business_connection")
                 ),
-                business_message=Message._parse(
-                    client=client, d=d.get("business_message")
-                ),
+                business_message=Message._parse(me=me, d=d.get("business_message")),
                 edited_business_message=Message._parse(
-                    client=client, d=d.get("edited_business_message")
+                    me=me, d=d.get("edited_business_message")
                 ),
                 deleted_business_messages=BusinessMessagesDeleted._parse(
-                    client=client, d=d.get("deleted_business_messages")
+                    me=me, d=d.get("deleted_business_messages")
                 ),
                 message_reaction=MessageReactionUpdated._parse(
-                    client=client, d=d.get("message_reaction")
+                    me=me, d=d.get("message_reaction")
                 ),
                 message_reaction_count=MessageReactionCountUpdated._parse(
-                    client=client, d=d.get("message_reaction_count")
+                    me=me, d=d.get("message_reaction_count")
                 ),
-                inline_query=InlineQuery._parse(client=client, d=d.get("inline_query")),
+                inline_query=InlineQuery._parse(me=me, d=d.get("inline_query")),
                 chosen_inline_result=ChosenInlineResult._parse(
-                    client=client, d=d.get("chosen_inline_result")
+                    me=me, d=d.get("chosen_inline_result")
                 ),
-                callback_query=CallbackQuery._parse(
-                    client=client, d=d.get("callback_query")
-                ),
-                shipping_query=ShippingQuery._parse(
-                    client=client, d=d.get("shipping_query")
-                ),
+                callback_query=CallbackQuery._parse(me=me, d=d.get("callback_query")),
+                shipping_query=ShippingQuery._parse(me=me, d=d.get("shipping_query")),
                 pre_checkout_query=PreCheckoutQuery._parse(
-                    client=client, d=d.get("pre_checkout_query")
+                    me=me, d=d.get("pre_checkout_query")
                 ),
-                poll=Poll._parse(client=client, d=d.get("poll")),
-                poll_answer=PollAnswer._parse(client=client, d=d.get("poll_answer")),
+                poll=Poll._parse(me=me, d=d.get("poll")),
+                poll_answer=PollAnswer._parse(me=me, d=d.get("poll_answer")),
                 my_chat_member=ChatMemberUpdated._parse(
-                    client=client, d=d.get("my_chat_member")
+                    me=me, d=d.get("my_chat_member")
                 ),
-                chat_member=ChatMemberUpdated._parse(
-                    client=client, d=d.get("chat_member")
-                ),
+                chat_member=ChatMemberUpdated._parse(me=me, d=d.get("chat_member")),
                 chat_join_request=ChatJoinRequest._parse(
-                    client=client, d=d.get("chat_join_request")
+                    me=me, d=d.get("chat_join_request")
                 ),
-                chat_boost=ChatBoostUpdated._parse(
-                    client=client, d=d.get("chat_boost")
-                ),
+                chat_boost=ChatBoostUpdated._parse(me=me, d=d.get("chat_boost")),
                 removed_chat_boost=ChatBoostRemoved._parse(
-                    client=client, d=d.get("removed_chat_boost")
+                    me=me, d=d.get("removed_chat_boost")
                 ),
             )
             if d
@@ -220,10 +210,10 @@ class WebhookInfo(Type_):
         last_synchronization_error_date: "int" = None,
         max_connections: "int" = None,
         allowed_updates: List["str"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.url = url
         self.has_custom_certificate = has_custom_certificate
         self.pending_update_count = pending_update_count
@@ -235,10 +225,10 @@ class WebhookInfo(Type_):
         self.allowed_updates = allowed_updates
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebhookInfo"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["WebhookInfo"]:
         return (
             WebhookInfo(
-                client=client,
+                me=me,
                 json=d,
                 url=d.get("url"),
                 has_custom_certificate=d.get("has_custom_certificate"),
@@ -272,10 +262,10 @@ class User(Type_):
         can_read_all_group_messages: "bool" = None,
         supports_inline_queries: "bool" = None,
         can_connect_to_business: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.is_bot = is_bot
         self.first_name = first_name
@@ -290,10 +280,10 @@ class User(Type_):
         self.can_connect_to_business = can_connect_to_business
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["User"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["User"]:
         return (
             User(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 is_bot=d.get("is_bot"),
@@ -323,10 +313,10 @@ class Chat(Type_):
         first_name: "str" = None,
         last_name: "str" = None,
         is_forum: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.type = type
         self.title = title
@@ -336,10 +326,10 @@ class Chat(Type_):
         self.is_forum = is_forum
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Chat"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Chat"]:
         return (
             Chat(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 type=d.get("type"),
@@ -400,10 +390,10 @@ class ChatFullInfo(Type_):
         custom_emoji_sticker_set_name: "str" = None,
         linked_chat_id: "int" = None,
         location: "ChatLocation" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.type = type
         self.title = title
@@ -451,12 +441,10 @@ class ChatFullInfo(Type_):
         self.location = location
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatFullInfo"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatFullInfo"]:
         return (
             ChatFullInfo(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 type=d.get("type"),
@@ -467,21 +455,19 @@ class ChatFullInfo(Type_):
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 is_forum=d.get("is_forum"),
-                photo=ChatPhoto._parse(client=client, d=d.get("photo")),
+                photo=ChatPhoto._parse(me=me, d=d.get("photo")),
                 active_usernames=d.get("active_usernames"),
-                birthdate=Birthdate._parse(client=client, d=d.get("birthdate")),
-                business_intro=BusinessIntro._parse(
-                    client=client, d=d.get("business_intro")
-                ),
+                birthdate=Birthdate._parse(me=me, d=d.get("birthdate")),
+                business_intro=BusinessIntro._parse(me=me, d=d.get("business_intro")),
                 business_location=BusinessLocation._parse(
-                    client=client, d=d.get("business_location")
+                    me=me, d=d.get("business_location")
                 ),
                 business_opening_hours=BusinessOpeningHours._parse(
-                    client=client, d=d.get("business_opening_hours")
+                    me=me, d=d.get("business_opening_hours")
                 ),
-                personal_chat=Chat._parse(client=client, d=d.get("personal_chat")),
+                personal_chat=Chat._parse(me=me, d=d.get("personal_chat")),
                 available_reactions=[
-                    ReactionType._parse(client=client, d=i)
+                    ReactionType._parse(me=me, d=i)
                     for i in d.get("available_reactions")
                 ]
                 if d.get("available_reactions")
@@ -502,10 +488,8 @@ class ChatFullInfo(Type_):
                 join_by_request=d.get("join_by_request"),
                 description=d.get("description"),
                 invite_link=d.get("invite_link"),
-                pinned_message=Message._parse(client=client, d=d.get("pinned_message")),
-                permissions=ChatPermissions._parse(
-                    client=client, d=d.get("permissions")
-                ),
+                pinned_message=Message._parse(me=me, d=d.get("pinned_message")),
+                permissions=ChatPermissions._parse(me=me, d=d.get("permissions")),
                 slow_mode_delay=d.get("slow_mode_delay"),
                 unrestrict_boost_count=d.get("unrestrict_boost_count"),
                 message_auto_delete_time=d.get("message_auto_delete_time"),
@@ -519,7 +503,7 @@ class ChatFullInfo(Type_):
                 can_set_sticker_set=d.get("can_set_sticker_set"),
                 custom_emoji_sticker_set_name=d.get("custom_emoji_sticker_set_name"),
                 linked_chat_id=d.get("linked_chat_id"),
-                location=ChatLocation._parse(client=client, d=d.get("location")),
+                location=ChatLocation._parse(me=me, d=d.get("location")),
             )
             if d
             else None
@@ -612,10 +596,10 @@ class Message(Type_):
         video_chat_participants_invited: "VideoChatParticipantsInvited" = None,
         web_app_data: "WebAppData" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_id = message_id
         self.message_thread_id = message_thread_id
         self.from_user = from_user
@@ -701,89 +685,77 @@ class Message(Type_):
         self.reply_markup = reply_markup
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Message"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Message"]:
         return (
             Message(
-                client=client,
+                me=me,
                 json=d,
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_thread_id=d.get("message_thread_id"),
-                from_user=User._parse(client=client, d=d.get("from")),
-                sender_chat=Chat._parse(client=client, d=d.get("sender_chat")),
+                from_user=User._parse(me=me, d=d.get("from")),
+                sender_chat=Chat._parse(me=me, d=d.get("sender_chat")),
                 sender_boost_count=d.get("sender_boost_count"),
-                sender_business_bot=User._parse(
-                    client=client, d=d.get("sender_business_bot")
-                ),
+                sender_business_bot=User._parse(me=me, d=d.get("sender_business_bot")),
                 business_connection_id=d.get("business_connection_id"),
-                forward_origin=MessageOrigin._parse(
-                    client=client, d=d.get("forward_origin")
-                ),
+                forward_origin=MessageOrigin._parse(me=me, d=d.get("forward_origin")),
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
-                reply_to_message=Message._parse(
-                    client=client, d=d.get("reply_to_message")
-                ),
+                reply_to_message=Message._parse(me=me, d=d.get("reply_to_message")),
                 external_reply=ExternalReplyInfo._parse(
-                    client=client, d=d.get("external_reply")
+                    me=me, d=d.get("external_reply")
                 ),
-                quote=TextQuote._parse(client=client, d=d.get("quote")),
-                reply_to_story=Story._parse(client=client, d=d.get("reply_to_story")),
-                via_bot=User._parse(client=client, d=d.get("via_bot")),
+                quote=TextQuote._parse(me=me, d=d.get("quote")),
+                reply_to_story=Story._parse(me=me, d=d.get("reply_to_story")),
+                via_bot=User._parse(me=me, d=d.get("via_bot")),
                 edit_date=d.get("edit_date"),
                 has_protected_content=d.get("has_protected_content"),
                 is_from_offline=d.get("is_from_offline"),
                 media_group_id=d.get("media_group_id"),
                 author_signature=d.get("author_signature"),
                 text=d.get("text"),
-                entities=[
-                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
-                ]
+                entities=[MessageEntity._parse(me=me, d=i) for i in d.get("entities")]
                 if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    client=client, d=d.get("link_preview_options")
+                    me=me, d=d.get("link_preview_options")
                 ),
                 effect_id=d.get("effect_id"),
-                animation=Animation._parse(client=client, d=d.get("animation")),
-                audio=Audio._parse(client=client, d=d.get("audio")),
-                document=Document._parse(client=client, d=d.get("document")),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                animation=Animation._parse(me=me, d=d.get("animation")),
+                audio=Audio._parse(me=me, d=d.get("audio")),
+                document=Document._parse(me=me, d=d.get("document")),
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
-                sticker=Sticker._parse(client=client, d=d.get("sticker")),
-                story=Story._parse(client=client, d=d.get("story")),
-                video=Video._parse(client=client, d=d.get("video")),
-                video_note=VideoNote._parse(client=client, d=d.get("video_note")),
-                voice=Voice._parse(client=client, d=d.get("voice")),
+                sticker=Sticker._parse(me=me, d=d.get("sticker")),
+                story=Story._parse(me=me, d=d.get("story")),
+                video=Video._parse(me=me, d=d.get("video")),
+                video_note=VideoNote._parse(me=me, d=d.get("video_note")),
+                voice=Voice._parse(me=me, d=d.get("voice")),
                 caption=d.get("caption"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_media_spoiler=d.get("has_media_spoiler"),
-                contact=Contact._parse(client=client, d=d.get("contact")),
-                dice=Dice._parse(client=client, d=d.get("dice")),
-                game=Game._parse(client=client, d=d.get("game")),
-                poll=Poll._parse(client=client, d=d.get("poll")),
-                venue=Venue._parse(client=client, d=d.get("venue")),
-                location=Location._parse(client=client, d=d.get("location")),
+                contact=Contact._parse(me=me, d=d.get("contact")),
+                dice=Dice._parse(me=me, d=d.get("dice")),
+                game=Game._parse(me=me, d=d.get("game")),
+                poll=Poll._parse(me=me, d=d.get("poll")),
+                venue=Venue._parse(me=me, d=d.get("venue")),
+                location=Location._parse(me=me, d=d.get("location")),
                 new_chat_members=[
-                    User._parse(client=client, d=i) for i in d.get("new_chat_members")
+                    User._parse(me=me, d=i) for i in d.get("new_chat_members")
                 ]
                 if d.get("new_chat_members")
                 else None,
-                left_chat_member=User._parse(
-                    client=client, d=d.get("left_chat_member")
-                ),
+                left_chat_member=User._parse(me=me, d=d.get("left_chat_member")),
                 new_chat_title=d.get("new_chat_title"),
                 new_chat_photo=[
-                    PhotoSize._parse(client=client, d=i)
-                    for i in d.get("new_chat_photo")
+                    PhotoSize._parse(me=me, d=i) for i in d.get("new_chat_photo")
                 ]
                 if d.get("new_chat_photo")
                 else None,
@@ -792,76 +764,72 @@ class Message(Type_):
                 supergroup_chat_created=d.get("supergroup_chat_created"),
                 channel_chat_created=d.get("channel_chat_created"),
                 message_auto_delete_timer_changed=MessageAutoDeleteTimerChanged._parse(
-                    client=client, d=d.get("message_auto_delete_timer_changed")
+                    me=me, d=d.get("message_auto_delete_timer_changed")
                 ),
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 migrate_from_chat_id=d.get("migrate_from_chat_id"),
-                pinned_message=Message._parse(client=client, d=d.get("pinned_message")),
-                invoice=Invoice._parse(client=client, d=d.get("invoice")),
+                pinned_message=Message._parse(me=me, d=d.get("pinned_message")),
+                invoice=Invoice._parse(me=me, d=d.get("invoice")),
                 successful_payment=SuccessfulPayment._parse(
-                    client=client, d=d.get("successful_payment")
+                    me=me, d=d.get("successful_payment")
                 ),
-                users_shared=UsersShared._parse(client=client, d=d.get("users_shared")),
-                chat_shared=ChatShared._parse(client=client, d=d.get("chat_shared")),
+                users_shared=UsersShared._parse(me=me, d=d.get("users_shared")),
+                chat_shared=ChatShared._parse(me=me, d=d.get("chat_shared")),
                 connected_website=d.get("connected_website"),
                 write_access_allowed=WriteAccessAllowed._parse(
-                    client=client, d=d.get("write_access_allowed")
+                    me=me, d=d.get("write_access_allowed")
                 ),
-                passport_data=PassportData._parse(
-                    client=client, d=d.get("passport_data")
-                ),
+                passport_data=PassportData._parse(me=me, d=d.get("passport_data")),
                 proximity_alert_triggered=ProximityAlertTriggered._parse(
-                    client=client, d=d.get("proximity_alert_triggered")
+                    me=me, d=d.get("proximity_alert_triggered")
                 ),
-                boost_added=ChatBoostAdded._parse(
-                    client=client, d=d.get("boost_added")
-                ),
+                boost_added=ChatBoostAdded._parse(me=me, d=d.get("boost_added")),
                 chat_background_set=ChatBackground._parse(
-                    client=client, d=d.get("chat_background_set")
+                    me=me, d=d.get("chat_background_set")
                 ),
                 forum_topic_created=ForumTopicCreated._parse(
-                    client=client, d=d.get("forum_topic_created")
+                    me=me, d=d.get("forum_topic_created")
                 ),
                 forum_topic_edited=ForumTopicEdited._parse(
-                    client=client, d=d.get("forum_topic_edited")
+                    me=me, d=d.get("forum_topic_edited")
                 ),
                 forum_topic_closed=ForumTopicClosed._parse(
-                    client=client, d=d.get("forum_topic_closed")
+                    me=me, d=d.get("forum_topic_closed")
                 ),
                 forum_topic_reopened=ForumTopicReopened._parse(
-                    client=client, d=d.get("forum_topic_reopened")
+                    me=me, d=d.get("forum_topic_reopened")
                 ),
                 general_forum_topic_hidden=GeneralForumTopicHidden._parse(
-                    client=client, d=d.get("general_forum_topic_hidden")
+                    me=me, d=d.get("general_forum_topic_hidden")
                 ),
                 general_forum_topic_unhidden=GeneralForumTopicUnhidden._parse(
-                    client=client, d=d.get("general_forum_topic_unhidden")
+                    me=me, d=d.get("general_forum_topic_unhidden")
                 ),
                 giveaway_created=GiveawayCreated._parse(
-                    client=client, d=d.get("giveaway_created")
+                    me=me, d=d.get("giveaway_created")
                 ),
-                giveaway=Giveaway._parse(client=client, d=d.get("giveaway")),
+                giveaway=Giveaway._parse(me=me, d=d.get("giveaway")),
                 giveaway_winners=GiveawayWinners._parse(
-                    client=client, d=d.get("giveaway_winners")
+                    me=me, d=d.get("giveaway_winners")
                 ),
                 giveaway_completed=GiveawayCompleted._parse(
-                    client=client, d=d.get("giveaway_completed")
+                    me=me, d=d.get("giveaway_completed")
                 ),
                 video_chat_scheduled=VideoChatScheduled._parse(
-                    client=client, d=d.get("video_chat_scheduled")
+                    me=me, d=d.get("video_chat_scheduled")
                 ),
                 video_chat_started=VideoChatStarted._parse(
-                    client=client, d=d.get("video_chat_started")
+                    me=me, d=d.get("video_chat_started")
                 ),
                 video_chat_ended=VideoChatEnded._parse(
-                    client=client, d=d.get("video_chat_ended")
+                    me=me, d=d.get("video_chat_ended")
                 ),
                 video_chat_participants_invited=VideoChatParticipantsInvited._parse(
-                    client=client, d=d.get("video_chat_participants_invited")
+                    me=me, d=d.get("video_chat_participants_invited")
                 ),
-                web_app_data=WebAppData._parse(client=client, d=d.get("web_app_data")),
+                web_app_data=WebAppData._parse(me=me, d=d.get("web_app_data")),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
             )
             if d
@@ -871,16 +839,16 @@ class Message(Type_):
 
 class MessageId(Type_):
     def __init__(
-        self, message_id: "int", client: "tgram.TgBot" = None, json: "dict" = None
+        self, message_id: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_id = message_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageId"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageId"]:
         return (
             MessageId(
-                client=client,
+                me=me,
                 json=d,
                 message_id=d.get("message_id"),
             )
@@ -895,23 +863,23 @@ class InaccessibleMessage(Type_):
         chat: "Chat",
         message_id: "int",
         date: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.message_id = message_id
         self.date = date
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InaccessibleMessage"]:
         return (
             InaccessibleMessage(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
             )
@@ -933,10 +901,10 @@ class MessageEntity(Type_):
         user: "User" = None,
         language: "str" = None,
         custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.offset = offset
         self.length = length
@@ -946,18 +914,16 @@ class MessageEntity(Type_):
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["MessageEntity"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageEntity"]:
         return (
             MessageEntity(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 offset=d.get("offset"),
                 length=d.get("length"),
                 url=d.get("url"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 language=d.get("language"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
@@ -973,26 +939,24 @@ class TextQuote(Type_):
         position: "int",
         entities: List["MessageEntity"] = None,
         is_manual: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.entities = entities
         self.position = position
         self.is_manual = is_manual
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["TextQuote"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["TextQuote"]:
         return (
             TextQuote(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
                 position=d.get("position"),
-                entities=[
-                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
-                ]
+                entities=[MessageEntity._parse(me=me, d=i) for i in d.get("entities")]
                 if d.get("entities")
                 else None,
                 is_manual=d.get("is_manual"),
@@ -1028,10 +992,10 @@ class ExternalReplyInfo(Type_):
         location: "Location" = None,
         poll: "Poll" = None,
         venue: "Venue" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.origin = origin
         self.chat = chat
         self.message_id = message_id
@@ -1058,41 +1022,41 @@ class ExternalReplyInfo(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ExternalReplyInfo"]:
         return (
             ExternalReplyInfo(
-                client=client,
+                me=me,
                 json=d,
-                origin=MessageOrigin._parse(client=client, d=d.get("origin")),
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                origin=MessageOrigin._parse(me=me, d=d.get("origin")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 link_preview_options=LinkPreviewOptions._parse(
-                    client=client, d=d.get("link_preview_options")
+                    me=me, d=d.get("link_preview_options")
                 ),
-                animation=Animation._parse(client=client, d=d.get("animation")),
-                audio=Audio._parse(client=client, d=d.get("audio")),
-                document=Document._parse(client=client, d=d.get("document")),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                animation=Animation._parse(me=me, d=d.get("animation")),
+                audio=Audio._parse(me=me, d=d.get("audio")),
+                document=Document._parse(me=me, d=d.get("document")),
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
-                sticker=Sticker._parse(client=client, d=d.get("sticker")),
-                story=Story._parse(client=client, d=d.get("story")),
-                video=Video._parse(client=client, d=d.get("video")),
-                video_note=VideoNote._parse(client=client, d=d.get("video_note")),
-                voice=Voice._parse(client=client, d=d.get("voice")),
+                sticker=Sticker._parse(me=me, d=d.get("sticker")),
+                story=Story._parse(me=me, d=d.get("story")),
+                video=Video._parse(me=me, d=d.get("video")),
+                video_note=VideoNote._parse(me=me, d=d.get("video_note")),
+                voice=Voice._parse(me=me, d=d.get("voice")),
                 has_media_spoiler=d.get("has_media_spoiler"),
-                contact=Contact._parse(client=client, d=d.get("contact")),
-                dice=Dice._parse(client=client, d=d.get("dice")),
-                game=Game._parse(client=client, d=d.get("game")),
-                giveaway=Giveaway._parse(client=client, d=d.get("giveaway")),
+                contact=Contact._parse(me=me, d=d.get("contact")),
+                dice=Dice._parse(me=me, d=d.get("dice")),
+                game=Game._parse(me=me, d=d.get("game")),
+                giveaway=Giveaway._parse(me=me, d=d.get("giveaway")),
                 giveaway_winners=GiveawayWinners._parse(
-                    client=client, d=d.get("giveaway_winners")
+                    me=me, d=d.get("giveaway_winners")
                 ),
-                invoice=Invoice._parse(client=client, d=d.get("invoice")),
-                location=Location._parse(client=client, d=d.get("location")),
-                poll=Poll._parse(client=client, d=d.get("poll")),
-                venue=Venue._parse(client=client, d=d.get("venue")),
+                invoice=Invoice._parse(me=me, d=d.get("invoice")),
+                location=Location._parse(me=me, d=d.get("location")),
+                poll=Poll._parse(me=me, d=d.get("poll")),
+                venue=Venue._parse(me=me, d=d.get("venue")),
             )
             if d
             else None
@@ -1109,10 +1073,10 @@ class ReplyParameters(Type_):
         quote_parse_mode: "str" = None,
         quote_entities: List["MessageEntity"] = None,
         quote_position: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_id = message_id
         self.chat_id = chat_id
         self.allow_sending_without_reply = allow_sending_without_reply
@@ -1122,12 +1086,10 @@ class ReplyParameters(Type_):
         self.quote_position = quote_position
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ReplyParameters"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ReplyParameters"]:
         return (
             ReplyParameters(
-                client=client,
+                me=me,
                 json=d,
                 message_id=d.get("message_id"),
                 chat_id=d.get("chat_id"),
@@ -1135,8 +1097,7 @@ class ReplyParameters(Type_):
                 quote=d.get("quote"),
                 quote_parse_mode=d.get("quote_parse_mode"),
                 quote_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("quote_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("quote_entities")
                 ]
                 if d.get("quote_entities")
                 else None,
@@ -1153,25 +1114,23 @@ class MessageOrigin(Type_):
         type: "str",
         date: "int",
         sender_user: "User",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.sender_user = sender_user
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["MessageOrigin"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageOrigin"]:
         return (
             MessageOrigin(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_user=User._parse(client=client, d=d.get("sender_user")),
+                sender_user=User._parse(me=me, d=d.get("sender_user")),
             )
             if d
             else None
@@ -1184,25 +1143,25 @@ class MessageOriginUser(Type_):
         type: "str",
         date: "int",
         sender_user: "User",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.sender_user = sender_user
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageOriginUser"]:
         return (
             MessageOriginUser(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_user=User._parse(client=client, d=d.get("sender_user")),
+                sender_user=User._parse(me=me, d=d.get("sender_user")),
             )
             if d
             else None
@@ -1215,21 +1174,21 @@ class MessageOriginHiddenUser(Type_):
         type: "str",
         date: "int",
         sender_user_name: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.sender_user_name = sender_user_name
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageOriginHiddenUser"]:
         return (
             MessageOriginHiddenUser(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
@@ -1247,10 +1206,10 @@ class MessageOriginChat(Type_):
         date: "int",
         sender_chat: "Chat",
         author_signature: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.sender_chat = sender_chat
@@ -1258,15 +1217,15 @@ class MessageOriginChat(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageOriginChat"]:
         return (
             MessageOriginChat(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                sender_chat=Chat._parse(client=client, d=d.get("sender_chat")),
+                sender_chat=Chat._parse(me=me, d=d.get("sender_chat")),
                 author_signature=d.get("author_signature"),
             )
             if d
@@ -1282,10 +1241,10 @@ class MessageOriginChannel(Type_):
         chat: "Chat",
         message_id: "int",
         author_signature: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.chat = chat
@@ -1294,15 +1253,15 @@ class MessageOriginChannel(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageOriginChannel"]:
         return (
             MessageOriginChannel(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 author_signature=d.get("author_signature"),
             )
@@ -1319,10 +1278,10 @@ class PhotoSize(Type_):
         width: "int",
         height: "int",
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1330,10 +1289,10 @@ class PhotoSize(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PhotoSize"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PhotoSize"]:
         return (
             PhotoSize(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -1358,10 +1317,10 @@ class Animation(Type_):
         file_name: "str" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1373,17 +1332,17 @@ class Animation(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Animation"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Animation"]:
         return (
             Animation(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1405,10 +1364,10 @@ class Audio(Type_):
         mime_type: "str" = None,
         file_size: "int" = None,
         thumbnail: "PhotoSize" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.duration = duration
@@ -1420,10 +1379,10 @@ class Audio(Type_):
         self.thumbnail = thumbnail
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Audio"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Audio"]:
         return (
             Audio(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -1433,7 +1392,7 @@ class Audio(Type_):
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
             )
             if d
             else None
@@ -1449,10 +1408,10 @@ class Document(Type_):
         file_name: "str" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.thumbnail = thumbnail
@@ -1461,14 +1420,14 @@ class Document(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Document"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Document"]:
         return (
             Document(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1480,19 +1439,19 @@ class Document(Type_):
 
 class Story(Type_):
     def __init__(
-        self, chat: "Chat", id: "int", client: "tgram.TgBot" = None, json: "dict" = None
+        self, chat: "Chat", id: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.id = id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Story"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Story"]:
         return (
             Story(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 id=d.get("id"),
             )
             if d
@@ -1512,10 +1471,10 @@ class Video(Type_):
         file_name: "str" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.width = width
@@ -1527,17 +1486,17 @@ class Video(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Video"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Video"]:
         return (
             Video(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
@@ -1556,10 +1515,10 @@ class VideoNote(Type_):
         duration: "int",
         thumbnail: "PhotoSize" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.length = length
@@ -1568,16 +1527,16 @@ class VideoNote(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["VideoNote"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["VideoNote"]:
         return (
             VideoNote(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
                 length=d.get("length"),
                 duration=d.get("duration"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 file_size=d.get("file_size"),
             )
             if d
@@ -1593,10 +1552,10 @@ class Voice(Type_):
         duration: "int",
         mime_type: "str" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.duration = duration
@@ -1604,10 +1563,10 @@ class Voice(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Voice"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Voice"]:
         return (
             Voice(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -1628,10 +1587,10 @@ class Contact(Type_):
         last_name: "str" = None,
         user_id: "int" = None,
         vcard: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
@@ -1639,10 +1598,10 @@ class Contact(Type_):
         self.vcard = vcard
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Contact"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Contact"]:
         return (
             Contact(
-                client=client,
+                me=me,
                 json=d,
                 phone_number=d.get("phone_number"),
                 first_name=d.get("first_name"),
@@ -1657,21 +1616,17 @@ class Contact(Type_):
 
 class Dice(Type_):
     def __init__(
-        self,
-        emoji: "str",
-        value: "int",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, emoji: "str", value: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.emoji = emoji
         self.value = value
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Dice"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Dice"]:
         return (
             Dice(
-                client=client,
+                me=me,
                 json=d,
                 emoji=d.get("emoji"),
                 value=d.get("value"),
@@ -1687,25 +1642,24 @@ class PollOption(Type_):
         text: "str",
         voter_count: "int",
         text_entities: List["MessageEntity"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.text_entities = text_entities
         self.voter_count = voter_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PollOption"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PollOption"]:
         return (
             PollOption(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
                 voter_count=d.get("voter_count"),
                 text_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("text_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("text_entities")
                 ]
                 if d.get("text_entities")
                 else None,
@@ -1721,27 +1675,24 @@ class InputPollOption(Type_):
         text: "str",
         text_parse_mode: "str" = None,
         text_entities: List["MessageEntity"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.text_parse_mode = text_parse_mode
         self.text_entities = text_entities
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InputPollOption"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputPollOption"]:
         return (
             InputPollOption(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
                 text_parse_mode=d.get("text_parse_mode"),
                 text_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("text_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("text_entities")
                 ]
                 if d.get("text_entities")
                 else None,
@@ -1758,25 +1709,25 @@ class PollAnswer(Type_):
         option_ids: List["int"],
         voter_chat: "Chat" = None,
         user: "User" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.poll_id = poll_id
         self.voter_chat = voter_chat
         self.user = user
         self.option_ids = option_ids
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["PollAnswer"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PollAnswer"]:
         return (
             PollAnswer(
-                client=client,
+                me=me,
                 json=d,
                 poll_id=d.get("poll_id"),
                 option_ids=d.get("option_ids"),
-                voter_chat=Chat._parse(client=client, d=d.get("voter_chat")),
-                user=User._parse(client=client, d=d.get("user")),
+                voter_chat=Chat._parse(me=me, d=d.get("voter_chat")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -1800,10 +1751,10 @@ class Poll(Type_):
         explanation_entities: List["MessageEntity"] = None,
         open_period: "int" = None,
         close_date: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.question = question
         self.question_entities = question_entities
@@ -1820,16 +1771,14 @@ class Poll(Type_):
         self.close_date = close_date
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Poll"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Poll"]:
         return (
             Poll(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 question=d.get("question"),
-                options=[
-                    PollOption._parse(client=client, d=i) for i in d.get("options")
-                ]
+                options=[PollOption._parse(me=me, d=i) for i in d.get("options")]
                 if d.get("options")
                 else None,
                 total_voter_count=d.get("total_voter_count"),
@@ -1838,15 +1787,14 @@ class Poll(Type_):
                 type=d.get("type"),
                 allows_multiple_answers=d.get("allows_multiple_answers"),
                 question_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("question_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("question_entities")
                 ]
                 if d.get("question_entities")
                 else None,
                 correct_option_id=d.get("correct_option_id"),
                 explanation=d.get("explanation"),
                 explanation_entities=[
-                    MessageEntity._parse(client=client, d=i)
+                    MessageEntity._parse(me=me, d=i)
                     for i in d.get("explanation_entities")
                 ]
                 if d.get("explanation_entities")
@@ -1868,10 +1816,10 @@ class Location(Type_):
         live_period: "int" = None,
         heading: "int" = None,
         proximity_alert_radius: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.horizontal_accuracy = horizontal_accuracy
@@ -1880,10 +1828,10 @@ class Location(Type_):
         self.proximity_alert_radius = proximity_alert_radius
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Location"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Location"]:
         return (
             Location(
-                client=client,
+                me=me,
                 json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
@@ -1907,10 +1855,10 @@ class Venue(Type_):
         foursquare_type: "str" = None,
         google_place_id: "str" = None,
         google_place_type: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.location = location
         self.title = title
         self.address = address
@@ -1920,12 +1868,12 @@ class Venue(Type_):
         self.google_place_type = google_place_type
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Venue"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Venue"]:
         return (
             Venue(
-                client=client,
+                me=me,
                 json=d,
-                location=Location._parse(client=client, d=d.get("location")),
+                location=Location._parse(me=me, d=d.get("location")),
                 title=d.get("title"),
                 address=d.get("address"),
                 foursquare_id=d.get("foursquare_id"),
@@ -1943,18 +1891,18 @@ class WebAppData(Type_):
         self,
         data: "str",
         button_text: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.data = data
         self.button_text = button_text
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppData"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppData"]:
         return (
             WebAppData(
-                client=client,
+                me=me,
                 json=d,
                 data=d.get("data"),
                 button_text=d.get("button_text"),
@@ -1970,24 +1918,24 @@ class ProximityAlertTriggered(Type_):
         traveler: "User",
         watcher: "User",
         distance: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.traveler = traveler
         self.watcher = watcher
         self.distance = distance
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ProximityAlertTriggered"]:
         return (
             ProximityAlertTriggered(
-                client=client,
+                me=me,
                 json=d,
-                traveler=User._parse(client=client, d=d.get("traveler")),
-                watcher=User._parse(client=client, d=d.get("watcher")),
+                traveler=User._parse(me=me, d=d.get("traveler")),
+                watcher=User._parse(me=me, d=d.get("watcher")),
                 distance=d.get("distance"),
             )
             if d
@@ -1999,19 +1947,19 @@ class MessageAutoDeleteTimerChanged(Type_):
     def __init__(
         self,
         message_auto_delete_time: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_auto_delete_time = message_auto_delete_time
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageAutoDeleteTimerChanged"]:
         return (
             MessageAutoDeleteTimerChanged(
-                client=client,
+                me=me,
                 json=d,
                 message_auto_delete_time=d.get("message_auto_delete_time"),
             )
@@ -2022,18 +1970,16 @@ class MessageAutoDeleteTimerChanged(Type_):
 
 class ChatBoostAdded(Type_):
     def __init__(
-        self, boost_count: "int", client: "tgram.TgBot" = None, json: "dict" = None
+        self, boost_count: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.boost_count = boost_count
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatBoostAdded"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBoostAdded"]:
         return (
             ChatBoostAdded(
-                client=client,
+                me=me,
                 json=d,
                 boost_count=d.get("boost_count"),
             )
@@ -2044,23 +1990,17 @@ class ChatBoostAdded(Type_):
 
 class BackgroundFill(Type_):
     def __init__(
-        self,
-        type: "str",
-        color: "int",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, type: "str", color: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.color = color
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["BackgroundFill"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BackgroundFill"]:
         return (
             BackgroundFill(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 color=d.get("color"),
@@ -2072,23 +2012,19 @@ class BackgroundFill(Type_):
 
 class BackgroundFillSolid(Type_):
     def __init__(
-        self,
-        type: "str",
-        color: "int",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, type: "str", color: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.color = color
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundFillSolid"]:
         return (
             BackgroundFillSolid(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 color=d.get("color"),
@@ -2105,10 +2041,10 @@ class BackgroundFillGradient(Type_):
         top_color: "int",
         bottom_color: "int",
         rotation_angle: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.top_color = top_color
         self.bottom_color = bottom_color
@@ -2116,11 +2052,11 @@ class BackgroundFillGradient(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundFillGradient"]:
         return (
             BackgroundFillGradient(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 top_color=d.get("top_color"),
@@ -2137,20 +2073,20 @@ class BackgroundFillFreeformGradient(Type_):
         self,
         type: "str",
         colors: List["int"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.colors = colors
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundFillFreeformGradient"]:
         return (
             BackgroundFillFreeformGradient(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 colors=d.get("colors"),
@@ -2166,24 +2102,22 @@ class BackgroundType(Type_):
         type: "str",
         fill: "BackgroundFill",
         dark_theme_dimming: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.fill = fill
         self.dark_theme_dimming = dark_theme_dimming
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["BackgroundType"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BackgroundType"]:
         return (
             BackgroundType(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
-                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
+                fill=BackgroundFill._parse(me=me, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
             if d
@@ -2197,24 +2131,24 @@ class BackgroundTypeFill(Type_):
         type: "str",
         fill: "BackgroundFill",
         dark_theme_dimming: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.fill = fill
         self.dark_theme_dimming = dark_theme_dimming
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundTypeFill"]:
         return (
             BackgroundTypeFill(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
-                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
+                fill=BackgroundFill._parse(me=me, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
             if d
@@ -2230,10 +2164,10 @@ class BackgroundTypeWallpaper(Type_):
         dark_theme_dimming: "int",
         is_blurred: "bool" = None,
         is_moving: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.document = document
         self.dark_theme_dimming = dark_theme_dimming
@@ -2242,14 +2176,14 @@ class BackgroundTypeWallpaper(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundTypeWallpaper"]:
         return (
             BackgroundTypeWallpaper(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
-                document=Document._parse(client=client, d=d.get("document")),
+                document=Document._parse(me=me, d=d.get("document")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
                 is_blurred=d.get("is_blurred"),
                 is_moving=d.get("is_moving"),
@@ -2268,10 +2202,10 @@ class BackgroundTypePattern(Type_):
         intensity: "int",
         is_inverted: "bool" = None,
         is_moving: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.document = document
         self.fill = fill
@@ -2281,15 +2215,15 @@ class BackgroundTypePattern(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundTypePattern"]:
         return (
             BackgroundTypePattern(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
-                document=Document._parse(client=client, d=d.get("document")),
-                fill=BackgroundFill._parse(client=client, d=d.get("fill")),
+                document=Document._parse(me=me, d=d.get("document")),
+                fill=BackgroundFill._parse(me=me, d=d.get("fill")),
                 intensity=d.get("intensity"),
                 is_inverted=d.get("is_inverted"),
                 is_moving=d.get("is_moving"),
@@ -2304,20 +2238,20 @@ class BackgroundTypeChatTheme(Type_):
         self,
         type: "str",
         theme_name: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.theme_name = theme_name
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BackgroundTypeChatTheme"]:
         return (
             BackgroundTypeChatTheme(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 theme_name=d.get("theme_name"),
@@ -2329,20 +2263,18 @@ class BackgroundTypeChatTheme(Type_):
 
 class ChatBackground(Type_):
     def __init__(
-        self, type: "BackgroundType", client: "tgram.TgBot" = None, json: "dict" = None
+        self, type: "BackgroundType", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatBackground"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBackground"]:
         return (
             ChatBackground(
-                client=client,
+                me=me,
                 json=d,
-                type=BackgroundType._parse(client=client, d=d.get("type")),
+                type=BackgroundType._parse(me=me, d=d.get("type")),
             )
             if d
             else None
@@ -2355,21 +2287,21 @@ class ForumTopicCreated(Type_):
         name: "str",
         icon_color: "int",
         icon_custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.name = name
         self.icon_color = icon_color
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ForumTopicCreated"]:
         return (
             ForumTopicCreated(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
                 icon_color=d.get("icon_color"),
@@ -2385,20 +2317,20 @@ class ForumTopicClosed(Type_):
         self,
         name: "str" = None,
         icon_custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.name = name
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ForumTopicClosed"]:
         return (
             ForumTopicClosed(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
@@ -2413,20 +2345,20 @@ class ForumTopicEdited(Type_):
         self,
         name: "str" = None,
         icon_custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.name = name
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ForumTopicEdited"]:
         return (
             ForumTopicEdited(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
@@ -2444,10 +2376,10 @@ class ForumTopicReopened(Type_):
         last_name: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2456,17 +2388,17 @@ class ForumTopicReopened(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ForumTopicReopened"]:
         return (
             ForumTopicReopened(
-                client=client,
+                me=me,
                 json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
             )
@@ -2483,10 +2415,10 @@ class GeneralForumTopicHidden(Type_):
         last_name: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2495,17 +2427,17 @@ class GeneralForumTopicHidden(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["GeneralForumTopicHidden"]:
         return (
             GeneralForumTopicHidden(
-                client=client,
+                me=me,
                 json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
             )
@@ -2522,10 +2454,10 @@ class GeneralForumTopicUnhidden(Type_):
         last_name: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2534,17 +2466,17 @@ class GeneralForumTopicUnhidden(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["GeneralForumTopicUnhidden"]:
         return (
             GeneralForumTopicUnhidden(
-                client=client,
+                me=me,
                 json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
             )
@@ -2561,10 +2493,10 @@ class SharedUser(Type_):
         last_name: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -2572,16 +2504,16 @@ class SharedUser(Type_):
         self.photo = photo
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["SharedUser"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["SharedUser"]:
         return (
             SharedUser(
-                client=client,
+                me=me,
                 json=d,
                 user_id=d.get("user_id"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
             )
@@ -2595,21 +2527,21 @@ class UsersShared(Type_):
         self,
         request_id: "int",
         users: List["SharedUser"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.request_id = request_id
         self.users = users
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["UsersShared"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["UsersShared"]:
         return (
             UsersShared(
-                client=client,
+                me=me,
                 json=d,
                 request_id=d.get("request_id"),
-                users=[SharedUser._parse(client=client, d=i) for i in d.get("users")]
+                users=[SharedUser._parse(me=me, d=i) for i in d.get("users")]
                 if d.get("users")
                 else None,
             )
@@ -2626,10 +2558,10 @@ class ChatShared(Type_):
         title: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.request_id = request_id
         self.chat_id = chat_id
         self.title = title
@@ -2637,16 +2569,16 @@ class ChatShared(Type_):
         self.photo = photo
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatShared"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatShared"]:
         return (
             ChatShared(
-                client=client,
+                me=me,
                 json=d,
                 request_id=d.get("request_id"),
                 chat_id=d.get("chat_id"),
                 title=d.get("title"),
                 username=d.get("username"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
             )
@@ -2661,21 +2593,21 @@ class WriteAccessAllowed(Type_):
         from_request: "bool" = None,
         web_app_name: "str" = None,
         from_attachment_menu: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.from_request = from_request
         self.web_app_name = web_app_name
         self.from_attachment_menu = from_attachment_menu
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["WriteAccessAllowed"]:
         return (
             WriteAccessAllowed(
-                client=client,
+                me=me,
                 json=d,
                 from_request=d.get("from_request"),
                 web_app_name=d.get("web_app_name"),
@@ -2688,18 +2620,18 @@ class WriteAccessAllowed(Type_):
 
 class VideoChatScheduled(Type_):
     def __init__(
-        self, start_date: "int", client: "tgram.TgBot" = None, json: "dict" = None
+        self, start_date: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.start_date = start_date
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["VideoChatScheduled"]:
         return (
             VideoChatScheduled(
-                client=client,
+                me=me,
                 json=d,
                 start_date=d.get("start_date"),
             )
@@ -2709,19 +2641,17 @@ class VideoChatScheduled(Type_):
 
 
 class VideoChatStarted(Type_):
-    def __init__(
-        self, duration: "int", client: "tgram.TgBot" = None, json: "dict" = None
-    ):
-        super().__init__(client=client, json=json)
+    def __init__(self, duration: "int", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.duration = duration
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["VideoChatStarted"]:
         return (
             VideoChatStarted(
-                client=client,
+                me=me,
                 json=d,
                 duration=d.get("duration"),
             )
@@ -2731,19 +2661,15 @@ class VideoChatStarted(Type_):
 
 
 class VideoChatEnded(Type_):
-    def __init__(
-        self, duration: "int", client: "tgram.TgBot" = None, json: "dict" = None
-    ):
-        super().__init__(client=client, json=json)
+    def __init__(self, duration: "int", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.duration = duration
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["VideoChatEnded"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["VideoChatEnded"]:
         return (
             VideoChatEnded(
-                client=client,
+                me=me,
                 json=d,
                 duration=d.get("duration"),
             )
@@ -2754,20 +2680,20 @@ class VideoChatEnded(Type_):
 
 class VideoChatParticipantsInvited(Type_):
     def __init__(
-        self, users: List["User"], client: "tgram.TgBot" = None, json: "dict" = None
+        self, users: List["User"], me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.users = users
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["VideoChatParticipantsInvited"]:
         return (
             VideoChatParticipantsInvited(
-                client=client,
+                me=me,
                 json=d,
-                users=[User._parse(client=client, d=i) for i in d.get("users")]
+                users=[User._parse(me=me, d=i) for i in d.get("users")]
                 if d.get("users")
                 else None,
             )
@@ -2787,10 +2713,10 @@ class GiveawayCreated(Type_):
         prize_description: "str" = None,
         country_codes: List["str"] = None,
         premium_subscription_month_count: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chats = chats
         self.winners_selection_date = winners_selection_date
         self.winner_count = winner_count
@@ -2801,14 +2727,12 @@ class GiveawayCreated(Type_):
         self.premium_subscription_month_count = premium_subscription_month_count
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["GiveawayCreated"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["GiveawayCreated"]:
         return (
             GiveawayCreated(
-                client=client,
+                me=me,
                 json=d,
-                chats=[Chat._parse(client=client, d=i) for i in d.get("chats")]
+                chats=[Chat._parse(me=me, d=i) for i in d.get("chats")]
                 if d.get("chats")
                 else None,
                 winners_selection_date=d.get("winners_selection_date"),
@@ -2837,10 +2761,10 @@ class Giveaway(Type_):
         prize_description: "str" = None,
         country_codes: List["str"] = None,
         premium_subscription_month_count: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chats = chats
         self.winners_selection_date = winners_selection_date
         self.winner_count = winner_count
@@ -2851,12 +2775,12 @@ class Giveaway(Type_):
         self.premium_subscription_month_count = premium_subscription_month_count
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Giveaway"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Giveaway"]:
         return (
             Giveaway(
-                client=client,
+                me=me,
                 json=d,
-                chats=[Chat._parse(client=client, d=i) for i in d.get("chats")]
+                chats=[Chat._parse(me=me, d=i) for i in d.get("chats")]
                 if d.get("chats")
                 else None,
                 winners_selection_date=d.get("winners_selection_date"),
@@ -2888,10 +2812,10 @@ class GiveawayWinners(Type_):
         only_new_members: "bool" = None,
         was_refunded: "bool" = None,
         prize_description: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.giveaway_message_id = giveaway_message_id
         self.winners_selection_date = winners_selection_date
@@ -2905,18 +2829,16 @@ class GiveawayWinners(Type_):
         self.prize_description = prize_description
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["GiveawayWinners"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["GiveawayWinners"]:
         return (
             GiveawayWinners(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 giveaway_message_id=d.get("giveaway_message_id"),
                 winners_selection_date=d.get("winners_selection_date"),
                 winner_count=d.get("winner_count"),
-                winners=[User._parse(client=client, d=i) for i in d.get("winners")]
+                winners=[User._parse(me=me, d=i) for i in d.get("winners")]
                 if d.get("winners")
                 else None,
                 additional_chat_count=d.get("additional_chat_count"),
@@ -2939,27 +2861,25 @@ class GiveawayCompleted(Type_):
         winner_count: "int",
         unclaimed_prize_count: "int" = None,
         giveaway_message: "Message" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.winner_count = winner_count
         self.unclaimed_prize_count = unclaimed_prize_count
         self.giveaway_message = giveaway_message
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["GiveawayCompleted"]:
         return (
             GiveawayCompleted(
-                client=client,
+                me=me,
                 json=d,
                 winner_count=d.get("winner_count"),
                 unclaimed_prize_count=d.get("unclaimed_prize_count"),
-                giveaway_message=Message._parse(
-                    client=client, d=d.get("giveaway_message")
-                ),
+                giveaway_message=Message._parse(me=me, d=d.get("giveaway_message")),
             )
             if d
             else None
@@ -2974,10 +2894,10 @@ class LinkPreviewOptions(Type_):
         prefer_small_media: "bool" = None,
         prefer_large_media: "bool" = None,
         show_above_text: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.is_disabled = is_disabled
         self.url = url
         self.prefer_small_media = prefer_small_media
@@ -2986,11 +2906,11 @@ class LinkPreviewOptions(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["LinkPreviewOptions"]:
         return (
             LinkPreviewOptions(
-                client=client,
+                me=me,
                 json=d,
                 is_disabled=d.get("is_disabled"),
                 url=d.get("url"),
@@ -3008,23 +2928,23 @@ class UserProfilePhotos(Type_):
         self,
         total_count: "int",
         photos: List[List["PhotoSize"]],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.total_count = total_count
         self.photos = photos
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["UserProfilePhotos"]:
         return (
             UserProfilePhotos(
-                client=client,
+                me=me,
                 json=d,
                 total_count=d.get("total_count"),
-                photos=[PhotoSize._parse(client=client, d=i) for i in d.get("photos")]
+                photos=[PhotoSize._parse(me=me, d=i) for i in d.get("photos")]
                 if d.get("photos")
                 else None,
             )
@@ -3040,20 +2960,20 @@ class File(Type_):
         file_unique_id: "str",
         file_size: "int" = None,
         file_path: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.file_size = file_size
         self.file_path = file_path
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["File"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["File"]:
         return (
             File(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -3066,15 +2986,15 @@ class File(Type_):
 
 
 class WebAppInfo(Type_):
-    def __init__(self, url: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, url: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.url = url
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppInfo"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["WebAppInfo"]:
         return (
             WebAppInfo(
-                client=client,
+                me=me,
                 json=d,
                 url=d.get("url"),
             )
@@ -3092,10 +3012,10 @@ class ReplyKeyboardMarkup(Type_):
         one_time_keyboard: "bool" = None,
         input_field_placeholder: "str" = None,
         selective: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.keyboard = keyboard
         self.is_persistent = is_persistent
         self.resize_keyboard = resize_keyboard
@@ -3105,14 +3025,14 @@ class ReplyKeyboardMarkup(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ReplyKeyboardMarkup"]:
         return (
             ReplyKeyboardMarkup(
-                client=client,
+                me=me,
                 json=d,
                 keyboard=[
-                    [KeyboardButton._parse(client=client, d=x) for x in i]
+                    [KeyboardButton._parse(me=me, d=x) for x in i]
                     for i in d.get("keyboard")
                 ]
                 if d.get("keyboard")
@@ -3138,10 +3058,10 @@ class KeyboardButton(Type_):
         request_location: "bool" = None,
         request_poll: "KeyboardButtonPollType" = None,
         web_app: "WebAppInfo" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.request_users = request_users
         self.request_chat = request_chat
@@ -3151,26 +3071,24 @@ class KeyboardButton(Type_):
         self.web_app = web_app
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["KeyboardButton"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["KeyboardButton"]:
         return (
             KeyboardButton(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
                 request_users=KeyboardButtonRequestUsers._parse(
-                    client=client, d=d.get("request_users")
+                    me=me, d=d.get("request_users")
                 ),
                 request_chat=KeyboardButtonRequestChat._parse(
-                    client=client, d=d.get("request_chat")
+                    me=me, d=d.get("request_chat")
                 ),
                 request_contact=d.get("request_contact"),
                 request_location=d.get("request_location"),
                 request_poll=KeyboardButtonPollType._parse(
-                    client=client, d=d.get("request_poll")
+                    me=me, d=d.get("request_poll")
                 ),
-                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
+                web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
             )
             if d
             else None
@@ -3187,10 +3105,10 @@ class KeyboardButtonRequestUsers(Type_):
         request_name: "bool" = None,
         request_username: "bool" = None,
         request_photo: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.request_id = request_id
         self.user_is_bot = user_is_bot
         self.user_is_premium = user_is_premium
@@ -3201,11 +3119,11 @@ class KeyboardButtonRequestUsers(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["KeyboardButtonRequestUsers"]:
         return (
             KeyboardButtonRequestUsers(
-                client=client,
+                me=me,
                 json=d,
                 request_id=d.get("request_id"),
                 user_is_bot=d.get("user_is_bot"),
@@ -3234,10 +3152,10 @@ class KeyboardButtonRequestChat(Type_):
         request_title: "bool" = None,
         request_username: "bool" = None,
         request_photo: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.request_id = request_id
         self.chat_is_channel = chat_is_channel
         self.chat_is_forum = chat_is_forum
@@ -3252,11 +3170,11 @@ class KeyboardButtonRequestChat(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["KeyboardButtonRequestChat"]:
         return (
             KeyboardButtonRequestChat(
-                client=client,
+                me=me,
                 json=d,
                 request_id=d.get("request_id"),
                 chat_is_channel=d.get("chat_is_channel"),
@@ -3264,10 +3182,10 @@ class KeyboardButtonRequestChat(Type_):
                 chat_has_username=d.get("chat_has_username"),
                 chat_is_created=d.get("chat_is_created"),
                 user_administrator_rights=ChatAdministratorRights._parse(
-                    client=client, d=d.get("user_administrator_rights")
+                    me=me, d=d.get("user_administrator_rights")
                 ),
                 bot_administrator_rights=ChatAdministratorRights._parse(
-                    client=client, d=d.get("bot_administrator_rights")
+                    me=me, d=d.get("bot_administrator_rights")
                 ),
                 bot_is_member=d.get("bot_is_member"),
                 request_title=d.get("request_title"),
@@ -3281,18 +3199,18 @@ class KeyboardButtonRequestChat(Type_):
 
 class KeyboardButtonPollType(Type_):
     def __init__(
-        self, type: "str" = None, client: "tgram.TgBot" = None, json: "dict" = None
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["KeyboardButtonPollType"]:
         return (
             KeyboardButtonPollType(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -3306,20 +3224,20 @@ class ReplyKeyboardRemove(Type_):
         self,
         remove_keyboard: "bool",
         selective: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.remove_keyboard = remove_keyboard
         self.selective = selective
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ReplyKeyboardRemove"]:
         return (
             ReplyKeyboardRemove(
-                client=client,
+                me=me,
                 json=d,
                 remove_keyboard=d.get("remove_keyboard"),
                 selective=d.get("selective"),
@@ -3333,22 +3251,22 @@ class InlineKeyboardMarkup(Type_):
     def __init__(
         self,
         inline_keyboard: List[List["InlineKeyboardButton"]],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.inline_keyboard = inline_keyboard
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineKeyboardMarkup"]:
         return (
             InlineKeyboardMarkup(
-                client=client,
+                me=me,
                 json=d,
                 inline_keyboard=[
-                    [InlineKeyboardButton._parse(client=client, d=x) for x in i]
+                    [InlineKeyboardButton._parse(me=me, d=x) for x in i]
                     for i in d.get("inline_keyboard")
                 ]
                 if d.get("inline_keyboard")
@@ -3372,10 +3290,10 @@ class InlineKeyboardButton(Type_):
         switch_inline_query_chosen_chat: "SwitchInlineQueryChosenChat" = None,
         callback_game: "CallbackGame" = None,
         pay: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.url = url
         self.callback_data = callback_data
@@ -3389,27 +3307,25 @@ class InlineKeyboardButton(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineKeyboardButton"]:
         return (
             InlineKeyboardButton(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
                 url=d.get("url"),
                 callback_data=d.get("callback_data"),
-                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
-                login_url=LoginUrl._parse(client=client, d=d.get("login_url")),
+                web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
+                login_url=LoginUrl._parse(me=me, d=d.get("login_url")),
                 switch_inline_query=d.get("switch_inline_query"),
                 switch_inline_query_current_chat=d.get(
                     "switch_inline_query_current_chat"
                 ),
                 switch_inline_query_chosen_chat=SwitchInlineQueryChosenChat._parse(
-                    client=client, d=d.get("switch_inline_query_chosen_chat")
+                    me=me, d=d.get("switch_inline_query_chosen_chat")
                 ),
-                callback_game=CallbackGame._parse(
-                    client=client, d=d.get("callback_game")
-                ),
+                callback_game=CallbackGame._parse(me=me, d=d.get("callback_game")),
                 pay=d.get("pay"),
             )
             if d
@@ -3424,20 +3340,20 @@ class LoginUrl(Type_):
         forward_text: "str" = None,
         bot_username: "str" = None,
         request_write_access: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.url = url
         self.forward_text = forward_text
         self.bot_username = bot_username
         self.request_write_access = request_write_access
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["LoginUrl"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["LoginUrl"]:
         return (
             LoginUrl(
-                client=client,
+                me=me,
                 json=d,
                 url=d.get("url"),
                 forward_text=d.get("forward_text"),
@@ -3457,10 +3373,10 @@ class SwitchInlineQueryChosenChat(Type_):
         allow_bot_chats: "bool" = None,
         allow_group_chats: "bool" = None,
         allow_channel_chats: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.query = query
         self.allow_user_chats = allow_user_chats
         self.allow_bot_chats = allow_bot_chats
@@ -3469,11 +3385,11 @@ class SwitchInlineQueryChosenChat(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["SwitchInlineQueryChosenChat"]:
         return (
             SwitchInlineQueryChosenChat(
-                client=client,
+                me=me,
                 json=d,
                 query=d.get("query"),
                 allow_user_chats=d.get("allow_user_chats"),
@@ -3496,10 +3412,10 @@ class CallbackQuery(Type_):
         inline_message_id: "str" = None,
         data: "str" = None,
         game_short_name: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.from_user = from_user
         self.message = message
@@ -3509,17 +3425,15 @@ class CallbackQuery(Type_):
         self.game_short_name = game_short_name
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["CallbackQuery"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["CallbackQuery"]:
         return (
             CallbackQuery(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(client=client, d=d.get("from")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 chat_instance=d.get("chat_instance"),
-                message=Message._parse(client=client, d=d.get("message")),
+                message=Message._parse(me=me, d=d.get("message")),
                 inline_message_id=d.get("inline_message_id"),
                 data=d.get("data"),
                 game_short_name=d.get("game_short_name"),
@@ -3535,19 +3449,19 @@ class ForceReply(Type_):
         force_reply: "bool",
         input_field_placeholder: "str" = None,
         selective: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.force_reply = force_reply
         self.input_field_placeholder = input_field_placeholder
         self.selective = selective
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ForceReply"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ForceReply"]:
         return (
             ForceReply(
-                client=client,
+                me=me,
                 json=d,
                 force_reply=d.get("force_reply"),
                 input_field_placeholder=d.get("input_field_placeholder"),
@@ -3565,20 +3479,20 @@ class ChatPhoto(Type_):
         small_file_unique_id: "str",
         big_file_id: "str",
         big_file_unique_id: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.small_file_id = small_file_id
         self.small_file_unique_id = small_file_unique_id
         self.big_file_id = big_file_id
         self.big_file_unique_id = big_file_unique_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatPhoto"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatPhoto"]:
         return (
             ChatPhoto(
-                client=client,
+                me=me,
                 json=d,
                 small_file_id=d.get("small_file_id"),
                 small_file_unique_id=d.get("small_file_unique_id"),
@@ -3602,10 +3516,10 @@ class ChatInviteLink(Type_):
         expire_date: "int" = None,
         member_limit: "int" = None,
         pending_join_request_count: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.invite_link = invite_link
         self.creator = creator
         self.creates_join_request = creates_join_request
@@ -3617,15 +3531,13 @@ class ChatInviteLink(Type_):
         self.pending_join_request_count = pending_join_request_count
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatInviteLink"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatInviteLink"]:
         return (
             ChatInviteLink(
-                client=client,
+                me=me,
                 json=d,
                 invite_link=d.get("invite_link"),
-                creator=User._parse(client=client, d=d.get("creator")),
+                creator=User._parse(me=me, d=d.get("creator")),
                 creates_join_request=d.get("creates_join_request"),
                 is_primary=d.get("is_primary"),
                 is_revoked=d.get("is_revoked"),
@@ -3657,10 +3569,10 @@ class ChatAdministratorRights(Type_):
         can_edit_messages: "bool" = None,
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.is_anonymous = is_anonymous
         self.can_manage_chat = can_manage_chat
         self.can_delete_messages = can_delete_messages
@@ -3679,11 +3591,11 @@ class ChatAdministratorRights(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatAdministratorRights"]:
         return (
             ChatAdministratorRights(
-                client=client,
+                me=me,
                 json=d,
                 is_anonymous=d.get("is_anonymous"),
                 can_manage_chat=d.get("can_manage_chat"),
@@ -3717,10 +3629,10 @@ class ChatMemberUpdated(Type_):
         invite_link: "ChatInviteLink" = None,
         via_join_request: "bool" = None,
         via_chat_folder_invite_link: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.from_user = from_user
         self.date = date
@@ -3732,24 +3644,18 @@ class ChatMemberUpdated(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatMemberUpdated"]:
         return (
             ChatMemberUpdated(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
-                from_user=User._parse(client=client, d=d.get("from")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 date=d.get("date"),
-                old_chat_member=ChatMember._parse(
-                    client=client, d=d.get("old_chat_member")
-                ),
-                new_chat_member=ChatMember._parse(
-                    client=client, d=d.get("new_chat_member")
-                ),
-                invite_link=ChatInviteLink._parse(
-                    client=client, d=d.get("invite_link")
-                ),
+                old_chat_member=ChatMember._parse(me=me, d=d.get("old_chat_member")),
+                new_chat_member=ChatMember._parse(me=me, d=d.get("new_chat_member")),
+                invite_link=ChatInviteLink._parse(me=me, d=d.get("invite_link")),
                 via_join_request=d.get("via_join_request"),
                 via_chat_folder_invite_link=d.get("via_chat_folder_invite_link"),
             )
@@ -3765,23 +3671,23 @@ class ChatMember(Type_):
         user: "User",
         is_anonymous: "bool",
         custom_title: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
         self.is_anonymous = is_anonymous
         self.custom_title = custom_title
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMember"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMember"]:
         return (
             ChatMember(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
                 custom_title=d.get("custom_title"),
             )
@@ -3797,25 +3703,23 @@ class ChatMemberOwner(Type_):
         user: "User",
         is_anonymous: "bool",
         custom_title: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
         self.is_anonymous = is_anonymous
         self.custom_title = custom_title
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatMemberOwner"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMemberOwner"]:
         return (
             ChatMemberOwner(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 is_anonymous=d.get("is_anonymous"),
                 custom_title=d.get("custom_title"),
             )
@@ -3846,10 +3750,10 @@ class ChatMemberAdministrator(Type_):
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
         custom_title: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
         self.can_be_edited = can_be_edited
@@ -3872,14 +3776,14 @@ class ChatMemberAdministrator(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatMemberAdministrator"]:
         return (
             ChatMemberAdministrator(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 can_be_edited=d.get("can_be_edited"),
                 is_anonymous=d.get("is_anonymous"),
                 can_manage_chat=d.get("can_manage_chat"),
@@ -3905,26 +3809,22 @@ class ChatMemberAdministrator(Type_):
 
 class ChatMemberMember(Type_):
     def __init__(
-        self,
-        status: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, status: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatMemberMember"]:
         return (
             ChatMemberMember(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -3952,10 +3852,10 @@ class ChatMemberRestricted(Type_):
         can_pin_messages: "bool",
         can_manage_topics: "bool",
         until_date: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
         self.is_member = is_member
@@ -3977,14 +3877,14 @@ class ChatMemberRestricted(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatMemberRestricted"]:
         return (
             ChatMemberRestricted(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 is_member=d.get("is_member"),
                 can_send_messages=d.get("can_send_messages"),
                 can_send_audios=d.get("can_send_audios"),
@@ -4009,26 +3909,20 @@ class ChatMemberRestricted(Type_):
 
 class ChatMemberLeft(Type_):
     def __init__(
-        self,
-        status: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, status: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatMemberLeft"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMemberLeft"]:
         return (
             ChatMemberLeft(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -4041,24 +3935,24 @@ class ChatMemberBanned(Type_):
         status: "str",
         user: "User",
         until_date: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.status = status
         self.user = user
         self.until_date = until_date
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatMemberBanned"]:
         return (
             ChatMemberBanned(
-                client=client,
+                me=me,
                 json=d,
                 status=d.get("status"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 until_date=d.get("until_date"),
             )
             if d
@@ -4075,10 +3969,10 @@ class ChatJoinRequest(Type_):
         date: "int",
         bio: "str" = None,
         invite_link: "ChatInviteLink" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.from_user = from_user
         self.user_chat_id = user_chat_id
@@ -4087,21 +3981,17 @@ class ChatJoinRequest(Type_):
         self.invite_link = invite_link
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatJoinRequest"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatJoinRequest"]:
         return (
             ChatJoinRequest(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
-                from_user=User._parse(client=client, d=d.get("from")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 user_chat_id=d.get("user_chat_id"),
                 date=d.get("date"),
                 bio=d.get("bio"),
-                invite_link=ChatInviteLink._parse(
-                    client=client, d=d.get("invite_link")
-                ),
+                invite_link=ChatInviteLink._parse(me=me, d=d.get("invite_link")),
             )
             if d
             else None
@@ -4125,10 +4015,10 @@ class ChatPermissions(Type_):
         can_invite_users: "bool" = None,
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.can_send_messages = can_send_messages
         self.can_send_audios = can_send_audios
         self.can_send_documents = can_send_documents
@@ -4145,12 +4035,10 @@ class ChatPermissions(Type_):
         self.can_manage_topics = can_manage_topics
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatPermissions"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatPermissions"]:
         return (
             ChatPermissions(
-                client=client,
+                me=me,
                 json=d,
                 can_send_messages=d.get("can_send_messages"),
                 can_send_audios=d.get("can_send_audios"),
@@ -4178,19 +4066,19 @@ class Birthdate(Type_):
         day: "int",
         month: "int",
         year: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.day = day
         self.month = month
         self.year = year
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Birthdate"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Birthdate"]:
         return (
             Birthdate(
-                client=client,
+                me=me,
                 json=d,
                 day=d.get("day"),
                 month=d.get("month"),
@@ -4207,25 +4095,23 @@ class BusinessIntro(Type_):
         title: "str" = None,
         message: "str" = None,
         sticker: "Sticker" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.title = title
         self.message = message
         self.sticker = sticker
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["BusinessIntro"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BusinessIntro"]:
         return (
             BusinessIntro(
-                client=client,
+                me=me,
                 json=d,
                 title=d.get("title"),
                 message=d.get("message"),
-                sticker=Sticker._parse(client=client, d=d.get("sticker")),
+                sticker=Sticker._parse(me=me, d=d.get("sticker")),
             )
             if d
             else None
@@ -4237,23 +4123,23 @@ class BusinessLocation(Type_):
         self,
         address: "str",
         location: "Location" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.address = address
         self.location = location
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BusinessLocation"]:
         return (
             BusinessLocation(
-                client=client,
+                me=me,
                 json=d,
                 address=d.get("address"),
-                location=Location._parse(client=client, d=d.get("location")),
+                location=Location._parse(me=me, d=d.get("location")),
             )
             if d
             else None
@@ -4265,20 +4151,20 @@ class BusinessOpeningHoursInterval(Type_):
         self,
         opening_minute: "int",
         closing_minute: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.opening_minute = opening_minute
         self.closing_minute = closing_minute
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BusinessOpeningHoursInterval"]:
         return (
             BusinessOpeningHoursInterval(
-                client=client,
+                me=me,
                 json=d,
                 opening_minute=d.get("opening_minute"),
                 closing_minute=d.get("closing_minute"),
@@ -4293,24 +4179,24 @@ class BusinessOpeningHours(Type_):
         self,
         time_zone_name: "str",
         opening_hours: List["BusinessOpeningHoursInterval"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.time_zone_name = time_zone_name
         self.opening_hours = opening_hours
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BusinessOpeningHours"]:
         return (
             BusinessOpeningHours(
-                client=client,
+                me=me,
                 json=d,
                 time_zone_name=d.get("time_zone_name"),
                 opening_hours=[
-                    BusinessOpeningHoursInterval._parse(client=client, d=i)
+                    BusinessOpeningHoursInterval._parse(me=me, d=i)
                     for i in d.get("opening_hours")
                 ]
                 if d.get("opening_hours")
@@ -4326,22 +4212,20 @@ class ChatLocation(Type_):
         self,
         location: "Location",
         address: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.location = location
         self.address = address
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatLocation"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatLocation"]:
         return (
             ChatLocation(
-                client=client,
+                me=me,
                 json=d,
-                location=Location._parse(client=client, d=d.get("location")),
+                location=Location._parse(me=me, d=d.get("location")),
                 address=d.get("address"),
             )
             if d
@@ -4351,23 +4235,17 @@ class ChatLocation(Type_):
 
 class ReactionType(Type_):
     def __init__(
-        self,
-        type: "str",
-        emoji: "str",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, type: "str", emoji: "str", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.emoji = emoji
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ReactionType"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ReactionType"]:
         return (
             ReactionType(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 emoji=d.get("emoji"),
@@ -4379,23 +4257,19 @@ class ReactionType(Type_):
 
 class ReactionTypeEmoji(Type_):
     def __init__(
-        self,
-        type: "str",
-        emoji: "str",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, type: "str", emoji: "str", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.emoji = emoji
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ReactionTypeEmoji"]:
         return (
             ReactionTypeEmoji(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 emoji=d.get("emoji"),
@@ -4410,20 +4284,20 @@ class ReactionTypeCustomEmoji(Type_):
         self,
         type: "str",
         custom_emoji_id: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ReactionTypeCustomEmoji"]:
         return (
             ReactionTypeCustomEmoji(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 custom_emoji_id=d.get("custom_emoji_id"),
@@ -4438,22 +4312,20 @@ class ReactionCount(Type_):
         self,
         type: "ReactionType",
         total_count: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.total_count = total_count
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ReactionCount"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ReactionCount"]:
         return (
             ReactionCount(
-                client=client,
+                me=me,
                 json=d,
-                type=ReactionType._parse(client=client, d=d.get("type")),
+                type=ReactionType._parse(me=me, d=d.get("type")),
                 total_count=d.get("total_count"),
             )
             if d
@@ -4471,10 +4343,10 @@ class MessageReactionUpdated(Type_):
         new_reaction: List["ReactionType"],
         user: "User" = None,
         actor_chat: "Chat" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.message_id = message_id
         self.user = user
@@ -4485,29 +4357,27 @@ class MessageReactionUpdated(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageReactionUpdated"]:
         return (
             MessageReactionUpdated(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
                 old_reaction=[
-                    ReactionType._parse(client=client, d=i)
-                    for i in d.get("old_reaction")
+                    ReactionType._parse(me=me, d=i) for i in d.get("old_reaction")
                 ]
                 if d.get("old_reaction")
                 else None,
                 new_reaction=[
-                    ReactionType._parse(client=client, d=i)
-                    for i in d.get("new_reaction")
+                    ReactionType._parse(me=me, d=i) for i in d.get("new_reaction")
                 ]
                 if d.get("new_reaction")
                 else None,
-                user=User._parse(client=client, d=d.get("user")),
-                actor_chat=Chat._parse(client=client, d=d.get("actor_chat")),
+                user=User._parse(me=me, d=d.get("user")),
+                actor_chat=Chat._parse(me=me, d=d.get("actor_chat")),
             )
             if d
             else None
@@ -4521,10 +4391,10 @@ class MessageReactionCountUpdated(Type_):
         message_id: "int",
         date: "int",
         reactions: List["ReactionCount"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.message_id = message_id
         self.date = date
@@ -4532,18 +4402,16 @@ class MessageReactionCountUpdated(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MessageReactionCountUpdated"]:
         return (
             MessageReactionCountUpdated(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                reactions=[
-                    ReactionCount._parse(client=client, d=i) for i in d.get("reactions")
-                ]
+                reactions=[ReactionCount._parse(me=me, d=i) for i in d.get("reactions")]
                 if d.get("reactions")
                 else None,
             )
@@ -4559,20 +4427,20 @@ class ForumTopic(Type_):
         name: "str",
         icon_color: "int",
         icon_custom_emoji_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_thread_id = message_thread_id
         self.name = name
         self.icon_color = icon_color
         self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ForumTopic"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ForumTopic"]:
         return (
             ForumTopic(
-                client=client,
+                me=me,
                 json=d,
                 message_thread_id=d.get("message_thread_id"),
                 name=d.get("name"),
@@ -4589,18 +4457,18 @@ class BotCommand(Type_):
         self,
         command: "str",
         description: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.command = command
         self.description = description
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["BotCommand"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BotCommand"]:
         return (
             BotCommand(
-                client=client,
+                me=me,
                 json=d,
                 command=d.get("command"),
                 description=d.get("description"),
@@ -4611,17 +4479,15 @@ class BotCommand(Type_):
 
 
 class BotCommandScope(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["BotCommandScope"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BotCommandScope"]:
         return (
             BotCommandScope(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4631,17 +4497,17 @@ class BotCommandScope(Type_):
 
 
 class BotCommandScopeDefault(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeDefault"]:
         return (
             BotCommandScopeDefault(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4651,17 +4517,17 @@ class BotCommandScopeDefault(Type_):
 
 
 class BotCommandScopeAllPrivateChats(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeAllPrivateChats"]:
         return (
             BotCommandScopeAllPrivateChats(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4671,17 +4537,17 @@ class BotCommandScopeAllPrivateChats(Type_):
 
 
 class BotCommandScopeAllGroupChats(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeAllGroupChats"]:
         return (
             BotCommandScopeAllGroupChats(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4691,17 +4557,17 @@ class BotCommandScopeAllGroupChats(Type_):
 
 
 class BotCommandScopeAllChatAdministrators(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeAllChatAdministrators"]:
         return (
             BotCommandScopeAllChatAdministrators(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4715,20 +4581,20 @@ class BotCommandScopeChat(Type_):
         self,
         type: "str",
         chat_id: Union["int", "str"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.chat_id = chat_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeChat"]:
         return (
             BotCommandScopeChat(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
@@ -4743,20 +4609,20 @@ class BotCommandScopeChatAdministrators(Type_):
         self,
         type: "str",
         chat_id: Union["int", "str"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.chat_id = chat_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeChatAdministrators"]:
         return (
             BotCommandScopeChatAdministrators(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
@@ -4772,21 +4638,21 @@ class BotCommandScopeChatMember(Type_):
         type: "str",
         chat_id: Union["int", "str"],
         user_id: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.chat_id = chat_id
         self.user_id = user_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotCommandScopeChatMember"]:
         return (
             BotCommandScopeChatMember(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 chat_id=d.get("chat_id"),
@@ -4798,15 +4664,15 @@ class BotCommandScopeChatMember(Type_):
 
 
 class BotName(Type_):
-    def __init__(self, name: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, name: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.name = name
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["BotName"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BotName"]:
         return (
             BotName(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
             )
@@ -4817,18 +4683,16 @@ class BotName(Type_):
 
 class BotDescription(Type_):
     def __init__(
-        self, description: "str", client: "tgram.TgBot" = None, json: "dict" = None
+        self, description: "str", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.description = description
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["BotDescription"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["BotDescription"]:
         return (
             BotDescription(
-                client=client,
+                me=me,
                 json=d,
                 description=d.get("description"),
             )
@@ -4839,21 +4703,18 @@ class BotDescription(Type_):
 
 class BotShortDescription(Type_):
     def __init__(
-        self,
-        short_description: "str",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, short_description: "str", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.short_description = short_description
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BotShortDescription"]:
         return (
             BotShortDescription(
-                client=client,
+                me=me,
                 json=d,
                 short_description=d.get("short_description"),
             )
@@ -4863,15 +4724,15 @@ class BotShortDescription(Type_):
 
 
 class MenuButton(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["MenuButton"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MenuButton"]:
         return (
             MenuButton(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4881,17 +4742,17 @@ class MenuButton(Type_):
 
 
 class MenuButtonCommands(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MenuButtonCommands"]:
         return (
             MenuButtonCommands(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4906,25 +4767,25 @@ class MenuButtonWebApp(Type_):
         type: "str",
         text: "str",
         web_app: "WebAppInfo",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.text = text
         self.web_app = web_app
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MenuButtonWebApp"]:
         return (
             MenuButtonWebApp(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 text=d.get("text"),
-                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
+                web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
             )
             if d
             else None
@@ -4932,17 +4793,17 @@ class MenuButtonWebApp(Type_):
 
 
 class MenuButtonDefault(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["MenuButtonDefault"]:
         return (
             MenuButtonDefault(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -4953,26 +4814,20 @@ class MenuButtonDefault(Type_):
 
 class ChatBoostSource(Type_):
     def __init__(
-        self,
-        source: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.user = user
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ChatBoostSource"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBoostSource"]:
         return (
             ChatBoostSource(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -4981,26 +4836,22 @@ class ChatBoostSource(Type_):
 
 class ChatBoostSourcePremium(Type_):
     def __init__(
-        self,
-        source: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.user = user
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatBoostSourcePremium"]:
         return (
             ChatBoostSourcePremium(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -5009,26 +4860,22 @@ class ChatBoostSourcePremium(Type_):
 
 class ChatBoostSourceGiftCode(Type_):
     def __init__(
-        self,
-        source: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.user = user
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatBoostSourceGiftCode"]:
         return (
             ChatBoostSourceGiftCode(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -5042,10 +4889,10 @@ class ChatBoostSourceGiveaway(Type_):
         giveaway_message_id: "int",
         user: "User" = None,
         is_unclaimed: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.giveaway_message_id = giveaway_message_id
         self.user = user
@@ -5053,15 +4900,15 @@ class ChatBoostSourceGiveaway(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatBoostSourceGiveaway"]:
         return (
             ChatBoostSourceGiveaway(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 giveaway_message_id=d.get("giveaway_message_id"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 is_unclaimed=d.get("is_unclaimed"),
             )
             if d
@@ -5076,25 +4923,25 @@ class ChatBoost(Type_):
         add_date: "int",
         expiration_date: "int",
         source: "ChatBoostSource",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.boost_id = boost_id
         self.add_date = add_date
         self.expiration_date = expiration_date
         self.source = source
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBoost"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatBoost"]:
         return (
             ChatBoost(
-                client=client,
+                me=me,
                 json=d,
                 boost_id=d.get("boost_id"),
                 add_date=d.get("add_date"),
                 expiration_date=d.get("expiration_date"),
-                source=ChatBoostSource._parse(client=client, d=d.get("source")),
+                source=ChatBoostSource._parse(me=me, d=d.get("source")),
             )
             if d
             else None
@@ -5106,23 +4953,23 @@ class ChatBoostUpdated(Type_):
         self,
         chat: "Chat",
         boost: "ChatBoost",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.boost = boost
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatBoostUpdated"]:
         return (
             ChatBoostUpdated(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
-                boost=ChatBoost._parse(client=client, d=d.get("boost")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
+                boost=ChatBoost._parse(me=me, d=d.get("boost")),
             )
             if d
             else None
@@ -5136,10 +4983,10 @@ class ChatBoostRemoved(Type_):
         boost_id: "str",
         remove_date: "int",
         source: "ChatBoostSource",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.chat = chat
         self.boost_id = boost_id
         self.remove_date = remove_date
@@ -5147,16 +4994,16 @@ class ChatBoostRemoved(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChatBoostRemoved"]:
         return (
             ChatBoostRemoved(
-                client=client,
+                me=me,
                 json=d,
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 boost_id=d.get("boost_id"),
                 remove_date=d.get("remove_date"),
-                source=ChatBoostSource._parse(client=client, d=d.get("source")),
+                source=ChatBoostSource._parse(me=me, d=d.get("source")),
             )
             if d
             else None
@@ -5165,23 +5012,18 @@ class ChatBoostRemoved(Type_):
 
 class UserChatBoosts(Type_):
     def __init__(
-        self,
-        boosts: List["ChatBoost"],
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, boosts: List["ChatBoost"], me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.boosts = boosts
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["UserChatBoosts"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["UserChatBoosts"]:
         return (
             UserChatBoosts(
-                client=client,
+                me=me,
                 json=d,
-                boosts=[ChatBoost._parse(client=client, d=i) for i in d.get("boosts")]
+                boosts=[ChatBoost._parse(me=me, d=i) for i in d.get("boosts")]
                 if d.get("boosts")
                 else None,
             )
@@ -5199,10 +5041,10 @@ class BusinessConnection(Type_):
         date: "int",
         can_reply: "bool",
         is_enabled: "bool",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.user = user
         self.user_chat_id = user_chat_id
@@ -5212,14 +5054,14 @@ class BusinessConnection(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BusinessConnection"]:
         return (
             BusinessConnection(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 user_chat_id=d.get("user_chat_id"),
                 date=d.get("date"),
                 can_reply=d.get("can_reply"),
@@ -5236,24 +5078,24 @@ class BusinessMessagesDeleted(Type_):
         business_connection_id: "str",
         chat: "Chat",
         message_ids: List["int"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.business_connection_id = business_connection_id
         self.chat = chat
         self.message_ids = message_ids
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["BusinessMessagesDeleted"]:
         return (
             BusinessMessagesDeleted(
-                client=client,
+                me=me,
                 json=d,
                 business_connection_id=d.get("business_connection_id"),
-                chat=Chat._parse(client=client, d=d.get("chat")),
+                chat=Chat._parse(me=me, d=d.get("chat")),
                 message_ids=d.get("message_ids"),
             )
             if d
@@ -5266,20 +5108,20 @@ class ResponseParameters(Type_):
         self,
         migrate_to_chat_id: "int" = None,
         retry_after: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.migrate_to_chat_id = migrate_to_chat_id
         self.retry_after = retry_after
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ResponseParameters"]:
         return (
             ResponseParameters(
-                client=client,
+                me=me,
                 json=d,
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 retry_after=d.get("retry_after"),
@@ -5299,10 +5141,10 @@ class InputMedia(Type_):
         caption_entities: List["MessageEntity"] = None,
         show_caption_above_media: "bool" = None,
         has_spoiler: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.caption = caption
@@ -5312,18 +5154,17 @@ class InputMedia(Type_):
         self.has_spoiler = has_spoiler
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMedia"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMedia"]:
         return (
             InputMedia(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5345,10 +5186,10 @@ class InputMediaPhoto(Type_):
         caption_entities: List["MessageEntity"] = None,
         show_caption_above_media: "bool" = None,
         has_spoiler: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.caption = caption
@@ -5358,20 +5199,17 @@ class InputMediaPhoto(Type_):
         self.has_spoiler = has_spoiler
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InputMediaPhoto"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMediaPhoto"]:
         return (
             InputMediaPhoto(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5398,10 +5236,10 @@ class InputMediaVideo(Type_):
         duration: "int" = None,
         supports_streaming: "bool" = None,
         has_spoiler: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5416,12 +5254,10 @@ class InputMediaVideo(Type_):
         self.has_spoiler = has_spoiler
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InputMediaVideo"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMediaVideo"]:
         return (
             InputMediaVideo(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
@@ -5429,8 +5265,7 @@ class InputMediaVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5460,10 +5295,10 @@ class InputMediaAnimation(Type_):
         height: "int" = None,
         duration: "int" = None,
         has_spoiler: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5478,11 +5313,11 @@ class InputMediaAnimation(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputMediaAnimation"]:
         return (
             InputMediaAnimation(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
@@ -5490,8 +5325,7 @@ class InputMediaAnimation(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5518,10 +5352,10 @@ class InputMediaAudio(Type_):
         duration: "int" = None,
         performer: "str" = None,
         title: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5533,12 +5367,10 @@ class InputMediaAudio(Type_):
         self.title = title
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InputMediaAudio"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMediaAudio"]:
         return (
             InputMediaAudio(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
@@ -5546,8 +5378,7 @@ class InputMediaAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5570,10 +5401,10 @@ class InputMediaDocument(Type_):
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
         disable_content_type_detection: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
@@ -5584,11 +5415,11 @@ class InputMediaDocument(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputMediaDocument"]:
         return (
             InputMediaDocument(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 media=d.get("media"),
@@ -5596,8 +5427,7 @@ class InputMediaDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -5629,10 +5459,10 @@ class Sticker(Type_):
         custom_emoji_id: "str" = None,
         needs_repainting: "bool" = None,
         file_size: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.type = type
@@ -5650,10 +5480,10 @@ class Sticker(Type_):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Sticker"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Sticker"]:
         return (
             Sticker(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -5662,15 +5492,11 @@ class Sticker(Type_):
                 height=d.get("height"),
                 is_animated=d.get("is_animated"),
                 is_video=d.get("is_video"),
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 emoji=d.get("emoji"),
                 set_name=d.get("set_name"),
-                premium_animation=File._parse(
-                    client=client, d=d.get("premium_animation")
-                ),
-                mask_position=MaskPosition._parse(
-                    client=client, d=d.get("mask_position")
-                ),
+                premium_animation=File._parse(me=me, d=d.get("premium_animation")),
+                mask_position=MaskPosition._parse(me=me, d=d.get("mask_position")),
                 custom_emoji_id=d.get("custom_emoji_id"),
                 needs_repainting=d.get("needs_repainting"),
                 file_size=d.get("file_size"),
@@ -5688,10 +5514,10 @@ class StickerSet(Type_):
         sticker_type: "str",
         stickers: List["Sticker"],
         thumbnail: "PhotoSize" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.name = name
         self.title = title
         self.sticker_type = sticker_type
@@ -5699,18 +5525,18 @@ class StickerSet(Type_):
         self.thumbnail = thumbnail
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["StickerSet"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["StickerSet"]:
         return (
             StickerSet(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
                 title=d.get("title"),
                 sticker_type=d.get("sticker_type"),
-                stickers=[Sticker._parse(client=client, d=i) for i in d.get("stickers")]
+                stickers=[Sticker._parse(me=me, d=i) for i in d.get("stickers")]
                 if d.get("stickers")
                 else None,
-                thumbnail=PhotoSize._parse(client=client, d=d.get("thumbnail")),
+                thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
             )
             if d
             else None
@@ -5724,22 +5550,20 @@ class MaskPosition(Type_):
         x_shift: "float",
         y_shift: "float",
         scale: "float",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.point = point
         self.x_shift = x_shift
         self.y_shift = y_shift
         self.scale = scale
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["MaskPosition"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MaskPosition"]:
         return (
             MaskPosition(
-                client=client,
+                me=me,
                 json=d,
                 point=d.get("point"),
                 x_shift=d.get("x_shift"),
@@ -5759,10 +5583,10 @@ class InputSticker(Type_):
         emoji_list: List["str"],
         mask_position: "MaskPosition" = None,
         keywords: List["str"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.sticker = sticker
         self.format = format
         self.emoji_list = emoji_list
@@ -5770,19 +5594,15 @@ class InputSticker(Type_):
         self.keywords = keywords
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InputSticker"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputSticker"]:
         return (
             InputSticker(
-                client=client,
+                me=me,
                 json=d,
                 sticker=d.get("sticker"),
                 format=d.get("format"),
                 emoji_list=d.get("emoji_list"),
-                mask_position=MaskPosition._parse(
-                    client=client, d=d.get("mask_position")
-                ),
+                mask_position=MaskPosition._parse(me=me, d=d.get("mask_position")),
                 keywords=d.get("keywords"),
             )
             if d
@@ -5799,10 +5619,10 @@ class InlineQuery(Type_):
         offset: "str",
         chat_type: "str" = None,
         location: "Location" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.from_user = from_user
         self.query = query
@@ -5811,17 +5631,17 @@ class InlineQuery(Type_):
         self.location = location
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["InlineQuery"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InlineQuery"]:
         return (
             InlineQuery(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(client=client, d=d.get("from")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 query=d.get("query"),
                 offset=d.get("offset"),
                 chat_type=d.get("chat_type"),
-                location=Location._parse(client=client, d=d.get("location")),
+                location=Location._parse(me=me, d=d.get("location")),
             )
             if d
             else None
@@ -5834,24 +5654,24 @@ class InlineQueryResultsButton(Type_):
         text: "str",
         web_app: "WebAppInfo" = None,
         start_parameter: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.text = text
         self.web_app = web_app
         self.start_parameter = start_parameter
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultsButton"]:
         return (
             InlineQueryResultsButton(
-                client=client,
+                me=me,
                 json=d,
                 text=d.get("text"),
-                web_app=WebAppInfo._parse(client=client, d=d.get("web_app")),
+                web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
                 start_parameter=d.get("start_parameter"),
             )
             if d
@@ -5873,10 +5693,10 @@ class InlineQueryResult(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -5891,20 +5711,20 @@ class InlineQueryResult(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResult"]:
         return (
             InlineQueryResult(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 url=d.get("url"),
                 hide_url=d.get("hide_url"),
@@ -5932,10 +5752,10 @@ class InlineQueryResultArticle(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -5950,20 +5770,20 @@ class InlineQueryResultArticle(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultArticle"]:
         return (
             InlineQueryResultArticle(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 title=d.get("title"),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 url=d.get("url"),
                 hide_url=d.get("hide_url"),
@@ -5994,10 +5814,10 @@ class InlineQueryResultPhoto(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.photo_url = photo_url
@@ -6015,11 +5835,11 @@ class InlineQueryResultPhoto(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultPhoto"]:
         return (
             InlineQueryResultPhoto(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6032,17 +5852,16 @@ class InlineQueryResultPhoto(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6068,10 +5887,10 @@ class InlineQueryResultGif(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.gif_url = gif_url
@@ -6090,11 +5909,11 @@ class InlineQueryResultGif(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultGif"]:
         return (
             InlineQueryResultGif(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6108,17 +5927,16 @@ class InlineQueryResultGif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6144,10 +5962,10 @@ class InlineQueryResultMpeg4Gif(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.mpeg4_url = mpeg4_url
@@ -6166,11 +5984,11 @@ class InlineQueryResultMpeg4Gif(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultMpeg4Gif"]:
         return (
             InlineQueryResultMpeg4Gif(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6184,17 +6002,16 @@ class InlineQueryResultMpeg4Gif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6221,10 +6038,10 @@ class InlineQueryResultVideo(Type_):
         description: "str" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.video_url = video_url
@@ -6244,11 +6061,11 @@ class InlineQueryResultVideo(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultVideo"]:
         return (
             InlineQueryResultVideo(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6259,8 +6076,7 @@ class InlineQueryResultVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
@@ -6270,10 +6086,10 @@ class InlineQueryResultVideo(Type_):
                 video_duration=d.get("video_duration"),
                 description=d.get("description"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6295,10 +6111,10 @@ class InlineQueryResultAudio(Type_):
         audio_duration: "int" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.audio_url = audio_url
@@ -6313,11 +6129,11 @@ class InlineQueryResultAudio(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultAudio"]:
         return (
             InlineQueryResultAudio(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6326,18 +6142,17 @@ class InlineQueryResultAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 performer=d.get("performer"),
                 audio_duration=d.get("audio_duration"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6358,10 +6173,10 @@ class InlineQueryResultVoice(Type_):
         voice_duration: "int" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.voice_url = voice_url
@@ -6375,11 +6190,11 @@ class InlineQueryResultVoice(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultVoice"]:
         return (
             InlineQueryResultVoice(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6388,17 +6203,16 @@ class InlineQueryResultVoice(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 voice_duration=d.get("voice_duration"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6423,10 +6237,10 @@ class InlineQueryResultDocument(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -6444,11 +6258,11 @@ class InlineQueryResultDocument(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultDocument"]:
         return (
             InlineQueryResultDocument(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6458,17 +6272,16 @@ class InlineQueryResultDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 description=d.get("description"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6496,10 +6309,10 @@ class InlineQueryResultLocation(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.latitude = latitude
@@ -6517,11 +6330,11 @@ class InlineQueryResultLocation(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultLocation"]:
         return (
             InlineQueryResultLocation(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6533,10 +6346,10 @@ class InlineQueryResultLocation(Type_):
                 heading=d.get("heading"),
                 proximity_alert_radius=d.get("proximity_alert_radius"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6565,10 +6378,10 @@ class InlineQueryResultVenue(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.latitude = latitude
@@ -6587,11 +6400,11 @@ class InlineQueryResultVenue(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultVenue"]:
         return (
             InlineQueryResultVenue(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6604,10 +6417,10 @@ class InlineQueryResultVenue(Type_):
                 google_place_id=d.get("google_place_id"),
                 google_place_type=d.get("google_place_type"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6632,10 +6445,10 @@ class InlineQueryResultContact(Type_):
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
         thumbnail_height: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.phone_number = phone_number
@@ -6650,11 +6463,11 @@ class InlineQueryResultContact(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultContact"]:
         return (
             InlineQueryResultContact(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6663,10 +6476,10 @@ class InlineQueryResultContact(Type_):
                 last_name=d.get("last_name"),
                 vcard=d.get("vcard"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
@@ -6684,10 +6497,10 @@ class InlineQueryResultGame(Type_):
         id: "str",
         game_short_name: "str",
         reply_markup: "InlineKeyboardMarkup" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.game_short_name = game_short_name
@@ -6695,17 +6508,17 @@ class InlineQueryResultGame(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultGame"]:
         return (
             InlineQueryResultGame(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 game_short_name=d.get("game_short_name"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
             )
             if d
@@ -6727,10 +6540,10 @@ class InlineQueryResultCachedPhoto(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.photo_file_id = photo_file_id
@@ -6745,11 +6558,11 @@ class InlineQueryResultCachedPhoto(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedPhoto"]:
         return (
             InlineQueryResultCachedPhoto(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6759,17 +6572,16 @@ class InlineQueryResultCachedPhoto(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6790,10 +6602,10 @@ class InlineQueryResultCachedGif(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.gif_file_id = gif_file_id
@@ -6807,11 +6619,11 @@ class InlineQueryResultCachedGif(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedGif"]:
         return (
             InlineQueryResultCachedGif(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6820,17 +6632,16 @@ class InlineQueryResultCachedGif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6851,10 +6662,10 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.mpeg4_file_id = mpeg4_file_id
@@ -6868,11 +6679,11 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedMpeg4Gif"]:
         return (
             InlineQueryResultCachedMpeg4Gif(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6881,17 +6692,16 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6907,10 +6717,10 @@ class InlineQueryResultCachedSticker(Type_):
         sticker_file_id: "str",
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.sticker_file_id = sticker_file_id
@@ -6919,20 +6729,20 @@ class InlineQueryResultCachedSticker(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedSticker"]:
         return (
             InlineQueryResultCachedSticker(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
                 sticker_file_id=d.get("sticker_file_id"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -6953,10 +6763,10 @@ class InlineQueryResultCachedDocument(Type_):
         caption_entities: List["MessageEntity"] = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.title = title
@@ -6970,11 +6780,11 @@ class InlineQueryResultCachedDocument(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedDocument"]:
         return (
             InlineQueryResultCachedDocument(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -6984,16 +6794,15 @@ class InlineQueryResultCachedDocument(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7015,10 +6824,10 @@ class InlineQueryResultCachedVideo(Type_):
         show_caption_above_media: "bool" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.video_file_id = video_file_id
@@ -7033,11 +6842,11 @@ class InlineQueryResultCachedVideo(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedVideo"]:
         return (
             InlineQueryResultCachedVideo(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -7047,17 +6856,16 @@ class InlineQueryResultCachedVideo(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7077,10 +6885,10 @@ class InlineQueryResultCachedVoice(Type_):
         caption_entities: List["MessageEntity"] = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.voice_file_id = voice_file_id
@@ -7093,11 +6901,11 @@ class InlineQueryResultCachedVoice(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedVoice"]:
         return (
             InlineQueryResultCachedVoice(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -7106,16 +6914,15 @@ class InlineQueryResultCachedVoice(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7134,10 +6941,10 @@ class InlineQueryResultCachedAudio(Type_):
         caption_entities: List["MessageEntity"] = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.id = id
         self.audio_file_id = audio_file_id
@@ -7149,11 +6956,11 @@ class InlineQueryResultCachedAudio(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InlineQueryResultCachedAudio"]:
         return (
             InlineQueryResultCachedAudio(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 id=d.get("id"),
@@ -7161,16 +6968,15 @@ class InlineQueryResultCachedAudio(Type_):
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("caption_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
                 ]
                 if d.get("caption_entities")
                 else None,
                 reply_markup=InlineKeyboardMarkup._parse(
-                    client=client, d=d.get("reply_markup")
+                    me=me, d=d.get("reply_markup")
                 ),
                 input_message_content=InputMessageContent._parse(
-                    client=client, d=d.get("input_message_content")
+                    me=me, d=d.get("input_message_content")
                 ),
             )
             if d
@@ -7185,10 +6991,10 @@ class InputMessageContent(Type_):
         parse_mode: "str" = None,
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_text = message_text
         self.parse_mode = parse_mode
         self.entities = entities
@@ -7196,21 +7002,19 @@ class InputMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputMessageContent"]:
         return (
             InputMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
-                entities=[
-                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
-                ]
+                entities=[MessageEntity._parse(me=me, d=i) for i in d.get("entities")]
                 if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    client=client, d=d.get("link_preview_options")
+                    me=me, d=d.get("link_preview_options")
                 ),
             )
             if d
@@ -7225,10 +7029,10 @@ class InputTextMessageContent(Type_):
         parse_mode: "str" = None,
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.message_text = message_text
         self.parse_mode = parse_mode
         self.entities = entities
@@ -7236,21 +7040,19 @@ class InputTextMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputTextMessageContent"]:
         return (
             InputTextMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 message_text=d.get("message_text"),
                 parse_mode=d.get("parse_mode"),
-                entities=[
-                    MessageEntity._parse(client=client, d=i) for i in d.get("entities")
-                ]
+                entities=[MessageEntity._parse(me=me, d=i) for i in d.get("entities")]
                 if d.get("entities")
                 else None,
                 link_preview_options=LinkPreviewOptions._parse(
-                    client=client, d=d.get("link_preview_options")
+                    me=me, d=d.get("link_preview_options")
                 ),
             )
             if d
@@ -7267,10 +7069,10 @@ class InputLocationMessageContent(Type_):
         live_period: "int" = None,
         heading: "int" = None,
         proximity_alert_radius: "int" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.horizontal_accuracy = horizontal_accuracy
@@ -7280,11 +7082,11 @@ class InputLocationMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputLocationMessageContent"]:
         return (
             InputLocationMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
@@ -7309,10 +7111,10 @@ class InputVenueMessageContent(Type_):
         foursquare_type: "str" = None,
         google_place_id: "str" = None,
         google_place_type: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.latitude = latitude
         self.longitude = longitude
         self.title = title
@@ -7324,11 +7126,11 @@ class InputVenueMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputVenueMessageContent"]:
         return (
             InputVenueMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
@@ -7351,10 +7153,10 @@ class InputContactMessageContent(Type_):
         first_name: "str",
         last_name: "str" = None,
         vcard: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
@@ -7362,11 +7164,11 @@ class InputContactMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputContactMessageContent"]:
         return (
             InputContactMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 phone_number=d.get("phone_number"),
                 first_name=d.get("first_name"),
@@ -7401,10 +7203,10 @@ class InputInvoiceMessageContent(Type_):
         send_phone_number_to_provider: "bool" = None,
         send_email_to_provider: "bool" = None,
         is_flexible: "bool" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.title = title
         self.description = description
         self.payload = payload
@@ -7428,19 +7230,17 @@ class InputInvoiceMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["InputInvoiceMessageContent"]:
         return (
             InputInvoiceMessageContent(
-                client=client,
+                me=me,
                 json=d,
                 title=d.get("title"),
                 description=d.get("description"),
                 payload=d.get("payload"),
                 currency=d.get("currency"),
-                prices=[
-                    LabeledPrice._parse(client=client, d=i) for i in d.get("prices")
-                ]
+                prices=[LabeledPrice._parse(me=me, d=i) for i in d.get("prices")]
                 if d.get("prices")
                 else None,
                 provider_token=d.get("provider_token"),
@@ -7472,10 +7272,10 @@ class ChosenInlineResult(Type_):
         query: "str",
         location: "Location" = None,
         inline_message_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.result_id = result_id
         self.from_user = from_user
         self.location = location
@@ -7484,16 +7284,16 @@ class ChosenInlineResult(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["ChosenInlineResult"]:
         return (
             ChosenInlineResult(
-                client=client,
+                me=me,
                 json=d,
                 result_id=d.get("result_id"),
-                from_user=User._parse(client=client, d=d.get("from")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 query=d.get("query"),
-                location=Location._parse(client=client, d=d.get("location")),
+                location=Location._parse(me=me, d=d.get("location")),
                 inline_message_id=d.get("inline_message_id"),
             )
             if d
@@ -7505,19 +7305,19 @@ class SentWebAppMessage(Type_):
     def __init__(
         self,
         inline_message_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.inline_message_id = inline_message_id
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["SentWebAppMessage"]:
         return (
             SentWebAppMessage(
-                client=client,
+                me=me,
                 json=d,
                 inline_message_id=d.get("inline_message_id"),
             )
@@ -7528,23 +7328,17 @@ class SentWebAppMessage(Type_):
 
 class LabeledPrice(Type_):
     def __init__(
-        self,
-        label: "str",
-        amount: "int",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, label: "str", amount: "int", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.label = label
         self.amount = amount
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["LabeledPrice"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["LabeledPrice"]:
         return (
             LabeledPrice(
-                client=client,
+                me=me,
                 json=d,
                 label=d.get("label"),
                 amount=d.get("amount"),
@@ -7562,10 +7356,10 @@ class Invoice(Type_):
         start_parameter: "str",
         currency: "str",
         total_amount: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.title = title
         self.description = description
         self.start_parameter = start_parameter
@@ -7573,10 +7367,10 @@ class Invoice(Type_):
         self.total_amount = total_amount
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Invoice"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Invoice"]:
         return (
             Invoice(
-                client=client,
+                me=me,
                 json=d,
                 title=d.get("title"),
                 description=d.get("description"),
@@ -7598,10 +7392,10 @@ class ShippingAddress(Type_):
         street_line1: "str",
         street_line2: "str",
         post_code: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.country_code = country_code
         self.state = state
         self.city = city
@@ -7610,12 +7404,10 @@ class ShippingAddress(Type_):
         self.post_code = post_code
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ShippingAddress"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ShippingAddress"]:
         return (
             ShippingAddress(
-                client=client,
+                me=me,
                 json=d,
                 country_code=d.get("country_code"),
                 state=d.get("state"),
@@ -7636,26 +7428,26 @@ class OrderInfo(Type_):
         phone_number: "str" = None,
         email: "str" = None,
         shipping_address: "ShippingAddress" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.name = name
         self.phone_number = phone_number
         self.email = email
         self.shipping_address = shipping_address
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["OrderInfo"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["OrderInfo"]:
         return (
             OrderInfo(
-                client=client,
+                me=me,
                 json=d,
                 name=d.get("name"),
                 phone_number=d.get("phone_number"),
                 email=d.get("email"),
                 shipping_address=ShippingAddress._parse(
-                    client=client, d=d.get("shipping_address")
+                    me=me, d=d.get("shipping_address")
                 ),
             )
             if d
@@ -7669,27 +7461,23 @@ class ShippingOption(Type_):
         id: "str",
         title: "str",
         prices: List["LabeledPrice"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.title = title
         self.prices = prices
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ShippingOption"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ShippingOption"]:
         return (
             ShippingOption(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 title=d.get("title"),
-                prices=[
-                    LabeledPrice._parse(client=client, d=i) for i in d.get("prices")
-                ]
+                prices=[LabeledPrice._parse(me=me, d=i) for i in d.get("prices")]
                 if d.get("prices")
                 else None,
             )
@@ -7708,10 +7496,10 @@ class SuccessfulPayment(Type_):
         provider_payment_charge_id: "str",
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.currency = currency
         self.total_amount = total_amount
         self.invoice_payload = invoice_payload
@@ -7722,11 +7510,11 @@ class SuccessfulPayment(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["SuccessfulPayment"]:
         return (
             SuccessfulPayment(
-                client=client,
+                me=me,
                 json=d,
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
@@ -7734,7 +7522,7 @@ class SuccessfulPayment(Type_):
                 telegram_payment_charge_id=d.get("telegram_payment_charge_id"),
                 provider_payment_charge_id=d.get("provider_payment_charge_id"),
                 shipping_option_id=d.get("shipping_option_id"),
-                order_info=OrderInfo._parse(client=client, d=d.get("order_info")),
+                order_info=OrderInfo._parse(me=me, d=d.get("order_info")),
             )
             if d
             else None
@@ -7748,28 +7536,26 @@ class ShippingQuery(Type_):
         from_user: "User",
         invoice_payload: "str",
         shipping_address: "ShippingAddress",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.from_user = from_user
         self.invoice_payload = invoice_payload
         self.shipping_address = shipping_address
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["ShippingQuery"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ShippingQuery"]:
         return (
             ShippingQuery(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(client=client, d=d.get("from")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 invoice_payload=d.get("invoice_payload"),
                 shipping_address=ShippingAddress._parse(
-                    client=client, d=d.get("shipping_address")
+                    me=me, d=d.get("shipping_address")
                 ),
             )
             if d
@@ -7787,10 +7573,10 @@ class PreCheckoutQuery(Type_):
         invoice_payload: "str",
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.from_user = from_user
         self.currency = currency
@@ -7801,19 +7587,19 @@ class PreCheckoutQuery(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PreCheckoutQuery"]:
         return (
             PreCheckoutQuery(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
-                from_user=User._parse(client=client, d=d.get("from")),
+                from_user=User._parse(me=me, d=d.get("from")),
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
                 invoice_payload=d.get("invoice_payload"),
                 shipping_option_id=d.get("shipping_option_id"),
-                order_info=OrderInfo._parse(client=client, d=d.get("order_info")),
+                order_info=OrderInfo._parse(me=me, d=d.get("order_info")),
             )
             if d
             else None
@@ -7821,17 +7607,17 @@ class PreCheckoutQuery(Type_):
 
 
 class RevenueWithdrawalState(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["RevenueWithdrawalState"]:
         return (
             RevenueWithdrawalState(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -7841,17 +7627,17 @@ class RevenueWithdrawalState(Type_):
 
 
 class RevenueWithdrawalStatePending(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["RevenueWithdrawalStatePending"]:
         return (
             RevenueWithdrawalStatePending(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -7866,21 +7652,21 @@ class RevenueWithdrawalStateSucceeded(Type_):
         type: "str",
         date: "int",
         url: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.date = date
         self.url = url
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["RevenueWithdrawalStateSucceeded"]:
         return (
             RevenueWithdrawalStateSucceeded(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 date=d.get("date"),
@@ -7892,17 +7678,17 @@ class RevenueWithdrawalStateSucceeded(Type_):
 
 
 class RevenueWithdrawalStateFailed(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["RevenueWithdrawalStateFailed"]:
         return (
             RevenueWithdrawalStateFailed(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -7916,24 +7702,24 @@ class TransactionPartner(Type_):
         self,
         type: "str",
         withdrawal_state: "RevenueWithdrawalState" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.withdrawal_state = withdrawal_state
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["TransactionPartner"]:
         return (
             TransactionPartner(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
-                    client=client, d=d.get("withdrawal_state")
+                    me=me, d=d.get("withdrawal_state")
                 ),
             )
             if d
@@ -7946,24 +7732,24 @@ class TransactionPartnerFragment(Type_):
         self,
         type: "str",
         withdrawal_state: "RevenueWithdrawalState" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.withdrawal_state = withdrawal_state
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["TransactionPartnerFragment"]:
         return (
             TransactionPartnerFragment(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 withdrawal_state=RevenueWithdrawalState._parse(
-                    client=client, d=d.get("withdrawal_state")
+                    me=me, d=d.get("withdrawal_state")
                 ),
             )
             if d
@@ -7973,26 +7759,22 @@ class TransactionPartnerFragment(Type_):
 
 class TransactionPartnerUser(Type_):
     def __init__(
-        self,
-        type: "str",
-        user: "User",
-        client: "tgram.TgBot" = None,
-        json: "dict" = None,
+        self, type: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.user = user
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["TransactionPartnerUser"]:
         return (
             TransactionPartnerUser(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
             )
             if d
             else None
@@ -8000,17 +7782,17 @@ class TransactionPartnerUser(Type_):
 
 
 class TransactionPartnerOther(Type_):
-    def __init__(self, type: "str", client: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(client=client, json=json)
+    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["TransactionPartnerOther"]:
         return (
             TransactionPartnerOther(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
             )
@@ -8027,10 +7809,10 @@ class StarTransaction(Type_):
         date: "int",
         source: "TransactionPartner" = None,
         receiver: "TransactionPartner" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.id = id
         self.amount = amount
         self.date = date
@@ -8038,18 +7820,16 @@ class StarTransaction(Type_):
         self.receiver = receiver
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["StarTransaction"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["StarTransaction"]:
         return (
             StarTransaction(
-                client=client,
+                me=me,
                 json=d,
                 id=d.get("id"),
                 amount=d.get("amount"),
                 date=d.get("date"),
-                source=TransactionPartner._parse(client=client, d=d.get("source")),
-                receiver=TransactionPartner._parse(client=client, d=d.get("receiver")),
+                source=TransactionPartner._parse(me=me, d=d.get("source")),
+                receiver=TransactionPartner._parse(me=me, d=d.get("receiver")),
             )
             if d
             else None
@@ -8060,23 +7840,22 @@ class StarTransactions(Type_):
     def __init__(
         self,
         transactions: List["StarTransaction"],
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.transactions = transactions
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["StarTransactions"]:
         return (
             StarTransactions(
-                client=client,
+                me=me,
                 json=d,
                 transactions=[
-                    StarTransaction._parse(client=client, d=i)
-                    for i in d.get("transactions")
+                    StarTransaction._parse(me=me, d=i) for i in d.get("transactions")
                 ]
                 if d.get("transactions")
                 else None,
@@ -8091,30 +7870,25 @@ class PassportData(Type_):
         self,
         data: List["EncryptedPassportElement"],
         credentials: "EncryptedCredentials",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.data = data
         self.credentials = credentials
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["PassportData"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PassportData"]:
         return (
             PassportData(
-                client=client,
+                me=me,
                 json=d,
                 data=[
-                    EncryptedPassportElement._parse(client=client, d=i)
-                    for i in d.get("data")
+                    EncryptedPassportElement._parse(me=me, d=i) for i in d.get("data")
                 ]
                 if d.get("data")
                 else None,
-                credentials=EncryptedCredentials._parse(
-                    client=client, d=d.get("credentials")
-                ),
+                credentials=EncryptedCredentials._parse(me=me, d=d.get("credentials")),
             )
             if d
             else None
@@ -8128,22 +7902,20 @@ class PassportFile(Type_):
         file_unique_id: "str",
         file_size: "int",
         file_date: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.file_id = file_id
         self.file_unique_id = file_unique_id
         self.file_size = file_size
         self.file_date = file_date
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["PassportFile"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PassportFile"]:
         return (
             PassportFile(
-                client=client,
+                me=me,
                 json=d,
                 file_id=d.get("file_id"),
                 file_unique_id=d.get("file_unique_id"),
@@ -8168,10 +7940,10 @@ class EncryptedPassportElement(Type_):
         reverse_side: "PassportFile" = None,
         selfie: "PassportFile" = None,
         translation: List["PassportFile"] = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.type = type
         self.data = data
         self.phone_number = phone_number
@@ -8185,28 +7957,25 @@ class EncryptedPassportElement(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["EncryptedPassportElement"]:
         return (
             EncryptedPassportElement(
-                client=client,
+                me=me,
                 json=d,
                 type=d.get("type"),
                 hash=d.get("hash"),
                 data=d.get("data"),
                 phone_number=d.get("phone_number"),
                 email=d.get("email"),
-                files=[PassportFile._parse(client=client, d=i) for i in d.get("files")]
+                files=[PassportFile._parse(me=me, d=i) for i in d.get("files")]
                 if d.get("files")
                 else None,
-                front_side=PassportFile._parse(client=client, d=d.get("front_side")),
-                reverse_side=PassportFile._parse(
-                    client=client, d=d.get("reverse_side")
-                ),
-                selfie=PassportFile._parse(client=client, d=d.get("selfie")),
+                front_side=PassportFile._parse(me=me, d=d.get("front_side")),
+                reverse_side=PassportFile._parse(me=me, d=d.get("reverse_side")),
+                selfie=PassportFile._parse(me=me, d=d.get("selfie")),
                 translation=[
-                    PassportFile._parse(client=client, d=i)
-                    for i in d.get("translation")
+                    PassportFile._parse(me=me, d=i) for i in d.get("translation")
                 ]
                 if d.get("translation")
                 else None,
@@ -8222,21 +7991,21 @@ class EncryptedCredentials(Type_):
         data: "str",
         hash: "str",
         secret: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.data = data
         self.hash = hash
         self.secret = secret
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["EncryptedCredentials"]:
         return (
             EncryptedCredentials(
-                client=client,
+                me=me,
                 json=d,
                 data=d.get("data"),
                 hash=d.get("hash"),
@@ -8255,10 +8024,10 @@ class PassportElementError(Type_):
         field_name: "str",
         data_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.field_name = field_name
@@ -8267,11 +8036,11 @@ class PassportElementError(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementError"]:
         return (
             PassportElementError(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8292,10 +8061,10 @@ class PassportElementErrorDataField(Type_):
         field_name: "str",
         data_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.field_name = field_name
@@ -8304,11 +8073,11 @@ class PassportElementErrorDataField(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorDataField"]:
         return (
             PassportElementErrorDataField(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8328,10 +8097,10 @@ class PassportElementErrorFrontSide(Type_):
         type: "str",
         file_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -8339,11 +8108,11 @@ class PassportElementErrorFrontSide(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorFrontSide"]:
         return (
             PassportElementErrorFrontSide(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8362,10 +8131,10 @@ class PassportElementErrorReverseSide(Type_):
         type: "str",
         file_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -8373,11 +8142,11 @@ class PassportElementErrorReverseSide(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorReverseSide"]:
         return (
             PassportElementErrorReverseSide(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8396,10 +8165,10 @@ class PassportElementErrorSelfie(Type_):
         type: "str",
         file_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -8407,11 +8176,11 @@ class PassportElementErrorSelfie(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorSelfie"]:
         return (
             PassportElementErrorSelfie(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8430,10 +8199,10 @@ class PassportElementErrorFile(Type_):
         type: "str",
         file_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -8441,11 +8210,11 @@ class PassportElementErrorFile(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorFile"]:
         return (
             PassportElementErrorFile(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8464,10 +8233,10 @@ class PassportElementErrorFiles(Type_):
         type: "str",
         file_hashes: List["str"],
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hashes = file_hashes
@@ -8475,11 +8244,11 @@ class PassportElementErrorFiles(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorFiles"]:
         return (
             PassportElementErrorFiles(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8498,10 +8267,10 @@ class PassportElementErrorTranslationFile(Type_):
         type: "str",
         file_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hash = file_hash
@@ -8509,11 +8278,11 @@ class PassportElementErrorTranslationFile(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorTranslationFile"]:
         return (
             PassportElementErrorTranslationFile(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8532,10 +8301,10 @@ class PassportElementErrorTranslationFiles(Type_):
         type: "str",
         file_hashes: List["str"],
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.file_hashes = file_hashes
@@ -8543,11 +8312,11 @@ class PassportElementErrorTranslationFiles(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorTranslationFiles"]:
         return (
             PassportElementErrorTranslationFiles(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8566,10 +8335,10 @@ class PassportElementErrorUnspecified(Type_):
         type: "str",
         element_hash: "str",
         message: "str",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.source = source
         self.type = type
         self.element_hash = element_hash
@@ -8577,11 +8346,11 @@ class PassportElementErrorUnspecified(Type_):
 
     @staticmethod
     def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
+        me: "tgram.TgBot" = None, d: dict = None
     ) -> Optional["PassportElementErrorUnspecified"]:
         return (
             PassportElementErrorUnspecified(
-                client=client,
+                me=me,
                 json=d,
                 source=d.get("source"),
                 type=d.get("type"),
@@ -8602,10 +8371,10 @@ class Game(Type_):
         text: "str" = None,
         text_entities: List["MessageEntity"] = None,
         animation: "Animation" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.title = title
         self.description = description
         self.photo = photo
@@ -8614,24 +8383,23 @@ class Game(Type_):
         self.animation = animation
 
     @staticmethod
-    def _parse(client: "tgram.TgBot" = None, d: dict = None) -> Optional["Game"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["Game"]:
         return (
             Game(
-                client=client,
+                me=me,
                 json=d,
                 title=d.get("title"),
                 description=d.get("description"),
-                photo=[PhotoSize._parse(client=client, d=i) for i in d.get("photo")]
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
                 text=d.get("text"),
                 text_entities=[
-                    MessageEntity._parse(client=client, d=i)
-                    for i in d.get("text_entities")
+                    MessageEntity._parse(me=me, d=i) for i in d.get("text_entities")
                 ]
                 if d.get("text_entities")
                 else None,
-                animation=Animation._parse(client=client, d=d.get("animation")),
+                animation=Animation._parse(me=me, d=d.get("animation")),
             )
             if d
             else None
@@ -8648,10 +8416,10 @@ class CallbackGame(Type_):
         chat_id: "int" = None,
         message_id: "int" = None,
         inline_message_id: "str" = None,
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.user_id = user_id
         self.score = score
         self.force = force
@@ -8661,12 +8429,10 @@ class CallbackGame(Type_):
         self.inline_message_id = inline_message_id
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["CallbackGame"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["CallbackGame"]:
         return (
             CallbackGame(
-                client=client,
+                me=me,
                 json=d,
                 user_id=d.get("user_id"),
                 score=d.get("score"),
@@ -8687,24 +8453,22 @@ class GameHighScore(Type_):
         position: "int",
         user: "User",
         score: "int",
-        client: "tgram.TgBot" = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
-        super().__init__(client=client, json=json)
+        super().__init__(me=me, json=json)
         self.position = position
         self.user = user
         self.score = score
 
     @staticmethod
-    def _parse(
-        client: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["GameHighScore"]:
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["GameHighScore"]:
         return (
             GameHighScore(
-                client=client,
+                me=me,
                 json=d,
                 position=d.get("position"),
-                user=User._parse(client=client, d=d.get("user")),
+                user=User._parse(me=me, d=d.get("user")),
                 score=d.get("score"),
             )
             if d
