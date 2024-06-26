@@ -5,6 +5,8 @@ import json
 import tgram
 import os
 import io
+import ssl
+import certifi
 
 from .methods import TelegramBotMethods
 from .decorators import Decorators
@@ -68,7 +70,9 @@ class Dispatcher:
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     _session: "aiohttp.ClientSession" = aiohttp.ClientSession(
-        connector=aiohttp.TCPConnector(limit=50)
+        connector=aiohttp.TCPConnector(
+            limit=50, ssl_context=ssl.create_default_context(cafile=certifi.where())
+        ),
     )
     _api_url: str = None
 
@@ -109,7 +113,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._handlers.append(handler)
 
     async def _new_session(self) -> None:
-        session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=50))
+        session = aiohttp.ClientSession(
+            connector=aiohttp.TCPConnector(
+                limit=50, ssl_context=ssl.create_default_context(cafile=certifi.where())
+            )
+        )
         self._session = session
 
     async def _get_session(self) -> "aiohttp.ClientSession":
