@@ -24,8 +24,12 @@ class Dispatcher:
     _is_running = False
     _handlers: List["tgram.handlers.Handler"] = []
 
-    async def run_for_updates(self: "TgBot") -> None:
-        offset, allowed_updates, limit = -1, self.allowed_updates, 100
+    async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
+        offset, allowed_updates, limit = (
+            -1 if skip_updates else None,
+            self.allowed_updates,
+            100,
+        )
         self._is_running = True
 
         while self._is_running:
