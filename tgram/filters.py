@@ -1,4 +1,7 @@
-from typing import Callable, Any, Union, List
+from typing import Callable, Any, Union, List, Pattern
+
+import tgram
+import re
 
 
 class Filter:
@@ -160,3 +163,41 @@ def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
         lambda m: getattr(m, "chat")
         and (m.chat.id in ids or (m.chat.username and m.chat.username.lower() in ids))
     )
+
+
+def regex(pattern: Union[str, Pattern], flags: int = 0):
+    """Filter updates that match a given regular expression pattern."""
+    compiler = pattern if isinstance(pattern, Pattern) else re.compile(pattern, flags)
+
+    def regex_filter(m):
+        if not isinstance(
+            m,
+            (
+                tgram.types.Message,
+                tgram.types.CallbackQuery,
+                tgram.types.InlineQuery,
+                tgram.types.PreCheckoutQuery,
+            ),
+        ):
+            raise ValueError(f"Regex filter doesn't work with {m.__class__.__name__}")
+
+        value = (
+            (m.text or m.caption)
+            if isinstance(m, tgram.types.Message)
+            else m.data
+            if isinstance(m, tgram.types.CallbackQuery)
+            else m.query
+            if isinstance(m, tgram.types.InlineQuery)
+            else m.invoice_payload
+            if isinstance(m, tgram.types.PreCheckoutQuery)
+            else None
+        )
+
+        if value is None:
+            return False
+
+        m.matches = list(compiler.finditer(value)) or None
+
+        return bool(m.matches)
+
+    return Filter(regex_filter)
