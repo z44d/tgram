@@ -12,6 +12,7 @@
     <a href="https://t.me/tgbot_chat">
         Chat
     </a>
+    •
     <a href="https://2ei.github.io/tgram/">
         Documentation
     </a>
