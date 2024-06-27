@@ -20,6 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+          pip install tgram aiohttp asyncio
           cd docs
           make clean html
           make html
