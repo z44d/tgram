@@ -14,7 +14,7 @@
     </a>
 </p>
 
-# tgram [![PyPI](https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37)](https://pypi.org/project/tgram/) [![Downloads](https://static.pepy.tech/badge/tgram)](https://pepy.tech/project/tgram)
+# Tgram [![PyPI](https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37)](https://pypi.org/project/tgram/) [![Downloads](https://static.pepy.tech/badge/tgram)](https://pepy.tech/project/tgram)
 
 #### Example Usage
 ```python
