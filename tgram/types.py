@@ -1,91 +1,42 @@
 import tgram
 from typing import List, Union, Optional
 from pathlib import Path
+from json import dumps
 
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
         self._me = me
-        self._json = json or self._to_json()
-
-    def __str__(self) -> str:
-        return self.__parse()
-
-    def __parse(self, indent=1) -> str:
-        lines = []
-        indent_str = " " * indent if indent > 1 else ""
-
-        for key, value in self.__dict__.items():
-            if value is not None and not key.startswith("_"):
-                if isinstance(value, Type_):
-                    lines.append(f"{indent_str}{key}: {value.__parse(indent * 2)}")
-                elif isinstance(value, list):
-                    if not value:
-                        lines.append(f"{indent_str}{key}: []")
-                    else:
-                        elements = []
-                        for item in value:
-                            if isinstance(item, Type_):
-                                elements.append(item.__parse(indent * 2))
-                            ## For InlineKeyboardMarkup, ReplyKeyboardMarkup
-                            elif isinstance(item, list):
-                                for item_2 in item:
-                                    if isinstance(item_2, Type_):
-                                        elements.append(
-                                            f"\n{' ' * (indent * 2) if indent > 1 else ''}["
-                                            + item_2.__parse(indent * 4)
-                                            + f"\n{' ' * (indent * 2) if indent > 1 else ''}]"
-                                        )
-                            else:
-                                elements.append(repr(item))
-                        elements_str = (
-                            "["
-                            + ",\n".join([f"{' ' * (indent * 2)}{e}" for e in elements])
-                            + f"\n{' ' * indent if indent > 1 else ''}]"
-                        )
-                        lines.append(f"{indent_str}{key}: {elements_str}")
-                elif isinstance(value, dict):
-                    if not value:
-                        lines.append(f"{indent_str}{key}: {{}}")
-                    else:
-                        elements = [f"{repr(k)}: {repr(v)}" for k, v in value.items()]
-                        elements_str = "{" + ", ".join(elements) + "}"
-                        lines.append(f"{indent_str}{key}: {elements_str}")
-                else:
-                    lines.append(f"{indent_str}{key}: {repr(value)}")
-
-        return (
-            ("\n" if indent > 1 else "")
-            + f"{indent_str}_: {repr(self.__class__.__name__)}\n"
-            + "\n".join(lines)
-        )
+        self._json = json
 
     @staticmethod
-    def _list_to_json(_list: list) -> list:
-        _ = []
-        for i in _list:
-            if isinstance(i, list):
-                _.append(Type_._list_to_json(i))
-            elif isinstance(i, Type_):
-                _.append(i._to_json())
-            else:
-                _.append(i)
-        return _
+    def default(obj: "Type_"):
+        if not isinstance(obj, Type_):
+            return obj
 
-    def _to_json(self) -> dict:
-        d = {}
-        for key in filter(
-            lambda x: not x.startswith("_") and getattr(self, x) is not None,
-            self.__dict__,
-        ):
-            value = getattr(self, key)
-            if isinstance(value, list):
-                value = Type_._list_to_json(value)
-            elif isinstance(value, Type_):
-                value = value._to_json()
+        return {
+            "_": obj.__class__.__name__,
+            **{
+                attr: (getattr(obj, attr))
+                for attr in filter(
+                    lambda x: not x.startswith("_") and getattr(obj, x) is not None,
+                    obj.__dict__,
+                )
+            },
+        }
 
-            d.update({key: value})
-        return d
+    def __str__(self) -> str:
+        return dumps(self, indent=2, default=Type_.default, ensure_ascii=False)
+
+    def __repr__(self) -> str:
+        return "tgram.types.{}({})".format(
+            self.__class__.__name__,
+            ", ".join(
+                f"{attr}={repr(getattr(self, attr))}"
+                for attr in filter(lambda x: not x.startswith("_"), self.__dict__)
+                if getattr(self, attr) is not None
+            ),
+        )
 
 
 class Update(Type_):
