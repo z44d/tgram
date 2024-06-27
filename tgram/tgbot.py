@@ -11,7 +11,7 @@ import certifi
 from .methods import TelegramBotMethods
 from .decorators import Decorators
 from .errors import APIException
-from .utils import API_URL
+from .utils import API_URL, get_file_name
 from .sync import wrap
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -155,7 +155,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 )
             else:
                 value = str(value)
-            data.add_field(key, value)
+            data.add_field(
+                key, value, filename=get_file_name(value) if has_files else None
+            )
 
         response = await session.request(
             "POST" if has_files else "GET",
