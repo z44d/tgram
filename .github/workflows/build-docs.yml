@@ -23,17 +23,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-          pip install tgram aiohttp asyncio
+          pip install aiohttp asyncio
           cd docs
           make clean html
           make html
-          git config user.email "162994967+2ei@users.noreply.github.com"
-          git config user.name "GitHub Action <Zaid>"
           cd ..
           mv docs/_build/html/* .
           rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github README.md pyproject.toml
           touch .nojekyll
           git checkout --orphan gh-pages
           git add . -A
+          git config user.email "162994967+2ei@users.noreply.github.com"
+          git config user.name "GitHub Action <Zaid>"
           git commit -m "Auto update docs"
-          git push origin gh-pages --force
+          git push origin HEAD:gh-pages --force
