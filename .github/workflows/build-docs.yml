@@ -29,7 +29,7 @@ jobs:
           make html
           cd ..
           mv docs/_build/html/* .
-          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github README.md pyproject.toml
+          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github README.md pyproject.toml examples
           touch .nojekyll
           git checkout --orphan gh-pages
           git add . -A
