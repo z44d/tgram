@@ -12,7 +12,7 @@ class Type_:
     @staticmethod
     def default(obj: "Type_"):
         if not isinstance(obj, Type_):
-            return obj
+            return repr(obj)
 
         return {
             "_": obj.__class__.__name__,
