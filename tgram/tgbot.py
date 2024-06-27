@@ -149,11 +149,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 value = value.read()
             elif isinstance(value, bytes):
                 has_files = True
-            elif isinstance(value, tgram.types.Type_):
-                value = json.dumps(value._to_json(), ensure_ascii=False)
-            elif isinstance(value, list):
+            elif isinstance(value, (tgram.types.Type_, list)):
                 value = json.dumps(
-                    tgram.types.Type_._list_to_json(value), ensure_ascii=False
+                    value, ensure_ascii=False, default=tgram.types.Type_.default
                 )
             else:
                 value = str(value)
