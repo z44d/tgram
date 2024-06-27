@@ -12,6 +12,9 @@
     <a href="https://t.me/tgbot_chat">
         Chat
     </a>
+    <a href="https://2ei.github.io/tgram/">
+        Documentation
+    </a>
 </p>
 
 # tgram [![PyPI](https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37)](https://pypi.org/project/tgram/) [![Downloads](https://static.pepy.tech/badge/tgram)](https://pepy.tech/project/tgram)
@@ -23,7 +26,7 @@ from tgram import TgBot, filters
 from tgram.types import Message
 
 bot = TgBot("TOKEN")
-logger = logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 @bot.on_message(filters.text)
 async def on_message(bot: TgBot, message: Message) -> Message:
