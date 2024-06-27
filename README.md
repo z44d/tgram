@@ -47,7 +47,7 @@ bot.run_for_updates()
 - A [Telegram BOT Token](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ## How to install?
-Here's how to install the Tgram library. The commands are given below:
+Here's how to install the Tgram library, the commands are given below:
 
 ``` bash
 # With Git

@@ -1,15 +1,20 @@
 from .handlers import Handlers
 from datetime import datetime
 
+from typing import Tuple
+
 API_URL = "https://api.telegram.org/"
 ALL_UPDATES = [
     getattr(Handlers, i)
     for i in filter(lambda x: not x.startswith("_"), Handlers.__dict__)
 ]
 
-def parse_registration_time(prefix: str, reg_time: int) -> str:
-    return f"{prefix}{datetime.fromtimestamp(reg_time).strftime('%Y-%m-%d %H:%M:%S')}"
-def find_registration_time(user_id: int) -> str:
+
+def parse_registration_time(prefix: str, reg_time: int) -> Tuple[str, datetime]:
+    return prefix, datetime.fromtimestamp(reg_time)
+
+
+def find_registration_time(user_id: int) -> Tuple[str, datetime]:
     user_data = [
         (1000000, 1380326400),  # 2013
         (2768409, 1383264000),
@@ -147,9 +152,9 @@ def find_registration_time(user_id: int) -> str:
             reg_time = int(
                 user_data[i - 1][1] + t * (user_data[i][1] - user_data[i - 1][1])
             )
-            return parse_registration_time("~ ", reg_time)
+            return parse_registration_time("~", reg_time)
 
     if user_id <= 1000000:
-        return parse_registration_time("< ", 1380326400)
+        return parse_registration_time("<", 1380326400)
     else:
-        return parse_registration_time("> ", 1701192327)
+        return parse_registration_time(">", 1701192327)
