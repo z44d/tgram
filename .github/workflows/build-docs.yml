@@ -1,0 +1,35 @@
+name: Build DOCs
+on:
+  workflow_dispatch: {}
+jobs:
+  build:
+    name: build-doc
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+    - name: Install template
+      run: |
+        python -m pip install --upgrade pip
+        pip install furo
+
+    - name: Install dependencies
+      run: |
+          make
+          cd docs
+          make clean html
+          make html
+          mv _build/html/* .
+          rm -rf docs venv __pycache__
+          touch .nojekyll
+          git checkout --orphan gh-pages
+          git config user.email "162994967+2ei@users.noreply.github.com"
+          git config user.name "GitHub Action <Zaid>"
+          git add . -A
+          git commit -m "Update documentation"
+          git push origin gh-pages --force
