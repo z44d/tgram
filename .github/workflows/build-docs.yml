@@ -24,8 +24,9 @@ jobs:
           cd docs
           make clean html
           make html
-          mv _build/html/* .
-          rm -rf docs venv __pycache__
+          cd ..
+          mv docs/_build/html/* .
+          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github README.md pyproject.toml
           touch .nojekyll
           git checkout --orphan gh-pages
           git config user.email "162994967+2ei@users.noreply.github.com"
