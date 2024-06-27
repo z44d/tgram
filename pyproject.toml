@@ -23,3 +23,7 @@ Issues = "https://github.com/2ei/tgram/issues"
 
 [tool.setuptools]
 include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["tgram*"]
+exclude = ["docs*", "tests*"]
