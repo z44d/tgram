@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tgram.filters &#8212; Tgram  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for tgram.filters</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Pattern</span>
+
+<span class="kn">import</span> <span class="nn">tgram</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="Filter">
+<a class="viewcode-back" href="../../tgram.html#tgram.filters.Filter">[docs]</a>
+<span class="k">class</span> <span class="nc">Filter</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filter</span> <span class="o">=</span> <span class="n">filter_</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Filter&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Filter&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Filter&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Filter&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Filter&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">other</span><span class="p">(</span><span class="n">v</span><span class="p">))</span></div>
+
+
+
+<span class="nb">all</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">threaded</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;message_thread_id&quot;</span><span class="p">))</span>
+<span class="n">from_user</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;from_user&quot;</span><span class="p">))</span>
+<span class="n">sender_chat</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;sender_chat&quot;</span><span class="p">))</span>
+<span class="n">business_connection_id</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;business_connection_id&quot;</span><span class="p">))</span>
+<span class="n">forward</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;forward_origin&quot;</span><span class="p">))</span>
+<span class="n">topic_message</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;is_topic_message&quot;</span><span class="p">))</span>
+<span class="n">automatic_forward</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;is_automatic_forward&quot;</span><span class="p">))</span>
+<span class="n">reply</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;reply_to_message&quot;</span><span class="p">))</span>
+<span class="n">quote</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;quote&quot;</span><span class="p">))</span>
+<span class="n">reply_to_story</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;reply_to_story&quot;</span><span class="p">))</span>
+<span class="n">via_bot</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;via_bot&quot;</span><span class="p">))</span>
+<span class="n">protected_content</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;has_protected_content&quot;</span><span class="p">))</span>
+<span class="n">from_offline</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;is_from_offline&quot;</span><span class="p">))</span>
+<span class="n">media_group</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;media_group_id&quot;</span><span class="p">))</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">))</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;entities&quot;</span><span class="p">))</span>
+<span class="n">effected_message</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;effect_id&quot;</span><span class="p">))</span>
+<span class="n">animation</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;animation&quot;</span><span class="p">))</span>
+<span class="n">audio</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;audio&quot;</span><span class="p">))</span>
+<span class="n">document</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;document&quot;</span><span class="p">))</span>
+<span class="n">photo</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;photo&quot;</span><span class="p">))</span>
+<span class="n">sticker</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;sticker&quot;</span><span class="p">))</span>
+<span class="n">story</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;story&quot;</span><span class="p">))</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video&quot;</span><span class="p">))</span>
+<span class="n">video_note</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video_note&quot;</span><span class="p">))</span>
+<span class="n">voice</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;voice&quot;</span><span class="p">))</span>
+<span class="n">caption</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;caption&quot;</span><span class="p">))</span>
+<span class="n">media_spoiler</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;has_media_spoiler&quot;</span><span class="p">))</span>
+<span class="n">contact</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;contact&quot;</span><span class="p">))</span>
+<span class="n">dice</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;dice&quot;</span><span class="p">))</span>
+<span class="n">game</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;game&quot;</span><span class="p">))</span>
+<span class="n">poll</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;poll&quot;</span><span class="p">))</span>
+<span class="n">venue</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;venue&quot;</span><span class="p">))</span>
+<span class="n">location</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">))</span>
+<span class="n">new_chat_members</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;new_chat_members&quot;</span><span class="p">))</span>
+<span class="n">left_chat_member</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;left_chat_member&quot;</span><span class="p">))</span>
+<span class="n">new_chat_title</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;new_chat_title&quot;</span><span class="p">))</span>
+<span class="n">new_chat_photo</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;new_chat_photo&quot;</span><span class="p">))</span>
+<span class="n">delete_chat_photo</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;delete_chat_photo&quot;</span><span class="p">))</span>
+<span class="n">group_chat_created</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;group_chat_created&quot;</span><span class="p">))</span>
+<span class="n">supergroup_chat_created</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;supergroup_chat_created&quot;</span><span class="p">))</span>
+<span class="n">channel_chat_created</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;channel_chat_created&quot;</span><span class="p">))</span>
+<span class="n">message_auto_delete_timer_changed</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;message_auto_delete_timer_changed&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">migrate_to_chat_id</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;migrate_to_chat_id&quot;</span><span class="p">))</span>
+<span class="n">migrate_from_chat_id</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;migrate_from_chat_id&quot;</span><span class="p">))</span>
+<span class="n">pinned_message</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;pinned_message&quot;</span><span class="p">))</span>
+<span class="n">invoice</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;invoice&quot;</span><span class="p">))</span>
+<span class="n">successful_payment</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;successful_payment&quot;</span><span class="p">))</span>
+<span class="n">users_shared</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;users_shared&quot;</span><span class="p">))</span>
+<span class="n">chat_shared</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;chat_shared&quot;</span><span class="p">))</span>
+<span class="n">connected_website</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;connected_website&quot;</span><span class="p">))</span>
+<span class="n">write_access_allowed</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;write_access_allowed&quot;</span><span class="p">))</span>
+<span class="n">passport_data</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;passport_data&quot;</span><span class="p">))</span>
+<span class="n">proximity_alert_triggered</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;proximity_alert_triggered&quot;</span><span class="p">))</span>
+<span class="n">boost_added</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;boost_added&quot;</span><span class="p">))</span>
+<span class="n">chat_background_set</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;chat_background_set&quot;</span><span class="p">))</span>
+<span class="n">forum_topic_created</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;forum_topic_created&quot;</span><span class="p">))</span>
+<span class="n">forum_topic_edited</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;forum_topic_edited&quot;</span><span class="p">))</span>
+<span class="n">forum_topic_closed</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;forum_topic_closed&quot;</span><span class="p">))</span>
+<span class="n">forum_topic_reopened</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;forum_topic_reopened&quot;</span><span class="p">))</span>
+<span class="n">general_forum_topic_hidden</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;general_forum_topic_hidden&quot;</span><span class="p">))</span>
+<span class="n">general_forum_topic_unhidden</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;general_forum_topic_unhidden&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">giveaway_created</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;giveaway_created&quot;</span><span class="p">))</span>
+<span class="n">giveaway</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;giveaway&quot;</span><span class="p">))</span>
+<span class="n">giveaway_winners</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;giveaway_winners&quot;</span><span class="p">))</span>
+<span class="n">giveaway_completed</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;giveaway_completed&quot;</span><span class="p">))</span>
+<span class="n">video_chat_scheduled</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video_chat_scheduled&quot;</span><span class="p">))</span>
+<span class="n">video_chat_started</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video_chat_started&quot;</span><span class="p">))</span>
+<span class="n">video_chat_ended</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video_chat_ended&quot;</span><span class="p">))</span>
+<span class="n">video_chat_participants_invited</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;video_chat_participants_invited&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">web_app_data</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;web_app_data&quot;</span><span class="p">))</span>
+<span class="n">reply_markup</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;reply_markup&quot;</span><span class="p">))</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">video_chat_participants_invited</span>
+    <span class="o">|</span> <span class="n">video_chat_ended</span>
+    <span class="o">|</span> <span class="n">video_chat_started</span>
+    <span class="o">|</span> <span class="n">video_chat_scheduled</span>
+    <span class="o">|</span> <span class="n">giveaway_completed</span>
+    <span class="o">|</span> <span class="n">general_forum_topic_unhidden</span>
+    <span class="o">|</span> <span class="n">general_forum_topic_hidden</span>
+    <span class="o">|</span> <span class="n">forum_topic_reopened</span>
+    <span class="o">|</span> <span class="n">forum_topic_closed</span>
+    <span class="o">|</span> <span class="n">forum_topic_edited</span>
+    <span class="o">|</span> <span class="n">forum_topic_created</span>
+    <span class="o">|</span> <span class="n">chat_background_set</span>
+    <span class="o">|</span> <span class="n">boost_added</span>
+    <span class="o">|</span> <span class="n">proximity_alert_triggered</span>
+    <span class="o">|</span> <span class="n">write_access_allowed</span>
+    <span class="o">|</span> <span class="n">write_access_allowed</span>
+    <span class="o">|</span> <span class="n">successful_payment</span>
+    <span class="o">|</span> <span class="n">users_shared</span>
+    <span class="o">|</span> <span class="n">chat_shared</span>
+    <span class="o">|</span> <span class="n">pinned_message</span>
+    <span class="o">|</span> <span class="n">message_auto_delete_timer_changed</span>
+    <span class="o">|</span> <span class="n">channel_chat_created</span>
+    <span class="o">|</span> <span class="n">supergroup_chat_created</span>
+    <span class="o">|</span> <span class="n">group_chat_created</span>
+    <span class="o">|</span> <span class="n">delete_chat_photo</span>
+    <span class="o">|</span> <span class="n">new_chat_photo</span>
+    <span class="o">|</span> <span class="n">new_chat_title</span>
+    <span class="o">|</span> <span class="n">left_chat_member</span>
+    <span class="o">|</span> <span class="n">new_chat_members</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="user">
+<a class="viewcode-back" href="../../tgram.html#tgram.filters.user">[docs]</a>
+<span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter messages coming from one or more users&quot;&quot;&quot;</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">ids</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">ids</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;from_user&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">ids</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="chat">
+<a class="viewcode-back" href="../../tgram.html#tgram.filters.chat">[docs]</a>
+<span class="k">def</span> <span class="nf">chat</span><span class="p">(</span><span class="n">ids</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">Filter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter messages coming from one or more chats&quot;&quot;&quot;</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">ids</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">ids</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;chat&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">ids</span> <span class="ow">or</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="regex">
+<a class="viewcode-back" href="../../tgram.html#tgram.filters.regex">[docs]</a>
+<span class="k">def</span> <span class="nf">regex</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Pattern</span><span class="p">],</span> <span class="n">flags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter updates that match a given regular expression pattern.&quot;&quot;&quot;</span>
+    <span class="n">compiler</span> <span class="o">=</span> <span class="n">pattern</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">Pattern</span><span class="p">)</span> <span class="k">else</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">regex_filter</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">m</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">,</span>
+                <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">CallbackQuery</span><span class="p">,</span>
+                <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">InlineQuery</span><span class="p">,</span>
+                <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PreCheckoutQuery</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Regex filter doesn&#39;t work with </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="n">m</span><span class="o">.</span><span class="n">caption</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Message</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">m</span><span class="o">.</span><span class="n">data</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">CallbackQuery</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">m</span><span class="o">.</span><span class="n">query</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">InlineQuery</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">m</span><span class="o">.</span><span class="n">invoice_payload</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PreCheckoutQuery</span><span class="p">)</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">m</span><span class="o">.</span><span class="n">matches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compiler</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="ow">or</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">matches</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">regex_filter</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Tgram</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Zaid.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
