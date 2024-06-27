@@ -26,4 +26,4 @@ include-package-data = false
 
 [tool.setuptools.packages.find]
 include = ["tgram*"]
-exclude = ["docs*", "tests*"]
+exclude = ["docs*", "tests*", "examples*"]
