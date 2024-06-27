@@ -40,7 +40,6 @@ bot.run_for_updates()
 ## TODO
 - Bound methods for types.
 - Smart plugins with auto-load.
-- Documentation site.
 
 ## Requirements
 - Python 3.8 or higher.
