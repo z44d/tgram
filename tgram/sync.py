@@ -1,5 +1,5 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2024 Zaid <https://github.com/2ei>
 #
 #  This file is part of Pyrogram.
 #
@@ -20,6 +20,9 @@ import asyncio
 import functools
 import inspect
 import threading
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def async_to_sync(obj, name):
@@ -64,7 +67,10 @@ def async_to_sync(obj, name):
                 return coroutine
             else:
                 if inspect.iscoroutine(coroutine):
-                    return loop.run_until_complete(coroutine)
+                    try:
+                        return loop.run_until_complete(coroutine)
+                    except (asyncio.CancelledError, KeyboardInterrupt):
+                        logger.info("\nThe process %s got killed", coroutine.__name__)
 
                 if inspect.isasyncgen(coroutine):
                     return async_to_sync_gen(coroutine, loop, True)
