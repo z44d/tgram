@@ -176,7 +176,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         if not response_json["ok"]:
             if response_json["error_code"] == 429 and self.retry_after:
                 s = response_json["parameters"]["retry_after"]
-                retry_after = s if self.retry_after is True else (s if s < self.retry_after else self.retry_after)
+                retry_after = (
+                    s
+                    if self.retry_after is True
+                    else (s if s < self.retry_after else self.retry_after)
+                )
                 logger.warning(
                     "You got floodwait for %s seconds, I will retry after %s",
                     s,
