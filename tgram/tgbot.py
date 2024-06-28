@@ -15,7 +15,7 @@ from .utils import API_URL, get_file_name
 from .sync import wrap
 from concurrent.futures.thread import ThreadPoolExecutor
 
-from typing import List, Any, Literal, Callable
+from typing import List, Any, Literal, Callable, Union
 
 from pathlib import Path
 
@@ -85,7 +85,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         parse_mode: Literal["Markdown", "MarkdownV2", "HTML"] = None,
         protect_content: bool = None,
         workers: int = None,
-        retry_after: int = 0,
+        retry_after: Union[int, bool] = None,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -176,7 +176,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         if not response_json["ok"]:
             if response_json["error_code"] == 429 and self.retry_after:
                 s = response_json["parameters"]["retry_after"]
-                retry_after = s if s < self.retry_after else self.retry_after
+                retry_after = s if self.retry_after is True else (s if s < self.retry_after else self.retry_after)
                 logger.warning(
                     "You got floodwait for %s seconds, I will retry after %s",
                     s,
