@@ -174,7 +174,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         response_json = await response.json()
 
         if not response_json["ok"]:
-            if response_json["error_code"] is 429 and self.retry_after:
+            if response_json["error_code"] == 429 and self.retry_after:
                 s = response_json["parameters"]["retry_after"]
                 retry_after = s if s < self.retry_after else self.retry_after
                 logger.warning(
