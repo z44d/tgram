@@ -652,7 +652,21 @@ class Message(Type_):
                 sender_boost_count=d.get("sender_boost_count"),
                 sender_business_bot=User._parse(me=me, d=d.get("sender_business_bot")),
                 business_connection_id=d.get("business_connection_id"),
-                forward_origin=MessageOrigin._parse(me=me, d=d.get("forward_origin")),
+                forward_origin=None
+                if not d.get("forward_origin")
+                else (
+                    MessageOriginUser._parse(me=me, d=d.get("forward_origin"))
+                    if d["forward_origin"].get("sender_user")
+                    else MessageOriginHiddenUser._parse(
+                        me=me, d=d.get("forward_origin")
+                    )
+                    if d["forward_origin"].get("sender_user_name")
+                    else MessageOriginChat._parse(me=me, d=d.get("forward_origin"))
+                    if d["forward_origin"].get("sender_chat")
+                    else MessageOriginChannel._parse(me=me, d=d.get("forward_origin"))
+                    if d["forward_origin"].get("author_signature")
+                    else None
+                ),
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
                 reply_to_message=Message._parse(me=me, d=d.get("reply_to_message")),
@@ -981,7 +995,19 @@ class ExternalReplyInfo(Type_):
             ExternalReplyInfo(
                 me=me,
                 json=d,
-                origin=MessageOrigin._parse(me=me, d=d.get("origin")),
+                origin=None
+                if not d.get("origin")
+                else (
+                    MessageOriginUser._parse(me=me, d=d.get("origin"))
+                    if d["origin"].get("sender_user")
+                    else MessageOriginHiddenUser._parse(me=me, d=d.get("origin"))
+                    if d["origin"].get("sender_user_name")
+                    else MessageOriginChat._parse(me=me, d=d.get("origin"))
+                    if d["origin"].get("sender_chat")
+                    else MessageOriginChannel._parse(me=me, d=d.get("origin"))
+                    if d["origin"].get("author_signature")
+                    else None
+                ),
                 chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 link_preview_options=LinkPreviewOptions._parse(
