@@ -8,7 +8,6 @@ me = bot.get_me()
 logging.basicConfig(level=logging.INFO)
 
 docs_url = "https://2ei.github.io/tgram/"
-random_id = lambda: random.randint(10000, 999999)
 all_types = [
     i for i in filter(lambda x: not x.startswith("_") and not x.islower(), dir(types))
 ]
@@ -43,8 +42,6 @@ async def on_inline(_, inline_query: types.InlineQuery):
             inline_query.id,
             [
                 types.InlineQueryResultArticle(
-                    "article",
-                    random_id(),
                     title="Write to search in docs..",
                     input_message_content=types.InputTextMessageContent(
                         f"Write anything to search, example: <code>@{me.username} send_photo</code>",
@@ -58,7 +55,7 @@ async def on_inline(_, inline_query: types.InlineQuery):
             ],
         )
     else:
-        results, offset, done = [], int(inline_query.offset or 0), []
+        results, offset = [], int(inline_query.offset or 0)
         methods_redirect, method_description = (
             docs_url + "tgram.html#tgram.methods.TelegramBotMethods.{0}",
             "{0}",
@@ -69,12 +66,9 @@ async def on_inline(_, inline_query: types.InlineQuery):
         )
 
         for i in all_methods:
-            if (query.lower() in i.lower()) and i not in done:
-                done.append(i)
+            if query.lower() in i.lower():
                 results.append(
                     types.InlineQueryResultArticle(
-                        "article",
-                        random_id(),
                         f"tgram.TgBot.{i}()",
                         description="tgram.TgBot method",
                         input_message_content=types.InputTextMessageContent(
@@ -95,12 +89,9 @@ async def on_inline(_, inline_query: types.InlineQuery):
                 )
 
         for i in all_types:
-            if (query.lower() in i.lower()) and i not in done:
-                done.append(i)
+            if query.lower() in i.lower():
                 results.append(
                     types.InlineQueryResultArticle(
-                        "article",
-                        random_id(),
                         f"tgram.types.{i}",
                         description=types_description,
                         input_message_content=types.InputTextMessageContent(
