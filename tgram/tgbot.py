@@ -85,6 +85,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         parse_mode: Literal["Markdown", "MarkdownV2", "HTML"] = None,
         protect_content: bool = None,
         workers: int = None,
+        retry_after: int = 0,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -93,6 +94,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.parse_mode = parse_mode
         self.protect_content = protect_content
         self.workers = workers or min(32, (os.cpu_count() or 0) + 4)
+        self.retry_after = retry_after
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
@@ -172,6 +174,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         response_json = await response.json()
 
         if not response_json["ok"]:
+            if response_json["error_code"] is 429 and self.retry_after:
+                s = response_json["parameters"]["retry_after"]
+                retry_after = s if s < self.retry_after else self.retry_after
+                logger.warning(
+                    "You got floodwait for %s seconds, I will retry after %s",
+                    s,
+                    retry_after,
+                )
+                await asyncio.sleep(retry_after)
+                return await self._send_request(method, **kwargs)
             del response_json["ok"]
             raise APIException(json.dumps(response_json))
 
