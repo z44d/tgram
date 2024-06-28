@@ -1,5 +1,4 @@
 import logging
-import random
 from tgram import types, TgBot, methods, filters
 
 bot = TgBot("API_TOKEN_HERE")
