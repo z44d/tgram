@@ -557,7 +557,7 @@ class TelegramBotMethods:
     async def send_media_group(
         self: "tgram.TgBot",
         chat_id: Union[int, str],
-        media: List[bool],
+        media: List[InputMedia],
         business_connection_id: str = None,
         message_thread_id: int = None,
         disable_notification: bool = None,
