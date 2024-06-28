@@ -1,4 +1,5 @@
 import tgram
+import random
 from typing import List, Union, Optional
 from pathlib import Path
 from json import dumps
@@ -1060,33 +1061,12 @@ class ReplyParameters(Type_):
         )
 
 
-class MessageOrigin(Type_):
-    def __init__(
-        self,
-        type: "str",
-        date: "int",
-        sender_user: "User",
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-        self.date = date
-        self.sender_user = sender_user
-
-    @staticmethod
-    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["MessageOrigin"]:
-        return (
-            MessageOrigin(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                date=d.get("date"),
-                sender_user=User._parse(me=me, d=d.get("sender_user")),
-            )
-            if d
-            else None
-        )
+MessageOrigin = Union[
+    "MessageOriginUser",
+    "MessageOriginHiddenUser",
+    "MessageOriginChat",
+    "MessageOriginChannel",
+]
 
 
 class MessageOriginUser(Type_):
@@ -3050,7 +3030,6 @@ class KeyboardButton(Type_):
 class KeyboardButtonRequestUsers(Type_):
     def __init__(
         self,
-        request_id: "int",
         user_is_bot: "bool" = None,
         user_is_premium: "bool" = None,
         max_quantity: "int" = None,
@@ -3061,7 +3040,7 @@ class KeyboardButtonRequestUsers(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.request_id = request_id
+        self.request_id = random.randint(10000, 99999)
         self.user_is_bot = user_is_bot
         self.user_is_premium = user_is_premium
         self.max_quantity = max_quantity
@@ -3077,7 +3056,6 @@ class KeyboardButtonRequestUsers(Type_):
             KeyboardButtonRequestUsers(
                 me=me,
                 json=d,
-                request_id=d.get("request_id"),
                 user_is_bot=d.get("user_is_bot"),
                 user_is_premium=d.get("user_is_premium"),
                 max_quantity=d.get("max_quantity"),
@@ -3093,7 +3071,6 @@ class KeyboardButtonRequestUsers(Type_):
 class KeyboardButtonRequestChat(Type_):
     def __init__(
         self,
-        request_id: "int",
         chat_is_channel: "bool",
         chat_is_forum: "bool" = None,
         chat_has_username: "bool" = None,
@@ -3108,7 +3085,7 @@ class KeyboardButtonRequestChat(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.request_id = request_id
+        self.request_id = random.randint(10000, 99999)
         self.chat_is_channel = chat_is_channel
         self.chat_is_forum = chat_is_forum
         self.chat_has_username = chat_has_username
@@ -3128,7 +3105,6 @@ class KeyboardButtonRequestChat(Type_):
             KeyboardButtonRequestChat(
                 me=me,
                 json=d,
-                request_id=d.get("request_id"),
                 chat_is_channel=d.get("chat_is_channel"),
                 chat_is_forum=d.get("chat_is_forum"),
                 chat_has_username=d.get("chat_has_username"),
@@ -5083,55 +5059,14 @@ class ResponseParameters(Type_):
         )
 
 
-class InputMedia(Type_):
-    def __init__(
-        self,
-        type: "str",
-        media: "str",
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["MessageEntity"] = None,
-        show_caption_above_media: "bool" = None,
-        has_spoiler: "bool" = None,
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-        self.media = media
-        self.caption = caption
-        self.parse_mode = parse_mode
-        self.caption_entities = caption_entities
-        self.show_caption_above_media = show_caption_above_media
-        self.has_spoiler = has_spoiler
-
-    @staticmethod
-    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["InputMedia"]:
-        return (
-            InputMedia(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                media=d.get("media"),
-                caption=d.get("caption"),
-                parse_mode=d.get("parse_mode"),
-                caption_entities=[
-                    MessageEntity._parse(me=me, d=i) for i in d.get("caption_entities")
-                ]
-                if d.get("caption_entities")
-                else None,
-                show_caption_above_media=d.get("show_caption_above_media"),
-                has_spoiler=d.get("has_spoiler"),
-            )
-            if d
-            else None
-        )
+InputMedia = Union[
+    "InputMediaAudio", "InputMediaDocument", "InputMediaPhoto", "InputMediaVideo"
+]
 
 
 class InputMediaPhoto(Type_):
     def __init__(
         self,
-        type: "str",
         media: "str",
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -5142,7 +5077,7 @@ class InputMediaPhoto(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "photo"
         self.media = media
         self.caption = caption
         self.parse_mode = parse_mode
@@ -5156,7 +5091,6 @@ class InputMediaPhoto(Type_):
             InputMediaPhoto(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 media=d.get("media"),
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
@@ -5176,7 +5110,6 @@ class InputMediaPhoto(Type_):
 class InputMediaVideo(Type_):
     def __init__(
         self,
-        type: "str",
         media: "str",
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
@@ -5192,7 +5125,7 @@ class InputMediaVideo(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "video"
         self.media = media
         self.thumbnail = thumbnail
         self.caption = caption
@@ -5211,7 +5144,6 @@ class InputMediaVideo(Type_):
             InputMediaVideo(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
                 caption=d.get("caption"),
@@ -5236,7 +5168,6 @@ class InputMediaVideo(Type_):
 class InputMediaAnimation(Type_):
     def __init__(
         self,
-        type: "str",
         media: "str",
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
@@ -5251,7 +5182,7 @@ class InputMediaAnimation(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "animation"
         self.media = media
         self.thumbnail = thumbnail
         self.caption = caption
@@ -5271,7 +5202,6 @@ class InputMediaAnimation(Type_):
             InputMediaAnimation(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
                 caption=d.get("caption"),
@@ -5295,7 +5225,6 @@ class InputMediaAnimation(Type_):
 class InputMediaAudio(Type_):
     def __init__(
         self,
-        type: "str",
         media: "str",
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
@@ -5308,7 +5237,7 @@ class InputMediaAudio(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "audio"
         self.media = media
         self.thumbnail = thumbnail
         self.caption = caption
@@ -5324,7 +5253,6 @@ class InputMediaAudio(Type_):
             InputMediaAudio(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
                 caption=d.get("caption"),
@@ -5346,7 +5274,6 @@ class InputMediaAudio(Type_):
 class InputMediaDocument(Type_):
     def __init__(
         self,
-        type: "str",
         media: "str",
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
@@ -5357,7 +5284,7 @@ class InputMediaDocument(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "document"
         self.media = media
         self.thumbnail = thumbnail
         self.caption = caption
@@ -5373,7 +5300,6 @@ class InputMediaDocument(Type_):
             InputMediaDocument(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
                 caption=d.get("caption"),
@@ -5631,70 +5557,33 @@ class InlineQueryResultsButton(Type_):
         )
 
 
-class InlineQueryResult(Type_):
-    def __init__(
-        self,
-        type: "str",
-        id: "str",
-        title: "str",
-        input_message_content: "InputMessageContent",
-        reply_markup: "InlineKeyboardMarkup" = None,
-        url: "str" = None,
-        hide_url: "bool" = None,
-        description: "str" = None,
-        thumbnail_url: "str" = None,
-        thumbnail_width: "int" = None,
-        thumbnail_height: "int" = None,
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
-        self.title = title
-        self.input_message_content = input_message_content
-        self.reply_markup = reply_markup
-        self.url = url
-        self.hide_url = hide_url
-        self.description = description
-        self.thumbnail_url = thumbnail_url
-        self.thumbnail_width = thumbnail_width
-        self.thumbnail_height = thumbnail_height
-
-    @staticmethod
-    def _parse(
-        me: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["InlineQueryResult"]:
-        return (
-            InlineQueryResult(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                id=d.get("id"),
-                title=d.get("title"),
-                input_message_content=InputMessageContent._parse(
-                    me=me, d=d.get("input_message_content")
-                ),
-                reply_markup=InlineKeyboardMarkup._parse(
-                    me=me, d=d.get("reply_markup")
-                ),
-                url=d.get("url"),
-                hide_url=d.get("hide_url"),
-                description=d.get("description"),
-                thumbnail_url=d.get("thumbnail_url"),
-                thumbnail_width=d.get("thumbnail_width"),
-                thumbnail_height=d.get("thumbnail_height"),
-            )
-            if d
-            else None
-        )
+InlineQueryResult = Union[
+    "InlineQueryResultCachedAudio",
+    "InlineQueryResultCachedDocument",
+    "InlineQueryResultCachedGif",
+    "InlineQueryResultCachedMpeg4Gif",
+    "InlineQueryResultCachedPhoto",
+    "InlineQueryResultCachedSticker",
+    "InlineQueryResultCachedVideo",
+    "InlineQueryResultCachedVoice",
+    "InlineQueryResultArticle",
+    "InlineQueryResultAudio",
+    "InlineQueryResultContact",
+    "InlineQueryResultGame",
+    "InlineQueryResultDocument",
+    "InlineQueryResultGif",
+    "InlineQueryResultLocation",
+    "InlineQueryResultMpeg4Gif",
+    "InlineQueryResultPhoto",
+    "InlineQueryResultVenue",
+    "InlineQueryResultVideo",
+    "InlineQueryResultVoice",
+]
 
 
 class InlineQueryResultArticle(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         title: "str",
         input_message_content: "InputMessageContent",
         reply_markup: "InlineKeyboardMarkup" = None,
@@ -5708,8 +5597,8 @@ class InlineQueryResultArticle(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "article"
+        self.id = random.randint(10000, 99999)
         self.title = title
         self.input_message_content = input_message_content
         self.reply_markup = reply_markup
@@ -5728,8 +5617,6 @@ class InlineQueryResultArticle(Type_):
             InlineQueryResultArticle(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 title=d.get("title"),
                 input_message_content=InputMessageContent._parse(
                     me=me, d=d.get("input_message_content")
@@ -5752,8 +5639,6 @@ class InlineQueryResultArticle(Type_):
 class InlineQueryResultPhoto(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         photo_url: "str",
         thumbnail_url: "str",
         photo_width: "int" = None,
@@ -5770,8 +5655,8 @@ class InlineQueryResultPhoto(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "photo"
+        self.id = random.randint(10000, 99999)
         self.photo_url = photo_url
         self.thumbnail_url = thumbnail_url
         self.photo_width = photo_width
@@ -5793,8 +5678,6 @@ class InlineQueryResultPhoto(Type_):
             InlineQueryResultPhoto(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 photo_url=d.get("photo_url"),
                 thumbnail_url=d.get("thumbnail_url"),
                 photo_width=d.get("photo_width"),
@@ -5824,8 +5707,6 @@ class InlineQueryResultPhoto(Type_):
 class InlineQueryResultGif(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         gif_url: "str",
         thumbnail_url: "str",
         gif_width: "int" = None,
@@ -5843,8 +5724,8 @@ class InlineQueryResultGif(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "gif"
+        self.id = random.randint(10000, 99999)
         self.gif_url = gif_url
         self.gif_width = gif_width
         self.gif_height = gif_height
@@ -5867,8 +5748,6 @@ class InlineQueryResultGif(Type_):
             InlineQueryResultGif(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 gif_url=d.get("gif_url"),
                 thumbnail_url=d.get("thumbnail_url"),
                 gif_width=d.get("gif_width"),
@@ -5899,8 +5778,6 @@ class InlineQueryResultGif(Type_):
 class InlineQueryResultMpeg4Gif(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         mpeg4_url: "str",
         thumbnail_url: "str",
         mpeg4_width: "int" = None,
@@ -5918,8 +5795,8 @@ class InlineQueryResultMpeg4Gif(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "mpeg4gif"
+        self.id = random.randint(10000, 99999)
         self.mpeg4_url = mpeg4_url
         self.mpeg4_width = mpeg4_width
         self.mpeg4_height = mpeg4_height
@@ -5942,8 +5819,6 @@ class InlineQueryResultMpeg4Gif(Type_):
             InlineQueryResultMpeg4Gif(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 mpeg4_url=d.get("mpeg4_url"),
                 thumbnail_url=d.get("thumbnail_url"),
                 mpeg4_width=d.get("mpeg4_width"),
@@ -5974,8 +5849,6 @@ class InlineQueryResultMpeg4Gif(Type_):
 class InlineQueryResultVideo(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         video_url: "str",
         mime_type: "str",
         thumbnail_url: "str",
@@ -5994,8 +5867,8 @@ class InlineQueryResultVideo(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "video"
+        self.id = random.randint(10000, 99999)
         self.video_url = video_url
         self.mime_type = mime_type
         self.thumbnail_url = thumbnail_url
@@ -6019,8 +5892,6 @@ class InlineQueryResultVideo(Type_):
             InlineQueryResultVideo(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 video_url=d.get("video_url"),
                 mime_type=d.get("mime_type"),
                 thumbnail_url=d.get("thumbnail_url"),
@@ -6052,8 +5923,6 @@ class InlineQueryResultVideo(Type_):
 class InlineQueryResultAudio(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         audio_url: "str",
         title: "str",
         caption: "str" = None,
@@ -6067,8 +5936,8 @@ class InlineQueryResultAudio(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "audio"
+        self.id = random.randint(10000, 99999)
         self.audio_url = audio_url
         self.title = title
         self.caption = caption
@@ -6087,8 +5956,6 @@ class InlineQueryResultAudio(Type_):
             InlineQueryResultAudio(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 audio_url=d.get("audio_url"),
                 title=d.get("title"),
                 caption=d.get("caption"),
@@ -6115,8 +5982,6 @@ class InlineQueryResultAudio(Type_):
 class InlineQueryResultVoice(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         voice_url: "str",
         title: "str",
         caption: "str" = None,
@@ -6129,8 +5994,8 @@ class InlineQueryResultVoice(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "voice"
+        self.id = random.randint(10000, 99999)
         self.voice_url = voice_url
         self.title = title
         self.caption = caption
@@ -6148,8 +6013,6 @@ class InlineQueryResultVoice(Type_):
             InlineQueryResultVoice(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 voice_url=d.get("voice_url"),
                 title=d.get("title"),
                 caption=d.get("caption"),
@@ -6175,8 +6038,6 @@ class InlineQueryResultVoice(Type_):
 class InlineQueryResultDocument(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         title: "str",
         document_url: "str",
         mime_type: "str",
@@ -6193,8 +6054,8 @@ class InlineQueryResultDocument(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "document"
+        self.id = random.randint(10000, 99999)
         self.title = title
         self.caption = caption
         self.parse_mode = parse_mode
@@ -6216,8 +6077,6 @@ class InlineQueryResultDocument(Type_):
             InlineQueryResultDocument(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 title=d.get("title"),
                 document_url=d.get("document_url"),
                 mime_type=d.get("mime_type"),
@@ -6247,8 +6106,6 @@ class InlineQueryResultDocument(Type_):
 class InlineQueryResultLocation(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         latitude: "float",
         longitude: "float",
         title: "str",
@@ -6265,8 +6122,8 @@ class InlineQueryResultLocation(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "location"
+        self.id = random.randint(10000, 99999)
         self.latitude = latitude
         self.longitude = longitude
         self.title = title
@@ -6288,8 +6145,6 @@ class InlineQueryResultLocation(Type_):
             InlineQueryResultLocation(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
                 title=d.get("title"),
@@ -6315,8 +6170,6 @@ class InlineQueryResultLocation(Type_):
 class InlineQueryResultVenue(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         latitude: "float",
         longitude: "float",
         title: "str",
@@ -6334,8 +6187,8 @@ class InlineQueryResultVenue(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "venue"
+        self.id = random.randint(10000, 99999)
         self.latitude = latitude
         self.longitude = longitude
         self.title = title
@@ -6358,8 +6211,6 @@ class InlineQueryResultVenue(Type_):
             InlineQueryResultVenue(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
                 title=d.get("title"),
@@ -6386,8 +6237,6 @@ class InlineQueryResultVenue(Type_):
 class InlineQueryResultContact(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         phone_number: "str",
         first_name: "str",
         last_name: "str" = None,
@@ -6401,8 +6250,8 @@ class InlineQueryResultContact(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "contact"
+        self.id = random.randint(10000, 99999)
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
@@ -6421,8 +6270,6 @@ class InlineQueryResultContact(Type_):
             InlineQueryResultContact(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 phone_number=d.get("phone_number"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
@@ -6445,16 +6292,14 @@ class InlineQueryResultContact(Type_):
 class InlineQueryResultGame(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         game_short_name: "str",
         reply_markup: "InlineKeyboardMarkup" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "game"
+        self.id = random.randint(10000, 99999)
         self.game_short_name = game_short_name
         self.reply_markup = reply_markup
 
@@ -6466,8 +6311,6 @@ class InlineQueryResultGame(Type_):
             InlineQueryResultGame(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 game_short_name=d.get("game_short_name"),
                 reply_markup=InlineKeyboardMarkup._parse(
                     me=me, d=d.get("reply_markup")
@@ -6481,8 +6324,6 @@ class InlineQueryResultGame(Type_):
 class InlineQueryResultCachedPhoto(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         photo_file_id: "str",
         title: "str" = None,
         description: "str" = None,
@@ -6496,8 +6337,8 @@ class InlineQueryResultCachedPhoto(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedphoto"
+        self.id = random.randint(10000, 99999)
         self.photo_file_id = photo_file_id
         self.title = title
         self.description = description
@@ -6516,8 +6357,6 @@ class InlineQueryResultCachedPhoto(Type_):
             InlineQueryResultCachedPhoto(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 photo_file_id=d.get("photo_file_id"),
                 title=d.get("title"),
                 description=d.get("description"),
@@ -6544,8 +6383,6 @@ class InlineQueryResultCachedPhoto(Type_):
 class InlineQueryResultCachedGif(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         gif_file_id: "str",
         title: "str" = None,
         caption: "str" = None,
@@ -6558,8 +6395,8 @@ class InlineQueryResultCachedGif(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedgif"
+        self.id = random.randint(10000, 99999)
         self.gif_file_id = gif_file_id
         self.title = title
         self.caption = caption
@@ -6577,8 +6414,6 @@ class InlineQueryResultCachedGif(Type_):
             InlineQueryResultCachedGif(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 gif_file_id=d.get("gif_file_id"),
                 title=d.get("title"),
                 caption=d.get("caption"),
@@ -6604,8 +6439,6 @@ class InlineQueryResultCachedGif(Type_):
 class InlineQueryResultCachedMpeg4Gif(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         mpeg4_file_id: "str",
         title: "str" = None,
         caption: "str" = None,
@@ -6618,8 +6451,8 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedmpeg4gif"
+        self.id = random.randint(10000, 99999)
         self.mpeg4_file_id = mpeg4_file_id
         self.title = title
         self.caption = caption
@@ -6637,8 +6470,6 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
             InlineQueryResultCachedMpeg4Gif(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 mpeg4_file_id=d.get("mpeg4_file_id"),
                 title=d.get("title"),
                 caption=d.get("caption"),
@@ -6664,8 +6495,6 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
 class InlineQueryResultCachedSticker(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         sticker_file_id: "str",
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
@@ -6673,8 +6502,8 @@ class InlineQueryResultCachedSticker(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedsticker"
+        self.id = random.randint(10000, 99999)
         self.sticker_file_id = sticker_file_id
         self.reply_markup = reply_markup
         self.input_message_content = input_message_content
@@ -6687,8 +6516,6 @@ class InlineQueryResultCachedSticker(Type_):
             InlineQueryResultCachedSticker(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 sticker_file_id=d.get("sticker_file_id"),
                 reply_markup=InlineKeyboardMarkup._parse(
                     me=me, d=d.get("reply_markup")
@@ -6705,8 +6532,6 @@ class InlineQueryResultCachedSticker(Type_):
 class InlineQueryResultCachedDocument(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         title: "str",
         document_file_id: "str",
         description: "str" = None,
@@ -6719,8 +6544,8 @@ class InlineQueryResultCachedDocument(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cacheddocument"
+        self.id = random.randint(10000, 99999)
         self.title = title
         self.document_file_id = document_file_id
         self.description = description
@@ -6738,8 +6563,6 @@ class InlineQueryResultCachedDocument(Type_):
             InlineQueryResultCachedDocument(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 title=d.get("title"),
                 document_file_id=d.get("document_file_id"),
                 description=d.get("description"),
@@ -6765,8 +6588,6 @@ class InlineQueryResultCachedDocument(Type_):
 class InlineQueryResultCachedVideo(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         video_file_id: "str",
         title: "str",
         description: "str" = None,
@@ -6780,8 +6601,8 @@ class InlineQueryResultCachedVideo(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedvideo"
+        self.id = random.randint(10000, 99999)
         self.video_file_id = video_file_id
         self.title = title
         self.description = description
@@ -6800,8 +6621,6 @@ class InlineQueryResultCachedVideo(Type_):
             InlineQueryResultCachedVideo(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 video_file_id=d.get("video_file_id"),
                 title=d.get("title"),
                 description=d.get("description"),
@@ -6828,8 +6647,6 @@ class InlineQueryResultCachedVideo(Type_):
 class InlineQueryResultCachedVoice(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         voice_file_id: "str",
         title: "str",
         caption: "str" = None,
@@ -6841,8 +6658,8 @@ class InlineQueryResultCachedVoice(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedvoice"
+        self.id = random.randint(10000, 99999)
         self.voice_file_id = voice_file_id
         self.title = title
         self.caption = caption
@@ -6859,8 +6676,6 @@ class InlineQueryResultCachedVoice(Type_):
             InlineQueryResultCachedVoice(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 voice_file_id=d.get("voice_file_id"),
                 title=d.get("title"),
                 caption=d.get("caption"),
@@ -6885,8 +6700,6 @@ class InlineQueryResultCachedVoice(Type_):
 class InlineQueryResultCachedAudio(Type_):
     def __init__(
         self,
-        type: "str",
-        id: "str",
         audio_file_id: "str",
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -6897,8 +6710,8 @@ class InlineQueryResultCachedAudio(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
-        self.id = id
+        self.type = "cachedaudio"
+        self.id = random.randint(10000, 99999)
         self.audio_file_id = audio_file_id
         self.caption = caption
         self.parse_mode = parse_mode
@@ -6914,8 +6727,6 @@ class InlineQueryResultCachedAudio(Type_):
             InlineQueryResultCachedAudio(
                 me=me,
                 json=d,
-                type=d.get("type"),
-                id=d.get("id"),
                 audio_file_id=d.get("audio_file_id"),
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
