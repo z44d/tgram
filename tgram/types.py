@@ -4,6 +4,8 @@ from typing import List, Union, Optional
 from pathlib import Path
 from json import dumps
 
+from .bound import MessageB
+
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
@@ -463,7 +465,7 @@ class ChatFullInfo(Type_):
         )
 
 
-class Message(Type_):
+class Message(Type_, MessageB):
     def __init__(
         self,
         message_id: "int",
