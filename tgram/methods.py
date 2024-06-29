@@ -158,7 +158,9 @@ class TelegramBotMethods:
             entities=entities,
             link_preview_options=link_preview_options or self.link_preview_options,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -182,7 +184,9 @@ class TelegramBotMethods:
             message_id=message_id,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
         )
         return Message._parse(me=self, d=result["result"])
 
@@ -203,7 +207,9 @@ class TelegramBotMethods:
             message_ids=message_ids,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
         )
         return [MessageId._parse(me=self, d=i) for i in result["result"]]
 
@@ -236,7 +242,9 @@ class TelegramBotMethods:
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
         )
@@ -260,7 +268,9 @@ class TelegramBotMethods:
             message_ids=message_ids,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             remove_caption=remove_caption,
         )
         return [MessageId._parse(me=self, d=i) for i in result["result"]]
@@ -297,7 +307,9 @@ class TelegramBotMethods:
             show_caption_above_media=show_caption_above_media,
             has_spoiler=has_spoiler,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -340,7 +352,9 @@ class TelegramBotMethods:
             title=title,
             thumbnail=thumbnail,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -379,7 +393,9 @@ class TelegramBotMethods:
             caption_entities=caption_entities,
             disable_content_type_detection=disable_content_type_detection,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -428,7 +444,9 @@ class TelegramBotMethods:
             has_spoiler=has_spoiler,
             supports_streaming=supports_streaming,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -475,7 +493,9 @@ class TelegramBotMethods:
             show_caption_above_media=show_caption_above_media,
             has_spoiler=has_spoiler,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -512,7 +532,9 @@ class TelegramBotMethods:
             caption_entities=caption_entities,
             duration=duration,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -547,7 +569,9 @@ class TelegramBotMethods:
             length=length,
             thumbnail=thumbnail,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -573,7 +597,9 @@ class TelegramBotMethods:
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
         )
@@ -611,7 +637,9 @@ class TelegramBotMethods:
             heading=heading,
             proximity_alert_radius=proximity_alert_radius,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -654,7 +682,9 @@ class TelegramBotMethods:
             google_place_id=google_place_id,
             google_place_type=google_place_type,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -689,7 +719,9 @@ class TelegramBotMethods:
             last_name=last_name,
             vcard=vcard,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -744,7 +776,9 @@ class TelegramBotMethods:
             close_date=close_date,
             is_closed=is_closed,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -773,7 +807,9 @@ class TelegramBotMethods:
             message_thread_id=message_thread_id,
             emoji=emoji,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -1764,7 +1800,9 @@ class TelegramBotMethods:
             message_thread_id=message_thread_id,
             emoji=emoji,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -2038,7 +2076,9 @@ class TelegramBotMethods:
             send_email_to_provider=send_email_to_provider,
             is_flexible=is_flexible,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
@@ -2179,7 +2219,9 @@ class TelegramBotMethods:
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            protect_content=protect_content or self.protect_content,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
