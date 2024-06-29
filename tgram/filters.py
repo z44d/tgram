@@ -205,7 +205,9 @@ def regex(pattern: Union[str, Pattern], flags: int = 0):
 
 def chat_type_filter(types: Union[list, str]) -> Filter:
     """Filter updates that match a given chat type."""
-    types = {types.lower()} if not isinstance(types, list) else {i.lower() for i in types}
+    types = (
+        {types.lower()} if not isinstance(types, list) else {i.lower() for i in types}
+    )
 
     def chat_filter(m):
         if isinstance(m, tgram.types.CallbackQuery) and m.message and m.message.chat:
