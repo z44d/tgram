@@ -1,40 +1,28 @@
 import inspect
 import sys
+import tgram
 
 from typing import Union, List
 from tgram import sync
-from tgram.types import (
-    InputFile,
-    InputMedia,
-    Message,
-    MessageEntity,
-    LinkPreviewOptions,
-    InlineKeyboardMarkup,
-    ReplyKeyboardMarkup,
-    ReplyKeyboardRemove,
-    ForceReply,
-    ReplyParameters,
-    MessageId,
-)
 
 
 class MessageB:
     async def reply_text(
-        self: Message,
+        self: "tgram.types.Message",
         text: str,
         parse_mode: str = None,
-        entities: List[MessageEntity] = None,
-        link_preview_options: LinkPreviewOptions = None,
+        entities: List["tgram.types.MessageEntity"] = None,
+        link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup,
-            ReplyKeyboardMarkup,
-            ReplyKeyboardRemove,
-            ForceReply,
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_message(
             chat_id=self.chat.id,
             text=text,
@@ -53,20 +41,23 @@ class MessageB:
         )
 
     async def reply_photo(
-        self: Message,
-        photo: Union[InputFile, str],
+        self: "tgram.types.Message",
+        photo: Union["tgram.types.InputFile", str],
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
         has_spoiler: bool = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_photo(
             self.chat.id,
             photo=photo,
@@ -87,22 +78,25 @@ class MessageB:
         )
 
     async def reply_audio(
-        self: Message,
-        audio: Union[InputFile, str],
+        self: "tgram.types.Message",
+        audio: Union["tgram.types.InputFile", str],
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         duration: int = None,
         performer: str = None,
         title: str = None,
-        thumbnail: Union[InputFile, str] = None,
+        thumbnail: Union["tgram.types.InputFile", str] = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_audio(
             self.chat.id,
             audio=audio,
@@ -125,20 +119,23 @@ class MessageB:
         )
 
     async def reply_document(
-        self: Message,
-        document: Union[InputFile, str],
-        thumbnail: Union[InputFile, str] = None,
+        self: "tgram.types.Message",
+        document: Union["tgram.types.InputFile", str],
+        thumbnail: Union["tgram.types.InputFile", str] = None,
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         disable_content_type_detection: bool = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_document(
             self.chat.id,
             document=document,
@@ -159,15 +156,15 @@ class MessageB:
         )
 
     async def reply_video(
-        self: Message,
-        video: Union[InputFile, str],
+        self: "tgram.types.Message",
+        video: Union["tgram.types.InputFile", str],
         duration: int = None,
         width: int = None,
         height: int = None,
-        thumbnail: Union[InputFile, str] = None,
+        thumbnail: Union["tgram.types.InputFile", str] = None,
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
         has_spoiler: bool = None,
         supports_streaming: bool = None,
@@ -175,9 +172,12 @@ class MessageB:
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_video(
             self.chat.id,
             video=video,
@@ -203,24 +203,27 @@ class MessageB:
         )
 
     async def reply_animation(
-        self: Message,
-        animation: Union[InputFile, str],
+        self: "tgram.types.Message",
+        animation: Union["tgram.types.InputFile", str],
         duration: int = None,
         width: int = None,
         height: int = None,
-        thumbnail: Union[InputFile, str] = None,
+        thumbnail: Union["tgram.types.InputFile", str] = None,
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
         has_spoiler: bool = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_animation(
             self.chat.id,
             animation=animation,
@@ -245,19 +248,22 @@ class MessageB:
         )
 
     async def reply_voice(
-        self: Message,
-        voice: Union[InputFile, str],
+        self: "tgram.types.Message",
+        voice: Union["tgram.types.InputFile", str],
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         duration: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_voice(
             self.chat.id,
             voice=voice,
@@ -277,18 +283,21 @@ class MessageB:
         )
 
     async def reply_video_note(
-        self: Message,
-        video_note: Union[InputFile, str],
+        self: "tgram.types.Message",
+        video_note: Union["tgram.types.InputFile", str],
         duration: int = None,
         length: int = None,
-        thumbnail: Union[InputFile, str] = None,
+        thumbnail: Union["tgram.types.InputFile", str] = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_video_note(
             self.chat.id,
             video_note=video_note,
@@ -307,12 +316,12 @@ class MessageB:
         )
 
     async def reply_media_group(
-        self: Message,
-        media: List[InputMedia],
+        self: "tgram.types.Message",
+        media: List["tgram.types.InputMedia"],
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_media_group(
             self.chat.id,
             media=media,
@@ -327,7 +336,7 @@ class MessageB:
         )
 
     async def reply_location(
-        self: Message,
+        self: "tgram.types.Message",
         latitude: float,
         longitude: float,
         horizontal_accuracy: float = None,
@@ -338,9 +347,12 @@ class MessageB:
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.send_location(
             self.chat.id,
             latitude=latitude,
@@ -363,11 +375,11 @@ class MessageB:
     # TODO More soon
 
     async def forward(
-        self: Message,
+        self: "tgram.types.Message",
         chat_id: Union[int, str],
         disable_notification: bool = None,
         protect_content: bool = None,
-    ) -> Message:
+    ) -> "tgram.types.Message":
         return await self._me.forward_message(
             chat_id=chat_id,
             from_chat_id=self.chat.id,
@@ -380,19 +392,22 @@ class MessageB:
         )
 
     async def copy(
-        self: Message,
+        self: "tgram.types.Message",
         chat_id: Union[int, str],
         caption: str = None,
         parse_mode: str = None,
-        caption_entities: List[MessageEntity] = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
         disable_notification: bool = None,
         protect_content: bool = None,
-        reply_parameters: ReplyParameters = None,
+        reply_parameters: "tgram.types.ReplyParameters" = None,
         reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
         ] = None,
-    ) -> MessageId:
+    ) -> "tgram.types.MessageId":
         return await self._me.copy_message(
             chat_id=chat_id,
             from_chat_id=self.chat.id,
@@ -411,12 +426,12 @@ class MessageB:
         )
 
     @property
-    def id(self: Message) -> int:
+    def id(self: "tgram.types.Message") -> int:
         return self.message_id
 
     @property
-    def __reply_param(self) -> ReplyParameters:
-        return ReplyParameters(self.id)
+    def __reply_param(self) -> "tgram.types.ReplyParameters":
+        return tgram.types.ReplyParameters(self.id)
 
 
 for name, obj in inspect.getmembers(sys.modules[__name__]):
