@@ -201,3 +201,31 @@ def regex(pattern: Union[str, Pattern], flags: int = 0):
         return bool(m.matches)
 
     return Filter(regex_filter)
+
+
+def chat_type_filter(types: Union[list, str]) -> Filter:
+    """Filter updates that match a given chat type."""
+    types = (
+        {types.lower()} if not isinstance(types, list) else {i.lower() for i in types}
+    )
+
+    def chat_filter(m):
+        if isinstance(m, tgram.types.CallbackQuery) and m.message and m.message.chat:
+            chat_type = m.message.chat.type
+        elif isinstance(m, tgram.types.InlineQuery):
+            chat_type = m.chat_type
+        elif getattr(m, "chat"):  # Most of other updates types have chat attribute.
+            chat_type = m.chat.id
+        else:
+            raise ValueError(
+                f"Chat type filter doesn't work with {m.__class__.__name__}"
+            )
+
+        return bool(chat_type in types)
+
+    return Filter(chat_filter)
+
+
+private = chat_type_filter("private")
+group = chat_type_filter(["group", "supergroup"])
+channel = chat_type_filter("channel")
