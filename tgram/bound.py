@@ -1,6 +1,10 @@
 import tgram
+import inspect
+import sys
 
 from typing import Union, List
+
+from tgram import sync
 
 
 class MessageB:
@@ -40,3 +44,8 @@ class MessageB:
     @property
     def id(self: "tgram.types.Message") -> int:
         return self.message_id
+
+
+for name, obj in inspect.getmembers(sys.modules[__name__]):
+    if inspect.isclass(obj):
+        sync.wrap(obj)
