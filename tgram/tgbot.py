@@ -19,6 +19,9 @@ from typing import List, Any, Literal, Callable, Union
 
 from pathlib import Path
 
+from aiohttp.hdrs import USER_AGENT
+from aiohttp.http import SERVER_SOFTWARE
+
 logger = logging.getLogger(__name__)
 
 
@@ -38,7 +41,10 @@ class Dispatcher:
         while self._is_running:
             try:
                 updates = await self.get_updates(
-                    offset=offset, limit=limit, allowed_updates=allowed_updates
+                    offset=offset,
+                    limit=limit,
+                    allowed_updates=allowed_updates,
+                    timeout=55,
                 )
                 for update in updates:
                     offset = update.update_id + 1
@@ -71,11 +77,7 @@ class Dispatcher:
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     me: "tgram.types.User" = None
-    _session: "aiohttp.ClientSession" = aiohttp.ClientSession(
-        connector=aiohttp.TCPConnector(
-            limit=50, ssl_context=ssl.create_default_context(cafile=certifi.where())
-        ),
-    )
+    _session: "aiohttp.ClientSession" = None
     _api_url: str = None
 
     def __init__(
@@ -119,13 +121,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     async def _new_session(self) -> None:
         session = aiohttp.ClientSession(
             connector=aiohttp.TCPConnector(
-                limit=50, ssl_context=ssl.create_default_context(cafile=certifi.where())
-            )
+                limit=100,
+                ssl_context=ssl.create_default_context(cafile=certifi.where()),
+                ttl_dns_cache=3600,
+            ),
+            headers={USER_AGENT: f"{SERVER_SOFTWARE} tgram/{tgram.__version__}"},
         )
         self._session = session
 
     async def _get_session(self) -> "aiohttp.ClientSession":
-        if self._session.closed:
+        if self._session is None or self._session.closed:
             await self._new_session()
         elif not self._session.loop.is_running():
             await self._session.close()
@@ -167,7 +172,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             "POST" if has_files else "GET",
             request_url,
             data=data,
-            timeout=aiohttp.ClientTimeout(total=kwargs.get("timeout", 60)),
+            timeout=aiohttp.ClientTimeout(
+                total=kwargs.get("timeout", 60 if not has_files else 300)
+            ),
         )
 
         if not self._is_running:
