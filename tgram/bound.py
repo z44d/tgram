@@ -434,6 +434,23 @@ class MessageB:
         return tgram.types.ReplyParameters(self.id)
 
 
+class CallbackB:
+    async def answer(
+        self: "tgram.types.CallbackQuery",
+        text: str = None,
+        show_alert: bool = None,
+        url: str = None,
+        cache_time: int = None,
+    ) -> bool:
+        return await self._me.answer_callback_query(
+            self.id,
+            text=text,
+            show_alert=show_alert,
+            url=url,
+            cache_time=cache_time,
+        )
+
+
 for name, obj in inspect.getmembers(sys.modules[__name__]):
     if inspect.isclass(obj):
         sync.wrap(obj)
