@@ -229,3 +229,58 @@ def chat_type_filter(types: Union[list, str]) -> Filter:
 private = chat_type_filter("private")
 group = chat_type_filter(["group", "supergroup"])
 channel = chat_type_filter("channel")
+
+
+def command(
+    commands: Union[str, List[str]],
+    prefixes: Union[str, List[str]] = "/",
+    case_sensitive: bool = False,
+) -> Filter:
+    """Filter commands, i.e.: text messages starting with "/" or any other custom prefix."""
+    commands = commands if isinstance(commands, list) else [commands]
+    commands = {c if case_sensitive else c.lower() for c in commands}
+
+    prefixes = [] if prefixes is None else prefixes
+    prefixes = prefixes if isinstance(prefixes, list) else [prefixes]
+    prefixes = set(prefixes) if prefixes else {""}
+    command_re = re.compile(r"([\"'])(.*?)(?<!\\)\1|(\S+)")
+
+    def filter_fucn(m: "tgram.types.Message"):
+        text = m.text or m.caption
+        username = m._me.me.username
+
+        if text is None:
+            return False
+
+        for prefix in prefixes:
+            if not text.startswith(prefix):
+                continue
+
+        without_prefix = text[len(prefix) :]
+
+        for cmd in commands:
+            if not re.match(
+                rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
+                without_prefix,
+                flags=re.IGNORECASE if not case_sensitive else 0,
+            ):
+                continue
+
+            without_command = re.sub(
+                rf"{cmd}(?:@?{username})?\s?",
+                "",
+                without_prefix,
+                count=1,
+                flags=re.IGNORECASE if not case_sensitive else 0,
+            )
+
+            m.command = [cmd] + [
+                re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
+                for m in command_re.finditer(without_command)
+            ]
+
+            return True
+
+        return False
+
+    return Filter(filter_fucn)

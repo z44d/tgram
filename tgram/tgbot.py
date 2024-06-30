@@ -33,6 +33,7 @@ class Dispatcher:
             100,
         )
         self._is_running = True
+        self.me = await self.get_me()
 
         while self._is_running:
             try:
@@ -69,6 +70,7 @@ class Dispatcher:
 
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
+    me: "tgram.types.User" = None
     _session: "aiohttp.ClientSession" = aiohttp.ClientSession(
         connector=aiohttp.TCPConnector(
             limit=50, ssl_context=ssl.create_default_context(cafile=certifi.where())
