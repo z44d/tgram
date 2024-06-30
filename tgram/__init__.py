@@ -1,5 +1,5 @@
 __all__ = ["types", "TgBot", "handlers", "filters"]
-__version__ = "1.0.9"
+__version__ = "1.10.0"
 
 __author__ = "Zaid"
 __copyright__ = "Copyright (C) 2024-present Zaid <https://github.com/2ei>"
