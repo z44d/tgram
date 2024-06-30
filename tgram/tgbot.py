@@ -44,7 +44,7 @@ class Dispatcher:
                     offset=offset,
                     limit=limit,
                     allowed_updates=allowed_updates,
-                    timeout=25,
+                    timeout=55,
                 )
                 for update in updates:
                     offset = update.update_id + 1
