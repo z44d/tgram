@@ -134,12 +134,29 @@ service = (
 )
 
 
+def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
+    """Filter messages coming from one or more sender chat"""
+    ids = (
+        {ids.lower() if isinstance(ids, str) else ids}
+        if not isinstance(ids, list)
+        else {i.lower() if isinstance(i, str) else i for i in ids}
+    )
+
+    return Filter(
+        lambda m: getattr(m, "sender_chat")
+        and (
+            m.sender_chat.id in ids
+            or (m.sender_chat.username and m.sender_chat.username.lower() in ids)
+        )
+    )
+
+
 def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more users"""
     ids = (
-        [ids.lower() if isinstance(ids, str) else ids]
+        {ids.lower() if isinstance(ids, str) else ids}
         if not isinstance(ids, list)
-        else [i.lower() if isinstance(i, str) else i for i in ids]
+        else {i.lower() if isinstance(i, str) else i for i in ids}
     )
 
     return Filter(
@@ -154,9 +171,9 @@ def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
 def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more chats"""
     ids = (
-        [ids.lower() if isinstance(ids, str) else ids]
+        {ids.lower() if isinstance(ids, str) else ids}
         if not isinstance(ids, list)
-        else [i.lower() if isinstance(i, str) else i for i in ids]
+        else {i.lower() if isinstance(i, str) else i for i in ids}
     )
 
     return Filter(
@@ -256,30 +273,30 @@ def command(
             if not text.startswith(prefix):
                 continue
 
-        without_prefix = text[len(prefix) :]
+            without_prefix = text[len(prefix) :]
 
-        for cmd in commands:
-            if not re.match(
-                rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
-                without_prefix,
-                flags=re.IGNORECASE if not case_sensitive else 0,
-            ):
-                continue
+            for cmd in commands:
+                if not re.match(
+                    rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
+                    without_prefix,
+                    flags=re.IGNORECASE if not case_sensitive else 0,
+                ):
+                    continue
 
-            without_command = re.sub(
-                rf"{cmd}(?:@?{username})?\s?",
-                "",
-                without_prefix,
-                count=1,
-                flags=re.IGNORECASE if not case_sensitive else 0,
-            )
+                without_command = re.sub(
+                    rf"{cmd}(?:@?{username})?\s?",
+                    "",
+                    without_prefix,
+                    count=1,
+                    flags=re.IGNORECASE if not case_sensitive else 0,
+                )
 
-            m.command = [cmd] + [
-                re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
-                for m in command_re.finditer(without_command)
-            ]
+                m.command = [cmd] + [
+                    re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
+                    for m in command_re.finditer(without_command)
+                ]
 
-            return True
+                return True
 
         return False
 
