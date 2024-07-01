@@ -134,6 +134,23 @@ service = (
 )
 
 
+def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
+    """Filter messages coming from one or more sender chat"""
+    ids = (
+        {ids.lower() if isinstance(ids, str) else ids}
+        if not isinstance(ids, list)
+        else {i.lower() if isinstance(i, str) else i for i in ids}
+    )
+
+    return Filter(
+        lambda m: getattr(m, "sender_chat")
+        and (
+            m.sender_chat.id in ids
+            or (m.sender_chat.username and m.sender_chat.username.lower() in ids)
+        )
+    )
+
+
 def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more users"""
     ids = (
