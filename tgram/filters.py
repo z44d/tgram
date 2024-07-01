@@ -137,9 +137,9 @@ service = (
 def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more users"""
     ids = (
-        [ids.lower() if isinstance(ids, str) else ids]
+        {ids.lower() if isinstance(ids, str) else ids}
         if not isinstance(ids, list)
-        else [i.lower() if isinstance(i, str) else i for i in ids]
+        else {i.lower() if isinstance(i, str) else i for i in ids}
     )
 
     return Filter(
@@ -154,9 +154,9 @@ def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
 def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more chats"""
     ids = (
-        [ids.lower() if isinstance(ids, str) else ids]
+        {ids.lower() if isinstance(ids, str) else ids}
         if not isinstance(ids, list)
-        else [i.lower() if isinstance(i, str) else i for i in ids]
+        else {i.lower() if isinstance(i, str) else i for i in ids}
     )
 
     return Filter(
