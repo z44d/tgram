@@ -7406,30 +7406,17 @@ class PreCheckoutQuery(Type_):
         )
 
 
-class RevenueWithdrawalState(Type_):
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(me=me, json=json)
-        self.type = type
-
-    @staticmethod
-    def _parse(
-        me: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["RevenueWithdrawalState"]:
-        return (
-            RevenueWithdrawalState(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d
-            else None
-        )
+RevenueWithdrawalState = Union[
+    "RevenueWithdrawalStatePending",
+    "RevenueWithdrawalStateSucceeded",
+    "RevenueWithdrawalStateFailed",
+]
 
 
 class RevenueWithdrawalStatePending(Type_):
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "pending"
 
     @staticmethod
     def _parse(
@@ -7449,14 +7436,13 @@ class RevenueWithdrawalStatePending(Type_):
 class RevenueWithdrawalStateSucceeded(Type_):
     def __init__(
         self,
-        type: "str",
         date: "int",
         url: "str",
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "succeeded"
         self.date = date
         self.url = url
 
@@ -7478,9 +7464,9 @@ class RevenueWithdrawalStateSucceeded(Type_):
 
 
 class RevenueWithdrawalStateFailed(Type_):
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "faield"
 
     @staticmethod
     def _parse(
@@ -7497,46 +7483,23 @@ class RevenueWithdrawalStateFailed(Type_):
         )
 
 
-class TransactionPartner(Type_):
-    def __init__(
-        self,
-        type: "str",
-        withdrawal_state: "RevenueWithdrawalState" = None,
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-        self.withdrawal_state = withdrawal_state
-
-    @staticmethod
-    def _parse(
-        me: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["TransactionPartner"]:
-        return (
-            TransactionPartner(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                withdrawal_state=RevenueWithdrawalState._parse(
-                    me=me, d=d.get("withdrawal_state")
-                ),
-            )
-            if d
-            else None
-        )
+TransactionPartner = Union[
+    "TransactionPartnerFragment",
+    "TransactionPartnerUser",
+    "TransactionPartnerOther",
+    "TransactionPartnerTelegramAds",
+]
 
 
 class TransactionPartnerFragment(Type_):
     def __init__(
         self,
-        type: "str",
         withdrawal_state: "RevenueWithdrawalState" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "fragment"
         self.withdrawal_state = withdrawal_state
 
     @staticmethod
@@ -7548,8 +7511,20 @@ class TransactionPartnerFragment(Type_):
                 me=me,
                 json=d,
                 type=d.get("type"),
-                withdrawal_state=RevenueWithdrawalState._parse(
-                    me=me, d=d.get("withdrawal_state")
+                withdrawal_state=None
+                if not d.get("withdrawal_state")
+                else (
+                    RevenueWithdrawalStateSucceeded._parse(
+                        me=me, d=d.get("withdrawal_state")
+                    )
+                    if d["type"] == "succeeded"
+                    else RevenueWithdrawalStateFailed._parse(
+                        me=me, d=d.get("withdrawal_state")
+                    )
+                    if d["type"] == "failed"
+                    else RevenueWithdrawalStatePending._parse(
+                        me=me, d=d.get("withdrawal_state")
+                    )
                 ),
             )
             if d
@@ -7559,11 +7534,16 @@ class TransactionPartnerFragment(Type_):
 
 class TransactionPartnerUser(Type_):
     def __init__(
-        self, type: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        user: "User",
+        invoice_payload: "str" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "user"
         self.user = user
+        self.invoice_payload = invoice_payload
 
     @staticmethod
     def _parse(
@@ -7575,6 +7555,7 @@ class TransactionPartnerUser(Type_):
                 json=d,
                 type=d.get("type"),
                 user=User._parse(me=me, d=d.get("user")),
+                invoice_payload=d.get("invoice_payload"),
             )
             if d
             else None
@@ -7582,9 +7563,9 @@ class TransactionPartnerUser(Type_):
 
 
 class TransactionPartnerOther(Type_):
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "other"
 
     @staticmethod
     def _parse(
@@ -7630,6 +7611,26 @@ class StarTransaction(Type_):
                 date=d.get("date"),
                 source=TransactionPartner._parse(me=me, d=d.get("source")),
                 receiver=TransactionPartner._parse(me=me, d=d.get("receiver")),
+            )
+            if d
+            else None
+        )
+
+
+class TransactionPartnerTelegramAds(Type_):
+    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
+        self.type = "telegram_ads"
+
+    @staticmethod
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["TransactionPartnerTelegramAds"]:
+        return (
+            TransactionPartnerTelegramAds(
+                me=me,
+                json=d,
+                type=d.get("type"),
             )
             if d
             else None
@@ -8455,26 +8456,6 @@ class InputPaidMediaVideo(Type_):
                 height=d.get("height"),
                 duration=d.get("duration"),
                 supports_streaming=d.get("supports_streaming"),
-            )
-            if d
-            else None
-        )
-
-
-class TransactionPartnerTelegramAds(Type_):
-    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
-        super().__init__(me=me, json=json)
-        self.type = "telegram_ads"
-
-    @staticmethod
-    def _parse(
-        me: "tgram.TgBot" = None, d: dict = None
-    ) -> Optional["TransactionPartnerTelegramAds"]:
-        return (
-            TransactionPartnerTelegramAds(
-                me=me,
-                json=d,
-                type=d.get("type"),
             )
             if d
             else None
