@@ -256,30 +256,30 @@ def command(
             if not text.startswith(prefix):
                 continue
 
-        without_prefix = text[len(prefix) :]
+            without_prefix = text[len(prefix) :]
 
-        for cmd in commands:
-            if not re.match(
-                rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
-                without_prefix,
-                flags=re.IGNORECASE if not case_sensitive else 0,
-            ):
-                continue
+            for cmd in commands:
+                if not re.match(
+                    rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
+                    without_prefix,
+                    flags=re.IGNORECASE if not case_sensitive else 0,
+                ):
+                    continue
 
-            without_command = re.sub(
-                rf"{cmd}(?:@?{username})?\s?",
-                "",
-                without_prefix,
-                count=1,
-                flags=re.IGNORECASE if not case_sensitive else 0,
-            )
+                without_command = re.sub(
+                    rf"{cmd}(?:@?{username})?\s?",
+                    "",
+                    without_prefix,
+                    count=1,
+                    flags=re.IGNORECASE if not case_sensitive else 0,
+                )
 
-            m.command = [cmd] + [
-                re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
-                for m in command_re.finditer(without_command)
-            ]
+                m.command = [cmd] + [
+                    re.sub(r"\\([\"'])", r"\1", m.group(2) or m.group(3) or "")
+                    for m in command_re.finditer(without_command)
+                ]
 
-            return True
+                return True
 
         return False
 
