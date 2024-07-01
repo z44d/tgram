@@ -333,6 +333,7 @@ class ChatFullInfo(Type_):
         invite_link: "str" = None,
         pinned_message: "Message" = None,
         permissions: "ChatPermissions" = None,
+        can_send_paid_media: bool = None,
         slow_mode_delay: "int" = None,
         unrestrict_boost_count: "int" = None,
         message_auto_delete_time: "int" = None,
@@ -382,6 +383,7 @@ class ChatFullInfo(Type_):
         self.invite_link = invite_link
         self.pinned_message = pinned_message
         self.permissions = permissions
+        self.can_send_paid_media = can_send_paid_media
         self.slow_mode_delay = slow_mode_delay
         self.unrestrict_boost_count = unrestrict_boost_count
         self.message_auto_delete_time = message_auto_delete_time
@@ -445,6 +447,7 @@ class ChatFullInfo(Type_):
                 invite_link=d.get("invite_link"),
                 pinned_message=Message._parse(me=me, d=d.get("pinned_message")),
                 permissions=ChatPermissions._parse(me=me, d=d.get("permissions")),
+                can_send_paid_media=d.get("can_send_paid_media"),
                 slow_mode_delay=d.get("slow_mode_delay"),
                 unrestrict_boost_count=d.get("unrestrict_boost_count"),
                 message_auto_delete_time=d.get("message_auto_delete_time"),
