@@ -500,6 +500,7 @@ class Message(Type_, MessageB):
         animation: "Animation" = None,
         audio: "Audio" = None,
         document: "Document" = None,
+        paid_media: "PaidMediaInfo" = None,
         photo: List["PhotoSize"] = None,
         sticker: "Sticker" = None,
         story: "Story" = None,
@@ -587,6 +588,7 @@ class Message(Type_, MessageB):
         self.animation = animation
         self.audio = audio
         self.document = document
+        self.paid_media = paid_media
         self.photo = photo
         self.sticker = sticker
         self.story = story
@@ -697,6 +699,7 @@ class Message(Type_, MessageB):
                 animation=Animation._parse(me=me, d=d.get("animation")),
                 audio=Audio._parse(me=me, d=d.get("audio")),
                 document=Document._parse(me=me, d=d.get("document")),
+                paid_media=PaidMediaInfo._parse(me=me, d=d.get("paid_media")),
                 photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
@@ -948,6 +951,7 @@ class ExternalReplyInfo(Type_):
         animation: "Animation" = None,
         audio: "Audio" = None,
         document: "Document" = None,
+        paid_media: "PaidMediaInfo" = None,
         photo: List["PhotoSize"] = None,
         sticker: "Sticker" = None,
         story: "Story" = None,
@@ -975,6 +979,7 @@ class ExternalReplyInfo(Type_):
         self.animation = animation
         self.audio = audio
         self.document = document
+        self.paid_media = paid_media
         self.photo = photo
         self.sticker = sticker
         self.story = story
@@ -1021,6 +1026,7 @@ class ExternalReplyInfo(Type_):
                 animation=Animation._parse(me=me, d=d.get("animation")),
                 audio=Audio._parse(me=me, d=d.get("audio")),
                 document=Document._parse(me=me, d=d.get("document")),
+                paid_media=PaidMediaInfo._parse(me=me, d=d.get("paid_media")),
                 photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
