@@ -8265,3 +8265,208 @@ class GameHighScore(Type_):
             if d
             else None
         )
+
+
+class PaidMediaInfo(Type_):
+    def __init__(
+        self,
+        star_count: "int",
+        paid_media: List["PaidMedia"],
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(me=me, json=json)
+        self.star_count = star_count
+        self.paid_media = paid_media
+
+    @staticmethod
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PaidMediaInfo"]:
+        return (
+            PaidMediaInfo(
+                me=me,
+                json=d,
+                star_count=d.get("star_count"),
+                paid_media=[
+                    PaidMediaPreview._parse(me=me, d=i)
+                    if i["type"] == "preview"
+                    else PaidMediaPhoto._parse(me=me, d=i)
+                    if i["type"] == "photo"
+                    else PaidMediaVideo._parse(me=me, d=i)
+                    for i in d.get("paid_media")
+                ]
+                if d.get("paid_media")
+                else None,
+            )
+            if d
+            else None
+        )
+
+
+PaidMedia = Union["PaidMediaPreview", "PaidMediaPhoto", "PaidMediaVideo"]
+
+
+class PaidMediaPreview(Type_):
+    def __init__(
+        self,
+        width: "int" = None,
+        height: "int" = None,
+        duration: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(me=me, json=json)
+        self.type = "preview"
+        self.width = width
+        self.height = height
+        self.duration = duration
+
+    @staticmethod
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["PaidMediaPreview"]:
+        return (
+            PaidMediaPreview(
+                me=me,
+                json=d,
+                type=d.get("type"),
+                width=d.get("width"),
+                height=d.get("height"),
+                duration=d.get("duration"),
+            )
+            if d
+            else None
+        )
+
+
+class PaidMediaPhoto(Type_):
+    def __init__(
+        self,
+        photo: List["PhotoSize"],
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(me=me, json=json)
+        self.type = "photo"
+        self.photo = photo
+
+    @staticmethod
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PaidMediaPhoto"]:
+        return (
+            PaidMediaPhoto(
+                me=me,
+                json=d,
+                type=d.get("type"),
+                photo=[PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
+                if d.get("photo")
+                else None,
+            )
+            if d
+            else None
+        )
+
+
+class PaidMediaVideo(Type_):
+    def __init__(self, video: "Video", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
+        self.type = "video"
+        self.video = video
+
+    @staticmethod
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["PaidMediaVideo"]:
+        return (
+            PaidMediaVideo(
+                me=me,
+                json=d,
+                type=d.get("type"),
+                video=Video._parse(me=me, d=d.get("video")),
+            )
+            if d
+            else None
+        )
+
+
+InputPaidMedia = Union["InputPaidMediaPhoto", "InputPaidMediaVideo"]
+
+
+class InputPaidMediaPhoto(Type_):
+    def __init__(self, media: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
+        self.type = "photo"
+        self.media = media
+
+    @staticmethod
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["InputPaidMediaPhoto"]:
+        return (
+            InputPaidMediaPhoto(
+                me=me,
+                json=d,
+                type=d.get("type"),
+                media=d.get("media"),
+            )
+            if d
+            else None
+        )
+
+
+class InputPaidMediaVideo(Type_):
+    def __init__(
+        self,
+        media: "str",
+        thumbnail: Union["InputFile", "str"] = None,
+        width: "int" = None,
+        height: "int" = None,
+        duration: "int" = None,
+        supports_streaming: "bool" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
+    ):
+        super().__init__(me=me, json=json)
+        self.type = "video"
+        self.media = media
+        self.thumbnail = thumbnail
+        self.width = width
+        self.height = height
+        self.duration = duration
+        self.supports_streaming = supports_streaming
+
+    @staticmethod
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["InputPaidMediaVideo"]:
+        return (
+            InputPaidMediaVideo(
+                me=me,
+                json=d,
+                type=d.get("type"),
+                media=d.get("media"),
+                thumbnail=d.get("thumbnail"),
+                width=d.get("width"),
+                height=d.get("height"),
+                duration=d.get("duration"),
+                supports_streaming=d.get("supports_streaming"),
+            )
+            if d
+            else None
+        )
+
+
+class TransactionPartnerTelegramAds(Type_):
+    def __init__(self, me: "tgram.TgBot" = None, json: "dict" = None):
+        super().__init__(me=me, json=json)
+        self.type = "telegram_ads"
+
+    @staticmethod
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional["TransactionPartnerTelegramAds"]:
+        return (
+            TransactionPartnerTelegramAds(
+                me=me,
+                json=d,
+                type=d.get("type"),
+            )
+            if d
+            else None
+        )
