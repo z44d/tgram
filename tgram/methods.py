@@ -583,7 +583,7 @@ class TelegramBotMethods:
         self: "tgram.TgBot",
         chat_id: Union[int, str],
         star_count: int,
-        media: List[InputMedia],
+        media: List[InputPaidMedia],
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List[MessageEntity] = None,
