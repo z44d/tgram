@@ -232,7 +232,7 @@ def chat_type_filter(types: Union[list, str]) -> Filter:
         elif isinstance(m, tgram.types.InlineQuery):
             chat_type = m.chat_type
         elif getattr(m, "chat"):  # Most of other updates types have chat attribute.
-            chat_type = m.chat.id
+            chat_type = m.chat.type
         else:
             raise ValueError(
                 f"Chat type filter doesn't work with {m.__class__.__name__}"
