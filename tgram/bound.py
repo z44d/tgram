@@ -2,8 +2,21 @@ import inspect
 import sys
 import tgram
 
-from typing import Union, List
+from typing import Union, List, Optional, BinaryIO
 from tgram import sync
+
+from pathlib import Path
+
+MEDIA_TYPES = {
+    "audio",
+    "video",
+    "photo",
+    "animation",
+    "voice",
+    "video_note",
+    "sticker",
+    "document",
+}
 
 
 class MessageB:
@@ -425,9 +438,28 @@ class MessageB:
             reply_markup=reply_markup,
         )
 
+    async def download(
+        self: "tgram.types.Message", file_path: str = None, in_memory: bool = None
+    ) -> Union[Path, BinaryIO]:
+        if not self.media:
+            raise ValueError("This message have no media to download.")
+
+        file_id = getattr(self, self.media).file_id
+        return await self._me.download_file(
+            file_id, file_path=file_path, in_memory=in_memory
+        )
+
     @property
     def id(self: "tgram.types.Message") -> int:
         return self.message_id
+
+    @property
+    def media(self: "tgram.types.Message") -> Optional["str"]:
+        for media_type in MEDIA_TYPES:
+            if getattr(self, media_type):
+                return media_type
+
+        return None
 
     @property
     def __reply_param(self) -> "tgram.types.ReplyParameters":

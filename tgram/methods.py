@@ -1,6 +1,7 @@
 # This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
+import io
 
-from typing import List, Union
+from typing import List, Union, BinaryIO
 import tgram
 from .types import (
     Update,
@@ -48,7 +49,12 @@ from .types import (
     StarTransactions,
     PassportElementError,
     GameHighScore,
+    InputPaidMedia,
 )
+
+from .errors import APIException
+
+from pathlib import Path
 
 
 class TelegramBotMethods:
@@ -578,6 +584,41 @@ class TelegramBotMethods:
         )
         return Message._parse(me=self, d=result["result"])
 
+    async def send_paid_media(
+        self: "tgram.TgBot",
+        chat_id: Union[int, str],
+        star_count: int,
+        media: List[InputPaidMedia],
+        caption: str = None,
+        parse_mode: str = None,
+        caption_entities: List[MessageEntity] = None,
+        show_caption_above_media: bool = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        reply_parameters: ReplyParameters = None,
+        reply_markup: Union[
+            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
+        ] = None,
+    ) -> Message:
+        """https://core.telegram.org/bots/api#sendpaidmedia"""
+        result = await self._send_request(
+            "sendPaidMedia",
+            chat_id=chat_id,
+            star_count=star_count,
+            media=media,
+            caption=caption,
+            parse_mode=parse_mode or self.parse_mode,
+            caption_entities=caption_entities,
+            show_caption_above_media=show_caption_above_media,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self.protect_content,
+            reply_parameters=reply_parameters,
+            reply_markup=reply_markup,
+        )
+        return Message._parse(me=self, d=result["result"])
+
     async def send_media_group(
         self: "tgram.TgBot",
         chat_id: Union[int, str],
@@ -869,6 +910,31 @@ class TelegramBotMethods:
             file_id=file_id,
         )
         return File._parse(me=self, d=result["result"])
+
+    async def download_file(
+        self: "tgram.TgBot", file_id: str, file_path: str = None, in_memory: bool = None
+    ) -> Union[Path, BinaryIO]:
+        file = await self.get_file(file_id)
+        file_path = file_path or file.file_path
+        url = self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
+        session = await self._get_session()
+        async with session.request("GET", url=url) as response:
+            if response.status != 200:
+                raise APIException("Download file", response)
+        result = await response.read()
+        if in_memory:
+            memory_file = io.BytesIO()
+            memory_file.write(result)
+            memory_file.name = file_path
+            return memory_file
+        else:
+            with open(Path(file_path), "wb") as f:
+                f.write(result)
+            return Path(file_path)
+
+    async def get_file_url(self: "tgram.TgBot", file_id: str) -> str:
+        file = await self.get_file(file_id)
+        return self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
 
     async def ban_chat_member(
         self: "tgram.TgBot",
