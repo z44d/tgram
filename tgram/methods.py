@@ -913,7 +913,7 @@ class TelegramBotMethods:
 
     async def download_file(
         self: "tgram.TgBot", file_id: str, file_path: str = None, in_memory: bool = None
-    ) -> Path | BinaryIO:
+    ) -> Union[Path, BinaryIO]:
         file = await self.get_file(file_id)
         file_path = file_path or file.file_path
         url = self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
