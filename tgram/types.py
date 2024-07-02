@@ -4,7 +4,7 @@ from typing import List, Union, Optional
 from pathlib import Path
 from json import dumps
 
-from .bound import MessageB
+from .bound import MessageB, CallbackB
 
 
 class Type_:
@@ -3367,7 +3367,7 @@ class SwitchInlineQueryChosenChat(Type_):
         )
 
 
-class CallbackQuery(Type_):
+class CallbackQuery(Type_, CallbackB):
     def __init__(
         self,
         id: "str",
