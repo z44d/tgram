@@ -926,6 +926,7 @@ class TelegramBotMethods:
             memory_file = io.BytesIO()
             memory_file.write(result)
             memory_file.name = file_path
+            return memory_file
         else:
             with open(Path(file_path), "wb") as f:
                 f.write(result)
