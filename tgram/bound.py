@@ -2,9 +2,10 @@ import inspect
 import sys
 import tgram
 
-from typing import Union, List, Optional, BinaryIO
+from typing import Union, List, Optional
 from tgram import sync
 
+from io import BytesIO
 from pathlib import Path
 
 MEDIA_TYPES = {
@@ -440,7 +441,7 @@ class MessageB:
 
     async def download(
         self: "tgram.types.Message", file_path: str = None, in_memory: bool = None
-    ) -> Union[Path, BinaryIO]:
+    ) -> Union[Path, BytesIO]:
         if not self.media:
             raise ValueError("This message have no media to download.")
 

@@ -1,7 +1,7 @@
 # This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
 import io
 
-from typing import List, Union, BinaryIO
+from typing import List, Union
 import tgram
 from .types import (
     Update,
@@ -913,7 +913,7 @@ class TelegramBotMethods:
 
     async def download_file(
         self: "tgram.TgBot", file_id: str, file_path: str = None, in_memory: bool = None
-    ) -> Union[Path, BinaryIO]:
+    ) -> Union[Path, io.BytesIO]:
         file = await self.get_file(file_id)
         file_path = file_path or file.file_path
         url = self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
@@ -925,6 +925,7 @@ class TelegramBotMethods:
         if in_memory:
             memory_file = io.BytesIO()
             memory_file.write(result)
+            memory_file.seek(0)
             memory_file.name = file_path
             return memory_file
         else:

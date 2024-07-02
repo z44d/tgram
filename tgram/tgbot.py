@@ -153,7 +153,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 has_files = True
                 with open(value, "rb") as f:
                     value = f.read()
-            elif isinstance(value, io.IOBase):
+            elif isinstance(value, io.BytesIO):
                 has_files = True
                 value = value.read()
             elif isinstance(value, bytes):
