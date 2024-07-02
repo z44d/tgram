@@ -444,7 +444,10 @@ class MessageB:
         if not self.media:
             raise ValueError("This message have no media to download.")
 
-        file_id = getattr(self, self.media).file_id
+        media = getattr(self, self.media)
+        file_id = (
+            media[-1].file_id if isinstance(media, list) else media.file_id
+        )  # Message.photo is list of PhotoSize
         return await self._me.download_file(
             file_id, file_path=file_path, in_memory=in_memory
         )
