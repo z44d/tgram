@@ -22,27 +22,22 @@
 
 #### Example Usage
 ```python
-import logging
 from tgram import TgBot, filters
 from tgram.types import Message
 
 bot = TgBot("TOKEN")
-logging.basicConfig(level=logging.INFO)
 
-@bot.on_message(filters.text)
+@bot.on_message(filters.text & filters.private)
 async def on_message(bot: TgBot, message: Message) -> Message:
     #Echo
-    return await bot.send_message(
-        message.chat.id,
+    return await message.reply_text(
         message.text,
-        entities=message.entities
-    )
+        entities=message.entities)
 
 bot.run_for_updates()
 ```
 
 ## TODO
-- Bound methods for types.
 - Smart plugins with auto-load.
 
 ## Requirements
@@ -59,6 +54,3 @@ pip install git+https://github.com/2ei/tgram -U
 # With PyPi (Recommended)
 pip install tgram -U
 ```
-
-## LICENSE
-[MIT](https://github.com/2ei/tgram?tab=MIT-1-ov-file)
