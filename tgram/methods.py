@@ -932,6 +932,10 @@ class TelegramBotMethods:
                 f.write(result)
             return Path(file_path)
 
+    async def get_file_url(self: "tgram.TgBot", file_id: str) -> str:
+        file = await self.get_file(file_id)
+        return self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
+
     async def ban_chat_member(
         self: "tgram.TgBot",
         chat_id: Union[int, str],
