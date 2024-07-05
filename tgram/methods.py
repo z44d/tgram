@@ -2370,8 +2370,13 @@ class TelegramBotMethods:
             while True:
                 for job in filter(lambda x: x["after"] >= datetime.now(), self._jobs):
                     try:
-                        await job["func"](**job["args"])
-                        logger.info("Job %s is done.")
+                        if asyncio.iscoroutinefunction(job["func"]):
+                            await job["func"](**job["args"])
+                        else:
+                            await self.loop.run_in_executor(
+                                self.executor, lambda: job["func"](**job["args"])
+                            )
+                        logger.info("Job %s is done.", job)
                     except Exception as e:
                         logger.exception(e)
                     finally:
