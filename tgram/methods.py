@@ -2378,6 +2378,6 @@ class TelegramBotMethods:
                         self._jobs.remove(job)
 
         if self._task is None or self._task.cancelled():
-            self.loop.create_task(jobs_scheduler())
+            self._task = self.loop.create_task(jobs_scheduler())
 
         return True
