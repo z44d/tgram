@@ -53,7 +53,9 @@ async def get_id(_, m: Message) -> Message:
         text = f"Chat ID: `{m.chat_shared.chat_id}`"
     else:
         text = (
-            f"Users ID: `" + " ".join([str(i.user_id) for i in m.users_shared.users]) + "`"
+            f"Users ID: `"
+            + " ".join([str(i.user_id) for i in m.users_shared.users])
+            + "`"
         )
 
     return await m.reply_text(text)
