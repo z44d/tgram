@@ -1,7 +1,8 @@
 # This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
 import io
+import asyncio
 
-from typing import List, Union
+from typing import Callable, List, Union, Dict
 import tgram
 from .types import (
     Update,
@@ -55,9 +56,13 @@ from .types import (
 from .errors import APIException
 
 from pathlib import Path
+from datetime import datetime, timedelta
 
 
 class TelegramBotMethods:
+    _task: asyncio.Task = None
+    _jobs: List[Dict[str, datetime]] = None
+
     async def get_updates(
         self: "tgram.TgBot",
         offset: int = None,
@@ -2338,3 +2343,41 @@ class TelegramBotMethods:
             inline_message_id=inline_message_id,
         )
         return [GameHighScore._parse(me=self, d=i) for i in result["result"]]
+
+    async def schedule_job(
+        self: "tgram.TgBot", after: Union[int, datetime], func: Callable, **kwargs
+    ) -> bool:
+        if (isinstance(after, datetime) and datetime.now() < after) or (
+            isinstance(after, int) and after < 0
+        ):
+            raise ValueError("You can't do job in the past.")
+
+        self._jobs.append(
+            {
+                "func": func,
+                "after": (datetime.now() + timedelta(seconds=after))
+                if isinstance(after, int)
+                else after,
+                "args": kwargs,
+            }
+        )
+
+        async def jobs_scheduler():
+            import logging
+
+            logger = logging.getLogger(__name__)
+            logger.warn("Scheduler task started.")
+            while True:
+                for job in filter(lambda x: x["after"] >= datetime.now(), self._jobs):
+                    try:
+                        await job["func"](**job["args"])
+                        logger.info("Job %s is done.")
+                    except Exception as e:
+                        logger.exception(e)
+                    finally:
+                        self._jobs.remove(job)
+
+        if self._task is None or self._task.cancelled():
+            self.loop.create_task(jobs_scheduler())
+
+        return True
