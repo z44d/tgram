@@ -1,8 +1,9 @@
 # This is auto generated file, if you found any issue, please report me here: https://github.com/2ei/tgram/issues/new
 import io
 import asyncio
+import logging
 
-from typing import Callable, List, Union, Dict
+from typing import Callable, List, Union
 import tgram
 from .types import (
     Update,
@@ -56,13 +57,11 @@ from .types import (
 from .errors import APIException
 
 from pathlib import Path
-from datetime import datetime, timedelta
+
+logger = logging.getLogger(__name__)
 
 
 class TelegramBotMethods:
-    _task: asyncio.Task = None
-    _jobs: List[Dict[str, datetime]] = None
-
     async def get_updates(
         self: "tgram.TgBot",
         offset: int = None,
@@ -2345,44 +2344,17 @@ class TelegramBotMethods:
         return [GameHighScore._parse(me=self, d=i) for i in result["result"]]
 
     async def schedule_job(
-        self: "tgram.TgBot", after: Union[int, datetime], func: Callable, **kwargs
+        self: "tgram.TgBot", after: int, func: Callable, **kwargs
     ) -> bool:
-        if (isinstance(after, datetime) and datetime.now() < after) or (
-            isinstance(after, int) and after < 0
-        ):
+        if after < 0:
             raise ValueError("You can't do job in the past.")
 
-        self._jobs.append(
-            {
-                "func": func,
-                "after": (datetime.now() + timedelta(seconds=after))
-                if isinstance(after, int)
-                else after,
-                "args": kwargs,
-            }
-        )
+        async def task():
+            logger.warn("New scheduled job started, it will be done after: %s", after)
+            await asyncio.sleep(after)
+            if asyncio.iscoroutinefunction(func):
+                await func(**kwargs)
+            else:
+                await self.loop.run_in_executor(self.executor, lambda: func(**kwargs))
 
-        async def jobs_scheduler():
-            import logging
-
-            logger = logging.getLogger(__name__)
-            logger.warn("Scheduler task started.")
-            while True:
-                for job in filter(lambda x: x["after"] >= datetime.now(), self._jobs):
-                    try:
-                        if asyncio.iscoroutinefunction(job["func"]):
-                            await job["func"](**job["args"])
-                        else:
-                            await self.loop.run_in_executor(
-                                self.executor, lambda: job["func"](**job["args"])
-                            )
-                        logger.info("Job %s is done.", job)
-                    except Exception as e:
-                        logger.exception(e)
-                    finally:
-                        self._jobs.remove(job)
-
-        if self._task is None or self._task.cancelled():
-            self._task = self.loop.create_task(jobs_scheduler())
-
-        return True
+        return asyncio.create_task(task())
