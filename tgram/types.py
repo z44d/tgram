@@ -1,6 +1,6 @@
 import tgram
 import random
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Callable
 from pathlib import Path
 from json import dumps
 
@@ -40,6 +40,21 @@ class Type_:
                 if getattr(self, attr) is not None
             ),
         )
+
+
+class Listener(Type_):
+    def __init__(
+        self,
+        update_type: str,
+        next_step: Callable,
+        cancel: Callable = None,
+        filters: "tgram.filters.Filter" = None,
+    ) -> None:
+        super().__init__(None, None)
+        self.update_type = update_type
+        self.next_step = next_step
+        self.cancel = cancel
+        self.filters = filters
 
 
 class Update(Type_):

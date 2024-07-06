@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 class Dispatcher:
     _is_running = False
     _handlers: List["tgram.handlers.Handler"] = []
+    _listen_handlers: List["tgram.types.Listener"] = []
 
     async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
         offset, allowed_updates, limit = (
@@ -57,7 +58,29 @@ class Dispatcher:
         session = await self._get_session()
         await session.close()
 
+    async def _check_cancel(self: "TgBot", callback: Callable, update: Any) -> bool:
+        logger.info("Checking listener in %s func", callback.__name__)
+        try:
+            if asyncio.iscoroutinefunction(callback):
+                return await callback(self, update)
+            else:
+                return await self.loop.run_in_executor(
+                    self.executor, callback, self, update
+                )
+        except Exception as e:
+            logger.exception(e)
+
     async def _check_update(self: "TgBot", update: "tgram.types.Update") -> None:
+        for listener in self._listen_handlers:
+            if (attr := getattr(update, listener.update_type)) and listener.filters(
+                attr
+            ):
+                if listener.cancel is not None:
+                    result = await self._check_cancel(listener.cancel, update)
+                    if result:
+                        continue
+                return await self._process_update(attr, listener.next_step)
+
         for handler in self._handlers:
             if handler.type == "all":
                 await self._process_update(update, handler.callback)

@@ -51,6 +51,7 @@ from .types import (
     PassportElementError,
     GameHighScore,
     InputPaidMedia,
+    Listener,
 )
 
 from .errors import APIException
@@ -2368,3 +2369,19 @@ class TelegramBotMethods:
                 logger.exception(e)
 
         return asyncio.create_task(task())
+
+    async def ask(
+        self: "tgram.TgBot",
+        update_type: str,
+        next_step: Callable,
+        cancel: Callable = None,
+        filters: "tgram.filters.Filter" = None,
+    ) -> None:
+        return self._listen_handlers.append(
+            Listener(
+                update_type=update_type,
+                next_step=next_step,
+                cancel=cancel,
+                filters=filters or tgram.filters.all,
+            )
+        )
