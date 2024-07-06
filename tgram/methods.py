@@ -7,7 +7,6 @@ from typing import Callable, List, Union
 import tgram
 from .types import (
     Update,
-    InputFile,
     WebhookInfo,
     User,
     Message,
@@ -55,6 +54,7 @@ from .types import (
 )
 
 from .errors import APIException
+from .utils import get_file_path
 
 from pathlib import Path
 
@@ -82,7 +82,7 @@ class TelegramBotMethods:
     async def set_webhook(
         self: "tgram.TgBot",
         url: str,
-        certificate: InputFile = None,
+        certificate: Union[Path, bytes, str] = None,
         ip_address: str = None,
         max_connections: int = None,
         allowed_updates: List[str] = None,
@@ -308,7 +308,7 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendPhoto",
             chat_id=chat_id,
-            photo=photo,
+            photo=get_file_path(photo),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
@@ -351,7 +351,7 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendAudio",
             chat_id=chat_id,
-            audio=audio,
+            audio=get_file_path(audio),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
@@ -360,7 +360,7 @@ class TelegramBotMethods:
             duration=duration,
             performer=performer,
             title=title,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
@@ -394,10 +394,10 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendDocument",
             chat_id=chat_id,
-            document=document,
+            document=get_file_path(document),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
             caption=caption,
             parse_mode=parse_mode or self.parse_mode,
             caption_entities=caption_entities,
@@ -440,13 +440,13 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendVideo",
             chat_id=chat_id,
-            video=video,
+            video=get_file_path(video),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
             width=width,
             height=height,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
             caption=caption,
             parse_mode=parse_mode or self.parse_mode,
             caption_entities=caption_entities,
@@ -490,13 +490,13 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendAnimation",
             chat_id=chat_id,
-            animation=animation,
+            animation=get_file_path(animation),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
             width=width,
             height=height,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
             caption=caption,
             parse_mode=parse_mode or self.parse_mode,
             caption_entities=caption_entities,
@@ -534,7 +534,7 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendVoice",
             chat_id=chat_id,
-            voice=voice,
+            voice=get_file_path(voice),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
@@ -572,12 +572,12 @@ class TelegramBotMethods:
         result = await self._send_request(
             "sendVideoNote",
             chat_id=chat_id,
-            video_note=video_note,
+            video_note=get_file_path(video_note),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
             length=length,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
@@ -1168,7 +1168,7 @@ class TelegramBotMethods:
         return result["result"]
 
     async def set_chat_photo(
-        self: "tgram.TgBot", chat_id: Union[int, str], photo: InputFile
+        self: "tgram.TgBot", chat_id: Union[int, str], photo: Union[Path, bytes, str]
     ) -> bool:
         """https://core.telegram.org/bots/api/#setchatphoto"""
         result = await self._send_request(
@@ -1899,7 +1899,10 @@ class TelegramBotMethods:
         return [Sticker._parse(me=self, d=i) for i in result["result"]]
 
     async def upload_sticker_file(
-        self: "tgram.TgBot", user_id: int, sticker: InputFile, sticker_format: str
+        self: "tgram.TgBot",
+        user_id: int,
+        sticker: Union[Path, bytes, str],
+        sticker_format: str,
     ) -> File:
         """https://core.telegram.org/bots/api/#uploadstickerfile"""
         result = await self._send_request(
@@ -2034,7 +2037,7 @@ class TelegramBotMethods:
             name=name,
             user_id=user_id,
             format=format,
-            thumbnail=thumbnail,
+            thumbnail=get_file_path(thumbnail),
         )
         return result["result"]
 
