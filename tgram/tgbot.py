@@ -79,6 +79,7 @@ class Dispatcher:
                     result = await self._check_cancel(listener.cancel, update)
                     if result:
                         continue
+                self._listen_handlers.remove(listener)
                 return await self._process_update(attr, listener.next_step)
 
         for handler in self._handlers:
