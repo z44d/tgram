@@ -453,6 +453,9 @@ class MessageB:
             file_id, file_path=file_path, in_memory=in_memory
         )
 
+    async def delete(self: "tgram.types.Message") -> bool:
+        return await self._me.delete_message(self.chat.id, self.id)
+
     @property
     def id(self: "tgram.types.Message") -> int:
         return self.message_id
