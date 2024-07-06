@@ -133,6 +133,8 @@ service = (
     | new_chat_members
 )
 
+media = Filter(lambda m: isinstance(m, tgram.types.Message) and m.media)
+
 
 def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more sender chat"""
