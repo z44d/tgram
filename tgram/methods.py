@@ -2417,11 +2417,13 @@ class TelegramBotMethods:
                 "business_connection_id": business_connection_id,
                 "message_thread_id": message_thread_id,
                 "caption": caption,
-                "parse_mode": parse_mode,
+                "parse_mode": parse_mode or self.parse_mode,
                 "caption_entities": caption_entities,
                 "show_caption_above_media": show_caption_above_media,
                 "disable_notification": disable_notification,
-                "protect_content": protect_content,
+                "protect_content": protect_content
+                if protect_content is not None
+                else self.protect_content,
                 "message_effect_id": message_effect_id,
                 "reply_parameters": reply_parameters,
                 "reply_markup": reply_markup,

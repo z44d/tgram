@@ -405,6 +405,41 @@ class MessageB:
             else self._me.protect_content,
         )
 
+    async def reply_media_from_file_id(
+        self: "tgram.types.Message",
+        file_id: str,
+        caption: str = None,
+        parse_mode: str = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
+        show_caption_above_media: bool = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: Union[
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
+        ] = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_media_from_file_id(
+            self.chat.id,
+            file_id=file_id,
+            business_connection_id=self.business_connection_id,
+            message_thread_id=self.message_thread_id,
+            caption=caption,
+            parse_mode=parse_mode,
+            caption_entities=caption_entities,
+            show_caption_above_media=show_caption_above_media,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
+
     async def copy(
         self: "tgram.types.Message",
         chat_id: Union[int, str],
