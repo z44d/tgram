@@ -77,9 +77,9 @@ class Dispatcher:
             ):
                 self._listen_handlers.remove(listener)
                 if listener.cancel is not None:
-                    result = await self._check_cancel(listener.cancel, update)
+                    result = await self._check_cancel(listener.cancel, attr)
                     if result:
-                        continue
+                        return
                 return await self._process_update(attr, listener.next_step)
 
         for handler in self._handlers:
