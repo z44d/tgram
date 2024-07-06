@@ -144,7 +144,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             logger.info("Sending request using the method: %s", method)
         session = await self._get_session()
         data = aiohttp.FormData(quote_fields=False)
-        has_files = False
+        has_files, file = False, None
 
         for key, value in kwargs.items():
             if value is None or key == "timeout":
@@ -152,12 +152,12 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             if isinstance(value, Path):
                 has_files = True
                 with open(value, "rb") as f:
-                    value = f.read()
-            elif isinstance(value, io.BytesIO):
+                    value = f
+                    file = f.read()
+            elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
                 has_files = True
-                value = value.read()
-            elif isinstance(value, bytes):
-                has_files = True
+                value = value
+                file = value if isinstance(value, bytes) else value.read()
             elif isinstance(value, (tgram.types.Type_, list)):
                 value = json.dumps(
                     value, ensure_ascii=False, default=tgram.types.Type_.default
@@ -165,7 +165,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             else:
                 value = str(value)
             data.add_field(
-                key, value, filename=get_file_name(value) if has_files else None
+                key,
+                file if has_files else value,
+                filename=get_file_name(value) if has_files else None,
             )
 
         response = await session.request(
