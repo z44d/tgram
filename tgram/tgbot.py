@@ -80,13 +80,29 @@ class Dispatcher:
                     result = await self._check_cancel(listener.cancel, attr)
                     if result:
                         return
-                return await self._process_update(attr, listener.next_step)
+                return await self._process_listener(
+                    attr, listener.next_step, listener.data
+                )
 
         for handler in self._handlers:
             if handler.type == "all":
                 await self._process_update(update, handler.callback)
             elif (attr := getattr(update, handler.type)) and handler.filter(attr):
                 await self._process_update(attr, handler.callback)
+
+    async def _process_listener(
+        self: "TgBot", update: Any, callback: Callable, data: dict
+    ) -> None:
+        logger.info("Processing listener to %s func", callback.__name__)
+        try:
+            if asyncio.iscoroutinefunction(callback):
+                await callback(self, update, data)
+            else:
+                await self.loop.run_in_executor(
+                    self.executor, callback, self, update, data
+                )
+        except Exception as e:
+            logger.exception(e)
 
     async def _process_update(self: "TgBot", update: Any, callback: Callable) -> None:
         logger.info("Processing update to %s func", callback.__name__)

@@ -2374,6 +2374,7 @@ class TelegramBotMethods:
         self: "tgram.TgBot",
         update_type: str,
         next_step: Callable,
+        data: dict = None,
         cancel: Callable = None,
         filters: "tgram.filters.Filter" = None,
     ) -> None:
@@ -2381,6 +2382,7 @@ class TelegramBotMethods:
             Listener(
                 update_type=update_type,
                 next_step=next_step,
+                data=data if data is not None else {},
                 cancel=cancel,
                 filters=filters or tgram.filters.all,
             )

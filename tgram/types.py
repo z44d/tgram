@@ -47,12 +47,14 @@ class Listener(Type_):
         self,
         update_type: str,
         next_step: Callable,
+        data: dict,
         cancel: Callable = None,
         filters: "tgram.filters.Filter" = None,
     ) -> None:
         super().__init__(None, None)
         self.update_type = update_type
         self.next_step = next_step
+        self.data = data
         self.cancel = cancel
         self.filters = filters
 
