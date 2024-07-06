@@ -133,7 +133,7 @@ service = (
     | new_chat_members
 )
 
-media = lambda m: isinstance(m, tgram.types.Message) and m.media
+media = Filter(lambda m: isinstance(m, tgram.types.Message) and m.media)
 
 
 def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
