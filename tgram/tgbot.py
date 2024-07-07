@@ -196,7 +196,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                     file = f.read()
             elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
                 has_files = True
-                value = value
                 file = value if isinstance(value, bytes) else value.read()
             elif isinstance(value, (tgram.types.Type_, list)):
                 value = json.dumps(
