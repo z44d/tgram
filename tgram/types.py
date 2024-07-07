@@ -548,6 +548,7 @@ class Message(Type_, MessageB):
         pinned_message: "Message" = None,
         invoice: "Invoice" = None,
         successful_payment: "SuccessfulPayment" = None,
+        refunded_payment: "RefundedPayment" = None,
         users_shared: "UsersShared" = None,
         chat_shared: "ChatShared" = None,
         connected_website: "str" = None,
@@ -636,6 +637,7 @@ class Message(Type_, MessageB):
         self.pinned_message = pinned_message
         self.invoice = invoice
         self.successful_payment = successful_payment
+        self.refunded_payment = refunded_payment
         self.users_shared = users_shared
         self.chat_shared = chat_shared
         self.connected_website = connected_website
@@ -764,6 +766,9 @@ class Message(Type_, MessageB):
                 invoice=Invoice._parse(me=me, d=d.get("invoice")),
                 successful_payment=SuccessfulPayment._parse(
                     me=me, d=d.get("successful_payment")
+                ),
+                refunded_payment=RefundedPayment._parse(
+                    me=me, d=d.get("refunded_payment")
                 ),
                 users_shared=UsersShared._parse(me=me, d=d.get("users_shared")),
                 chat_shared=ChatShared._parse(me=me, d=d.get("chat_shared")),
@@ -7340,6 +7345,41 @@ class SuccessfulPayment(Type_):
                 provider_payment_charge_id=d.get("provider_payment_charge_id"),
                 shipping_option_id=d.get("shipping_option_id"),
                 order_info=OrderInfo._parse(me=me, d=d.get("order_info")),
+            )
+            if d
+            else None
+        )
+
+
+class RefundedPayment(Type_):
+    def __init__(
+        self,
+        currency: "str",
+        total_amount: "int",
+        invoice_payload: "str",
+        telegram_payment_charge_id: "str",
+        provider_payment_charge_id: "str" = None,
+        me: tgram.TgBot = None,
+        json: "dict" = None,
+    ) -> None:
+        super().__init__(me=me, json=json)
+        self.currency = currency
+        self.total_amount = total_amount
+        self.invoice_payload = invoice_payload
+        self.telegram_payment_charge_id = telegram_payment_charge_id
+        self.provider_payment_charge_id = provider_payment_charge_id
+
+    @staticmethod
+    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["RefundedPayment"]:
+        return (
+            RefundedPayment(
+                me=me,
+                json=d,
+                currency=d.get("currency"),
+                total_amount=d.get("total_amount"),
+                invoice_payload=d.get("invoice_payload"),
+                telegram_payment_charge_id=d.get("telegram_payment_charge_id"),
+                provider_payment_charge_id=d.get("provider_payment_charge_id"),
             )
             if d
             else None
