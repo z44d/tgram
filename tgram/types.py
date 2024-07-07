@@ -4,7 +4,7 @@ from typing import List, Union, Optional, Callable
 from pathlib import Path
 from json import dumps
 
-from .bound import MessageB, CallbackB
+from .bound import MessageB, CallbackB, UserB
 
 
 class Type_:
@@ -219,7 +219,7 @@ class WebhookInfo(Type_):
         )
 
 
-class User(Type_):
+class User(Type_, UserB):
     def __init__(
         self,
         id: "int",

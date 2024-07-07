@@ -2,7 +2,7 @@ import inspect
 import sys
 import tgram
 
-from typing import Union, List, Optional
+from typing import Union, List, Optional, Literal
 from tgram import sync
 
 from io import BytesIO
@@ -496,7 +496,20 @@ class MessageB:
         return self.message_id
 
     @property
-    def media(self: "tgram.types.Message") -> Optional["str"]:
+    def media(
+        self: "tgram.types.Message",
+    ) -> Optional[
+        Literal[
+            "audio",
+            "video",
+            "photo",
+            "animation",
+            "voice",
+            "video_note",
+            "sticker",
+            "document",
+        ]
+    ]:
         for media_type in MEDIA_TYPES:
             if getattr(self, media_type):
                 return media_type
@@ -522,6 +535,36 @@ class CallbackB:
             show_alert=show_alert,
             url=url,
             cache_time=cache_time,
+        )
+
+
+class UserB:
+    @property
+    def mention(
+        self: "tgram.types.User",
+        name: str = None,
+        parse_mode: Literal["HTML", "Markdown", "MarkdownV2"] = "HTML",
+    ) -> str:
+        return (
+            "[{name}](tg://user?id={id})"
+            if parse_mode.lower() != "html"
+            else '<a href="tg://user?id={id}">{name}</a>'
+        ).format(name=name or self.first_name, id=self.id)
+
+    @property
+    def full_name(self: "tgram.types.User") -> str:
+        return (
+            self.first_name
+            if not self.last_name
+            else f"{self.first_name} {self.last_name}"
+        )
+
+    @property
+    def profile_link(self: "tgram.types.User") -> str:
+        return (
+            f"tg://user?id={self.id}"
+            if not self.username
+            else f"https://t.me/{self.username}"
         )
 
 
