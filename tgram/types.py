@@ -2930,7 +2930,7 @@ class UserProfilePhotos(Type_):
                 me=me,
                 json=d,
                 total_count=d.get("total_count"),
-                photos=[PhotoSize._parse(me=me, d=i) for i in d.get("photos")]
+                photos=[[PhotoSize._parse(None, x) for x in y] for y in d.get("photos")]
                 if d.get("photos")
                 else None,
             )
