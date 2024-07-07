@@ -7359,7 +7359,7 @@ class RefundedPayment(Type_):
         invoice_payload: "str",
         telegram_payment_charge_id: "str",
         provider_payment_charge_id: "str" = None,
-        me: tgram.TgBot = None,
+        me: "tgram.TgBot" = None,
         json: "dict" = None,
     ) -> None:
         super().__init__(me=me, json=json)
