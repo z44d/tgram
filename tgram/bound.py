@@ -517,6 +517,21 @@ class MessageB:
         return None
 
     @property
+    def link(self: "tgram.types.Message") -> Optional[str]:
+        return (
+            (
+                "https://t.me/c/{chat_id}/{msg_id}"
+                if not self.chat.username
+                else "https://t.me/{chat_id}/{msg_id}"
+            ).format(
+                chat_id=self.chat.username or str(self.chat.id).replace("-100", ""),
+                msg_id=self.id,
+            )
+            if self.chat.type != "private"
+            else None
+        )
+
+    @property
     def __reply_param(self) -> "tgram.types.ReplyParameters":
         return tgram.types.ReplyParameters(self.id)
 
