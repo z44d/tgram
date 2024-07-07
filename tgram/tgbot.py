@@ -154,7 +154,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         logger.info(
             "(%s) added to %s handlers",
             handler.callback.__name__,
-            ("Update." + handler.type if handler.type != "all") else "all",
+            ("Update." + handler.type) if handler.type != "all" else "all",
         )
         self._handlers.append(handler)
 
