@@ -72,6 +72,7 @@ migrate_from_chat_id = Filter(lambda m: getattr(m, "migrate_from_chat_id"))
 pinned_message = Filter(lambda m: getattr(m, "pinned_message"))
 invoice = Filter(lambda m: getattr(m, "invoice"))
 successful_payment = Filter(lambda m: getattr(m, "successful_payment"))
+refunded_payment = Filter(lambda m: getattr(m, "refunded_payment"))
 users_shared = Filter(lambda m: getattr(m, "users_shared"))
 chat_shared = Filter(lambda m: getattr(m, "chat_shared"))
 connected_website = Filter(lambda m: getattr(m, "connected_website"))
@@ -119,6 +120,7 @@ service = (
     | write_access_allowed
     | write_access_allowed
     | successful_payment
+    | refunded_payment
     | users_shared
     | chat_shared
     | pinned_message
