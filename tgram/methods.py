@@ -926,7 +926,7 @@ class TelegramBotMethods:
         async with session.request("GET", url=url) as response:
             if response.status != 200:
                 raise APIException("Download file", response)
-        result = await response.read()
+            result = await response.read()
         if in_memory:
             memory_file = io.BytesIO()
             memory_file.write(result)
@@ -934,9 +934,9 @@ class TelegramBotMethods:
             memory_file.name = file_path
             return memory_file
         else:
-            with open(Path(file_path), "wb") as f:
+            with open(Path(file_path.split('/')[1]), "wb") as f:
                 f.write(result)
-            return Path(file_path)
+            return Path(file_path.split('/')[1])
 
     async def get_file_url(self: "tgram.TgBot", file_id: str) -> str:
         file = await self.get_file(file_id)
