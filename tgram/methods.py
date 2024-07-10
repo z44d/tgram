@@ -920,7 +920,7 @@ class TelegramBotMethods:
         self: "tgram.TgBot", file_id: str, file_path: str = None, in_memory: bool = None
     ) -> Union[Path, io.BytesIO]:
         file = await self.get_file(file_id)
-        file_path = file_path or file.file_path.split('/')[1]
+        file_path = file_path or file.file_path.split("/")[1]
         url = self.api_url + f"file/bot{self.bot_token}/{file.file_path}"
         session = await self._get_session()
         async with session.request("GET", url=url) as response:
