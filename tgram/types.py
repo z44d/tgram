@@ -9,7 +9,7 @@ from .bound import MessageB, CallbackB, UserB
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
-        self._me = me
+        self._me = me if isinstance(self, (User, CallbackQuery, Message)) else None
         self._json = json
 
     @staticmethod
