@@ -26,6 +26,12 @@ from .types import (
     ChatInviteLink,
     ChatFullInfo,
     ChatMember,
+    ChatMemberOwner,
+    ChatMemberAdministrator,
+    ChatMemberBanned,
+    ChatMemberLeft,
+    ChatMemberRestricted,
+    ChatMemberMember,
     Sticker,
     ForumTopic,
     UserChatBoosts,
@@ -1263,7 +1269,7 @@ class TelegramBotMethods:
 
     async def get_chat_administrators(
         self: "tgram.TgBot", chat_id: Union[int, str]
-    ) -> List[ChatMember]:
+    ) -> List[Union[ChatMemberAdministrator, ChatMemberOwner]]:
         """https://core.telegram.org/bots/api/#getchatadministrators"""
         result = await self._send_request(
             "getChatAdministrators",
@@ -1283,7 +1289,14 @@ class TelegramBotMethods:
 
     async def get_chat_member(
         self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
-    ) -> ChatMember:
+    ) -> Union[
+        ChatMemberOwner,
+        ChatMemberAdministrator,
+        ChatMemberMember,
+        ChatMemberRestricted,
+        ChatMemberBanned,
+        ChatMemberLeft,
+    ]:
         """https://core.telegram.org/bots/api/#getchatmember"""
         result = await self._send_request(
             "getChatMember",

@@ -3652,31 +3652,32 @@ class ChatMemberUpdated(Type_):
 
 
 class ChatMember(Type_):
-    def __init__(
-        self,
-        status: "str",
-        user: "User",
-        is_anonymous: "bool",
-        custom_title: "str" = None,
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.status = status
-        self.user = user
-        self.is_anonymous = is_anonymous
-        self.custom_title = custom_title
-
     @staticmethod
-    def _parse(me: "tgram.TgBot" = None, d: dict = None) -> Optional["ChatMember"]:
+    def _parse(
+        me: "tgram.TgBot" = None, d: dict = None
+    ) -> Optional[
+        Union[
+            "ChatMemberOwner",
+            "ChatMemberAdministrator",
+            "ChatMemberMember",
+            "ChatMemberRestricted",
+            "ChatMemberBanned",
+            "ChatMemberLeft",
+        ]
+    ]:
         return (
-            ChatMember(
-                me=me,
-                json=d,
-                status=d.get("status"),
-                user=User._parse(me=me, d=d.get("user")),
-                is_anonymous=d.get("is_anonymous"),
-                custom_title=d.get("custom_title"),
+            (
+                ChatMemberOwner._parse(me=me, d=d)
+                if d.get("status") == "creator"
+                else ChatMemberAdministrator._parse(me=me, d=d)
+                if d.get("status") == "administrator"
+                else ChatMemberMember._parse(me=me, d=d)
+                if d.get("status") == "member"
+                else ChatMemberRestricted._parse(me=me, d=d)
+                if d.get("status") == "restricted"
+                else ChatMemberLeft._parse(me=me, d=d)
+                if d.get("status") == "left"
+                else ChatMemberBanned._parse(me=me, d=d)
             )
             if d
             else None
