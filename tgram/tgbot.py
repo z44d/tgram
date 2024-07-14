@@ -18,6 +18,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from typing import List, Any, Literal, Callable, Union
 
 from pathlib import Path
+from importlib import import_module
 
 from aiohttp.hdrs import USER_AGENT
 from aiohttp.http import SERVER_SOFTWARE
@@ -130,6 +131,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         protect_content: bool = None,
         workers: int = None,
         retry_after: Union[int, bool] = None,
+        plugins: Union[Path, str] = None,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -139,12 +141,15 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.protect_content = protect_content
         self.workers = workers or min(32, (os.cpu_count() or 0) + 4)
         self.retry_after = retry_after
+        self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
         if not api_url.endswith("/"):
             api_url += "/"
 
+        if self.plugins:
+            self.load_plugins()
         self._api_url = f"{api_url}bot{bot_token}/"
 
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
@@ -244,6 +249,14 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             raise APIException(json.dumps(response_json))
 
         return response_json
+
+    def load_plugins(self) -> None:
+        for path in sorted(self.plugins).rglob("*.py"):
+            module_path = '.'.join(path.parent.parts + (path.stem,))
+            module = import_module(module_path)
+            for name in vars(module).keys():
+                getattr(module, name)
+
 
 
 wrap(Dispatcher)
