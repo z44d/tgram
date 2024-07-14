@@ -3,9 +3,10 @@ from .handlers import Handlers
 import os
 
 from pathlib import Path
+from typing import List
 
 API_URL = "https://api.telegram.org/"
-ALL_UPDATES = [
+ALL_UPDATES: List[str] = [
     getattr(Handlers, i)
     for i in filter(lambda x: not x.startswith("_"), Handlers.__dict__)
 ]

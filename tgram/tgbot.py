@@ -11,7 +11,7 @@ import certifi
 from .methods import TelegramBotMethods
 from .decorators import Decorators
 from .errors import APIException
-from .utils import API_URL, get_file_name
+from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -148,8 +148,10 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._api_url = f"{api_url}bot{bot_token}/"
 
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
-        if (t := handler.type != "all") and t not in self.allowed_updates:
-            self.allowed_updates.append(t)
+        if handler.type == "all":
+            self.allowed_updates = ALL_UPDATES
+        elif handler.type not in self.allowed_updates:
+            self.allowed_updates.append(handler.type)
 
         logger.info(
             "(%s) added to %s handlers",
