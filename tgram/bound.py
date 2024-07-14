@@ -56,7 +56,7 @@ class MessageB:
 
     async def reply_photo(
         self: "tgram.types.Message",
-        photo: Union["tgram.types.InputFile", str],
+        photo: Union[Path, bytes, str],
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -93,14 +93,14 @@ class MessageB:
 
     async def reply_audio(
         self: "tgram.types.Message",
-        audio: Union["tgram.types.InputFile", str],
+        audio: Union[Path, bytes, str],
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         duration: int = None,
         performer: str = None,
         title: str = None,
-        thumbnail: Union["tgram.types.InputFile", str] = None,
+        thumbnail: Union[Path, bytes, str] = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -134,8 +134,8 @@ class MessageB:
 
     async def reply_document(
         self: "tgram.types.Message",
-        document: Union["tgram.types.InputFile", str],
-        thumbnail: Union["tgram.types.InputFile", str] = None,
+        document: Union[Path, bytes, str],
+        thumbnail: Union[Path, bytes, str] = None,
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -171,11 +171,11 @@ class MessageB:
 
     async def reply_video(
         self: "tgram.types.Message",
-        video: Union["tgram.types.InputFile", str],
+        video: Union[Path, bytes, str],
         duration: int = None,
         width: int = None,
         height: int = None,
-        thumbnail: Union["tgram.types.InputFile", str] = None,
+        thumbnail: Union[Path, bytes, str] = None,
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -218,11 +218,11 @@ class MessageB:
 
     async def reply_animation(
         self: "tgram.types.Message",
-        animation: Union["tgram.types.InputFile", str],
+        animation: Union[Path, bytes, str],
         duration: int = None,
         width: int = None,
         height: int = None,
-        thumbnail: Union["tgram.types.InputFile", str] = None,
+        thumbnail: Union[Path, bytes, str] = None,
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -263,7 +263,7 @@ class MessageB:
 
     async def reply_voice(
         self: "tgram.types.Message",
-        voice: Union["tgram.types.InputFile", str],
+        voice: Union[Path, bytes, str],
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -298,10 +298,10 @@ class MessageB:
 
     async def reply_video_note(
         self: "tgram.types.Message",
-        video_note: Union["tgram.types.InputFile", str],
+        video_note: Union[Path, bytes, str],
         duration: int = None,
         length: int = None,
-        thumbnail: Union["tgram.types.InputFile", str] = None,
+        thumbnail: Union[Path, bytes, str] = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
