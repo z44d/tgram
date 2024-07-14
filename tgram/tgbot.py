@@ -59,7 +59,7 @@ class Dispatcher:
         await session.close()
 
     async def _check_cancel(self: "TgBot", callback: Callable, update: Any) -> bool:
-        logger.info("Checking listener in %s func", callback.__name__)
+        logger.debug("Checking listener in %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
                 return await callback(self, update)
@@ -93,7 +93,7 @@ class Dispatcher:
     async def _process_listener(
         self: "TgBot", update: Any, callback: Callable, data: dict
     ) -> None:
-        logger.info("Processing listener to %s func", callback.__name__)
+        logger.debug("Processing listener to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
                 await callback(self, update, data)
@@ -105,7 +105,7 @@ class Dispatcher:
             logger.exception(e)
 
     async def _process_update(self: "TgBot", update: Any, callback: Callable) -> None:
-        logger.info("Processing update to %s func", callback.__name__)
+        logger.debug("Processing update to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
                 await callback(self, update)
