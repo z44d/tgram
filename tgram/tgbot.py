@@ -255,7 +255,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             module_path = '.'.join(path.parent.parts + (path.stem,))
             module = import_module(module_path)
             for name in vars(module).keys():
-                getattr(module, name)
+                print(getattr(module, name))
 
 
 
