@@ -251,12 +251,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         return response_json
 
     def load_plugins(self) -> None:
-        for path in sorted(self.plugins).rglob("*.py"):
-            module_path = '.'.join(path.parent.parts + (path.stem,))
+        for path in sorted(self.plugins.rglob("*.py")):
+            module_path = ".".join(path.parent.parts + (path.stem,))
             module = import_module(module_path)
             for name in vars(module).keys():
-                print(getattr(module, name))
+                object = getattr(module, name)
 
+                if hasattr(object, "handlers"):
+                    for handler in object.handlers:
+                        if isinstance(handler, tgram.handlers.Handler):
+                            self.add_handler(handler)
 
 
 wrap(Dispatcher)
