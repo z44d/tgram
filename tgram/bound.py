@@ -558,11 +558,11 @@ class UserB:
     def mention(
         self: "tgram.types.User",
         name: str = None,
-        parse_mode: Literal["HTML", "Markdown", "MarkdownV2"] = "HTML",
+        parse_mode: str = None,
     ) -> str:
         return (
             "[{name}](tg://user?id={id})"
-            if parse_mode.lower() != "html"
+            if (parse_mode or self._me.parse_mode).lower() != "html"
             else '<a href="tg://user?id={id}">{name}</a>'
         ).format(name=name or self.first_name, id=self.id)
 
