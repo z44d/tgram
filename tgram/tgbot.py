@@ -32,6 +32,8 @@ class Dispatcher:
     _listen_handlers: List["tgram.types.Listener"] = []
 
     async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
+        if self.plugins:
+            self.load_plugins()
         offset, allowed_updates, limit = (
             -1 if skip_updates else None,
             self.allowed_updates,
@@ -148,8 +150,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         if not api_url.endswith("/"):
             api_url += "/"
 
-        if self.plugins:
-            self.load_plugins()
         self._api_url = f"{api_url}bot{bot_token}/"
 
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
