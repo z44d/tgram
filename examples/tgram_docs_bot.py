@@ -113,7 +113,7 @@ async def on_inline(_, inline_query: types.InlineQuery):
             inline_query_id=inline_query.id,
             results=results,
             cache_time=10,
-            next_offset=str(offset + 25) if len(results) > 25 else None,
+            next_offset=str(offset + 10) if len(results) > 10 else None,
         )
 
 
