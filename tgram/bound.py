@@ -558,7 +558,7 @@ class UserB:
     def mention(
         self: "tgram.types.User",
         name: str = None,
-        parse_mode: str = None,
+        parse_mode: str = "Markdown",
     ) -> str:
         return (
             "[{name}](tg://user?id={id})"
