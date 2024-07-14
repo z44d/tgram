@@ -562,7 +562,7 @@ class UserB:
     ) -> str:
         return (
             "[{name}](tg://user?id={id})"
-            if (parse_mode or self._me.parse_mode).lower() != "html"
+            if (self._me.parse_mode or parse_mode).lower() != "html"
             else '<a href="tg://user?id={id}">{name}</a>'
         ).format(name=name or self.first_name, id=self.id)
 
