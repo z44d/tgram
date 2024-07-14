@@ -9,12 +9,12 @@
         Channel
     </a>
     •
-    <a href="https://t.me/tgbot_chat">
-        Chat
-    </a>
-    •
     <a href="https://2ei.github.io/tgram/">
         Documentation
+    </a>
+    •
+    <a href="https://github.com/2ei/tgram/tree/main/examples">
+        Examples
     </a>
 </p>
 
@@ -37,8 +37,10 @@ async def on_message(bot: TgBot, message: Message) -> Message:
 bot.run_for_updates()
 ```
 
-## TODO
+## Features
 - Smart plugins with auto-load.
+- Filters for handlers.
+- Bound methods for update types.
 
 ## Requirements
 - Python 3.8 or higher.
@@ -54,3 +56,7 @@ pip install git+https://github.com/2ei/tgram -U
 # With PyPi (Recommended)
 pip install tgram -U
 ```
+
+## Help & Support
+
+- Join our [telgeam chat](https://t.me/tgbot_chat).
