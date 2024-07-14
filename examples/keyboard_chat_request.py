@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 @bot.on_message(filters.regex("^/start$") & filters.private)
 async def on_start_message(_, m: Message) -> Message:
     return await m.reply_text(
-        "Hi, [{}](tg://user?id={})".format(m.from_user.first_name, m.from_user.id),
+        f"Hi, {m.from_user.mention}",
         reply_markup=ReplyKeyboardMarkup(
             [
                 [
