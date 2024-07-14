@@ -59,4 +59,4 @@ pip install tgram -U
 
 ## Help & Support
 
-- Join our [telgeam chat](https://t.me/tgbot_chat).
+- Join our [telegram chat](https://t.me/tgbot_chat).
