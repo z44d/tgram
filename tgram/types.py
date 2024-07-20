@@ -4,7 +4,6 @@ import logging
 from typing import List, Union, Optional, Callable
 from pathlib import Path
 from json import dumps
-
 from .bound import MessageB, CallbackB, UserB
 
 logger = logging.getLogger(__name__)
@@ -16,14 +15,13 @@ class Type_:
         self._json = json
 
     @staticmethod
-    def default(obj: "Type_"):
+    def default(obj: "Type_" = None):
         if not isinstance(obj, Type_):
             return repr(obj)
-
         return {
             "_": obj.__class__.__name__,
             **{
-                attr: (getattr(obj, attr))
+                attr: getattr(obj, attr)
                 for attr in filter(
                     lambda x: not x.startswith("_") and getattr(obj, x) is not None,
                     obj.__dict__,
@@ -45,17 +43,14 @@ class Type_:
         )
 
     @staticmethod
-    def _custom_parse(a: "Type_", b: type = None) -> type:
+    def _custom_parse(a: "Type_" = None, b: type = None) -> type:
         if b is None:
             return a
         obj = b()
         obj._me = a._me
         obj._json = a._json
         try:
-            for attr in filter(
-                lambda x: not x.startswith("_"),
-                dir(a),
-            ):
+            for attr in filter(lambda x: not x.startswith("_"), dir(a)):
                 if hasattr(type(a), attr) and (
                     callable(getattr(type(a), attr))
                     or isinstance(getattr(type(a), attr), property)
@@ -76,9 +71,9 @@ class Type_:
 class Listener(Type_):
     def __init__(
         self,
-        update_type: str,
-        next_step: Callable,
-        data: dict,
+        update_type: str = None,
+        next_step: Callable = None,
+        data: dict = None,
         cancel: Callable = None,
         filters: "tgram.filters.Filter" = None,
     ) -> None:
@@ -185,7 +180,7 @@ class Update(Type_):
 
     def __init__(
         self,
-        update_id: "int",
+        update_id: "int" = None,
         message: "Message" = None,
         edited_message: "Message" = None,
         channel_post: "Message" = None,
@@ -238,7 +233,7 @@ class Update(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Update"]:
         return (
             Update(
@@ -290,7 +285,7 @@ class Update(Type_):
                     me=me, d=d.get("removed_chat_boost")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -344,9 +339,9 @@ class WebhookInfo(Type_):
 
     def __init__(
         self,
-        url: "str",
-        has_custom_certificate: "bool",
-        pending_update_count: "int",
+        url: "str" = None,
+        has_custom_certificate: "bool" = None,
+        pending_update_count: "int" = None,
         ip_address: "str" = None,
         last_error_date: "int" = None,
         last_error_message: "str" = None,
@@ -369,7 +364,7 @@ class WebhookInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["WebhookInfo"]:
         return (
             WebhookInfo(
@@ -387,7 +382,7 @@ class WebhookInfo(Type_):
                 max_connections=d.get("max_connections"),
                 allowed_updates=d.get("allowed_updates"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -448,9 +443,9 @@ class User(Type_, UserB):
 
     def __init__(
         self,
-        id: "int",
-        is_bot: "bool",
-        first_name: "str",
+        id: "int" = None,
+        is_bot: "bool" = None,
+        first_name: "str" = None,
         last_name: "str" = None,
         username: "str" = None,
         language_code: "str" = None,
@@ -479,7 +474,7 @@ class User(Type_, UserB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["User"]:
         return (
             User(
@@ -498,7 +493,7 @@ class User(Type_, UserB):
                 supports_inline_queries=d.get("supports_inline_queries"),
                 can_connect_to_business=d.get("can_connect_to_business"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -520,8 +515,8 @@ class Chat(Type_):
 
     def __init__(
         self,
-        id: "int",
-        type: "str",
+        id: "int" = None,
+        type: "str" = None,
         title: "str" = None,
         username: "str" = None,
         first_name: "str" = None,
@@ -541,7 +536,7 @@ class Chat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Chat"]:
         return (
             Chat(
@@ -555,7 +550,7 @@ class Chat(Type_):
                 last_name=d.get("last_name"),
                 is_forum=d.get("is_forum"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -713,10 +708,10 @@ class ChatFullInfo(Type_):
 
     def __init__(
         self,
-        id: "int",
-        type: "str",
-        accent_color_id: "int",
-        max_reaction_count: "int",
+        id: "int" = None,
+        type: "str" = None,
+        accent_color_id: "int" = None,
+        max_reaction_count: "int" = None,
         title: "str" = None,
         username: "str" = None,
         first_name: "str" = None,
@@ -810,7 +805,7 @@ class ChatFullInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatFullInfo"]:
         return (
             ChatFullInfo(
@@ -876,7 +871,7 @@ class ChatFullInfo(Type_):
                 linked_chat_id=d.get("linked_chat_id"),
                 location=ChatLocation._parse(me=me, d=d.get("location")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1179,9 +1174,9 @@ class Message(Type_, MessageB):
 
     def __init__(
         self,
-        message_id: "int",
-        date: "int",
-        chat: "Chat",
+        message_id: "int" = None,
+        date: "int" = None,
+        chat: "Chat" = None,
         message_thread_id: "int" = None,
         from_user: "User" = None,
         sender_chat: "Chat" = None,
@@ -1356,7 +1351,7 @@ class Message(Type_, MessageB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Message"]:
         return (
             Message(
@@ -1373,19 +1368,15 @@ class Message(Type_, MessageB):
                 business_connection_id=d.get("business_connection_id"),
                 forward_origin=None
                 if not d.get("forward_origin")
-                else (
-                    MessageOriginUser._parse(me=me, d=d.get("forward_origin"))
-                    if d["forward_origin"].get("sender_user")
-                    else MessageOriginHiddenUser._parse(
-                        me=me, d=d.get("forward_origin")
-                    )
-                    if d["forward_origin"].get("sender_user_name")
-                    else MessageOriginChat._parse(me=me, d=d.get("forward_origin"))
-                    if d["forward_origin"].get("sender_chat")
-                    else MessageOriginChannel._parse(me=me, d=d.get("forward_origin"))
-                    if d["forward_origin"].get("author_signature")
-                    else None
-                ),
+                else MessageOriginUser._parse(me=me, d=d.get("forward_origin"))
+                if d["forward_origin"].get("sender_user")
+                else MessageOriginHiddenUser._parse(me=me, d=d.get("forward_origin"))
+                if d["forward_origin"].get("sender_user_name")
+                else MessageOriginChat._parse(me=me, d=d.get("forward_origin"))
+                if d["forward_origin"].get("sender_chat")
+                else MessageOriginChannel._parse(me=me, d=d.get("forward_origin"))
+                if d["forward_origin"].get("author_signature")
+                else None,
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
                 reply_to_message=Message._parse(me=me, d=d.get("reply_to_message")),
@@ -1522,7 +1513,7 @@ class Message(Type_, MessageB):
                     me=me, d=d.get("reply_markup")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1534,22 +1525,21 @@ class Message(Type_, MessageB):
 
 class MessageId(Type_):
     def __init__(
-        self, message_id: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        message_id: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.message_id = message_id
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageId"]:
         return (
-            MessageId(
-                me=me,
-                json=d,
-                message_id=d.get("message_id"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            MessageId(me=me, json=d, message_id=d.get("message_id"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1580,9 +1570,9 @@ class InaccessibleMessage(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        message_id: "int",
-        date: "int",
+        chat: "Chat" = None,
+        message_id: "int" = None,
+        date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -1593,7 +1583,7 @@ class InaccessibleMessage(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InaccessibleMessage"]:
         return (
             InaccessibleMessage(
@@ -1603,7 +1593,7 @@ class InaccessibleMessage(Type_):
                 message_id=d.get("message_id"),
                 date=d.get("date"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1655,9 +1645,9 @@ class MessageEntity(Type_):
 
     def __init__(
         self,
-        type: "str",
-        offset: "int",
-        length: "int",
+        type: "str" = None,
+        offset: "int" = None,
+        length: "int" = None,
         url: "str" = None,
         user: "User" = None,
         language: "str" = None,
@@ -1676,7 +1666,7 @@ class MessageEntity(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageEntity"]:
         return (
             MessageEntity(
@@ -1690,7 +1680,7 @@ class MessageEntity(Type_):
                 language=d.get("language"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1724,8 +1714,8 @@ class TextQuote(Type_):
 
     def __init__(
         self,
-        text: "str",
-        position: "int",
+        text: "str" = None,
+        position: "int" = None,
         entities: List["MessageEntity"] = None,
         is_manual: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -1739,7 +1729,7 @@ class TextQuote(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["TextQuote"]:
         return (
             TextQuote(
@@ -1752,7 +1742,7 @@ class TextQuote(Type_):
                 else None,
                 is_manual=d.get("is_manual"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1844,7 +1834,7 @@ class ExternalReplyInfo(Type_):
 
     def __init__(
         self,
-        origin: "MessageOrigin",
+        origin: "MessageOrigin" = None,
         chat: "Chat" = None,
         message_id: "int" = None,
         link_preview_options: "LinkPreviewOptions" = None,
@@ -1899,7 +1889,7 @@ class ExternalReplyInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ExternalReplyInfo"]:
         return (
             ExternalReplyInfo(
@@ -1907,17 +1897,15 @@ class ExternalReplyInfo(Type_):
                 json=d,
                 origin=None
                 if not d.get("origin")
-                else (
-                    MessageOriginUser._parse(me=me, d=d.get("origin"))
-                    if d["origin"].get("sender_user")
-                    else MessageOriginHiddenUser._parse(me=me, d=d.get("origin"))
-                    if d["origin"].get("sender_user_name")
-                    else MessageOriginChat._parse(me=me, d=d.get("origin"))
-                    if d["origin"].get("sender_chat")
-                    else MessageOriginChannel._parse(me=me, d=d.get("origin"))
-                    if d["origin"].get("author_signature")
-                    else None
-                ),
+                else MessageOriginUser._parse(me=me, d=d.get("origin"))
+                if d["origin"].get("sender_user")
+                else MessageOriginHiddenUser._parse(me=me, d=d.get("origin"))
+                if d["origin"].get("sender_user_name")
+                else MessageOriginChat._parse(me=me, d=d.get("origin"))
+                if d["origin"].get("sender_chat")
+                else MessageOriginChannel._parse(me=me, d=d.get("origin"))
+                if d["origin"].get("author_signature")
+                else None,
                 chat=Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 link_preview_options=LinkPreviewOptions._parse(
@@ -1948,7 +1936,7 @@ class ExternalReplyInfo(Type_):
                 poll=Poll._parse(me=me, d=d.get("poll")),
                 venue=Venue._parse(me=me, d=d.get("venue")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -1991,7 +1979,7 @@ class ReplyParameters(Type_):
 
     def __init__(
         self,
-        message_id: "int",
+        message_id: "int" = None,
         chat_id: Union["int", "str"] = None,
         allow_sending_without_reply: "bool" = None,
         quote: "str" = None,
@@ -2012,7 +2000,7 @@ class ReplyParameters(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReplyParameters"]:
         return (
             ReplyParameters(
@@ -2030,7 +2018,7 @@ class ReplyParameters(Type_):
                 else None,
                 quote_position=d.get("quote_position"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2058,9 +2046,9 @@ class MessageOriginUser(Type_):
 
     def __init__(
         self,
-        type: "str",
-        date: "int",
-        sender_user: "User",
+        type: "str" = None,
+        date: "int" = None,
+        sender_user: "User" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -2071,7 +2059,7 @@ class MessageOriginUser(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageOriginUser"]:
         return (
             MessageOriginUser(
@@ -2081,7 +2069,7 @@ class MessageOriginUser(Type_):
                 date=d.get("date"),
                 sender_user=User._parse(me=me, d=d.get("sender_user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2101,9 +2089,9 @@ class MessageOriginHiddenUser(Type_):
 
     def __init__(
         self,
-        type: "str",
-        date: "int",
-        sender_user_name: "str",
+        type: "str" = None,
+        date: "int" = None,
+        sender_user_name: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -2114,7 +2102,7 @@ class MessageOriginHiddenUser(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageOriginHiddenUser"]:
         return (
             MessageOriginHiddenUser(
@@ -2124,7 +2112,7 @@ class MessageOriginHiddenUser(Type_):
                 date=d.get("date"),
                 sender_user_name=d.get("sender_user_name"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2147,9 +2135,9 @@ class MessageOriginChat(Type_):
 
     def __init__(
         self,
-        type: "str",
-        date: "int",
-        sender_chat: "Chat",
+        type: "str" = None,
+        date: "int" = None,
+        sender_chat: "Chat" = None,
         author_signature: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -2162,7 +2150,7 @@ class MessageOriginChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageOriginChat"]:
         return (
             MessageOriginChat(
@@ -2173,7 +2161,7 @@ class MessageOriginChat(Type_):
                 sender_chat=Chat._parse(me=me, d=d.get("sender_chat")),
                 author_signature=d.get("author_signature"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2199,10 +2187,10 @@ class MessageOriginChannel(Type_):
 
     def __init__(
         self,
-        type: "str",
-        date: "int",
-        chat: "Chat",
-        message_id: "int",
+        type: "str" = None,
+        date: "int" = None,
+        chat: "Chat" = None,
+        message_id: "int" = None,
         author_signature: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -2216,7 +2204,7 @@ class MessageOriginChannel(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageOriginChannel"]:
         return (
             MessageOriginChannel(
@@ -2228,7 +2216,7 @@ class MessageOriginChannel(Type_):
                 message_id=d.get("message_id"),
                 author_signature=d.get("author_signature"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2266,10 +2254,10 @@ class PhotoSize(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        width: "int",
-        height: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        width: "int" = None,
+        height: "int" = None,
         file_size: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -2283,7 +2271,7 @@ class PhotoSize(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PhotoSize"]:
         return (
             PhotoSize(
@@ -2295,7 +2283,7 @@ class PhotoSize(Type_):
                 height=d.get("height"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2347,11 +2335,11 @@ class Animation(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        width: "int",
-        height: "int",
-        duration: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        width: "int" = None,
+        height: "int" = None,
+        duration: "int" = None,
         thumbnail: "PhotoSize" = None,
         file_name: "str" = None,
         mime_type: "str" = None,
@@ -2372,7 +2360,7 @@ class Animation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Animation"]:
         return (
             Animation(
@@ -2388,7 +2376,7 @@ class Animation(Type_):
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2440,9 +2428,9 @@ class Audio(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        duration: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        duration: "int" = None,
         performer: "str" = None,
         title: "str" = None,
         file_name: "str" = None,
@@ -2465,7 +2453,7 @@ class Audio(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Audio"]:
         return (
             Audio(
@@ -2481,7 +2469,7 @@ class Audio(Type_):
                 file_size=d.get("file_size"),
                 thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2524,8 +2512,8 @@ class Document(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
         thumbnail: "PhotoSize" = None,
         file_name: "str" = None,
         mime_type: "str" = None,
@@ -2543,7 +2531,7 @@ class Document(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Document"]:
         return (
             Document(
@@ -2556,7 +2544,7 @@ class Document(Type_):
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2583,7 +2571,11 @@ class Story(Type_):
     """
 
     def __init__(
-        self, chat: "Chat", id: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        chat: "Chat" = None,
+        id: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.chat = chat
@@ -2591,16 +2583,13 @@ class Story(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Story"]:
         return (
             Story(
-                me=me,
-                json=d,
-                chat=Chat._parse(me=me, d=d.get("chat")),
-                id=d.get("id"),
+                me=me, json=d, chat=Chat._parse(me=me, d=d.get("chat")), id=d.get("id")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2652,11 +2641,11 @@ class Video(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        width: "int",
-        height: "int",
-        duration: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        width: "int" = None,
+        height: "int" = None,
+        duration: "int" = None,
         thumbnail: "PhotoSize" = None,
         file_name: "str" = None,
         mime_type: "str" = None,
@@ -2677,7 +2666,7 @@ class Video(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Video"]:
         return (
             Video(
@@ -2693,7 +2682,7 @@ class Video(Type_):
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2734,10 +2723,10 @@ class VideoNote(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        length: "int",
-        duration: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        length: "int" = None,
+        duration: "int" = None,
         thumbnail: "PhotoSize" = None,
         file_size: "int" = None,
         me: "tgram.TgBot" = None,
@@ -2753,7 +2742,7 @@ class VideoNote(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["VideoNote"]:
         return (
             VideoNote(
@@ -2766,7 +2755,7 @@ class VideoNote(Type_):
                 thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2806,9 +2795,9 @@ class Voice(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        duration: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        duration: "int" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
         me: "tgram.TgBot" = None,
@@ -2823,7 +2812,7 @@ class Voice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Voice"]:
         return (
             Voice(
@@ -2835,7 +2824,7 @@ class Voice(Type_):
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2874,8 +2863,8 @@ class Contact(Type_):
 
     def __init__(
         self,
-        phone_number: "str",
-        first_name: "str",
+        phone_number: "str" = None,
+        first_name: "str" = None,
         last_name: "str" = None,
         user_id: "int" = None,
         vcard: "str" = None,
@@ -2891,7 +2880,7 @@ class Contact(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Contact"]:
         return (
             Contact(
@@ -2903,7 +2892,7 @@ class Contact(Type_):
                 user_id=d.get("user_id"),
                 vcard=d.get("vcard"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2930,7 +2919,11 @@ class Dice(Type_):
     """
 
     def __init__(
-        self, emoji: "str", value: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        emoji: "str" = None,
+        value: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.emoji = emoji
@@ -2938,16 +2931,11 @@ class Dice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Dice"]:
         return (
-            Dice(
-                me=me,
-                json=d,
-                emoji=d.get("emoji"),
-                value=d.get("value"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            Dice(me=me, json=d, emoji=d.get("emoji"), value=d.get("value"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -2978,8 +2966,8 @@ class PollOption(Type_):
 
     def __init__(
         self,
-        text: "str",
-        voter_count: "int",
+        text: "str" = None,
+        voter_count: "int" = None,
         text_entities: List["MessageEntity"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -2991,7 +2979,7 @@ class PollOption(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PollOption"]:
         return (
             PollOption(
@@ -3005,7 +2993,7 @@ class PollOption(Type_):
                 if d.get("text_entities")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3036,7 +3024,7 @@ class InputPollOption(Type_):
 
     def __init__(
         self,
-        text: "str",
+        text: "str" = None,
         text_parse_mode: "str" = None,
         text_entities: List["MessageEntity"] = None,
         me: "tgram.TgBot" = None,
@@ -3049,7 +3037,7 @@ class InputPollOption(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputPollOption"]:
         return (
             InputPollOption(
@@ -3063,7 +3051,7 @@ class InputPollOption(Type_):
                 if d.get("text_entities")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3098,8 +3086,8 @@ class PollAnswer(Type_):
 
     def __init__(
         self,
-        poll_id: "str",
-        option_ids: List["int"],
+        poll_id: "str" = None,
+        option_ids: List["int"] = None,
         voter_chat: "Chat" = None,
         user: "User" = None,
         me: "tgram.TgBot" = None,
@@ -3113,7 +3101,7 @@ class PollAnswer(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PollAnswer"]:
         return (
             PollAnswer(
@@ -3124,7 +3112,7 @@ class PollAnswer(Type_):
                 voter_chat=Chat._parse(me=me, d=d.get("voter_chat")),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3188,14 +3176,14 @@ class Poll(Type_):
 
     def __init__(
         self,
-        id: "str",
-        question: "str",
-        options: List["PollOption"],
-        total_voter_count: "int",
-        is_closed: "bool",
-        is_anonymous: "bool",
-        type: "str",
-        allows_multiple_answers: "bool",
+        id: "str" = None,
+        question: "str" = None,
+        options: List["PollOption"] = None,
+        total_voter_count: "int" = None,
+        is_closed: "bool" = None,
+        is_anonymous: "bool" = None,
+        type: "str" = None,
+        allows_multiple_answers: "bool" = None,
         question_entities: List["MessageEntity"] = None,
         correct_option_id: "int" = None,
         explanation: "str" = None,
@@ -3223,7 +3211,7 @@ class Poll(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Poll"]:
         return (
             Poll(
@@ -3255,7 +3243,7 @@ class Poll(Type_):
                 open_period=d.get("open_period"),
                 close_date=d.get("close_date"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3297,8 +3285,8 @@ class Location(Type_):
 
     def __init__(
         self,
-        latitude: "float",
-        longitude: "float",
+        latitude: "float" = None,
+        longitude: "float" = None,
         horizontal_accuracy: "float" = None,
         live_period: "int" = None,
         heading: "int" = None,
@@ -3316,7 +3304,7 @@ class Location(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Location"]:
         return (
             Location(
@@ -3329,7 +3317,7 @@ class Location(Type_):
                 heading=d.get("heading"),
                 proximity_alert_radius=d.get("proximity_alert_radius"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3373,9 +3361,9 @@ class Venue(Type_):
 
     def __init__(
         self,
-        location: "Location",
-        title: "str",
-        address: "str",
+        location: "Location" = None,
+        title: "str" = None,
+        address: "str" = None,
         foursquare_id: "str" = None,
         foursquare_type: "str" = None,
         google_place_id: "str" = None,
@@ -3394,7 +3382,7 @@ class Venue(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Venue"]:
         return (
             Venue(
@@ -3408,7 +3396,7 @@ class Venue(Type_):
                 google_place_id=d.get("google_place_id"),
                 google_place_type=d.get("google_place_type"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3437,8 +3425,8 @@ class WebAppData(Type_):
 
     def __init__(
         self,
-        data: "str",
-        button_text: "str",
+        data: "str" = None,
+        button_text: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3448,16 +3436,13 @@ class WebAppData(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["WebAppData"]:
         return (
             WebAppData(
-                me=me,
-                json=d,
-                data=d.get("data"),
-                button_text=d.get("button_text"),
+                me=me, json=d, data=d.get("data"), button_text=d.get("button_text")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3488,9 +3473,9 @@ class ProximityAlertTriggered(Type_):
 
     def __init__(
         self,
-        traveler: "User",
-        watcher: "User",
-        distance: "int",
+        traveler: "User" = None,
+        watcher: "User" = None,
+        distance: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3501,7 +3486,7 @@ class ProximityAlertTriggered(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ProximityAlertTriggered"]:
         return (
             ProximityAlertTriggered(
@@ -3511,7 +3496,7 @@ class ProximityAlertTriggered(Type_):
                 watcher=User._parse(me=me, d=d.get("watcher")),
                 distance=d.get("distance"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3536,7 +3521,7 @@ class MessageAutoDeleteTimerChanged(Type_):
 
     def __init__(
         self,
-        message_auto_delete_time: "int",
+        message_auto_delete_time: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3545,7 +3530,7 @@ class MessageAutoDeleteTimerChanged(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageAutoDeleteTimerChanged"]:
         return (
             MessageAutoDeleteTimerChanged(
@@ -3553,7 +3538,7 @@ class MessageAutoDeleteTimerChanged(Type_):
                 json=d,
                 message_auto_delete_time=d.get("message_auto_delete_time"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3577,22 +3562,21 @@ class ChatBoostAdded(Type_):
     """
 
     def __init__(
-        self, boost_count: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        boost_count: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.boost_count = boost_count
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostAdded"]:
         return (
-            ChatBoostAdded(
-                me=me,
-                json=d,
-                boost_count=d.get("boost_count"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            ChatBoostAdded(me=me, json=d, boost_count=d.get("boost_count"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3616,7 +3600,11 @@ class BackgroundFill(Type_):
     """
 
     def __init__(
-        self, type: "str", color: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        type: "str" = None,
+        color: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -3624,16 +3612,11 @@ class BackgroundFill(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundFill"]:
         return (
-            BackgroundFill(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                color=d.get("color"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BackgroundFill(me=me, json=d, type=d.get("type"), color=d.get("color"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3660,7 +3643,11 @@ class BackgroundFillSolid(Type_):
     """
 
     def __init__(
-        self, type: "str", color: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        type: "str" = None,
+        color: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -3668,16 +3655,11 @@ class BackgroundFillSolid(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundFillSolid"]:
         return (
-            BackgroundFillSolid(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                color=d.get("color"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BackgroundFillSolid(me=me, json=d, type=d.get("type"), color=d.get("color"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3711,10 +3693,10 @@ class BackgroundFillGradient(Type_):
 
     def __init__(
         self,
-        type: "str",
-        top_color: "int",
-        bottom_color: "int",
-        rotation_angle: "int",
+        type: "str" = None,
+        top_color: "int" = None,
+        bottom_color: "int" = None,
+        rotation_angle: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3726,7 +3708,7 @@ class BackgroundFillGradient(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundFillGradient"]:
         return (
             BackgroundFillGradient(
@@ -3737,7 +3719,7 @@ class BackgroundFillGradient(Type_):
                 bottom_color=d.get("bottom_color"),
                 rotation_angle=d.get("rotation_angle"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3765,8 +3747,8 @@ class BackgroundFillFreeformGradient(Type_):
 
     def __init__(
         self,
-        type: "str",
-        colors: List["int"],
+        type: "str" = None,
+        colors: List["int"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3776,16 +3758,13 @@ class BackgroundFillFreeformGradient(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundFillFreeformGradient"]:
         return (
             BackgroundFillFreeformGradient(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                colors=d.get("colors"),
+                me=me, json=d, type=d.get("type"), colors=d.get("colors")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3811,9 +3790,9 @@ class BackgroundType(Type_):
 
     def __init__(
         self,
-        type: "str",
-        fill: "BackgroundFill",
-        dark_theme_dimming: "int",
+        type: "str" = None,
+        fill: "BackgroundFill" = None,
+        dark_theme_dimming: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3824,7 +3803,7 @@ class BackgroundType(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundType"]:
         return (
             BackgroundType(
@@ -3834,7 +3813,7 @@ class BackgroundType(Type_):
                 fill=BackgroundFill._parse(me=me, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3865,9 +3844,9 @@ class BackgroundTypeFill(Type_):
 
     def __init__(
         self,
-        type: "str",
-        fill: "BackgroundFill",
-        dark_theme_dimming: "int",
+        type: "str" = None,
+        fill: "BackgroundFill" = None,
+        dark_theme_dimming: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -3878,7 +3857,7 @@ class BackgroundTypeFill(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundTypeFill"]:
         return (
             BackgroundTypeFill(
@@ -3888,7 +3867,7 @@ class BackgroundTypeFill(Type_):
                 fill=BackgroundFill._parse(me=me, d=d.get("fill")),
                 dark_theme_dimming=d.get("dark_theme_dimming"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3925,9 +3904,9 @@ class BackgroundTypeWallpaper(Type_):
 
     def __init__(
         self,
-        type: "str",
-        document: "Document",
-        dark_theme_dimming: "int",
+        type: "str" = None,
+        document: "Document" = None,
+        dark_theme_dimming: "int" = None,
         is_blurred: "bool" = None,
         is_moving: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -3942,7 +3921,7 @@ class BackgroundTypeWallpaper(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundTypeWallpaper"]:
         return (
             BackgroundTypeWallpaper(
@@ -3954,7 +3933,7 @@ class BackgroundTypeWallpaper(Type_):
                 is_blurred=d.get("is_blurred"),
                 is_moving=d.get("is_moving"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -3994,10 +3973,10 @@ class BackgroundTypePattern(Type_):
 
     def __init__(
         self,
-        type: "str",
-        document: "Document",
-        fill: "BackgroundFill",
-        intensity: "int",
+        type: "str" = None,
+        document: "Document" = None,
+        fill: "BackgroundFill" = None,
+        intensity: "int" = None,
         is_inverted: "bool" = None,
         is_moving: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -4013,7 +3992,7 @@ class BackgroundTypePattern(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundTypePattern"]:
         return (
             BackgroundTypePattern(
@@ -4026,7 +4005,7 @@ class BackgroundTypePattern(Type_):
                 is_inverted=d.get("is_inverted"),
                 is_moving=d.get("is_moving"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4054,8 +4033,8 @@ class BackgroundTypeChatTheme(Type_):
 
     def __init__(
         self,
-        type: "str",
-        theme_name: "str",
+        type: "str" = None,
+        theme_name: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -4065,16 +4044,13 @@ class BackgroundTypeChatTheme(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BackgroundTypeChatTheme"]:
         return (
             BackgroundTypeChatTheme(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                theme_name=d.get("theme_name"),
+                me=me, json=d, type=d.get("type"), theme_name=d.get("theme_name")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4098,22 +4074,23 @@ class ChatBackground(Type_):
     """
 
     def __init__(
-        self, type: "BackgroundType", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        type: "BackgroundType" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBackground"]:
         return (
             ChatBackground(
-                me=me,
-                json=d,
-                type=BackgroundType._parse(me=me, d=d.get("type")),
+                me=me, json=d, type=BackgroundType._parse(me=me, d=d.get("type"))
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4144,8 +4121,8 @@ class ForumTopicCreated(Type_):
 
     def __init__(
         self,
-        name: "str",
-        icon_color: "int",
+        name: "str" = None,
+        icon_color: "int" = None,
         icon_custom_emoji_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -4157,7 +4134,7 @@ class ForumTopicCreated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForumTopicCreated"]:
         return (
             ForumTopicCreated(
@@ -4167,7 +4144,7 @@ class ForumTopicCreated(Type_):
                 icon_color=d.get("icon_color"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4197,7 +4174,7 @@ class ForumTopicClosed(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForumTopicClosed"]:
         return (
             ForumTopicClosed(
@@ -4206,7 +4183,7 @@ class ForumTopicClosed(Type_):
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4243,7 +4220,7 @@ class ForumTopicEdited(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForumTopicEdited"]:
         return (
             ForumTopicEdited(
@@ -4252,7 +4229,7 @@ class ForumTopicEdited(Type_):
                 name=d.get("name"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4271,7 +4248,7 @@ class ForumTopicReopened(Type_):
 
     def __init__(
         self,
-        user_id: "int",
+        user_id: "int" = None,
         first_name: "str" = None,
         last_name: "str" = None,
         username: "str" = None,
@@ -4288,7 +4265,7 @@ class ForumTopicReopened(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForumTopicReopened"]:
         return (
             ForumTopicReopened(
@@ -4302,7 +4279,7 @@ class ForumTopicReopened(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4322,7 +4299,7 @@ class GeneralForumTopicHidden(Type_):
 
     def __init__(
         self,
-        user_id: "int",
+        user_id: "int" = None,
         first_name: "str" = None,
         last_name: "str" = None,
         username: "str" = None,
@@ -4339,7 +4316,7 @@ class GeneralForumTopicHidden(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GeneralForumTopicHidden"]:
         return (
             GeneralForumTopicHidden(
@@ -4353,7 +4330,7 @@ class GeneralForumTopicHidden(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4373,7 +4350,7 @@ class GeneralForumTopicUnhidden(Type_):
 
     def __init__(
         self,
-        user_id: "int",
+        user_id: "int" = None,
         first_name: "str" = None,
         last_name: "str" = None,
         username: "str" = None,
@@ -4390,7 +4367,7 @@ class GeneralForumTopicUnhidden(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GeneralForumTopicUnhidden"]:
         return (
             GeneralForumTopicUnhidden(
@@ -4404,7 +4381,7 @@ class GeneralForumTopicUnhidden(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4441,7 +4418,7 @@ class SharedUser(Type_):
 
     def __init__(
         self,
-        user_id: "int",
+        user_id: "int" = None,
         first_name: "str" = None,
         last_name: "str" = None,
         username: "str" = None,
@@ -4458,7 +4435,7 @@ class SharedUser(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["SharedUser"]:
         return (
             SharedUser(
@@ -4472,7 +4449,7 @@ class SharedUser(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4501,8 +4478,8 @@ class UsersShared(Type_):
 
     def __init__(
         self,
-        request_id: "int",
-        users: List["SharedUser"],
+        request_id: "int" = None,
+        users: List["SharedUser"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -4512,7 +4489,7 @@ class UsersShared(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["UsersShared"]:
         return (
             UsersShared(
@@ -4523,7 +4500,7 @@ class UsersShared(Type_):
                 if d.get("users")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4564,8 +4541,8 @@ class ChatShared(Type_):
 
     def __init__(
         self,
-        request_id: "int",
-        chat_id: "int",
+        request_id: "int" = None,
+        chat_id: "int" = None,
         title: "str" = None,
         username: "str" = None,
         photo: List["PhotoSize"] = None,
@@ -4581,7 +4558,7 @@ class ChatShared(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatShared"]:
         return (
             ChatShared(
@@ -4595,7 +4572,7 @@ class ChatShared(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4639,7 +4616,7 @@ class WriteAccessAllowed(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["WriteAccessAllowed"]:
         return (
             WriteAccessAllowed(
@@ -4649,7 +4626,7 @@ class WriteAccessAllowed(Type_):
                 web_app_name=d.get("web_app_name"),
                 from_attachment_menu=d.get("from_attachment_menu"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4674,22 +4651,21 @@ class VideoChatScheduled(Type_):
     """
 
     def __init__(
-        self, start_date: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        start_date: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.start_date = start_date
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["VideoChatScheduled"]:
         return (
-            VideoChatScheduled(
-                me=me,
-                json=d,
-                start_date=d.get("start_date"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            VideoChatScheduled(me=me, json=d, start_date=d.get("start_date"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4704,21 +4680,19 @@ class VideoChatStarted(Type_):
     This object represents a service message about a video chat started in the chat. Currently holds no information.
     """
 
-    def __init__(self, duration: "int", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, duration: "int" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.duration = duration
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["VideoChatStarted"]:
         return (
-            VideoChatStarted(
-                me=me,
-                json=d,
-                duration=d.get("duration"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            VideoChatStarted(me=me, json=d, duration=d.get("duration"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4741,21 +4715,19 @@ class VideoChatEnded(Type_):
     :rtype: :class:`tgram.types.VideoChatEnded`
     """
 
-    def __init__(self, duration: "int", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, duration: "int" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.duration = duration
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["VideoChatEnded"]:
         return (
-            VideoChatEnded(
-                me=me,
-                json=d,
-                duration=d.get("duration"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            VideoChatEnded(me=me, json=d, duration=d.get("duration"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4779,14 +4751,17 @@ class VideoChatParticipantsInvited(Type_):
     """
 
     def __init__(
-        self, users: List["User"], me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        users: List["User"] = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.users = users
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["VideoChatParticipantsInvited"]:
         return (
             VideoChatParticipantsInvited(
@@ -4796,7 +4771,7 @@ class VideoChatParticipantsInvited(Type_):
                 if d.get("users")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4813,9 +4788,9 @@ class GiveawayCreated(Type_):
 
     def __init__(
         self,
-        chats: List["Chat"],
-        winners_selection_date: "int",
-        winner_count: "int",
+        chats: List["Chat"] = None,
+        winners_selection_date: "int" = None,
+        winner_count: "int" = None,
         only_new_members: "bool" = None,
         has_public_winners: "bool" = None,
         prize_description: "str" = None,
@@ -4836,7 +4811,7 @@ class GiveawayCreated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GiveawayCreated"]:
         return (
             GiveawayCreated(
@@ -4855,7 +4830,7 @@ class GiveawayCreated(Type_):
                     "premium_subscription_month_count"
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4901,9 +4876,9 @@ class Giveaway(Type_):
 
     def __init__(
         self,
-        chats: List["Chat"],
-        winners_selection_date: "int",
-        winner_count: "int",
+        chats: List["Chat"] = None,
+        winners_selection_date: "int" = None,
+        winner_count: "int" = None,
         only_new_members: "bool" = None,
         has_public_winners: "bool" = None,
         prize_description: "str" = None,
@@ -4924,7 +4899,7 @@ class Giveaway(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Giveaway"]:
         return (
             Giveaway(
@@ -4943,7 +4918,7 @@ class Giveaway(Type_):
                     "premium_subscription_month_count"
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -4998,11 +4973,11 @@ class GiveawayWinners(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        giveaway_message_id: "int",
-        winners_selection_date: "int",
-        winner_count: "int",
-        winners: List["User"],
+        chat: "Chat" = None,
+        giveaway_message_id: "int" = None,
+        winners_selection_date: "int" = None,
+        winner_count: "int" = None,
+        winners: List["User"] = None,
         additional_chat_count: "int" = None,
         premium_subscription_month_count: "int" = None,
         unclaimed_prize_count: "int" = None,
@@ -5027,7 +5002,7 @@ class GiveawayWinners(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GiveawayWinners"]:
         return (
             GiveawayWinners(
@@ -5049,7 +5024,7 @@ class GiveawayWinners(Type_):
                 was_refunded=d.get("was_refunded"),
                 prize_description=d.get("prize_description"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5080,7 +5055,7 @@ class GiveawayCompleted(Type_):
 
     def __init__(
         self,
-        winner_count: "int",
+        winner_count: "int" = None,
         unclaimed_prize_count: "int" = None,
         giveaway_message: "Message" = None,
         me: "tgram.TgBot" = None,
@@ -5093,7 +5068,7 @@ class GiveawayCompleted(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GiveawayCompleted"]:
         return (
             GiveawayCompleted(
@@ -5103,7 +5078,7 @@ class GiveawayCompleted(Type_):
                 unclaimed_prize_count=d.get("unclaimed_prize_count"),
                 giveaway_message=Message._parse(me=me, d=d.get("giveaway_message")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5157,7 +5132,7 @@ class LinkPreviewOptions(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["LinkPreviewOptions"]:
         return (
             LinkPreviewOptions(
@@ -5169,7 +5144,7 @@ class LinkPreviewOptions(Type_):
                 prefer_large_media=d.get("prefer_large_media"),
                 show_above_text=d.get("show_above_text"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5197,8 +5172,8 @@ class UserProfilePhotos(Type_):
 
     def __init__(
         self,
-        total_count: "int",
-        photos: List[List["PhotoSize"]],
+        total_count: "int" = None,
+        photos: List[List["PhotoSize"]] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -5208,18 +5183,18 @@ class UserProfilePhotos(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["UserProfilePhotos"]:
         return (
             UserProfilePhotos(
                 me=me,
                 json=d,
                 total_count=d.get("total_count"),
-                photos=[[PhotoSize._parse(None, x) for x in y] for y in d.get("photos")]
+                photos=[[PhotoSize._parse(me, x) for x in y] for y in d.get("photos")]
                 if d.get("photos")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5257,8 +5232,8 @@ class File(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
         file_size: "int" = None,
         file_path: "str" = None,
         me: "tgram.TgBot" = None,
@@ -5272,7 +5247,7 @@ class File(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["File"]:
         return (
             File(
@@ -5283,7 +5258,7 @@ class File(Type_):
                 file_size=d.get("file_size"),
                 file_path=d.get("file_path"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5306,21 +5281,19 @@ class WebAppInfo(Type_):
     :rtype: :class:`tgram.types.WebAppInfo`
     """
 
-    def __init__(self, url: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, url: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.url = url
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["WebAppInfo"]:
         return (
-            WebAppInfo(
-                me=me,
-                json=d,
-                url=d.get("url"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            WebAppInfo(me=me, json=d, url=d.get("url"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5387,7 +5360,7 @@ class ReplyKeyboardMarkup(Type_):
 
     def __init__(
         self,
-        keyboard: List[List["KeyboardButton"]],
+        keyboard: List[List["KeyboardButton"]] = None,
         is_persistent: "bool" = None,
         resize_keyboard: "bool" = None,
         one_time_keyboard: "bool" = None,
@@ -5406,7 +5379,7 @@ class ReplyKeyboardMarkup(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReplyKeyboardMarkup"]:
         return (
             ReplyKeyboardMarkup(
@@ -5424,7 +5397,7 @@ class ReplyKeyboardMarkup(Type_):
                 input_field_placeholder=d.get("input_field_placeholder"),
                 selective=d.get("selective"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5477,7 +5450,7 @@ class KeyboardButton(Type_):
 
     def __init__(
         self,
-        text: "str",
+        text: "str" = None,
         request_users: "KeyboardButtonRequestUsers" = None,
         request_chat: "KeyboardButtonRequestChat" = None,
         request_contact: "bool" = None,
@@ -5498,7 +5471,7 @@ class KeyboardButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["KeyboardButton"]:
         return (
             KeyboardButton(
@@ -5518,7 +5491,7 @@ class KeyboardButton(Type_):
                 ),
                 web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5585,7 +5558,7 @@ class KeyboardButtonRequestUsers(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["KeyboardButtonRequestUsers"]:
         return (
             KeyboardButtonRequestUsers(
@@ -5598,7 +5571,7 @@ class KeyboardButtonRequestUsers(Type_):
                 request_username=d.get("request_username"),
                 request_photo=d.get("request_photo"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5659,7 +5632,7 @@ class KeyboardButtonRequestChat(Type_):
 
     def __init__(
         self,
-        chat_is_channel: "bool",
+        chat_is_channel: "bool" = None,
         chat_is_forum: "bool" = None,
         chat_has_username: "bool" = None,
         chat_is_created: "bool" = None,
@@ -5687,7 +5660,7 @@ class KeyboardButtonRequestChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["KeyboardButtonRequestChat"]:
         return (
             KeyboardButtonRequestChat(
@@ -5708,7 +5681,7 @@ class KeyboardButtonRequestChat(Type_):
                 request_username=d.get("request_username"),
                 request_photo=d.get("request_photo"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5739,15 +5712,11 @@ class KeyboardButtonPollType(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["KeyboardButtonPollType"]:
         return (
-            KeyboardButtonPollType(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            KeyboardButtonPollType(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5782,7 +5751,7 @@ class ReplyKeyboardRemove(Type_):
 
     def __init__(
         self,
-        remove_keyboard: "bool",
+        remove_keyboard: "bool" = None,
         selective: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -5793,7 +5762,7 @@ class ReplyKeyboardRemove(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReplyKeyboardRemove"]:
         return (
             ReplyKeyboardRemove(
@@ -5802,7 +5771,7 @@ class ReplyKeyboardRemove(Type_):
                 remove_keyboard=d.get("remove_keyboard"),
                 selective=d.get("selective"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5831,7 +5800,7 @@ class InlineKeyboardMarkup(Type_):
 
     def __init__(
         self,
-        inline_keyboard: List[List["InlineKeyboardButton"]],
+        inline_keyboard: List[List["InlineKeyboardButton"]] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -5840,7 +5809,7 @@ class InlineKeyboardMarkup(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineKeyboardMarkup"]:
         return (
             InlineKeyboardMarkup(
@@ -5853,7 +5822,7 @@ class InlineKeyboardMarkup(Type_):
                 if d.get("inline_keyboard")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -5919,7 +5888,7 @@ class InlineKeyboardButton(Type_):
 
     def __init__(
         self,
-        text: "str",
+        text: "str" = None,
         url: "str" = None,
         callback_data: "str" = None,
         web_app: "WebAppInfo" = None,
@@ -5946,7 +5915,7 @@ class InlineKeyboardButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineKeyboardButton"]:
         return (
             InlineKeyboardButton(
@@ -5967,7 +5936,7 @@ class InlineKeyboardButton(Type_):
                 callback_game=CallbackGame._parse(me=me, d=d.get("callback_game")),
                 pay=d.get("pay"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6008,7 +5977,7 @@ class LoginUrl(Type_):
 
     def __init__(
         self,
-        url: "str",
+        url: "str" = None,
         forward_text: "str" = None,
         bot_username: "str" = None,
         request_write_access: "bool" = None,
@@ -6023,7 +5992,7 @@ class LoginUrl(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["LoginUrl"]:
         return (
             LoginUrl(
@@ -6034,7 +6003,7 @@ class LoginUrl(Type_):
                 bot_username=d.get("bot_username"),
                 request_write_access=d.get("request_write_access"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6090,7 +6059,7 @@ class SwitchInlineQueryChosenChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["SwitchInlineQueryChosenChat"]:
         return (
             SwitchInlineQueryChosenChat(
@@ -6102,7 +6071,7 @@ class SwitchInlineQueryChosenChat(Type_):
                 allow_group_chats=d.get("allow_group_chats"),
                 allow_channel_chats=d.get("allow_channel_chats"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6148,9 +6117,9 @@ class CallbackQuery(Type_, CallbackB):
 
     def __init__(
         self,
-        id: "str",
-        from_user: "User",
-        chat_instance: "str",
+        id: "str" = None,
+        from_user: "User" = None,
+        chat_instance: "str" = None,
         message: "Message" = None,
         inline_message_id: "str" = None,
         data: "str" = None,
@@ -6169,7 +6138,7 @@ class CallbackQuery(Type_, CallbackB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["CallbackQuery"]:
         return (
             CallbackQuery(
@@ -6183,7 +6152,7 @@ class CallbackQuery(Type_, CallbackB):
                 data=d.get("data"),
                 game_short_name=d.get("game_short_name"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6218,7 +6187,7 @@ class ForceReply(Type_):
 
     def __init__(
         self,
-        force_reply: "bool",
+        force_reply: "bool" = None,
         input_field_placeholder: "str" = None,
         selective: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -6231,7 +6200,7 @@ class ForceReply(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForceReply"]:
         return (
             ForceReply(
@@ -6241,7 +6210,7 @@ class ForceReply(Type_):
                 input_field_placeholder=d.get("input_field_placeholder"),
                 selective=d.get("selective"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6279,10 +6248,10 @@ class ChatPhoto(Type_):
 
     def __init__(
         self,
-        small_file_id: "str",
-        small_file_unique_id: "str",
-        big_file_id: "str",
-        big_file_unique_id: "str",
+        small_file_id: "str" = None,
+        small_file_unique_id: "str" = None,
+        big_file_id: "str" = None,
+        big_file_unique_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -6294,7 +6263,7 @@ class ChatPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatPhoto"]:
         return (
             ChatPhoto(
@@ -6305,7 +6274,7 @@ class ChatPhoto(Type_):
                 big_file_id=d.get("big_file_id"),
                 big_file_unique_id=d.get("big_file_unique_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6356,11 +6325,11 @@ class ChatInviteLink(Type_):
 
     def __init__(
         self,
-        invite_link: "str",
-        creator: "User",
-        creates_join_request: "bool",
-        is_primary: "bool",
-        is_revoked: "bool",
+        invite_link: "str" = None,
+        creator: "User" = None,
+        creates_join_request: "bool" = None,
+        is_primary: "bool" = None,
+        is_revoked: "bool" = None,
         name: "str" = None,
         expire_date: "int" = None,
         member_limit: "int" = None,
@@ -6381,7 +6350,7 @@ class ChatInviteLink(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatInviteLink"]:
         return (
             ChatInviteLink(
@@ -6397,7 +6366,7 @@ class ChatInviteLink(Type_):
                 member_limit=d.get("member_limit"),
                 pending_join_request_count=d.get("pending_join_request_count"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6469,17 +6438,17 @@ class ChatAdministratorRights(Type_):
 
     def __init__(
         self,
-        is_anonymous: "bool",
-        can_manage_chat: "bool",
-        can_delete_messages: "bool",
-        can_manage_video_chats: "bool",
-        can_restrict_members: "bool",
-        can_promote_members: "bool",
-        can_change_info: "bool",
-        can_invite_users: "bool",
-        can_post_stories: "bool",
-        can_edit_stories: "bool",
-        can_delete_stories: "bool",
+        is_anonymous: "bool" = None,
+        can_manage_chat: "bool" = None,
+        can_delete_messages: "bool" = None,
+        can_manage_video_chats: "bool" = None,
+        can_restrict_members: "bool" = None,
+        can_promote_members: "bool" = None,
+        can_change_info: "bool" = None,
+        can_invite_users: "bool" = None,
+        can_post_stories: "bool" = None,
+        can_edit_stories: "bool" = None,
+        can_delete_stories: "bool" = None,
         can_post_messages: "bool" = None,
         can_edit_messages: "bool" = None,
         can_pin_messages: "bool" = None,
@@ -6506,7 +6475,7 @@ class ChatAdministratorRights(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatAdministratorRights"]:
         return (
             ChatAdministratorRights(
@@ -6528,7 +6497,7 @@ class ChatAdministratorRights(Type_):
                 can_pin_messages=d.get("can_pin_messages"),
                 can_manage_topics=d.get("can_manage_topics"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6575,9 +6544,9 @@ class ChatMemberUpdated(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        from_user: "User",
-        date: "int",
+        chat: "Chat" = None,
+        from_user: "User" = None,
+        date: "int" = None,
         old_chat_member: Union[
             "ChatMemberOwner",
             "ChatMemberAdministrator",
@@ -6585,7 +6554,7 @@ class ChatMemberUpdated(Type_):
             "ChatMemberRestricted",
             "ChatMemberBanned",
             "ChatMemberLeft",
-        ],
+        ] = None,
         new_chat_member: Union[
             "ChatMemberOwner",
             "ChatMemberAdministrator",
@@ -6593,7 +6562,7 @@ class ChatMemberUpdated(Type_):
             "ChatMemberRestricted",
             "ChatMemberBanned",
             "ChatMemberLeft",
-        ],
+        ] = None,
         invite_link: "ChatInviteLink" = None,
         via_join_request: "bool" = None,
         via_chat_folder_invite_link: "bool" = None,
@@ -6612,7 +6581,7 @@ class ChatMemberUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberUpdated"]:
         return (
             ChatMemberUpdated(
@@ -6627,7 +6596,7 @@ class ChatMemberUpdated(Type_):
                 via_join_request=d.get("via_join_request"),
                 via_chat_folder_invite_link=d.get("via_chat_folder_invite_link"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6654,7 +6623,7 @@ class ChatMember(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional[
         Union[
             "ChatMemberOwner",
@@ -6679,7 +6648,7 @@ class ChatMember(Type_):
                 if d.get("status") == "left"
                 else ChatMemberBanned._parse(me=me, d=d)
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6713,9 +6682,9 @@ class ChatMemberOwner(Type_):
 
     def __init__(
         self,
-        status: "str",
-        user: "User",
-        is_anonymous: "bool",
+        status: "str" = None,
+        user: "User" = None,
+        is_anonymous: "bool" = None,
         custom_title: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -6728,7 +6697,7 @@ class ChatMemberOwner(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberOwner"]:
         return (
             ChatMemberOwner(
@@ -6739,7 +6708,7 @@ class ChatMemberOwner(Type_):
                 is_anonymous=d.get("is_anonymous"),
                 custom_title=d.get("custom_title"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6824,20 +6793,20 @@ class ChatMemberAdministrator(Type_):
 
     def __init__(
         self,
-        status: "str",
-        user: "User",
-        can_be_edited: "bool",
-        is_anonymous: "bool",
-        can_manage_chat: "bool",
-        can_delete_messages: "bool",
-        can_manage_video_chats: "bool",
-        can_restrict_members: "bool",
-        can_promote_members: "bool",
-        can_change_info: "bool",
-        can_invite_users: "bool",
-        can_post_stories: "bool",
-        can_edit_stories: "bool",
-        can_delete_stories: "bool",
+        status: "str" = None,
+        user: "User" = None,
+        can_be_edited: "bool" = None,
+        is_anonymous: "bool" = None,
+        can_manage_chat: "bool" = None,
+        can_delete_messages: "bool" = None,
+        can_manage_video_chats: "bool" = None,
+        can_restrict_members: "bool" = None,
+        can_promote_members: "bool" = None,
+        can_change_info: "bool" = None,
+        can_invite_users: "bool" = None,
+        can_post_stories: "bool" = None,
+        can_edit_stories: "bool" = None,
+        can_delete_stories: "bool" = None,
         can_post_messages: "bool" = None,
         can_edit_messages: "bool" = None,
         can_pin_messages: "bool" = None,
@@ -6869,7 +6838,7 @@ class ChatMemberAdministrator(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberAdministrator"]:
         return (
             ChatMemberAdministrator(
@@ -6895,7 +6864,7 @@ class ChatMemberAdministrator(Type_):
                 can_manage_topics=d.get("can_manage_topics"),
                 custom_title=d.get("custom_title"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -6922,7 +6891,11 @@ class ChatMemberMember(Type_):
     """
 
     def __init__(
-        self, status: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        status: "str" = None,
+        user: "User" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.status = status
@@ -6930,7 +6903,7 @@ class ChatMemberMember(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberMember"]:
         return (
             ChatMemberMember(
@@ -6939,7 +6912,7 @@ class ChatMemberMember(Type_):
                 status=d.get("status"),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7017,24 +6990,24 @@ class ChatMemberRestricted(Type_):
 
     def __init__(
         self,
-        status: "str",
-        user: "User",
-        is_member: "bool",
-        can_send_messages: "bool",
-        can_send_audios: "bool",
-        can_send_documents: "bool",
-        can_send_photos: "bool",
-        can_send_videos: "bool",
-        can_send_video_notes: "bool",
-        can_send_voice_notes: "bool",
-        can_send_polls: "bool",
-        can_send_other_messages: "bool",
-        can_add_web_page_previews: "bool",
-        can_change_info: "bool",
-        can_invite_users: "bool",
-        can_pin_messages: "bool",
-        can_manage_topics: "bool",
-        until_date: "int",
+        status: "str" = None,
+        user: "User" = None,
+        is_member: "bool" = None,
+        can_send_messages: "bool" = None,
+        can_send_audios: "bool" = None,
+        can_send_documents: "bool" = None,
+        can_send_photos: "bool" = None,
+        can_send_videos: "bool" = None,
+        can_send_video_notes: "bool" = None,
+        can_send_voice_notes: "bool" = None,
+        can_send_polls: "bool" = None,
+        can_send_other_messages: "bool" = None,
+        can_add_web_page_previews: "bool" = None,
+        can_change_info: "bool" = None,
+        can_invite_users: "bool" = None,
+        can_pin_messages: "bool" = None,
+        can_manage_topics: "bool" = None,
+        until_date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7060,7 +7033,7 @@ class ChatMemberRestricted(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberRestricted"]:
         return (
             ChatMemberRestricted(
@@ -7085,7 +7058,7 @@ class ChatMemberRestricted(Type_):
                 can_manage_topics=d.get("can_manage_topics"),
                 until_date=d.get("until_date"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7112,7 +7085,11 @@ class ChatMemberLeft(Type_):
     """
 
     def __init__(
-        self, status: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        status: "str" = None,
+        user: "User" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.status = status
@@ -7120,7 +7097,7 @@ class ChatMemberLeft(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberLeft"]:
         return (
             ChatMemberLeft(
@@ -7129,7 +7106,7 @@ class ChatMemberLeft(Type_):
                 status=d.get("status"),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7161,9 +7138,9 @@ class ChatMemberBanned(Type_):
 
     def __init__(
         self,
-        status: "str",
-        user: "User",
-        until_date: "int",
+        status: "str" = None,
+        user: "User" = None,
+        until_date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7174,7 +7151,7 @@ class ChatMemberBanned(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatMemberBanned"]:
         return (
             ChatMemberBanned(
@@ -7184,7 +7161,7 @@ class ChatMemberBanned(Type_):
                 user=User._parse(me=me, d=d.get("user")),
                 until_date=d.get("until_date"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7228,10 +7205,10 @@ class ChatJoinRequest(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        from_user: "User",
-        user_chat_id: "int",
-        date: "int",
+        chat: "Chat" = None,
+        from_user: "User" = None,
+        user_chat_id: "int" = None,
+        date: "int" = None,
         bio: "str" = None,
         invite_link: "ChatInviteLink" = None,
         me: "tgram.TgBot" = None,
@@ -7247,7 +7224,7 @@ class ChatJoinRequest(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatJoinRequest"]:
         return (
             ChatJoinRequest(
@@ -7260,7 +7237,7 @@ class ChatJoinRequest(Type_):
                 bio=d.get("bio"),
                 invite_link=ChatInviteLink._parse(me=me, d=d.get("invite_link")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7367,7 +7344,7 @@ class ChatPermissions(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatPermissions"]:
         return (
             ChatPermissions(
@@ -7388,7 +7365,7 @@ class ChatPermissions(Type_):
                 can_pin_messages=d.get("can_pin_messages"),
                 can_manage_topics=d.get("can_manage_topics"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7419,8 +7396,8 @@ class Birthdate(Type_):
 
     def __init__(
         self,
-        day: "int",
-        month: "int",
+        day: "int" = None,
+        month: "int" = None,
         year: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -7432,7 +7409,7 @@ class Birthdate(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Birthdate"]:
         return (
             Birthdate(
@@ -7442,7 +7419,7 @@ class Birthdate(Type_):
                 month=d.get("month"),
                 year=d.get("year"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7486,7 +7463,7 @@ class BusinessIntro(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessIntro"]:
         return (
             BusinessIntro(
@@ -7496,7 +7473,7 @@ class BusinessIntro(Type_):
                 message=d.get("message"),
                 sticker=Sticker._parse(me=me, d=d.get("sticker")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7524,7 +7501,7 @@ class BusinessLocation(Type_):
 
     def __init__(
         self,
-        address: "str",
+        address: "str" = None,
         location: "Location" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -7535,7 +7512,7 @@ class BusinessLocation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessLocation"]:
         return (
             BusinessLocation(
@@ -7544,7 +7521,7 @@ class BusinessLocation(Type_):
                 address=d.get("address"),
                 location=Location._parse(me=me, d=d.get("location")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7572,8 +7549,8 @@ class BusinessOpeningHoursInterval(Type_):
 
     def __init__(
         self,
-        opening_minute: "int",
-        closing_minute: "int",
+        opening_minute: "int" = None,
+        closing_minute: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7583,7 +7560,7 @@ class BusinessOpeningHoursInterval(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessOpeningHoursInterval"]:
         return (
             BusinessOpeningHoursInterval(
@@ -7592,7 +7569,7 @@ class BusinessOpeningHoursInterval(Type_):
                 opening_minute=d.get("opening_minute"),
                 closing_minute=d.get("closing_minute"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7622,8 +7599,8 @@ class BusinessOpeningHours(Type_):
 
     def __init__(
         self,
-        time_zone_name: "str",
-        opening_hours: List["BusinessOpeningHoursInterval"],
+        time_zone_name: "str" = None,
+        opening_hours: List["BusinessOpeningHoursInterval"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7633,7 +7610,7 @@ class BusinessOpeningHours(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessOpeningHours"]:
         return (
             BusinessOpeningHours(
@@ -7647,7 +7624,7 @@ class BusinessOpeningHours(Type_):
                 if d.get("opening_hours")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7675,8 +7652,8 @@ class ChatLocation(Type_):
 
     def __init__(
         self,
-        location: "Location",
-        address: "str",
+        location: "Location" = None,
+        address: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7686,7 +7663,7 @@ class ChatLocation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatLocation"]:
         return (
             ChatLocation(
@@ -7695,7 +7672,7 @@ class ChatLocation(Type_):
                 location=Location._parse(me=me, d=d.get("location")),
                 address=d.get("address"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7719,7 +7696,11 @@ class ReactionType(Type_):
     """
 
     def __init__(
-        self, type: "str", emoji: "str", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        type: "str" = None,
+        emoji: "str" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -7727,16 +7708,11 @@ class ReactionType(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReactionType"]:
         return (
-            ReactionType(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                emoji=d.get("emoji"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            ReactionType(me=me, json=d, type=d.get("type"), emoji=d.get("emoji"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7763,7 +7739,11 @@ class ReactionTypeEmoji(Type_):
     """
 
     def __init__(
-        self, type: "str", emoji: "str", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        type: "str" = None,
+        emoji: "str" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -7771,16 +7751,11 @@ class ReactionTypeEmoji(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReactionTypeEmoji"]:
         return (
-            ReactionTypeEmoji(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                emoji=d.get("emoji"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            ReactionTypeEmoji(me=me, json=d, type=d.get("type"), emoji=d.get("emoji"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7808,8 +7783,8 @@ class ReactionTypeCustomEmoji(Type_):
 
     def __init__(
         self,
-        type: "str",
-        custom_emoji_id: "str",
+        type: "str" = None,
+        custom_emoji_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7819,7 +7794,7 @@ class ReactionTypeCustomEmoji(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReactionTypeCustomEmoji"]:
         return (
             ReactionTypeCustomEmoji(
@@ -7828,7 +7803,7 @@ class ReactionTypeCustomEmoji(Type_):
                 type=d.get("type"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7856,8 +7831,8 @@ class ReactionCount(Type_):
 
     def __init__(
         self,
-        type: "ReactionType",
-        total_count: "int",
+        type: "ReactionType" = None,
+        total_count: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -7867,7 +7842,7 @@ class ReactionCount(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ReactionCount"]:
         return (
             ReactionCount(
@@ -7876,7 +7851,7 @@ class ReactionCount(Type_):
                 type=ReactionType._parse(me=me, d=d.get("type")),
                 total_count=d.get("total_count"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7919,11 +7894,11 @@ class MessageReactionUpdated(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        message_id: "int",
-        date: "int",
-        old_reaction: List["ReactionType"],
-        new_reaction: List["ReactionType"],
+        chat: "Chat" = None,
+        message_id: "int" = None,
+        date: "int" = None,
+        old_reaction: List["ReactionType"] = None,
+        new_reaction: List["ReactionType"] = None,
         user: "User" = None,
         actor_chat: "Chat" = None,
         me: "tgram.TgBot" = None,
@@ -7940,7 +7915,7 @@ class MessageReactionUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageReactionUpdated"]:
         return (
             MessageReactionUpdated(
@@ -7962,7 +7937,7 @@ class MessageReactionUpdated(Type_):
                 user=User._parse(me=me, d=d.get("user")),
                 actor_chat=Chat._parse(me=me, d=d.get("actor_chat")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -7996,10 +7971,10 @@ class MessageReactionCountUpdated(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        message_id: "int",
-        date: "int",
-        reactions: List["ReactionCount"],
+        chat: "Chat" = None,
+        message_id: "int" = None,
+        date: "int" = None,
+        reactions: List["ReactionCount"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8011,7 +7986,7 @@ class MessageReactionCountUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MessageReactionCountUpdated"]:
         return (
             MessageReactionCountUpdated(
@@ -8024,7 +7999,7 @@ class MessageReactionCountUpdated(Type_):
                 if d.get("reactions")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8058,9 +8033,9 @@ class ForumTopic(Type_):
 
     def __init__(
         self,
-        message_thread_id: "int",
-        name: "str",
-        icon_color: "int",
+        message_thread_id: "int" = None,
+        name: "str" = None,
+        icon_color: "int" = None,
         icon_custom_emoji_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -8073,7 +8048,7 @@ class ForumTopic(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ForumTopic"]:
         return (
             ForumTopic(
@@ -8084,7 +8059,7 @@ class ForumTopic(Type_):
                 icon_color=d.get("icon_color"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8113,8 +8088,8 @@ class BotCommand(Type_):
 
     def __init__(
         self,
-        command: "str",
-        description: "str",
+        command: "str" = None,
+        description: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8124,7 +8099,7 @@ class BotCommand(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommand"]:
         return (
             BotCommand(
@@ -8133,7 +8108,7 @@ class BotCommand(Type_):
                 command=d.get("command"),
                 description=d.get("description"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8186,21 +8161,19 @@ class BotCommandScope(Type_):
     :rtype: :class:`tgram.types.BotCommandScope`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScope"]:
         return (
-            BotCommandScope(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotCommandScope(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8223,21 +8196,19 @@ class BotCommandScopeDefault(Type_):
     :rtype: :class:`tgram.types.BotCommandScopeDefault`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeDefault"]:
         return (
-            BotCommandScopeDefault(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotCommandScopeDefault(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8260,21 +8231,19 @@ class BotCommandScopeAllPrivateChats(Type_):
     :rtype: :class:`tgram.types.BotCommandScopeAllPrivateChats`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeAllPrivateChats"]:
         return (
-            BotCommandScopeAllPrivateChats(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotCommandScopeAllPrivateChats(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8297,21 +8266,19 @@ class BotCommandScopeAllGroupChats(Type_):
     :rtype: :class:`tgram.types.BotCommandScopeAllGroupChats`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeAllGroupChats"]:
         return (
-            BotCommandScopeAllGroupChats(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotCommandScopeAllGroupChats(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8334,21 +8301,19 @@ class BotCommandScopeAllChatAdministrators(Type_):
     :rtype: :class:`tgram.types.BotCommandScopeAllChatAdministrators`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeAllChatAdministrators"]:
         return (
-            BotCommandScopeAllChatAdministrators(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotCommandScopeAllChatAdministrators(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8377,8 +8342,8 @@ class BotCommandScopeChat(Type_):
 
     def __init__(
         self,
-        type: "str",
-        chat_id: Union["int", "str"],
+        type: "str" = None,
+        chat_id: Union["int", "str"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8388,16 +8353,13 @@ class BotCommandScopeChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeChat"]:
         return (
             BotCommandScopeChat(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                chat_id=d.get("chat_id"),
+                me=me, json=d, type=d.get("type"), chat_id=d.get("chat_id")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8426,8 +8388,8 @@ class BotCommandScopeChatAdministrators(Type_):
 
     def __init__(
         self,
-        type: "str",
-        chat_id: Union["int", "str"],
+        type: "str" = None,
+        chat_id: Union["int", "str"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8437,16 +8399,13 @@ class BotCommandScopeChatAdministrators(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeChatAdministrators"]:
         return (
             BotCommandScopeChatAdministrators(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                chat_id=d.get("chat_id"),
+                me=me, json=d, type=d.get("type"), chat_id=d.get("chat_id")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8478,9 +8437,9 @@ class BotCommandScopeChatMember(Type_):
 
     def __init__(
         self,
-        type: "str",
-        chat_id: Union["int", "str"],
-        user_id: "int",
+        type: "str" = None,
+        chat_id: Union["int", "str"] = None,
+        user_id: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8491,7 +8450,7 @@ class BotCommandScopeChatMember(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotCommandScopeChatMember"]:
         return (
             BotCommandScopeChatMember(
@@ -8501,7 +8460,7 @@ class BotCommandScopeChatMember(Type_):
                 chat_id=d.get("chat_id"),
                 user_id=d.get("user_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8524,21 +8483,19 @@ class BotName(Type_):
     :rtype: :class:`BotName`
     """
 
-    def __init__(self, name: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, name: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.name = name
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotName"]:
         return (
-            BotName(
-                me=me,
-                json=d,
-                name=d.get("name"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotName(me=me, json=d, name=d.get("name"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8562,22 +8519,21 @@ class BotDescription(Type_):
     """
 
     def __init__(
-        self, description: "str", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        description: "str" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.description = description
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotDescription"]:
         return (
-            BotDescription(
-                me=me,
-                json=d,
-                description=d.get("description"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            BotDescription(me=me, json=d, description=d.get("description"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8601,22 +8557,23 @@ class BotShortDescription(Type_):
     """
 
     def __init__(
-        self, short_description: "str", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        short_description: "str" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.short_description = short_description
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BotShortDescription"]:
         return (
             BotShortDescription(
-                me=me,
-                json=d,
-                short_description=d.get("short_description"),
+                me=me, json=d, short_description=d.get("short_description")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8638,21 +8595,19 @@ class MenuButton(Type_):
     in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MenuButton"]:
         return (
-            MenuButton(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            MenuButton(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8675,21 +8630,19 @@ class MenuButtonCommands(Type_):
     :rtype: :class:`tgram.types.MenuButtonCommands`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MenuButtonCommands"]:
         return (
-            MenuButtonCommands(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            MenuButtonCommands(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8721,9 +8674,9 @@ class MenuButtonWebApp(Type_):
 
     def __init__(
         self,
-        type: "str",
-        text: "str",
-        web_app: "WebAppInfo",
+        type: "str" = None,
+        text: "str" = None,
+        web_app: "WebAppInfo" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -8734,7 +8687,7 @@ class MenuButtonWebApp(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MenuButtonWebApp"]:
         return (
             MenuButtonWebApp(
@@ -8744,7 +8697,7 @@ class MenuButtonWebApp(Type_):
                 text=d.get("text"),
                 web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8767,21 +8720,19 @@ class MenuButtonDefault(Type_):
     :rtype: :class:`tgram.types.MenuButtonDefault`
     """
 
-    def __init__(self, type: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = type
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MenuButtonDefault"]:
         return (
-            MenuButtonDefault(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            MenuButtonDefault(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8805,7 +8756,11 @@ class ChatBoostSource(Type_):
     """
 
     def __init__(
-        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        source: "str" = None,
+        user: "User" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.source = source
@@ -8813,7 +8768,7 @@ class ChatBoostSource(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostSource"]:
         return (
             ChatBoostSource(
@@ -8822,7 +8777,7 @@ class ChatBoostSource(Type_):
                 source=d.get("source"),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8849,7 +8804,11 @@ class ChatBoostSourcePremium(Type_):
     """
 
     def __init__(
-        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        source: "str" = None,
+        user: "User" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.source = source
@@ -8857,7 +8816,7 @@ class ChatBoostSourcePremium(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostSourcePremium"]:
         return (
             ChatBoostSourcePremium(
@@ -8866,7 +8825,7 @@ class ChatBoostSourcePremium(Type_):
                 source=d.get("source"),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8893,7 +8852,11 @@ class ChatBoostSourceGiftCode(Type_):
     """
 
     def __init__(
-        self, source: "str", user: "User", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        source: "str" = None,
+        user: "User" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.source = source
@@ -8901,7 +8864,7 @@ class ChatBoostSourceGiftCode(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostSourceGiftCode"]:
         return (
             ChatBoostSourceGiftCode(
@@ -8910,7 +8873,7 @@ class ChatBoostSourceGiftCode(Type_):
                 source=d.get("source"),
                 user=User._parse(me=me, d=d.get("user")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -8944,8 +8907,8 @@ class ChatBoostSourceGiveaway(Type_):
 
     def __init__(
         self,
-        source: "str",
-        giveaway_message_id: "int",
+        source: "str" = None,
+        giveaway_message_id: "int" = None,
         user: "User" = None,
         is_unclaimed: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -8959,7 +8922,7 @@ class ChatBoostSourceGiveaway(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostSourceGiveaway"]:
         return (
             ChatBoostSourceGiveaway(
@@ -8970,7 +8933,7 @@ class ChatBoostSourceGiveaway(Type_):
                 user=User._parse(me=me, d=d.get("user")),
                 is_unclaimed=d.get("is_unclaimed"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9004,10 +8967,10 @@ class ChatBoost(Type_):
 
     def __init__(
         self,
-        boost_id: "str",
-        add_date: "int",
-        expiration_date: "int",
-        source: "ChatBoostSource",
+        boost_id: "str" = None,
+        add_date: "int" = None,
+        expiration_date: "int" = None,
+        source: "ChatBoostSource" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -9019,7 +8982,7 @@ class ChatBoost(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoost"]:
         return (
             ChatBoost(
@@ -9030,7 +8993,7 @@ class ChatBoost(Type_):
                 expiration_date=d.get("expiration_date"),
                 source=ChatBoostSource._parse(me=me, d=d.get("source")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9058,8 +9021,8 @@ class ChatBoostUpdated(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        boost: "ChatBoost",
+        chat: "Chat" = None,
+        boost: "ChatBoost" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -9069,7 +9032,7 @@ class ChatBoostUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostUpdated"]:
         return (
             ChatBoostUpdated(
@@ -9078,7 +9041,7 @@ class ChatBoostUpdated(Type_):
                 chat=Chat._parse(me=me, d=d.get("chat")),
                 boost=ChatBoost._parse(me=me, d=d.get("boost")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9112,10 +9075,10 @@ class ChatBoostRemoved(Type_):
 
     def __init__(
         self,
-        chat: "Chat",
-        boost_id: "str",
-        remove_date: "int",
-        source: "ChatBoostSource",
+        chat: "Chat" = None,
+        boost_id: "str" = None,
+        remove_date: "int" = None,
+        source: "ChatBoostSource" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -9127,7 +9090,7 @@ class ChatBoostRemoved(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChatBoostRemoved"]:
         return (
             ChatBoostRemoved(
@@ -9138,7 +9101,7 @@ class ChatBoostRemoved(Type_):
                 remove_date=d.get("remove_date"),
                 source=ChatBoostSource._parse(me=me, d=d.get("source")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9162,14 +9125,17 @@ class UserChatBoosts(Type_):
     """
 
     def __init__(
-        self, boosts: List["ChatBoost"], me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        boosts: List["ChatBoost"] = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.boosts = boosts
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["UserChatBoosts"]:
         return (
             UserChatBoosts(
@@ -9179,7 +9145,7 @@ class UserChatBoosts(Type_):
                 if d.get("boosts")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9219,12 +9185,12 @@ class BusinessConnection(Type_):
 
     def __init__(
         self,
-        id: "str",
-        user: "User",
-        user_chat_id: "int",
-        date: "int",
-        can_reply: "bool",
-        is_enabled: "bool",
+        id: "str" = None,
+        user: "User" = None,
+        user_chat_id: "int" = None,
+        date: "int" = None,
+        can_reply: "bool" = None,
+        is_enabled: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -9238,7 +9204,7 @@ class BusinessConnection(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessConnection"]:
         return (
             BusinessConnection(
@@ -9251,7 +9217,7 @@ class BusinessConnection(Type_):
                 can_reply=d.get("can_reply"),
                 is_enabled=d.get("is_enabled"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9282,9 +9248,9 @@ class BusinessMessagesDeleted(Type_):
 
     def __init__(
         self,
-        business_connection_id: "str",
-        chat: "Chat",
-        message_ids: List["int"],
+        business_connection_id: "str" = None,
+        chat: "Chat" = None,
+        message_ids: List["int"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -9295,7 +9261,7 @@ class BusinessMessagesDeleted(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["BusinessMessagesDeleted"]:
         return (
             BusinessMessagesDeleted(
@@ -9305,7 +9271,7 @@ class BusinessMessagesDeleted(Type_):
                 chat=Chat._parse(me=me, d=d.get("chat")),
                 message_ids=d.get("message_ids"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9329,7 +9295,7 @@ class ResponseParameters(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ResponseParameters"]:
         return (
             ResponseParameters(
@@ -9338,7 +9304,7 @@ class ResponseParameters(Type_):
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 retry_after=d.get("retry_after"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9387,7 +9353,7 @@ class InputMediaPhoto(Type_):
 
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -9407,7 +9373,7 @@ class InputMediaPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMediaPhoto"]:
         return (
             InputMediaPhoto(
@@ -9424,7 +9390,7 @@ class InputMediaPhoto(Type_):
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_spoiler=d.get("has_spoiler"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9487,7 +9453,7 @@ class InputMediaVideo(Type_):
 
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -9517,7 +9483,7 @@ class InputMediaVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMediaVideo"]:
         return (
             InputMediaVideo(
@@ -9539,7 +9505,7 @@ class InputMediaVideo(Type_):
                 supports_streaming=d.get("supports_streaming"),
                 has_spoiler=d.get("has_spoiler"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9599,7 +9565,7 @@ class InputMediaAnimation(Type_):
 
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -9627,7 +9593,7 @@ class InputMediaAnimation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMediaAnimation"]:
         return (
             InputMediaAnimation(
@@ -9648,7 +9614,7 @@ class InputMediaAnimation(Type_):
                 duration=d.get("duration"),
                 has_spoiler=d.get("has_spoiler"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9702,7 +9668,7 @@ class InputMediaAudio(Type_):
 
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -9726,7 +9692,7 @@ class InputMediaAudio(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMediaAudio"]:
         return (
             InputMediaAudio(
@@ -9745,7 +9711,7 @@ class InputMediaAudio(Type_):
                 performer=d.get("performer"),
                 title=d.get("title"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9794,7 +9760,7 @@ class InputMediaDocument(Type_):
 
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         thumbnail: Union["InputFile", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -9814,7 +9780,7 @@ class InputMediaDocument(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMediaDocument"]:
         return (
             InputMediaDocument(
@@ -9831,7 +9797,7 @@ class InputMediaDocument(Type_):
                 else None,
                 disable_content_type_detection=d.get("disable_content_type_detection"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -9905,13 +9871,13 @@ class Sticker(Type_):
 
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        type: "str",
-        width: "int",
-        height: "int",
-        is_animated: "bool",
-        is_video: "bool",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        type: "str" = None,
+        width: "int" = None,
+        height: "int" = None,
+        is_animated: "bool" = None,
+        is_video: "bool" = None,
         thumbnail: "PhotoSize" = None,
         emoji: "str" = None,
         set_name: "str" = None,
@@ -9942,7 +9908,7 @@ class Sticker(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Sticker"]:
         return (
             Sticker(
@@ -9964,7 +9930,7 @@ class Sticker(Type_):
                 needs_repainting=d.get("needs_repainting"),
                 file_size=d.get("file_size"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10001,10 +9967,10 @@ class StickerSet(Type_):
 
     def __init__(
         self,
-        name: "str",
-        title: "str",
-        sticker_type: "str",
-        stickers: List["Sticker"],
+        name: "str" = None,
+        title: "str" = None,
+        sticker_type: "str" = None,
+        stickers: List["Sticker"] = None,
         thumbnail: "PhotoSize" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -10018,7 +9984,7 @@ class StickerSet(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["StickerSet"]:
         return (
             StickerSet(
@@ -10032,7 +9998,7 @@ class StickerSet(Type_):
                 else None,
                 thumbnail=PhotoSize._parse(me=me, d=d.get("thumbnail")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10069,10 +10035,10 @@ class MaskPosition(Type_):
 
     def __init__(
         self,
-        point: "str",
-        x_shift: "float",
-        y_shift: "float",
-        scale: "float",
+        point: "str" = None,
+        x_shift: "float" = None,
+        y_shift: "float" = None,
+        scale: "float" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -10084,7 +10050,7 @@ class MaskPosition(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["MaskPosition"]:
         return (
             MaskPosition(
@@ -10095,7 +10061,7 @@ class MaskPosition(Type_):
                 y_shift=d.get("y_shift"),
                 scale=d.get("scale"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10133,9 +10099,9 @@ class InputSticker(Type_):
 
     def __init__(
         self,
-        sticker: Union["InputFile", "str"],
-        format: "str",
-        emoji_list: List["str"],
+        sticker: Union["InputFile", "str"] = None,
+        format: "str" = None,
+        emoji_list: List["str"] = None,
         mask_position: "MaskPosition" = None,
         keywords: List["str"] = None,
         me: "tgram.TgBot" = None,
@@ -10150,7 +10116,7 @@ class InputSticker(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputSticker"]:
         return (
             InputSticker(
@@ -10162,7 +10128,7 @@ class InputSticker(Type_):
                 mask_position=MaskPosition._parse(me=me, d=d.get("mask_position")),
                 keywords=d.get("keywords"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10205,10 +10171,10 @@ class InlineQuery(Type_):
 
     def __init__(
         self,
-        id: "str",
-        from_user: "User",
-        query: "str",
-        offset: "str",
+        id: "str" = None,
+        from_user: "User" = None,
+        query: "str" = None,
+        offset: "str" = None,
         chat_type: "str" = None,
         location: "Location" = None,
         me: "tgram.TgBot" = None,
@@ -10224,7 +10190,7 @@ class InlineQuery(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQuery"]:
         return (
             InlineQuery(
@@ -10237,7 +10203,7 @@ class InlineQuery(Type_):
                 chat_type=d.get("chat_type"),
                 location=Location._parse(me=me, d=d.get("location")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10276,7 +10242,7 @@ class InlineQueryResultsButton(Type_):
 
     def __init__(
         self,
-        text: "str",
+        text: "str" = None,
         web_app: "WebAppInfo" = None,
         start_parameter: "str" = None,
         me: "tgram.TgBot" = None,
@@ -10289,7 +10255,7 @@ class InlineQueryResultsButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultsButton"]:
         return (
             InlineQueryResultsButton(
@@ -10299,7 +10265,7 @@ class InlineQueryResultsButton(Type_):
                 web_app=WebAppInfo._parse(me=me, d=d.get("web_app")),
                 start_parameter=d.get("start_parameter"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10378,8 +10344,8 @@ class InlineQueryResultArticle(Type_):
 
     def __init__(
         self,
-        title: "str",
-        input_message_content: "InputMessageContent",
+        title: "str" = None,
+        input_message_content: "InputMessageContent" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         url: "str" = None,
         hide_url: "bool" = None,
@@ -10405,7 +10371,7 @@ class InlineQueryResultArticle(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultArticle"]:
         return (
             InlineQueryResultArticle(
@@ -10425,7 +10391,7 @@ class InlineQueryResultArticle(Type_):
                 thumbnail_width=d.get("thumbnail_width"),
                 thumbnail_height=d.get("thumbnail_height"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10491,8 +10457,8 @@ class InlineQueryResultPhoto(Type_):
 
     def __init__(
         self,
-        photo_url: "str",
-        thumbnail_url: "str",
+        photo_url: "str" = None,
+        thumbnail_url: "str" = None,
         photo_width: "int" = None,
         photo_height: "int" = None,
         title: "str" = None,
@@ -10524,7 +10490,7 @@ class InlineQueryResultPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultPhoto"]:
         return (
             InlineQueryResultPhoto(
@@ -10551,7 +10517,7 @@ class InlineQueryResultPhoto(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10620,8 +10586,8 @@ class InlineQueryResultGif(Type_):
 
     def __init__(
         self,
-        gif_url: "str",
-        thumbnail_url: "str",
+        gif_url: "str" = None,
+        thumbnail_url: "str" = None,
         gif_width: "int" = None,
         gif_height: "int" = None,
         gif_duration: "int" = None,
@@ -10655,7 +10621,7 @@ class InlineQueryResultGif(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultGif"]:
         return (
             InlineQueryResultGif(
@@ -10683,7 +10649,7 @@ class InlineQueryResultGif(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10752,8 +10718,8 @@ class InlineQueryResultMpeg4Gif(Type_):
 
     def __init__(
         self,
-        mpeg4_url: "str",
-        thumbnail_url: "str",
+        mpeg4_url: "str" = None,
+        thumbnail_url: "str" = None,
         mpeg4_width: "int" = None,
         mpeg4_height: "int" = None,
         mpeg4_duration: "int" = None,
@@ -10787,7 +10753,7 @@ class InlineQueryResultMpeg4Gif(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultMpeg4Gif"]:
         return (
             InlineQueryResultMpeg4Gif(
@@ -10815,7 +10781,7 @@ class InlineQueryResultMpeg4Gif(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -10888,10 +10854,10 @@ class InlineQueryResultVideo(Type_):
 
     def __init__(
         self,
-        video_url: "str",
-        mime_type: "str",
-        thumbnail_url: "str",
-        title: "str",
+        video_url: "str" = None,
+        mime_type: "str" = None,
+        thumbnail_url: "str" = None,
+        title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -10925,7 +10891,7 @@ class InlineQueryResultVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultVideo"]:
         return (
             InlineQueryResultVideo(
@@ -10954,7 +10920,7 @@ class InlineQueryResultVideo(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11011,8 +10977,8 @@ class InlineQueryResultAudio(Type_):
 
     def __init__(
         self,
-        audio_url: "str",
-        title: "str",
+        audio_url: "str" = None,
+        title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -11038,7 +11004,7 @@ class InlineQueryResultAudio(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultAudio"]:
         return (
             InlineQueryResultAudio(
@@ -11062,7 +11028,7 @@ class InlineQueryResultAudio(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11116,8 +11082,8 @@ class InlineQueryResultVoice(Type_):
 
     def __init__(
         self,
-        voice_url: "str",
-        title: "str",
+        voice_url: "str" = None,
+        title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -11141,7 +11107,7 @@ class InlineQueryResultVoice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultVoice"]:
         return (
             InlineQueryResultVoice(
@@ -11164,7 +11130,7 @@ class InlineQueryResultVoice(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11230,9 +11196,9 @@ class InlineQueryResultDocument(Type_):
 
     def __init__(
         self,
-        title: "str",
-        document_url: "str",
-        mime_type: "str",
+        title: "str" = None,
+        document_url: "str" = None,
+        mime_type: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -11263,7 +11229,7 @@ class InlineQueryResultDocument(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultDocument"]:
         return (
             InlineQueryResultDocument(
@@ -11290,7 +11256,7 @@ class InlineQueryResultDocument(Type_):
                 thumbnail_width=d.get("thumbnail_width"),
                 thumbnail_height=d.get("thumbnail_height"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11354,9 +11320,9 @@ class InlineQueryResultLocation(Type_):
 
     def __init__(
         self,
-        latitude: "float",
-        longitude: "float",
-        title: "str",
+        latitude: "float" = None,
+        longitude: "float" = None,
+        title: "str" = None,
         horizontal_accuracy: "float" = None,
         live_period: "int" = None,
         heading: "int" = None,
@@ -11387,7 +11353,7 @@ class InlineQueryResultLocation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultLocation"]:
         return (
             InlineQueryResultLocation(
@@ -11410,7 +11376,7 @@ class InlineQueryResultLocation(Type_):
                 thumbnail_width=d.get("thumbnail_width"),
                 thumbnail_height=d.get("thumbnail_height"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11478,10 +11444,10 @@ class InlineQueryResultVenue(Type_):
 
     def __init__(
         self,
-        latitude: "float",
-        longitude: "float",
-        title: "str",
-        address: "str",
+        latitude: "float" = None,
+        longitude: "float" = None,
+        title: "str" = None,
+        address: "str" = None,
         foursquare_id: "str" = None,
         foursquare_type: "str" = None,
         google_place_id: "str" = None,
@@ -11513,7 +11479,7 @@ class InlineQueryResultVenue(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultVenue"]:
         return (
             InlineQueryResultVenue(
@@ -11537,7 +11503,7 @@ class InlineQueryResultVenue(Type_):
                 thumbnail_width=d.get("thumbnail_width"),
                 thumbnail_height=d.get("thumbnail_height"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11592,8 +11558,8 @@ class InlineQueryResultContact(Type_):
 
     def __init__(
         self,
-        phone_number: "str",
-        first_name: "str",
+        phone_number: "str" = None,
+        first_name: "str" = None,
         last_name: "str" = None,
         vcard: "str" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
@@ -11619,7 +11585,7 @@ class InlineQueryResultContact(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultContact"]:
         return (
             InlineQueryResultContact(
@@ -11639,7 +11605,7 @@ class InlineQueryResultContact(Type_):
                 thumbnail_width=d.get("thumbnail_width"),
                 thumbnail_height=d.get("thumbnail_height"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11673,7 +11639,7 @@ class InlineQueryResultGame(Type_):
 
     def __init__(
         self,
-        game_short_name: "str",
+        game_short_name: "str" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -11686,7 +11652,7 @@ class InlineQueryResultGame(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultGame"]:
         return (
             InlineQueryResultGame(
@@ -11697,7 +11663,7 @@ class InlineQueryResultGame(Type_):
                     me=me, d=d.get("reply_markup")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11754,7 +11720,7 @@ class InlineQueryResultCachedPhoto(Type_):
 
     def __init__(
         self,
-        photo_file_id: "str",
+        photo_file_id: "str" = None,
         title: "str" = None,
         description: "str" = None,
         caption: "str" = None,
@@ -11781,7 +11747,7 @@ class InlineQueryResultCachedPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedPhoto"]:
         return (
             InlineQueryResultCachedPhoto(
@@ -11805,7 +11771,7 @@ class InlineQueryResultCachedPhoto(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11858,7 +11824,7 @@ class InlineQueryResultCachedGif(Type_):
 
     def __init__(
         self,
-        gif_file_id: "str",
+        gif_file_id: "str" = None,
         title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -11883,7 +11849,7 @@ class InlineQueryResultCachedGif(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedGif"]:
         return (
             InlineQueryResultCachedGif(
@@ -11906,7 +11872,7 @@ class InlineQueryResultCachedGif(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -11959,7 +11925,7 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
 
     def __init__(
         self,
-        mpeg4_file_id: "str",
+        mpeg4_file_id: "str" = None,
         title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -11984,7 +11950,7 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedMpeg4Gif"]:
         return (
             InlineQueryResultCachedMpeg4Gif(
@@ -12007,7 +11973,7 @@ class InlineQueryResultCachedMpeg4Gif(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12044,7 +12010,7 @@ class InlineQueryResultCachedSticker(Type_):
 
     def __init__(
         self,
-        sticker_file_id: "str",
+        sticker_file_id: "str" = None,
         reply_markup: "InlineKeyboardMarkup" = None,
         input_message_content: "InputMessageContent" = None,
         me: "tgram.TgBot" = None,
@@ -12059,7 +12025,7 @@ class InlineQueryResultCachedSticker(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedSticker"]:
         return (
             InlineQueryResultCachedSticker(
@@ -12073,7 +12039,7 @@ class InlineQueryResultCachedSticker(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12127,8 +12093,8 @@ class InlineQueryResultCachedDocument(Type_):
 
     def __init__(
         self,
-        title: "str",
-        document_file_id: "str",
+        title: "str" = None,
+        document_file_id: "str" = None,
         description: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -12152,7 +12118,7 @@ class InlineQueryResultCachedDocument(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedDocument"]:
         return (
             InlineQueryResultCachedDocument(
@@ -12175,7 +12141,7 @@ class InlineQueryResultCachedDocument(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12232,8 +12198,8 @@ class InlineQueryResultCachedVideo(Type_):
 
     def __init__(
         self,
-        video_file_id: "str",
-        title: "str",
+        video_file_id: "str" = None,
+        title: "str" = None,
         description: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
@@ -12259,7 +12225,7 @@ class InlineQueryResultCachedVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedVideo"]:
         return (
             InlineQueryResultCachedVideo(
@@ -12283,7 +12249,7 @@ class InlineQueryResultCachedVideo(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12334,8 +12300,8 @@ class InlineQueryResultCachedVoice(Type_):
 
     def __init__(
         self,
-        voice_file_id: "str",
-        title: "str",
+        voice_file_id: "str" = None,
+        title: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -12357,7 +12323,7 @@ class InlineQueryResultCachedVoice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedVoice"]:
         return (
             InlineQueryResultCachedVoice(
@@ -12379,7 +12345,7 @@ class InlineQueryResultCachedVoice(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12427,7 +12393,7 @@ class InlineQueryResultCachedAudio(Type_):
 
     def __init__(
         self,
-        audio_file_id: "str",
+        audio_file_id: "str" = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["MessageEntity"] = None,
@@ -12448,7 +12414,7 @@ class InlineQueryResultCachedAudio(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InlineQueryResultCachedAudio"]:
         return (
             InlineQueryResultCachedAudio(
@@ -12469,7 +12435,7 @@ class InlineQueryResultCachedAudio(Type_):
                     me=me, d=d.get("input_message_content")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12482,7 +12448,7 @@ class InlineQueryResultCachedAudio(Type_):
 class InputMessageContent(Type_):
     def __init__(
         self,
-        message_text: "str",
+        message_text: "str" = None,
         parse_mode: "str" = None,
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
@@ -12497,7 +12463,7 @@ class InputMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputMessageContent"]:
         return (
             InputMessageContent(
@@ -12512,7 +12478,7 @@ class InputMessageContent(Type_):
                     me=me, d=d.get("link_preview_options")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12551,7 +12517,7 @@ class InputTextMessageContent(Type_):
 
     def __init__(
         self,
-        message_text: "str",
+        message_text: "str" = None,
         parse_mode: "str" = None,
         entities: List["MessageEntity"] = None,
         link_preview_options: "LinkPreviewOptions" = None,
@@ -12566,7 +12532,7 @@ class InputTextMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputTextMessageContent"]:
         return (
             InputTextMessageContent(
@@ -12581,7 +12547,7 @@ class InputTextMessageContent(Type_):
                     me=me, d=d.get("link_preview_options")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12621,8 +12587,8 @@ class InputLocationMessageContent(Type_):
 
     def __init__(
         self,
-        latitude: "float",
-        longitude: "float",
+        latitude: "float" = None,
+        longitude: "float" = None,
         horizontal_accuracy: "float" = None,
         live_period: "int" = None,
         heading: "int" = None,
@@ -12640,7 +12606,7 @@ class InputLocationMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputLocationMessageContent"]:
         return (
             InputLocationMessageContent(
@@ -12653,7 +12619,7 @@ class InputLocationMessageContent(Type_):
                 heading=d.get("heading"),
                 proximity_alert_radius=d.get("proximity_alert_radius"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12700,10 +12666,10 @@ class InputVenueMessageContent(Type_):
 
     def __init__(
         self,
-        latitude: "float",
-        longitude: "float",
-        title: "str",
-        address: "str",
+        latitude: "float" = None,
+        longitude: "float" = None,
+        title: "str" = None,
+        address: "str" = None,
         foursquare_id: "str" = None,
         foursquare_type: "str" = None,
         google_place_id: "str" = None,
@@ -12723,7 +12689,7 @@ class InputVenueMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputVenueMessageContent"]:
         return (
             InputVenueMessageContent(
@@ -12738,7 +12704,7 @@ class InputVenueMessageContent(Type_):
                 google_place_id=d.get("google_place_id"),
                 google_place_type=d.get("google_place_type"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12772,8 +12738,8 @@ class InputContactMessageContent(Type_):
 
     def __init__(
         self,
-        phone_number: "str",
-        first_name: "str",
+        phone_number: "str" = None,
+        first_name: "str" = None,
         last_name: "str" = None,
         vcard: "str" = None,
         me: "tgram.TgBot" = None,
@@ -12787,7 +12753,7 @@ class InputContactMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputContactMessageContent"]:
         return (
             InputContactMessageContent(
@@ -12798,7 +12764,7 @@ class InputContactMessageContent(Type_):
                 last_name=d.get("last_name"),
                 vcard=d.get("vcard"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -12890,11 +12856,11 @@ class InputInvoiceMessageContent(Type_):
 
     def __init__(
         self,
-        title: "str",
-        description: "str",
-        payload: "str",
-        currency: "str",
-        prices: List["LabeledPrice"],
+        title: "str" = None,
+        description: "str" = None,
+        payload: "str" = None,
+        currency: "str" = None,
+        prices: List["LabeledPrice"] = None,
         provider_token: "str" = None,
         max_tip_amount: "int" = None,
         suggested_tip_amounts: List["int"] = None,
@@ -12937,7 +12903,7 @@ class InputInvoiceMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputInvoiceMessageContent"]:
         return (
             InputInvoiceMessageContent(
@@ -12966,7 +12932,7 @@ class InputInvoiceMessageContent(Type_):
                 send_email_to_provider=d.get("send_email_to_provider"),
                 is_flexible=d.get("is_flexible"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13004,9 +12970,9 @@ class ChosenInlineResult(Type_):
 
     def __init__(
         self,
-        result_id: "str",
-        from_user: "User",
-        query: "str",
+        result_id: "str" = None,
+        from_user: "User" = None,
+        query: "str" = None,
         location: "Location" = None,
         inline_message_id: "str" = None,
         me: "tgram.TgBot" = None,
@@ -13021,7 +12987,7 @@ class ChosenInlineResult(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ChosenInlineResult"]:
         return (
             ChosenInlineResult(
@@ -13033,7 +12999,7 @@ class ChosenInlineResult(Type_):
                 location=Location._parse(me=me, d=d.get("location")),
                 inline_message_id=d.get("inline_message_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13068,15 +13034,13 @@ class SentWebAppMessage(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["SentWebAppMessage"]:
         return (
             SentWebAppMessage(
-                me=me,
-                json=d,
-                inline_message_id=d.get("inline_message_id"),
+                me=me, json=d, inline_message_id=d.get("inline_message_id")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13105,7 +13069,11 @@ class LabeledPrice(Type_):
     """
 
     def __init__(
-        self, label: "str", amount: "int", me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        label: "str" = None,
+        amount: "int" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.label = label
@@ -13113,16 +13081,11 @@ class LabeledPrice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["LabeledPrice"]:
         return (
-            LabeledPrice(
-                me=me,
-                json=d,
-                label=d.get("label"),
-                amount=d.get("amount"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            LabeledPrice(me=me, json=d, label=d.get("label"), amount=d.get("amount"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13161,11 +13124,11 @@ class Invoice(Type_):
 
     def __init__(
         self,
-        title: "str",
-        description: "str",
-        start_parameter: "str",
-        currency: "str",
-        total_amount: "int",
+        title: "str" = None,
+        description: "str" = None,
+        start_parameter: "str" = None,
+        currency: "str" = None,
+        total_amount: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -13178,7 +13141,7 @@ class Invoice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Invoice"]:
         return (
             Invoice(
@@ -13190,7 +13153,7 @@ class Invoice(Type_):
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13230,12 +13193,12 @@ class ShippingAddress(Type_):
 
     def __init__(
         self,
-        country_code: "str",
-        state: "str",
-        city: "str",
-        street_line1: "str",
-        street_line2: "str",
-        post_code: "str",
+        country_code: "str" = None,
+        state: "str" = None,
+        city: "str" = None,
+        street_line1: "str" = None,
+        street_line2: "str" = None,
+        post_code: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -13249,7 +13212,7 @@ class ShippingAddress(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ShippingAddress"]:
         return (
             ShippingAddress(
@@ -13262,7 +13225,7 @@ class ShippingAddress(Type_):
                 street_line2=d.get("street_line2"),
                 post_code=d.get("post_code"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13311,7 +13274,7 @@ class OrderInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["OrderInfo"]:
         return (
             OrderInfo(
@@ -13324,7 +13287,7 @@ class OrderInfo(Type_):
                     me=me, d=d.get("shipping_address")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13355,9 +13318,9 @@ class ShippingOption(Type_):
 
     def __init__(
         self,
-        id: "str",
-        title: "str",
-        prices: List["LabeledPrice"],
+        id: "str" = None,
+        title: "str" = None,
+        prices: List["LabeledPrice"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -13368,7 +13331,7 @@ class ShippingOption(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ShippingOption"]:
         return (
             ShippingOption(
@@ -13380,7 +13343,7 @@ class ShippingOption(Type_):
                 if d.get("prices")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13425,11 +13388,11 @@ class SuccessfulPayment(Type_):
 
     def __init__(
         self,
-        currency: "str",
-        total_amount: "int",
-        invoice_payload: "str",
-        telegram_payment_charge_id: "str",
-        provider_payment_charge_id: "str",
+        currency: "str" = None,
+        total_amount: "int" = None,
+        invoice_payload: "str" = None,
+        telegram_payment_charge_id: "str" = None,
+        provider_payment_charge_id: "str" = None,
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
         me: "tgram.TgBot" = None,
@@ -13446,7 +13409,7 @@ class SuccessfulPayment(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["SuccessfulPayment"]:
         return (
             SuccessfulPayment(
@@ -13460,7 +13423,7 @@ class SuccessfulPayment(Type_):
                 shipping_option_id=d.get("shipping_option_id"),
                 order_info=OrderInfo._parse(me=me, d=d.get("order_info")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13473,10 +13436,10 @@ class SuccessfulPayment(Type_):
 class RefundedPayment(Type_):
     def __init__(
         self,
-        currency: "str",
-        total_amount: "int",
-        invoice_payload: "str",
-        telegram_payment_charge_id: "str",
+        currency: "str" = None,
+        total_amount: "int" = None,
+        invoice_payload: "str" = None,
+        telegram_payment_charge_id: "str" = None,
         provider_payment_charge_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -13490,7 +13453,7 @@ class RefundedPayment(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["RefundedPayment"]:
         return (
             RefundedPayment(
@@ -13502,7 +13465,7 @@ class RefundedPayment(Type_):
                 telegram_payment_charge_id=d.get("telegram_payment_charge_id"),
                 provider_payment_charge_id=d.get("provider_payment_charge_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13536,10 +13499,10 @@ class ShippingQuery(Type_):
 
     def __init__(
         self,
-        id: "str",
-        from_user: "User",
-        invoice_payload: "str",
-        shipping_address: "ShippingAddress",
+        id: "str" = None,
+        from_user: "User" = None,
+        invoice_payload: "str" = None,
+        shipping_address: "ShippingAddress" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -13551,7 +13514,7 @@ class ShippingQuery(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["ShippingQuery"]:
         return (
             ShippingQuery(
@@ -13564,7 +13527,7 @@ class ShippingQuery(Type_):
                     me=me, d=d.get("shipping_address")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13609,11 +13572,11 @@ class PreCheckoutQuery(Type_):
 
     def __init__(
         self,
-        id: "str",
-        from_user: "User",
-        currency: "str",
-        total_amount: "int",
-        invoice_payload: "str",
+        id: "str" = None,
+        from_user: "User" = None,
+        currency: "str" = None,
+        total_amount: "int" = None,
+        invoice_payload: "str" = None,
         shipping_option_id: "str" = None,
         order_info: "OrderInfo" = None,
         me: "tgram.TgBot" = None,
@@ -13630,7 +13593,7 @@ class PreCheckoutQuery(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PreCheckoutQuery"]:
         return (
             PreCheckoutQuery(
@@ -13644,7 +13607,7 @@ class PreCheckoutQuery(Type_):
                 shipping_option_id=d.get("shipping_option_id"),
                 order_info=OrderInfo._parse(me=me, d=d.get("order_info")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13680,15 +13643,11 @@ class RevenueWithdrawalStatePending(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["RevenueWithdrawalStatePending"]:
         return (
-            RevenueWithdrawalStatePending(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            RevenueWithdrawalStatePending(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13719,8 +13678,8 @@ class RevenueWithdrawalStateSucceeded(Type_):
 
     def __init__(
         self,
-        date: "int",
-        url: "str",
+        date: "int" = None,
+        url: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -13731,17 +13690,13 @@ class RevenueWithdrawalStateSucceeded(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["RevenueWithdrawalStateSucceeded"]:
         return (
             RevenueWithdrawalStateSucceeded(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                date=d.get("date"),
-                url=d.get("url"),
+                me=me, json=d, type=d.get("type"), date=d.get("date"), url=d.get("url")
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13770,15 +13725,11 @@ class RevenueWithdrawalStateFailed(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["RevenueWithdrawalStateFailed"]:
         return (
-            RevenueWithdrawalStateFailed(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            RevenueWithdrawalStateFailed(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13825,7 +13776,7 @@ class TransactionPartnerFragment(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["TransactionPartnerFragment"]:
         return (
             TransactionPartnerFragment(
@@ -13834,21 +13785,19 @@ class TransactionPartnerFragment(Type_):
                 type=d.get("type"),
                 withdrawal_state=None
                 if not d.get("withdrawal_state")
-                else (
-                    RevenueWithdrawalStateSucceeded._parse(
-                        me=me, d=d.get("withdrawal_state")
-                    )
-                    if d["type"] == "succeeded"
-                    else RevenueWithdrawalStateFailed._parse(
-                        me=me, d=d.get("withdrawal_state")
-                    )
-                    if d["type"] == "failed"
-                    else RevenueWithdrawalStatePending._parse(
-                        me=me, d=d.get("withdrawal_state")
-                    )
+                else RevenueWithdrawalStateSucceeded._parse(
+                    me=me, d=d.get("withdrawal_state")
+                )
+                if d["type"] == "succeeded"
+                else RevenueWithdrawalStateFailed._parse(
+                    me=me, d=d.get("withdrawal_state")
+                )
+                if d["type"] == "failed"
+                else RevenueWithdrawalStatePending._parse(
+                    me=me, d=d.get("withdrawal_state")
                 ),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13876,7 +13825,7 @@ class TransactionPartnerUser(Type_):
 
     def __init__(
         self,
-        user: "User",
+        user: "User" = None,
         invoice_payload: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -13888,7 +13837,7 @@ class TransactionPartnerUser(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["TransactionPartnerUser"]:
         return (
             TransactionPartnerUser(
@@ -13898,7 +13847,7 @@ class TransactionPartnerUser(Type_):
                 user=User._parse(me=me, d=d.get("user")),
                 invoice_payload=d.get("invoice_payload"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13927,15 +13876,11 @@ class TransactionPartnerOther(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["TransactionPartnerOther"]:
         return (
-            TransactionPartnerOther(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            TransactionPartnerOther(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -13972,9 +13917,9 @@ class StarTransaction(Type_):
 
     def __init__(
         self,
-        id: "str",
-        amount: "int",
-        date: "int",
+        id: "str" = None,
+        amount: "int" = None,
+        date: "int" = None,
         source: "TransactionPartner" = None,
         receiver: "TransactionPartner" = None,
         me: "tgram.TgBot" = None,
@@ -13989,7 +13934,7 @@ class StarTransaction(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["StarTransaction"]:
         return (
             StarTransaction(
@@ -14001,7 +13946,7 @@ class StarTransaction(Type_):
                 source=TransactionPartner._parse(me=me, d=d.get("source")),
                 receiver=TransactionPartner._parse(me=me, d=d.get("receiver")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14018,15 +13963,11 @@ class TransactionPartnerTelegramAds(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["TransactionPartnerTelegramAds"]:
         return (
-            TransactionPartnerTelegramAds(
-                me=me,
-                json=d,
-                type=d.get("type"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            TransactionPartnerTelegramAds(me=me, json=d, type=d.get("type"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14052,7 +13993,7 @@ class StarTransactions(Type_):
 
     def __init__(
         self,
-        transactions: List["StarTransaction"],
+        transactions: List["StarTransaction"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14061,7 +14002,7 @@ class StarTransactions(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["StarTransactions"]:
         return (
             StarTransactions(
@@ -14073,7 +14014,7 @@ class StarTransactions(Type_):
                 if d.get("transactions")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14086,8 +14027,8 @@ class StarTransactions(Type_):
 class PassportData(Type_):
     def __init__(
         self,
-        data: List["EncryptedPassportElement"],
-        credentials: "EncryptedCredentials",
+        data: List["EncryptedPassportElement"] = None,
+        credentials: "EncryptedCredentials" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14097,7 +14038,7 @@ class PassportData(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportData"]:
         return (
             PassportData(
@@ -14110,7 +14051,7 @@ class PassportData(Type_):
                 else None,
                 credentials=EncryptedCredentials._parse(me=me, d=d.get("credentials")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14123,10 +14064,10 @@ class PassportData(Type_):
 class PassportFile(Type_):
     def __init__(
         self,
-        file_id: "str",
-        file_unique_id: "str",
-        file_size: "int",
-        file_date: "int",
+        file_id: "str" = None,
+        file_unique_id: "str" = None,
+        file_size: "int" = None,
+        file_date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14138,7 +14079,7 @@ class PassportFile(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportFile"]:
         return (
             PassportFile(
@@ -14149,7 +14090,7 @@ class PassportFile(Type_):
                 file_size=d.get("file_size"),
                 file_date=d.get("file_date"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14162,8 +14103,8 @@ class PassportFile(Type_):
 class EncryptedPassportElement(Type_):
     def __init__(
         self,
-        type: "str",
-        hash: "str",
+        type: "str" = None,
+        hash: "str" = None,
         data: "str" = None,
         phone_number: "str" = None,
         email: "str" = None,
@@ -14189,7 +14130,7 @@ class EncryptedPassportElement(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["EncryptedPassportElement"]:
         return (
             EncryptedPassportElement(
@@ -14212,7 +14153,7 @@ class EncryptedPassportElement(Type_):
                 if d.get("translation")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14225,9 +14166,9 @@ class EncryptedPassportElement(Type_):
 class EncryptedCredentials(Type_):
     def __init__(
         self,
-        data: "str",
-        hash: "str",
-        secret: "str",
+        data: "str" = None,
+        hash: "str" = None,
+        secret: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14238,7 +14179,7 @@ class EncryptedCredentials(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["EncryptedCredentials"]:
         return (
             EncryptedCredentials(
@@ -14248,7 +14189,7 @@ class EncryptedCredentials(Type_):
                 hash=d.get("hash"),
                 secret=d.get("secret"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14261,11 +14202,11 @@ class EncryptedCredentials(Type_):
 class PassportElementError(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        field_name: "str",
-        data_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        field_name: "str" = None,
+        data_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14278,7 +14219,7 @@ class PassportElementError(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementError"]:
         return (
             PassportElementError(
@@ -14290,7 +14231,7 @@ class PassportElementError(Type_):
                 data_hash=d.get("data_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14303,11 +14244,11 @@ class PassportElementError(Type_):
 class PassportElementErrorDataField(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        field_name: "str",
-        data_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        field_name: "str" = None,
+        data_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14320,7 +14261,7 @@ class PassportElementErrorDataField(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorDataField"]:
         return (
             PassportElementErrorDataField(
@@ -14332,7 +14273,7 @@ class PassportElementErrorDataField(Type_):
                 data_hash=d.get("data_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14345,10 +14286,10 @@ class PassportElementErrorDataField(Type_):
 class PassportElementErrorFrontSide(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14360,7 +14301,7 @@ class PassportElementErrorFrontSide(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorFrontSide"]:
         return (
             PassportElementErrorFrontSide(
@@ -14371,7 +14312,7 @@ class PassportElementErrorFrontSide(Type_):
                 file_hash=d.get("file_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14384,10 +14325,10 @@ class PassportElementErrorFrontSide(Type_):
 class PassportElementErrorReverseSide(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14399,7 +14340,7 @@ class PassportElementErrorReverseSide(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorReverseSide"]:
         return (
             PassportElementErrorReverseSide(
@@ -14410,7 +14351,7 @@ class PassportElementErrorReverseSide(Type_):
                 file_hash=d.get("file_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14423,10 +14364,10 @@ class PassportElementErrorReverseSide(Type_):
 class PassportElementErrorSelfie(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14438,7 +14379,7 @@ class PassportElementErrorSelfie(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorSelfie"]:
         return (
             PassportElementErrorSelfie(
@@ -14449,7 +14390,7 @@ class PassportElementErrorSelfie(Type_):
                 file_hash=d.get("file_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14462,10 +14403,10 @@ class PassportElementErrorSelfie(Type_):
 class PassportElementErrorFile(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14477,7 +14418,7 @@ class PassportElementErrorFile(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorFile"]:
         return (
             PassportElementErrorFile(
@@ -14488,7 +14429,7 @@ class PassportElementErrorFile(Type_):
                 file_hash=d.get("file_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14501,10 +14442,10 @@ class PassportElementErrorFile(Type_):
 class PassportElementErrorFiles(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hashes: List["str"],
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hashes: List["str"] = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14516,7 +14457,7 @@ class PassportElementErrorFiles(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorFiles"]:
         return (
             PassportElementErrorFiles(
@@ -14527,7 +14468,7 @@ class PassportElementErrorFiles(Type_):
                 file_hashes=d.get("file_hashes"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14540,10 +14481,10 @@ class PassportElementErrorFiles(Type_):
 class PassportElementErrorTranslationFile(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14555,7 +14496,7 @@ class PassportElementErrorTranslationFile(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorTranslationFile"]:
         return (
             PassportElementErrorTranslationFile(
@@ -14566,7 +14507,7 @@ class PassportElementErrorTranslationFile(Type_):
                 file_hash=d.get("file_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14579,10 +14520,10 @@ class PassportElementErrorTranslationFile(Type_):
 class PassportElementErrorTranslationFiles(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        file_hashes: List["str"],
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        file_hashes: List["str"] = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14594,7 +14535,7 @@ class PassportElementErrorTranslationFiles(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorTranslationFiles"]:
         return (
             PassportElementErrorTranslationFiles(
@@ -14605,7 +14546,7 @@ class PassportElementErrorTranslationFiles(Type_):
                 file_hashes=d.get("file_hashes"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14618,10 +14559,10 @@ class PassportElementErrorTranslationFiles(Type_):
 class PassportElementErrorUnspecified(Type_):
     def __init__(
         self,
-        source: "str",
-        type: "str",
-        element_hash: "str",
-        message: "str",
+        source: "str" = None,
+        type: "str" = None,
+        element_hash: "str" = None,
+        message: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14633,7 +14574,7 @@ class PassportElementErrorUnspecified(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PassportElementErrorUnspecified"]:
         return (
             PassportElementErrorUnspecified(
@@ -14644,7 +14585,7 @@ class PassportElementErrorUnspecified(Type_):
                 element_hash=d.get("element_hash"),
                 message=d.get("message"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14686,9 +14627,9 @@ class Game(Type_):
 
     def __init__(
         self,
-        title: "str",
-        description: "str",
-        photo: List["PhotoSize"],
+        title: "str" = None,
+        description: "str" = None,
+        photo: List["PhotoSize"] = None,
         text: "str" = None,
         text_entities: List["MessageEntity"] = None,
         animation: "Animation" = None,
@@ -14705,7 +14646,7 @@ class Game(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["Game"]:
         return (
             Game(
@@ -14724,7 +14665,7 @@ class Game(Type_):
                 else None,
                 animation=Animation._parse(me=me, d=d.get("animation")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14737,8 +14678,8 @@ class Game(Type_):
 class CallbackGame(Type_):
     def __init__(
         self,
-        user_id: "int",
-        score: "int",
+        user_id: "int" = None,
+        score: "int" = None,
         force: "bool" = None,
         disable_edit_message: "bool" = None,
         chat_id: "int" = None,
@@ -14758,7 +14699,7 @@ class CallbackGame(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["CallbackGame"]:
         return (
             CallbackGame(
@@ -14772,7 +14713,7 @@ class CallbackGame(Type_):
                 message_id=d.get("message_id"),
                 inline_message_id=d.get("inline_message_id"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14803,9 +14744,9 @@ class GameHighScore(Type_):
 
     def __init__(
         self,
-        position: "int",
-        user: "User",
-        score: "int",
+        position: "int" = None,
+        user: "User" = None,
+        score: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14816,7 +14757,7 @@ class GameHighScore(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["GameHighScore"]:
         return (
             GameHighScore(
@@ -14826,7 +14767,7 @@ class GameHighScore(Type_):
                 user=User._parse(me=me, d=d.get("user")),
                 score=d.get("score"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14839,8 +14780,8 @@ class GameHighScore(Type_):
 class PaidMediaInfo(Type_):
     def __init__(
         self,
-        star_count: "int",
-        paid_media: List["PaidMedia"],
+        star_count: "int" = None,
+        paid_media: List["PaidMedia"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14850,7 +14791,7 @@ class PaidMediaInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PaidMediaInfo"]:
         return (
             PaidMediaInfo(
@@ -14858,17 +14799,19 @@ class PaidMediaInfo(Type_):
                 json=d,
                 star_count=d.get("star_count"),
                 paid_media=[
-                    PaidMediaPreview._parse(me=me, d=i)
-                    if i["type"] == "preview"
-                    else PaidMediaPhoto._parse(me=me, d=i)
-                    if i["type"] == "photo"
-                    else PaidMediaVideo._parse(me=me, d=i)
+                    (
+                        PaidMediaPreview._parse(me=me, d=i)
+                        if i["type"] == "preview"
+                        else PaidMediaPhoto._parse(me=me, d=i)
+                        if i["type"] == "photo"
+                        else PaidMediaVideo._parse(me=me, d=i)
+                    )
                     for i in d.get("paid_media")
                 ]
                 if d.get("paid_media")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14898,7 +14841,7 @@ class PaidMediaPreview(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PaidMediaPreview"]:
         return (
             PaidMediaPreview(
@@ -14909,7 +14852,7 @@ class PaidMediaPreview(Type_):
                 height=d.get("height"),
                 duration=d.get("duration"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14922,7 +14865,7 @@ class PaidMediaPreview(Type_):
 class PaidMediaPhoto(Type_):
     def __init__(
         self,
-        photo: List["PhotoSize"],
+        photo: List["PhotoSize"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -14932,7 +14875,7 @@ class PaidMediaPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PaidMediaPhoto"]:
         return (
             PaidMediaPhoto(
@@ -14943,7 +14886,7 @@ class PaidMediaPhoto(Type_):
                 if d.get("photo")
                 else None,
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14954,14 +14897,16 @@ class PaidMediaPhoto(Type_):
 
 
 class PaidMediaVideo(Type_):
-    def __init__(self, video: "Video", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, video: "Video" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = "video"
         self.video = video
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["PaidMediaVideo"]:
         return (
             PaidMediaVideo(
@@ -14970,7 +14915,7 @@ class PaidMediaVideo(Type_):
                 type=d.get("type"),
                 video=Video._parse(me=me, d=d.get("video")),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -14984,23 +14929,20 @@ InputPaidMedia = Union["InputPaidMediaPhoto", "InputPaidMediaVideo"]
 
 
 class InputPaidMediaPhoto(Type_):
-    def __init__(self, media: "str", me: "tgram.TgBot" = None, json: "dict" = None):
+    def __init__(
+        self, media: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+    ):
         super().__init__(me=me, json=json)
         self.type = "photo"
         self.media = media
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputPaidMediaPhoto"]:
         return (
-            InputPaidMediaPhoto(
-                me=me,
-                json=d,
-                type=d.get("type"),
-                media=d.get("media"),
-            )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            InputPaidMediaPhoto(me=me, json=d, type=d.get("type"), media=d.get("media"))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
@@ -15013,7 +14955,7 @@ class InputPaidMediaPhoto(Type_):
 class InputPaidMediaVideo(Type_):
     def __init__(
         self,
-        media: "str",
+        media: "str" = None,
         thumbnail: Union["InputFile", "str"] = None,
         width: "int" = None,
         height: "int" = None,
@@ -15033,7 +14975,7 @@ class InputPaidMediaVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = False
+        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["InputPaidMediaVideo"]:
         return (
             InputPaidMediaVideo(
@@ -15047,7 +14989,7 @@ class InputPaidMediaVideo(Type_):
                 duration=d.get("duration"),
                 supports_streaming=d.get("supports_streaming"),
             )
-            if d and (force or (me and __class__.__name__ not in me._custom_types))
+            if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
             if not d
             else Type_._custom_parse(
