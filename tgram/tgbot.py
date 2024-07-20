@@ -7,6 +7,7 @@ import os
 import io
 import ssl
 import certifi
+import inspect
 
 from .methods import TelegramBotMethods
 from .decorators import Decorators
@@ -122,6 +123,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     me: "tgram.types.User" = None
     _session: "aiohttp.ClientSession" = None
     _api_url: str = None
+    _custom_types: dict = {}
 
     def __init__(
         self,
@@ -261,6 +263,14 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                     for handler in object.handlers:
                         if isinstance(handler, tgram.handlers.Handler):
                             self.add_handler(handler)
+
+    def customize(self, old: type, new: type) -> Literal[True]:
+        if tgram.types.Type_ not in inspect.getmro(old):
+            raise ValueError("You can't customize this type, it's not tgram type.")
+
+        self._custom_types.update({old.__name__: new})
+
+        return True
 
 
 wrap(Dispatcher)
