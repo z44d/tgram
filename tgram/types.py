@@ -48,13 +48,21 @@ class Type_:
     def _custom_parse(a: "Type_", b: type = None) -> type:
         if b is None:
             return a
+        obj = b()
+        obj._me = a._me
+        obj._json = a._json
         try:
-            obj = b()
             for attr in filter(
                 lambda x: not x.startswith("_"),
                 dir(a),
             ):
-                setattr(obj, getattr(a, attr))
+                if hasattr(type(a), attr) and (
+                    callable(getattr(type(a), attr))
+                    or isinstance(getattr(type(a), attr), property)
+                ):
+                    setattr(type(obj), attr, getattr(type(a), attr))
+                else:
+                    setattr(obj, attr, getattr(a, attr))
             return obj
         except Exception as e:
             logger.warn(
