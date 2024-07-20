@@ -45,7 +45,9 @@ class Type_:
         )
 
     @staticmethod
-    def _custom_parse(a: "Type_", b: type) -> type:
+    def _custom_parse(a: "Type_", b: type = None) -> type:
+        if b is None:
+            return a
         try:
             obj = b()
             for attr in filter(
