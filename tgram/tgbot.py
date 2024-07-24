@@ -14,6 +14,7 @@ from .decorators import Decorators
 from .errors import APIException
 from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
+from .methods import TelegramBotMethods
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from typing import List, Any, Literal, Callable, Union
