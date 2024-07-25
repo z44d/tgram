@@ -161,7 +161,9 @@ from ._passport_element_error_files import PassportElementErrorFiles
 from ._passport_element_error_front_side import PassportElementErrorFrontSide
 from ._passport_element_error_reverse_side import PassportElementErrorReverseSide
 from ._passport_element_error_selfie import PassportElementErrorSelfie
-from ._passport_element_error_translation_file import PassportElementErrorTranslationFile
+from ._passport_element_error_translation_file import (
+    PassportElementErrorTranslationFile,
+)
 from ._passport_element_error_translation_files import (
     PassportElementErrorTranslationFiles,
 )

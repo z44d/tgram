@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import Optional
+from tgram import bound
 
 
-class User(Type_, tgram.types.UserB):
+class User(Type_, bound.UserB):
     """
     This object represents a Telegram user or bot.
 

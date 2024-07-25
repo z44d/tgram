@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram import bound
 
 
-class Message(Type_, tgram.bound.MessageB):
+class Message(Type_, bound.MessageB):
     """
     This object represents a message.
 
