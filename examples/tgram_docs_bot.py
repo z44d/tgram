@@ -24,7 +24,7 @@ async def on_message(_, m: types.Message):
             "This bot is only working in inline mode, write the bot username with your query to search in docs, "
             "for example: `@{username} send_photo`"
         ).format(
-            mention=m.from_user.mention,
+            mention=m.from_user.mention.markdown,
             username=me.username,
         ),
         reply_parameters=types.ReplyParameters(m.message_id),
