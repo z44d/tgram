@@ -39,10 +39,7 @@ class InlineKeyboardMarkup(Type_):
                 me=me,
                 json=d,
                 inline_keyboard=[
-                    [
-                        tgram.types.InlineKeyboardButton._parse(me=me, d=x)
-                        for x in i
-                    ]
+                    [tgram.types.InlineKeyboardButton._parse(me=me, d=x) for x in i]
                     for i in d.get("inline_keyboard")
                 ]
                 if d.get("inline_keyboard")

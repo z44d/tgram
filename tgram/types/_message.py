@@ -3,6 +3,7 @@ from .type_ import Type_
 
 from typing import List, Optional
 from tgram import bound
+from tgram.utils import String
 
 
 class Message(Type_, bound.MessageB):
@@ -87,7 +88,7 @@ class Message(Type_, bound.MessageB):
     :type author_signature: :obj:`str`
 
     :param text: Optional. For text messages, the actual UTF-8 text of the message
-    :type text: :obj:`str`
+    :type text: :class:`tgram.utils.String`
 
     :param entities: Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that
         appear in the text
@@ -320,7 +321,7 @@ class Message(Type_, bound.MessageB):
         is_from_offline: "bool" = None,
         media_group_id: "str" = None,
         author_signature: "str" = None,
-        text: "str" = None,
+        text: "String" = None,
         entities: List["tgram.types.MessageEntity"] = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         effect_id: "str" = None,
@@ -334,7 +335,7 @@ class Message(Type_, bound.MessageB):
         video: "tgram.types.Video" = None,
         video_note: "tgram.types.VideoNote" = None,
         voice: "tgram.types.Voice" = None,
-        caption: "str" = None,
+        caption: "String" = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: "bool" = None,
         has_media_spoiler: "bool" = None,
@@ -409,7 +410,7 @@ class Message(Type_, bound.MessageB):
         self.is_from_offline = is_from_offline
         self.media_group_id = media_group_id
         self.author_signature = author_signature
-        self.text = text
+        self.text = String(text).put(entities)
         self.entities = entities
         self.link_preview_options = link_preview_options
         self.effect_id = effect_id
@@ -423,7 +424,7 @@ class Message(Type_, bound.MessageB):
         self.video = video
         self.video_note = video_note
         self.voice = voice
-        self.caption = caption
+        self.caption = String(caption).put(caption_entities)
         self.caption_entities = caption_entities
         self.show_caption_above_media = show_caption_above_media
         self.has_media_spoiler = has_media_spoiler

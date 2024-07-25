@@ -42,8 +42,7 @@ class UsersShared(Type_):
                 json=d,
                 request_id=d.get("request_id"),
                 users=[
-                    tgram.types.SharedUser._parse(me=me, d=i)
-                    for i in d.get("users")
+                    tgram.types.SharedUser._parse(me=me, d=i) for i in d.get("users")
                 ]
                 if d.get("users")
                 else None,

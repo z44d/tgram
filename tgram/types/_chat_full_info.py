@@ -319,9 +319,7 @@ class ChatFullInfo(Type_):
                 can_set_sticker_set=d.get("can_set_sticker_set"),
                 custom_emoji_sticker_set_name=d.get("custom_emoji_sticker_set_name"),
                 linked_chat_id=d.get("linked_chat_id"),
-                location=tgram.types.ChatLocation._parse(
-                    me=me, d=d.get("location")
-                ),
+                location=tgram.types.ChatLocation._parse(me=me, d=d.get("location")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

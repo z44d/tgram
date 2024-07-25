@@ -1,18 +1,21 @@
 import tgram
 
+from tgram.utils import String
+
 
 class UserB:
     @property
     def mention(
         self: "tgram.types.User",
         name: str = None,
-        parse_mode: str = "Markdown",
-    ) -> str:
-        return (
-            "[{name}](tg://user?id={id})"
-            if (self._me.parse_mode or parse_mode).lower() != "html"
-            else '<a href="tg://user?id={id}">{name}</a>'
-        ).format(name=name or self.first_name, id=self.id)
+    ) -> String:
+        return String(name or self.first_name).put(
+            [
+                tgram.types.MessageEntity(
+                    "text_mention", 0, len(name or self.first_name), user=self
+                )
+            ]
+        )
 
     @property
     def full_name(self: "tgram.types.User") -> str:

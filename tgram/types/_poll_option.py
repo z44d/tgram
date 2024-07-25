@@ -2,6 +2,7 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram.utils import String
 
 
 class PollOption(Type_):
@@ -11,7 +12,7 @@ class PollOption(Type_):
     Telegram Documentation: https://core.telegram.org/bots/api#polloption
 
     :param text: Option text, 1-100 characters
-    :type text: :obj:`str`
+    :type text: :class:`tgram.types.String`
 
     :param voter_count: Number of users that voted for this option
     :type voter_count: :obj:`int`
@@ -25,14 +26,14 @@ class PollOption(Type_):
 
     def __init__(
         self,
-        text: "str" = None,
+        text: "String" = None,
         voter_count: "int" = None,
         text_entities: List["tgram.types.MessageEntity"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.text = text
+        self.text = String(text).put(text_entities)
         self.text_entities = text_entities
         self.voter_count = voter_count
 

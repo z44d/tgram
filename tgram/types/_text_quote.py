@@ -2,6 +2,7 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram.utils import String
 
 
 class TextQuote(Type_):
@@ -11,7 +12,7 @@ class TextQuote(Type_):
     Telegram documentation: https://core.telegram.org/bots/api#textquote
 
     :param text: Text of the quoted part of a message that is replied to by the given message
-    :type text: :obj:`str`
+    :type text: :class:`tgram.utils.String`
 
     :param entities: Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are kept in quotes.
     :type entities: :obj:`list` of :class:`MessageEntity`
@@ -28,7 +29,7 @@ class TextQuote(Type_):
 
     def __init__(
         self,
-        text: "str" = None,
+        text: "String" = None,
         position: "int" = None,
         entities: List["tgram.types.MessageEntity"] = None,
         is_manual: "bool" = None,
@@ -36,7 +37,7 @@ class TextQuote(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.text = text
+        self.text = String(text).put(entities)
         self.entities = entities
         self.position = position
         self.is_manual = is_manual

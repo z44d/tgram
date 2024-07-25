@@ -2,6 +2,7 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram.utils import String
 
 
 class Poll(Type_):
@@ -14,7 +15,7 @@ class Poll(Type_):
     :type id: :obj:`str`
 
     :param question: Poll question, 1-300 characters
-    :type question: :obj:`str`
+    :type question: :class:`tgram.utils.String`
 
     :param options: List of poll options
     :type options: :obj:`list` of :class:`tgram.types.PollOption`
@@ -38,7 +39,7 @@ class Poll(Type_):
     :type correct_option_id: :obj:`int`
 
     :param explanation: Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
-    :type explanation: :obj:`str`
+    :type explanation: :class:`tgram.utils.String`
 
     :param explanation_entities: Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
     :type explanation_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
@@ -59,7 +60,7 @@ class Poll(Type_):
     def __init__(
         self,
         id: "str" = None,
-        question: "str" = None,
+        question: "String" = None,
         options: List["tgram.types.PollOption"] = None,
         total_voter_count: "int" = None,
         is_closed: "bool" = None,
@@ -68,7 +69,7 @@ class Poll(Type_):
         allows_multiple_answers: "bool" = None,
         question_entities: List["tgram.types.MessageEntity"] = None,
         correct_option_id: "int" = None,
-        explanation: "str" = None,
+        explanation: "String" = None,
         explanation_entities: List["tgram.types.MessageEntity"] = None,
         open_period: "int" = None,
         close_date: "int" = None,
@@ -77,7 +78,7 @@ class Poll(Type_):
     ):
         super().__init__(me=me, json=json)
         self.id = id
-        self.question = question
+        self.question = String(question).put(question_entities)
         self.question_entities = question_entities
         self.options = options
         self.total_voter_count = total_voter_count
@@ -86,7 +87,7 @@ class Poll(Type_):
         self.type = type
         self.allows_multiple_answers = allows_multiple_answers
         self.correct_option_id = correct_option_id
-        self.explanation = explanation
+        self.explanation = String(explanation).put(explanation_entities)
         self.explanation_entities = explanation_entities
         self.open_period = open_period
         self.close_date = close_date
