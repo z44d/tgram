@@ -14,7 +14,6 @@ from .decorators import Decorators
 from .errors import APIException
 from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
-from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from typing import List, Any, Literal, Callable, Union
@@ -207,8 +206,10 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
                 has_files = True
                 file = value if isinstance(value, bytes) else value.read()
-            elif isinstance(value, (Type_, list)):
-                value = json.dumps(value, ensure_ascii=False, default=Type_.default)
+            elif isinstance(value, (tgram.types.Type_, list)):
+                value = json.dumps(
+                    value, ensure_ascii=False, default=tgram.types.Type_.default
+                )
             else:
                 value = str(value)
             data.add_field(
@@ -264,7 +265,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                             self.add_handler(handler)
 
     def customize(self, old: type, new: type) -> Literal[True]:
-        if Type_ not in inspect.getmro(old):
+        if tgram.types.Type_ not in inspect.getmro(old):
             raise ValueError("You can't customize this type, it's not tgram type.")
 
         wrap(new)
