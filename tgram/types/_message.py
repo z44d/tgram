@@ -410,7 +410,7 @@ class Message(Type_, bound.MessageB):
         self.is_from_offline = is_from_offline
         self.media_group_id = media_group_id
         self.author_signature = author_signature
-        self.text = String(text).put(entities)
+        self.text = String(text).put(entities) if text else None
         self.entities = entities
         self.link_preview_options = link_preview_options
         self.effect_id = effect_id
@@ -424,7 +424,7 @@ class Message(Type_, bound.MessageB):
         self.video = video
         self.video_note = video_note
         self.voice = voice
-        self.caption = String(caption).put(caption_entities)
+        self.caption = String(caption).put(caption_entities) if caption else None
         self.caption_entities = caption_entities
         self.show_caption_above_media = show_caption_above_media
         self.has_media_spoiler = has_media_spoiler

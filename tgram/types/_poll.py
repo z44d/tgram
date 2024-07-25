@@ -87,7 +87,9 @@ class Poll(Type_):
         self.type = type
         self.allows_multiple_answers = allows_multiple_answers
         self.correct_option_id = correct_option_id
-        self.explanation = String(explanation).put(explanation_entities)
+        self.explanation = (
+            String(explanation).put(explanation_entities) if explanation else None
+        )
         self.explanation_entities = explanation_entities
         self.open_period = open_period
         self.close_date = close_date

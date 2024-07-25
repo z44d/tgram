@@ -40,11 +40,11 @@ class String(str):
 
     @property
     def markdown(self) -> str:
-        return markdown_unparse(self, self._entities)
+        return self if not self._entities else markdown_unparse(self, self._entities)
 
     @property
     def html(self) -> str:
-        return html_unparse(self, self._entities)
+        return self if not self._entities else html_unparse(self, self._entities)
 
 
 SMP_RE = re.compile(r"[\U00010000-\U0010FFFF]")
