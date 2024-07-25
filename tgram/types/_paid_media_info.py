@@ -31,7 +31,7 @@ class PaidMediaInfo(Type_):
                         if i["type"] == "preview"
                         else tgram.types.PaidMediaPhoto._parse(me=me, d=i)
                         if i["type"] == "photo"
-                        else tgram.types.PaidMediatgram.types.Video._parse(me=me, d=i)
+                        else tgram.types.PaidMediaVideo._parse(me=me, d=i)
                     )
                     for i in d.get("paid_media")
                 ]

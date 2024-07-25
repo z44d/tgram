@@ -270,7 +270,7 @@ class ChatFullInfo(Type_):
                 business_intro=tgram.types.BusinessIntro._parse(
                     me=me, d=d.get("business_intro")
                 ),
-                business_location=tgram.types.Businesstgram.types.Location._parse(
+                business_location=tgram.types.BusinessLocation._parse(
                     me=me, d=d.get("business_location")
                 ),
                 business_opening_hours=tgram.types.BusinessOpeningHours._parse(
@@ -319,7 +319,7 @@ class ChatFullInfo(Type_):
                 can_set_sticker_set=d.get("can_set_sticker_set"),
                 custom_emoji_sticker_set_name=d.get("custom_emoji_sticker_set_name"),
                 linked_chat_id=d.get("linked_chat_id"),
-                location=tgram.types.Chattgram.types.Location._parse(
+                location=tgram.types.ChatLocation._parse(
                     me=me, d=d.get("location")
                 ),
             )
