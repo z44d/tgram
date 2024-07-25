@@ -6,8 +6,8 @@ from tgram.types import Listener
 class Ask:
     async def ask(
         self: "tgram.TgBot",
-        update_type: str,
         next_step: Callable,
+        update_type: str = "message",
         data: dict = None,
         cancel: Callable = None,
         filters: "tgram.filters.Filter" = None,
