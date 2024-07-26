@@ -1,7 +1,7 @@
 import tgram
 from .type_ import Type_
 
-from typing import Optional
+from typing import Optional, Union
 
 
 class BackgroundFill(Type_):
@@ -17,28 +17,22 @@ class BackgroundFill(Type_):
     :rtype: :class:`BackgroundFillSolid` or :class:`BackgroundFillGradient` or :class:`BackgroundFillFreeformGradient`
     """
 
-    def __init__(
-        self,
-        type: "str" = None,
-        color: "int" = None,
-        me: "tgram.TgBot" = None,
-        json: "dict" = None,
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-        self.color = color
-
     @staticmethod
     def _parse(
         me: "tgram.TgBot" = None, d: dict = None, force: bool = None
-    ) -> Optional["tgram.types.BackgroundFill"]:
+    ) -> Optional[
+        Union[
+            "tgram.types.BackgroundFillSolid",
+            "tgram.types.BackgroundFillGradient",
+            "tgram.types.BackgroundFillFreeformGradient",
+        ]
+    ]:
         return (
-            BackgroundFill(me=me, json=d, type=d.get("type"), color=d.get("color"))
-            if d and (force or me and __class__.__name__ not in me._custom_types)
-            else None
+            None
             if not d
-            else Type_._custom_parse(
-                __class__._parse(me=me, d=d, force=True),
-                me._custom_types.get(__class__.__name__),
-            )
+            else tgram.types.BackgroundFillSolid._parse(me, d, force)
+            if d["type"] == "solid"
+            else tgram.types.BackgroundFillGradient._parse(me, d, force)
+            if d["type"] == "gradient"
+            else tgram.types.BackgroundFillFreeformGradient._parse(me, d, force)
         )

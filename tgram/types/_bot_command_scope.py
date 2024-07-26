@@ -1,7 +1,7 @@
 import tgram
 from .type_ import Type_
 
-from typing import Optional
+from typing import Optional, Union
 
 
 class BotCommandScope(Type_):
@@ -47,23 +47,34 @@ class BotCommandScope(Type_):
     :rtype: :class:`tgram.types.BotCommandScope`
     """
 
-    def __init__(
-        self, type: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
-    ):
-        super().__init__(me=me, json=json)
-        self.type = type
-
     @staticmethod
     def _parse(
         me: "tgram.TgBot" = None, d: dict = None, force: bool = None
-    ) -> Optional["tgram.types.BotCommandScope"]:
+    ) -> Optional[
+        Union[
+            "tgram.types.BotCommandScopeDefault",
+            "tgram.types.BotCommandScopeAllPrivateChats",
+            "tgram.types.BotCommandScopeAllGroupChats",
+            "tgram.types.BotCommandScopeAllChatAdministrators",
+            "tgram.types.BotCommandScopeChat",
+            "tgram.types.BotCommandScopeChatAdministrators",
+            "tgram.types.BotCommandScopeChatMember",
+        ]
+    ]:
         return (
-            BotCommandScope(me=me, json=d, type=d.get("type"))
-            if d and (force or me and __class__.__name__ not in me._custom_types)
-            else None
+            None
             if not d
-            else Type_._custom_parse(
-                __class__._parse(me=me, d=d, force=True),
-                me._custom_types.get(__class__.__name__),
-            )
+            else tgram.types.BotCommandScopeDefault._parse(me, d, force)
+            if d["type"] == "default"
+            else tgram.types.BotCommandScopeAllPrivateChats._parse(me, d, force)
+            if d["type"] == "all_private_chats"
+            else tgram.types.BotCommandScopeAllGroupChats._parse(me, d, force)
+            if d["type"] == "all_group_chats"
+            else tgram.types.BotCommandScopeAllChatAdministrators._parse(me, d, force)
+            if d["type"] == "all_chat_administrators"
+            else tgram.types.BotCommandScopeChat._parse(me, d, force)
+            if d["type"] == "chat"
+            else tgram.types.BotCommandScopeChatAdministrators._parse(me, d, force)
+            if d["type"] == "chat_administrators"
+            else tgram.types.BotCommandScopeChatMember._parse(me, d, force)
         )
