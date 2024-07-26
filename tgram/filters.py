@@ -224,7 +224,7 @@ def regex(pattern: Union[str, Pattern], flags: int = 0):
     return Filter(regex_filter)
 
 
-def chat_type_filter(types: Union[list, str]) -> Filter:
+def chat_type(types: Union[list, str]) -> Filter:
     """Filter updates that match a given chat type."""
     types = (
         {types.lower()} if not isinstance(types, list) else {i.lower() for i in types}
@@ -247,9 +247,8 @@ def chat_type_filter(types: Union[list, str]) -> Filter:
     return Filter(chat_filter)
 
 
-private = chat_type_filter("private")
-group = chat_type_filter(["group", "supergroup"])
-channel = chat_type_filter("channel")
+private = chat_type("private")
+group = chat_type(["group", "supergroup"])
 
 
 def command(
