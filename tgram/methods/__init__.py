@@ -73,7 +73,6 @@ from .reopen_general_forum_topic import ReopenGeneralForumTopic
 from .replace_sticker_in_set import ReplaceStickerInSet
 from .restrict_chat_member import RestrictChatMember
 from .revoke_chat_invite_link import RevokeChatInviteLink
-from .schedule_job import ScheduleJob
 from .send_animation import SendAnimation
 from .send_audio import SendAudio
 from .send_chat_action import SendChatAction
@@ -205,7 +204,6 @@ class TelegramBotMethods(
     ReplaceStickerInSet,
     RestrictChatMember,
     RevokeChatInviteLink,
-    ScheduleJob,
     SendAnimation,
     SendAudio,
     SendChatAction,
