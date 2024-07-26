@@ -530,4 +530,4 @@ class MessageB:
 
     @property
     def __reply_param(self) -> "tgram.types.ReplyParameters":
-        return tgram.types.ReplyParameters(self.id)
+        return tgram.types.ReplyParameters(self.id, allow_sending_without_reply=True)
