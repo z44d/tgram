@@ -40,7 +40,7 @@ def convert_input_media(
             y.media = f"attach://{key}"
             count += 1
 
-            if getattr(y, "thumbnail"):
+            if hasattr(y, "thumbnail") and getattr(y, "thumbnail"):
                 if isinstance(y.thumbnail, Path) or (
                     isinstance(y.thumbnail, str) and os.path.isfile(y.thumbnail)
                 ):
