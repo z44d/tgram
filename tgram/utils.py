@@ -26,7 +26,9 @@ def get_file_path(file):
     return Path(file) if isinstance(file, str) and os.path.isfile(file) else file
 
 
-def convert_input_media(x: List["tgram.types.InputMedia"]):
+def convert_input_media(
+    x: List["tgram.types.InputMedia", "tgram.types.InputPaidMedia"],
+):
     files = {}
     count = 1
     for y in x:

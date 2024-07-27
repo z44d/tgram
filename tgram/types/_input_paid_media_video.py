@@ -3,11 +3,50 @@ from .type_ import Type_
 
 from typing import Union, Optional
 
+from pathlib import Path
+
 
 class InputPaidMediaVideo(Type_):
+    """
+    The paid media to send is a video.
+
+    Telegram documentation: https://core.telegram.org/bots/api#inputpaidmediavideo
+
+    :param type: Type of the media, must be video
+    :type type: :obj:`str`
+
+    :param media: File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for
+        Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data
+        under <file_attach_name> name. More information on Sending Files »
+    :type media: :obj:`str`
+
+    :param thumbnail: Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
+        The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320.
+        Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+        so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+        More information on Sending Files »
+    :type thumbnail: :class:`InputFile`
+
+    :param width: Optional. Video width
+    :type width: :obj:`int`
+
+    :param height: Optional. Video height
+    :type height: :obj:`int`
+
+    :param duration: Optional. Video duration in seconds
+    :type duration: :obj:`int`
+
+    :param supports_streaming: Optional. Pass True if the uploaded video is suitable for streaming
+    :type supports_streaming: :obj:`bool`
+
+    :return: Instance of the class
+    :rtype: :class:`InputPaidMediaVideo`
+
+    """
+
     def __init__(
         self,
-        media: "str" = None,
+        media: Union["Path", "str"] = None,
         thumbnail: Union["tgram.types.InputFile", "str"] = None,
         width: "int" = None,
         height: "int" = None,

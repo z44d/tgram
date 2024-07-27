@@ -1,12 +1,34 @@
 import tgram
 from .type_ import Type_
 
-from typing import Optional
+from typing import Optional, Union
+
+from pathlib import Path
 
 
 class InputPaidMediaPhoto(Type_):
+    """
+    The paid media to send is a photo.
+
+    Telegram documentation: https://core.telegram.org/bots/api#inputpaidmediaphoto
+
+    :param type: Type of the media, must be photo
+    :type type: :obj:`str`
+
+    :param media: File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for
+        Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data
+        under <file_attach_name> name. More information on Sending Files »
+    :type media: :obj:`str`
+
+    :return: Instance of the class
+    :rtype: :class:`InputPaidMediaPhoto`
+    """
+
     def __init__(
-        self, media: "str" = None, me: "tgram.TgBot" = None, json: "dict" = None
+        self,
+        media: Union["Path", "str"] = None,
+        me: "tgram.TgBot" = None,
+        json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "photo"

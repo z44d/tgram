@@ -28,6 +28,47 @@ class SendPaidMedia:
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
     ) -> Message:
+        """
+        Use this method to send paid media to channel chats. On success, the sent Message is returned.
+
+        Telegram documentation: https://core.telegram.org/bots/api#sendpaidmedia
+
+        :param chat_id: Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+        :type chat_id: :obj:`int` or :obj:`str`
+
+        :param star_count: The number of Telegram Stars that must be paid to buy access to the media
+        :type star_count: :obj:`int`
+
+        :param media: A JSON-serialized array describing the media to be sent; up to 10 items
+        :type media: :obj:`list` of :class:`tgram.types.InputPaidMedia`
+
+        :param caption: Media caption, 0-1024 characters after entities parsing
+        :type caption: :obj:`str`
+
+        :param parse_mode: Mode for parsing entities in the media caption
+        :type parse_mode: :obj:`str`
+
+        :param caption_entities: List of special entities that appear in the caption, which can be specified instead of parse_mode
+        :type caption_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
+
+        :param show_caption_above_media: Pass True, if the caption must be shown above the message media
+        :type show_caption_above_media: :obj:`bool`
+
+        :param disable_notification: Sends the message silently. Users will receive a notification with no sound.
+        :type disable_notification: :obj:`bool`
+
+        :param protect_content: Protects the contents of the sent message from forwarding and saving
+        :type protect_content: :obj:`bool`
+
+        :param reply_parameters: Description of the message to reply to
+        :type reply_parameters: :class:`tgram.types.ReplyParameters`
+
+        :param reply_markup: Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+        :type reply_markup: :class:`tgram.types.InlineKeyboardMarkup` or :class:`tgram.types.ReplyKeyboardMarkup` or :class:`tgram.types.ReplyKeyboardRemove` or :class:`tgram.types.ForceReply`
+
+        :return: On success, the sent Message is returned.
+        :rtype: :class:`tgram.types.Message`
+        """
         result = await self._send_request(
             "sendPaidMedia",
             chat_id=chat_id,
