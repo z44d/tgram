@@ -253,17 +253,23 @@
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">ssl</span>
 <span class="kn">import</span> <span class="nn">certifi</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 
 <span class="kn">from</span> <span class="nn">.methods</span> <span class="kn">import</span> <span class="n">TelegramBotMethods</span>
 <span class="kn">from</span> <span class="nn">.decorators</span> <span class="kn">import</span> <span class="n">Decorators</span>
 <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="n">APIException</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">API_URL</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">API_URL</span><span class="p">,</span> <span class="n">get_file_name</span><span class="p">,</span> <span class="n">ALL_UPDATES</span>
 <span class="kn">from</span> <span class="nn">.sync</span> <span class="kn">import</span> <span class="n">wrap</span>
+<span class="kn">from</span> <span class="nn">.types.type_</span> <span class="kn">import</span> <span class="n">Type_</span>
 <span class="kn">from</span> <span class="nn">concurrent.futures.thread</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
+
+<span class="kn">from</span> <span class="nn">aiohttp.hdrs</span> <span class="kn">import</span> <span class="n">USER_AGENT</span>
+<span class="kn">from</span> <span class="nn">aiohttp.http</span> <span class="kn">import</span> <span class="n">SERVER_SOFTWARE</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -273,21 +279,28 @@
 <span class="k">class</span> <span class="nc">Dispatcher</span><span class="p">:</span>
     <span class="n">_is_running</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_handlers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;tgram.handlers.Handler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_listen_handlers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;tgram.types.Listener&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Dispatcher.run_for_updates">
 <a class="viewcode-back" href="../../tgram.html#tgram.tgbot.Dispatcher.run_for_updates">[docs]</a>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">run_for_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;TgBot&quot;</span><span class="p">,</span> <span class="n">skip_updates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_plugins</span><span class="p">()</span>
         <span class="n">offset</span><span class="p">,</span> <span class="n">allowed_updates</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="p">(</span>
             <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">skip_updates</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span><span class="p">,</span>
             <span class="mi">100</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_running</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">me</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_me</span><span class="p">()</span>
 
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_running</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">updates</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_updates</span><span class="p">(</span>
-                    <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">allowed_updates</span><span class="o">=</span><span class="n">allowed_updates</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+                    <span class="n">allowed_updates</span><span class="o">=</span><span class="n">allowed_updates</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">update</span> <span class="ow">in</span> <span class="n">updates</span><span class="p">:</span>
                     <span class="n">offset</span> <span class="o">=</span> <span class="n">update</span><span class="o">.</span><span class="n">update_id</span> <span class="o">+</span> <span class="mi">1</span>
@@ -301,15 +314,54 @@
         <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_check_cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;TgBot&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking listener in </span><span class="si">%s</span><span class="s2"> func&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">update</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_check_update</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;TgBot&quot;</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="s2">&quot;tgram.types.Update&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">listener</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_listen_handlers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">attr</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="n">listener</span><span class="o">.</span><span class="n">update_type</span><span class="p">))</span> <span class="ow">and</span> <span class="n">listener</span><span class="o">.</span><span class="n">filters</span><span class="p">(</span>
+                <span class="n">attr</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_listen_handlers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listener</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">listener</span><span class="o">.</span><span class="n">cancel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cancel</span><span class="p">(</span><span class="n">listener</span><span class="o">.</span><span class="n">cancel</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                        <span class="k">return</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_listener</span><span class="p">(</span>
+                    <span class="n">attr</span><span class="p">,</span> <span class="n">listener</span><span class="o">.</span><span class="n">next_step</span><span class="p">,</span> <span class="n">listener</span><span class="o">.</span><span class="n">data</span>
+                <span class="p">)</span>
+
         <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_update</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">callback</span><span class="p">)</span>
             <span class="k">elif</span> <span class="p">(</span><span class="n">attr</span> <span class="o">:=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span><span class="p">))</span> <span class="ow">and</span> <span class="n">handler</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_update</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">callback</span><span class="p">)</span>
 
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_process_listener</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;TgBot&quot;</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing listener to </span><span class="si">%s</span><span class="s2"> func&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+                <span class="k">await</span> <span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">data</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_process_update</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;TgBot&quot;</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing update to </span><span class="si">%s</span><span class="s2"> func&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Processing update to </span><span class="si">%s</span><span class="s2"> func&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
                 <span class="k">await</span> <span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
@@ -323,12 +375,10 @@
 <div class="viewcode-block" id="TgBot">
 <a class="viewcode-back" href="../../tgram.html#tgram.tgbot.TgBot">[docs]</a>
 <span class="k">class</span> <span class="nc">TgBot</span><span class="p">(</span><span class="n">TelegramBotMethods</span><span class="p">,</span> <span class="n">Decorators</span><span class="p">,</span> <span class="n">Dispatcher</span><span class="p">):</span>
-    <span class="n">_session</span><span class="p">:</span> <span class="s2">&quot;aiohttp.ClientSession&quot;</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">(</span>
-        <span class="n">connector</span><span class="o">=</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">TCPConnector</span><span class="p">(</span>
-            <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ssl_context</span><span class="o">=</span><span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span><span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">())</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
+    <span class="n">me</span><span class="p">:</span> <span class="s2">&quot;tgram.types.User&quot;</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_session</span><span class="p">:</span> <span class="s2">&quot;aiohttp.ClientSession&quot;</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_api_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_custom_types</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -339,6 +389,8 @@
         <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;Markdown&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkdownV2&quot;</span><span class="p">,</span> <span class="s2">&quot;HTML&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">protect_content</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">retry_after</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plugins</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_token</span> <span class="o">=</span> <span class="n">bot_token</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">api_url</span>
@@ -347,6 +399,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parse_mode</span> <span class="o">=</span> <span class="n">parse_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">protect_content</span> <span class="o">=</span> <span class="n">protect_content</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workers</span> <span class="o">=</span> <span class="n">workers</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retry_after</span> <span class="o">=</span> <span class="n">retry_after</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">plugins</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">,</span> <span class="n">thread_name_prefix</span><span class="o">=</span><span class="s2">&quot;Handlers&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
 
@@ -358,8 +412,10 @@
 <div class="viewcode-block" id="TgBot.add_handler">
 <a class="viewcode-back" href="../../tgram.html#tgram.tgbot.TgBot.add_handler">[docs]</a>
     <span class="k">def</span> <span class="nf">add_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="s2">&quot;tgram.handlers.Handler&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">:=</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span> <span class="o">=</span> <span class="n">ALL_UPDATES</span>
+        <span class="k">elif</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">allowed_updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">) added to </span><span class="si">%s</span><span class="s2"> handlers&quot;</span><span class="p">,</span>
@@ -372,13 +428,16 @@
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_new_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">(</span>
             <span class="n">connector</span><span class="o">=</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">TCPConnector</span><span class="p">(</span>
-                <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ssl_context</span><span class="o">=</span><span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span><span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">())</span>
-            <span class="p">)</span>
+                <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">ssl_context</span><span class="o">=</span><span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span><span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()),</span>
+                <span class="n">ttl_dns_cache</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="n">USER_AGENT</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">SERVER_SOFTWARE</span><span class="si">}</span><span class="s2"> tgram/</span><span class="si">{</span><span class="n">tgram</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">session</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_get_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;aiohttp.ClientSession&quot;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_session</span><span class="p">()</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">is_running</span><span class="p">():</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -392,7 +451,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Sending request using the method: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
         <span class="n">session</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_session</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">FormData</span><span class="p">(</span><span class="n">quote_fields</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">has_files</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">has_files</span><span class="p">,</span> <span class="n">file</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;timeout&quot;</span><span class="p">:</span>
@@ -400,25 +459,28 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
                 <span class="n">has_files</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                    <span class="n">value</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">io</span><span class="o">.</span><span class="n">IOBase</span><span class="p">):</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">f</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">,</span> <span class="n">io</span><span class="o">.</span><span class="n">BufferedReader</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)):</span>
                 <span class="n">has_files</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-                <span class="n">has_files</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Type_</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
-                    <span class="n">value</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">tgram</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Type_</span><span class="o">.</span><span class="n">default</span>
-                <span class="p">)</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="n">value</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Type_</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Type_</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">file</span> <span class="k">if</span> <span class="n">has_files</span> <span class="k">else</span> <span class="n">value</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="n">get_file_name</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">has_files</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="s2">&quot;POST&quot;</span> <span class="k">if</span> <span class="n">has_files</span> <span class="k">else</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
             <span class="n">request_url</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">timeout</span><span class="o">=</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientTimeout</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">)),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientTimeout</span><span class="p">(</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">,</span> <span class="mi">60</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">has_files</span> <span class="k">else</span> <span class="mi">300</span><span class="p">)</span>
+            <span class="p">),</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_running</span><span class="p">:</span>
@@ -427,10 +489,52 @@
         <span class="n">response_json</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;error_code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">429</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">retry_after</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">][</span><span class="s2">&quot;retry_after&quot;</span><span class="p">]</span>
+                <span class="n">retry_after</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">s</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retry_after</span> <span class="ow">is</span> <span class="kc">True</span>
+                    <span class="k">else</span> <span class="p">(</span><span class="n">s</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">retry_after</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">retry_after</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;You got floodwait for </span><span class="si">%s</span><span class="s2"> seconds, I will retry after </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">s</span><span class="p">,</span>
+                    <span class="n">retry_after</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">retry_after</span><span class="p">)</span>
+                <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">del</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]</span>
             <span class="k">raise</span> <span class="n">APIException</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response_json</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">response_json</span></div>
+        <span class="k">return</span> <span class="n">response_json</span>
+
+<div class="viewcode-block" id="TgBot.load_plugins">
+<a class="viewcode-back" href="../../tgram.html#tgram.tgbot.TgBot.load_plugins">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.py&quot;</span><span class="p">)):</span>
+            <span class="n">module_path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parts</span> <span class="o">+</span> <span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">stem</span><span class="p">,))</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">module</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="nb">object</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="s2">&quot;handlers&quot;</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="nb">object</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">tgram</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">Handler</span><span class="p">):</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TgBot.customize">
+<a class="viewcode-back" href="../../tgram.html#tgram.tgbot.TgBot.customize">[docs]</a>
+    <span class="k">def</span> <span class="nf">customize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">Type_</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmro</span><span class="p">(</span><span class="n">old</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You can&#39;t customize this type, it&#39;s not tgram type.&quot;</span><span class="p">)</span>
+
+        <span class="n">wrap</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_custom_types</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">old</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">new</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
 
 
 

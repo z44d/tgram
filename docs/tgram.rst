@@ -1,16 +1,19 @@
 tgram package
 =============
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   tgram.bound
+   tgram.decorators
+   tgram.methods
+   tgram.types
+
 Submodules
 ----------
-
-tgram.decorators module
------------------------
-
-.. automodule:: tgram.decorators
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 tgram.errors module
 -------------------
@@ -36,14 +39,6 @@ tgram.handlers module
    :undoc-members:
    :show-inheritance:
 
-tgram.methods module
---------------------
-
-.. automodule:: tgram.methods
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 tgram.sync module
 -----------------
 
@@ -56,14 +51,6 @@ tgram.tgbot module
 ------------------
 
 .. automodule:: tgram.tgbot
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-tgram.types module
-------------------
-
-.. automodule:: tgram.types
    :members:
    :undoc-members:
    :show-inheritance:
