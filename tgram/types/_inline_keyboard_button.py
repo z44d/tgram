@@ -105,7 +105,7 @@ class InlineKeyboardButton(Type_):
                 switch_inline_query_chosen_chat=tgram.types.SwitchInlineQueryChosenChat._parse(
                     me=me, d=d.get("switch_inline_query_chosen_chat")
                 ),
-                callback_game=tgram.types.Callbacktgram.types.Game._parse(
+                callback_game=tgram.types.CallbackGame._parse(
                     me=me, d=d.get("callback_game")
                 ),
                 pay=d.get("pay"),
