@@ -10,6 +10,8 @@ from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters
 
+from tgram.utils import convert_input_media
+
 
 class SendPaidMedia:
     async def send_paid_media(
@@ -69,11 +71,12 @@ class SendPaidMedia:
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
+        arr, files = convert_input_media(media)
         result = await self._send_request(
             "sendPaidMedia",
             chat_id=chat_id,
             star_count=star_count,
-            media=media,
+            media=arr,
             caption=caption,
             parse_mode=parse_mode or self.parse_mode,
             caption_entities=caption_entities,
@@ -84,5 +87,6 @@ class SendPaidMedia:
             else self.protect_content,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            **files,
         )
         return Message._parse(me=self, d=result["result"])

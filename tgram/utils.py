@@ -4,7 +4,7 @@ import re
 import html
 
 from pathlib import Path
-from typing import List
+from typing import List, Union
 from struct import unpack
 
 from .handlers import Handlers
@@ -27,7 +27,7 @@ def get_file_path(file):
 
 
 def convert_input_media(
-    x: List["tgram.types.InputMedia", "tgram.types.InputPaidMedia"],
+    x: List[Union["tgram.types.InputMedia", "tgram.types.InputPaidMedia"]],
 ):
     files = {}
     count = 1
