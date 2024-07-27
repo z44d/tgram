@@ -5,6 +5,27 @@ from typing import Optional
 
 
 class PaidMediaPreview(Type_):
+    """
+    The paid media isn't available before the payment.
+
+    Telegram documentation: https://core.telegram.org/bots/api#paidmediapreview
+
+    :param type: Type of the paid media, always “preview”
+    :type type: :obj:`str`
+
+    :param width: Optional. Media width as defined by the sender
+    :type width: :obj:`int`
+
+    :param height: Optional. Media height as defined by the sender
+    :type height: :obj:`int`
+
+    :param duration: Optional. Duration of the media in seconds as defined by the sender
+    :type duration: :obj:`int`
+
+    :return: Instance of the class
+    :rtype: :class:`PaidMediaPreview`
+    """
+
     def __init__(
         self,
         width: "int" = None,
@@ -27,7 +48,6 @@ class PaidMediaPreview(Type_):
             PaidMediaPreview(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),

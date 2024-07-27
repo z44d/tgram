@@ -5,6 +5,22 @@ from typing import List, Optional
 
 
 class PaidMediaPhoto(Type_):
+    """
+    The paid media is a photo.
+
+    Telegram documentation: https://core.telegram.org/bots/api#paidmediaphoto
+
+    :param type: Type of the paid media, always “photo”
+    :type type: :obj:`str`
+
+    :param photo: The photo
+    :type photo: :obj:`list` of :class:`PhotoSize`
+
+    :return: Instance of the class
+    :rtype: :class:`PaidMediaPhoto`
+
+    """
+
     def __init__(
         self,
         photo: List["tgram.types.PhotoSize"] = None,
@@ -23,7 +39,6 @@ class PaidMediaPhoto(Type_):
             PaidMediaPhoto(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 photo=[tgram.types.PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,

@@ -5,6 +5,21 @@ from typing import Optional
 
 
 class PaidMediaVideo(Type_):
+    """
+    The paid media is a video.
+
+    Telegram documentation: https://core.telegram.org/bots/api#paidmediavideo
+
+    :param type: Type of the paid media, always “video”
+    :type type: :obj:`str`
+
+    :param video: The video
+    :type video: :class:`Video`
+
+    :return: Instance of the class
+    :rtype: :class:`PaidMediaVideo`
+    """
+
     def __init__(
         self,
         video: "tgram.types.Video" = None,
@@ -23,7 +38,6 @@ class PaidMediaVideo(Type_):
             PaidMediaVideo(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 video=tgram.types.Video._parse(me=me, d=d.get("video")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

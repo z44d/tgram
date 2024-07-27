@@ -5,6 +5,21 @@ from typing import List, Optional
 
 
 class PaidMediaInfo(Type_):
+    """
+    Describes the paid media added to a message.
+
+    Telegram documentation: https://core.telegram.org/bots/api#paidmediainfo
+
+    :param star_count: The number of Telegram Stars that must be paid to buy access to the media
+    :type star_count: :obj:`int`
+
+    :param paid_media: Information about the paid media
+    :type paid_media: :obj:`list` of :class:`PaidMedia`
+
+    :return: Instance of the class
+    :rtype: :class:`PaidMediaInfo`
+    """
+
     def __init__(
         self,
         star_count: "int" = None,
