@@ -3,6 +3,8 @@ from .type_ import Type_
 
 from typing import List, Union, Optional
 
+from pathlib import Path
+
 
 class InputMediaVideo(Type_):
     """
@@ -57,7 +59,7 @@ class InputMediaVideo(Type_):
 
     def __init__(
         self,
-        media: "str" = None,
+        media: Union["Path", "str"] = None,
         thumbnail: Union["tgram.types.InputFile", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,

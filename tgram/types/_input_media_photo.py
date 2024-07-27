@@ -1,7 +1,9 @@
 import tgram
 from .type_ import Type_
 
-from typing import List, Optional
+from typing import List, Optional, Union
+
+from pathlib import Path
 
 
 class InputMediaPhoto(Type_):
@@ -38,7 +40,7 @@ class InputMediaPhoto(Type_):
 
     def __init__(
         self,
-        media: "str" = None,
+        media: Union["Path", "str"] = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,

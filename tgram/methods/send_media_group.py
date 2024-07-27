@@ -5,6 +5,8 @@ from tgram.types import InputMedia
 from tgram.types import Message
 from tgram.types import ReplyParameters
 
+from tgram.utils import convert_input_media
+
 
 class SendMediaGroup:
     async def send_media_group(
@@ -60,11 +62,11 @@ class SendMediaGroup:
         :return: On success, an array of Messages that were sent is returned.
         :rtype: List[types.Message]
         """
-
+        arr, files = convert_input_media(media)
         result = await self._send_request(
             "sendMediaGroup",
             chat_id=chat_id,
-            media=media,
+            media=arr,
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
@@ -73,5 +75,6 @@ class SendMediaGroup:
             else self.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
+            **files,
         )
         return [Message._parse(me=self, d=i) for i in result["result"]]

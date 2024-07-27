@@ -1,15 +1,13 @@
-from .handlers import Handlers
-
 import os
-
-from pathlib import Path
-from typing import List
-
 import tgram
 import re
 import html
 
+from pathlib import Path
+from typing import List
 from struct import unpack
+
+from .handlers import Handlers
 
 API_URL = "https://api.telegram.org/"
 ALL_UPDATES: List[str] = [
@@ -26,6 +24,31 @@ def get_file_name(obj):
 
 def get_file_path(file):
     return Path(file) if isinstance(file, str) and os.path.isfile(file) else file
+
+
+def convert_input_media(x: List[tgram.types.InputMedia]):
+    files = {}
+    count = 1
+    for y in x:
+        if isinstance(y.media, Path) or (
+            isinstance(y.media, str) and os.path.isfile(y.media)
+        ):
+            key = f"file_{count}"
+            with open(y.media, "rb") as f:
+                files[key] = f
+            y.media = f"attach://{key}"
+            count += 1
+
+            if getattr(y, "thumbnail"):
+                if isinstance(y.thumbnail, Path) or (
+                    isinstance(y.thumbnail, str) and os.path.isfile(y.thumbnail)
+                ):
+                    with open(y.thumbnail, "rb") as f:
+                        files["thumb"] = f
+
+                    y.thumbnail = "attach://thumb"
+
+    return x, files
 
 
 class String(str):
