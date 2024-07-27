@@ -26,7 +26,7 @@ def get_file_path(file):
     return Path(file) if isinstance(file, str) and os.path.isfile(file) else file
 
 
-def convert_input_media(x: List[tgram.types.InputMedia]):
+def convert_input_media(x: List["tgram.types.InputMedia"]):
     files = {}
     count = 1
     for y in x:
@@ -34,8 +34,7 @@ def convert_input_media(x: List[tgram.types.InputMedia]):
             isinstance(y.media, str) and os.path.isfile(y.media)
         ):
             key = f"file_{count}"
-            with open(y.media, "rb") as f:
-                files[key] = f
+            files[key] = get_file_path(y.media)
             y.media = f"attach://{key}"
             count += 1
 
@@ -43,9 +42,7 @@ def convert_input_media(x: List[tgram.types.InputMedia]):
                 if isinstance(y.thumbnail, Path) or (
                     isinstance(y.thumbnail, str) and os.path.isfile(y.thumbnail)
                 ):
-                    with open(y.thumbnail, "rb") as f:
-                        files["thumb"] = f
-
+                    files["thumb"] = get_file_path(y.thumbnail)
                     y.thumbnail = "attach://thumb"
 
     return x, files
