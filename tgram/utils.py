@@ -35,17 +35,17 @@ def convert_input_media(
         if isinstance(y.media, Path) or (
             isinstance(y.media, str) and os.path.isfile(y.media)
         ):
-            key = f"file_{count}"
-            files[key] = get_file_path(y.media)
-            y.media = f"attach://{key}"
+            files[f"file_{count}"] = get_file_path(y.media)
+            y.media = f"attach://file_{count}"
             count += 1
 
             if hasattr(y, "thumbnail") and getattr(y, "thumbnail"):
                 if isinstance(y.thumbnail, Path) or (
                     isinstance(y.thumbnail, str) and os.path.isfile(y.thumbnail)
                 ):
-                    files["thumb"] = get_file_path(y.thumbnail)
-                    y.thumbnail = "attach://thumb"
+                    files[f"file_{count}"] = get_file_path(y.thumbnail)
+                    y.thumbnail = f"attach://file_{count}"
+                    count += 1
 
     return x, files
 
