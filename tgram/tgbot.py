@@ -197,7 +197,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         has_files, file = False, None
 
         for key, value in kwargs.items():
-            if value is None or key == "timeout":
+            if value is None or key == "timeout" or key == "retry":
                 continue
             if isinstance(value, Path):
                 has_files = True
@@ -232,7 +232,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         response_json = await response.json()
 
         if not response_json["ok"]:
-            if response_json["error_code"] == 429 and self.retry_after:
+            if (
+                response_json["error_code"] == 429
+                and self.retry_after
+                and (not kwargs.get("retry"))
+            ):
                 s = response_json["parameters"]["retry_after"]
                 retry_after = (
                     s
@@ -245,7 +249,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                     retry_after,
                 )
                 await asyncio.sleep(retry_after)
-                return await self._send_request(method, **kwargs)
+                return await self._send_request(method, {"retry": 1, **kwargs})
             del response_json["ok"]
             raise APIException(json.dumps(response_json))
 
@@ -256,10 +260,10 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             module_path = ".".join(path.parent.parts + (path.stem,))
             module = import_module(module_path)
             for name in vars(module).keys():
-                object = getattr(module, name)
+                obj = getattr(module, name)
 
-                if hasattr(object, "handlers"):
-                    for handler in object.handlers:
+                if hasattr(obj, "handlers"):
+                    for handler in obj.handlers:
                         if isinstance(handler, tgram.handlers.Handler):
                             self.add_handler(handler)
 
