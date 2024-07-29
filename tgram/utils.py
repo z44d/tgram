@@ -6,6 +6,7 @@ import html
 from pathlib import Path
 from typing import List, Union
 from struct import unpack
+from io import BytesIO
 
 from .handlers import Handlers
 
@@ -32,17 +33,19 @@ def convert_input_media(
     files = {}
     count = 1
     for y in x:
-        if isinstance(y.media, Path) or (
-            isinstance(y.media, str) and os.path.isfile(y.media)
+        if (
+            isinstance(y.media, (Path, str))
+            and os.path.isfile(y.media)
+            or isinstance(y.media, (bytes, BytesIO))
         ):
             files[f"file_{count}"] = get_file_path(y.media)
             y.media = f"attach://file_{count}"
             count += 1
 
             if hasattr(y, "thumbnail") and getattr(y, "thumbnail"):
-                if isinstance(y.thumbnail, Path) or (
-                    isinstance(y.thumbnail, str) and os.path.isfile(y.thumbnail)
-                ):
+                if (
+                    isinstance(y.thumbnail, (Path, str)) and os.path.isfile(y.thumbnail)
+                ) or isinstance(y.thumbnail, (bytes, BytesIO)):
                     files[f"file_{count}"] = get_file_path(y.thumbnail)
                     y.thumbnail = f"attach://file_{count}"
                     count += 1

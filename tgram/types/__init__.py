@@ -1,5 +1,6 @@
 from pathlib import Path as _Path
 from typing import Union as _Union
+from io import BytesIO as _BytesIo
 
 from ._animation import Animation
 from ._audio import Audio
@@ -245,7 +246,7 @@ InlineQueryResult = _Union[
     "InlineQueryResultVoice",
 ]
 
-InputFile = _Union["bytes", "_Path", "str"]
+InputFile = _Union["bytes", "_Path", "str", "_BytesIo"]
 
 InputMedia = _Union[
     "InputMediaAudio", "InputMediaDocument", "InputMediaPhoto", "InputMediaVideo"
