@@ -1,9 +1,9 @@
-<p align="center">
+<div align="center">
     <a href="https://github.com/2ei/tgram">
-        <img src="https://raw.githubusercontent.com/7n2/nothing/main/TG.png" alt="tgram" width="128">
+        <img src="https://github.com/user-attachments/assets/ad99412f-8d69-446c-bedf-5b7663f69727" alt="tgram" width="128">
     </a>
-    <br>
-    <b>A very friendly BOT API library for python developers.</b>
+    <h1>tgram</h1>
+    <b>Very friendly BOT API library for Python developers.</b>
     </br>
     <a href="https://t.me/tgbot_channel">
         Channel
@@ -16,11 +16,39 @@
     <a href="https://github.com/2ei/tgram/tree/main/examples">
         Examples
     </a>
-</p>
+</div>
 
-# tgram [![PyPI](https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37)](https://pypi.org/project/tgram/) [![Downloads](https://static.pepy.tech/badge/tgram)](https://pepy.tech/project/tgram)
+<br>
 
-#### Example Usage
+<div align="center">
+  <a href="https://core.telegram.org/bots/api-changelog">
+    <img src="https://img.shields.io/badge/Bot%20API-7.7-blue?logo=telegram" alt="Supported Bot API version">
+  </a>
+  <a href="https://pypi.org/project/tgram/">
+    <img src="https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37" alt="PyPI">
+  </a>
+  <a href="https://pepy.tech/project/tgram">
+    <img src="https://static.pepy.tech/badge/tgram" alt="Downloads">
+  </a>
+
+  <a href="https://t.me/tgbot_channel">
+    <img src="https://img.shields.io/badge/Telegram-Channel-blue.svg?logo=telegram" alt="Telegram Channel">
+  </a>
+  <a href="https://t.me/tgbot_chat">
+    <img src="https://img.shields.io/badge/Telegram-Group-blue.svg?logo=telegram" alt="Telegram Group">
+  </a>
+  <a href="https://github.com/2ei/tgram/actions/workflows/ruff.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/ruff.yml?style=flat&label=Ruff" alt="Ruff Action Workflow Status">
+  </a>
+  <a href="https://github.com/2ei/tgram/actions/workflows/build-docs.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/build-docs.yml?style=flat&label=Docs" alt="Docs Action Workflow Status">
+  </a>
+  <a href="https://github.com/2ei/tgram/actions/workflows/release.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/release.yml?style=flat&label=Release" alt="Release Action Workflow Status">
+  </a>
+</div>
+
+## Example Usage
 ```python
 from tgram import TgBot, filters
 from tgram.types import Message
@@ -59,4 +87,4 @@ pip install tgram -U
 
 ## Help & Support
 
-- Join our [telegram chat](https://t.me/tgbot_chat).
+- Join our [Telegram chat](https://t.me/tgbot_chat).
