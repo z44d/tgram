@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/2ei/tgram">
-        <img src="https://raw.githubusercontent.com/7n2/nothing/main/tgbot-small.png" alt="tgram" width="128">
+        <img src="https://raw.githubusercontent.com/7n2/nothing/main/TG.png" alt="tgram" width="128">
     </a>
     <br>
     <b>A very friendly BOT API library for python developers.</b>
