@@ -8,6 +8,7 @@ class PinChatMessage:
         chat_id: Union[int, str],
         message_id: int,
         disable_notification: bool = None,
+        business_connection_id: str = None,
     ) -> bool:
         """
         Use this method to pin a message in a supergroup.
@@ -27,6 +28,9 @@ class PinChatMessage:
             to all group members about the new pinned message
         :type disable_notification: :obj:`bool`
 
+        :param business_connection_id: Unique identifier of the business connection on behalf of which the message will be pinned
+        :type business_connection_id: :obj:`str`
+
         :return: True on success.
         :rtype: :obj:`bool`
         """
@@ -36,5 +40,6 @@ class PinChatMessage:
             chat_id=chat_id,
             message_id=message_id,
             disable_notification=disable_notification,
+            business_connection_id=business_connection_id,
         )
         return result["result"]

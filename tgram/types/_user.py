@@ -50,6 +50,9 @@ class User(Type_, bound.UserB):
     :param can_connect_to_business: Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
     :type can_connect_to_business: :obj:`bool`
 
+    :param has_main_web_app: Optional. True, if the bot has a main Web App. Returned only in getMe.
+    :type has_main_web_app: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.User`
     """
@@ -68,6 +71,7 @@ class User(Type_, bound.UserB):
         can_read_all_group_messages: "bool" = None,
         supports_inline_queries: "bool" = None,
         can_connect_to_business: "bool" = None,
+        has_main_web_app: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -84,6 +88,7 @@ class User(Type_, bound.UserB):
         self.can_read_all_group_messages = can_read_all_group_messages
         self.supports_inline_queries = supports_inline_queries
         self.can_connect_to_business = can_connect_to_business
+        self.has_main_web_app = has_main_web_app
 
     @staticmethod
     def _parse(
@@ -105,6 +110,7 @@ class User(Type_, bound.UserB):
                 can_read_all_group_messages=d.get("can_read_all_group_messages"),
                 supports_inline_queries=d.get("supports_inline_queries"),
                 can_connect_to_business=d.get("can_connect_to_business"),
+                has_main_web_app=d.get("has_main_web_app"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
