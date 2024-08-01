@@ -4,7 +4,10 @@ from typing import Union
 
 class UnpinChatMessage:
     async def unpin_chat_message(
-        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int = None
+        self: "tgram.TgBot",
+        chat_id: Union[int, str],
+        message_id: int = None,
+        business_connection_id: str = None,
     ) -> bool:
         """
         Use this method to unpin specific pinned message in a supergroup chat.
@@ -20,6 +23,9 @@ class UnpinChatMessage:
         :param message_id: Int: Identifier of a message to unpin
         :type message_id: :obj:`int`
 
+        :param business_connection_id: Unique identifier of the business connection on behalf of which the message will be pinned
+        :type business_connection_id: :obj:`str`
+
         :return: True on success.
         :rtype: :obj:`bool`
         """
@@ -28,5 +34,6 @@ class UnpinChatMessage:
             "unpinChatMessage",
             chat_id=chat_id,
             message_id=message_id,
+            business_connection_id=business_connection_id,
         )
         return result["result"]
