@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    _is_running = False
+    is_running: bool = None
     _handlers: List["tgram.handlers.Handler"] = []
     _listen_handlers: List["tgram.types.Listener"] = []
 
@@ -41,10 +41,10 @@ class Dispatcher:
             self.allowed_updates,
             100,
         )
-        self._is_running = True
+        self.is_running = True
         self.me = await self.get_me()
 
-        while self._is_running:
+        while self.is_running:
             try:
                 updates = await self.get_updates(
                     offset=offset,
@@ -56,12 +56,23 @@ class Dispatcher:
                     offset = update.update_id + 1
                     await self._check_update(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
-                self._is_running = False
+                self.is_running = False
+            except tgram.StopPropagation:
+                pass
             except Exception as e:
                 logger.exception(e)
 
         session = await self._get_session()
         await session.close()
+
+    async def start(self, skip_updates: bool = True) -> "TgBot":
+        asyncio.create_task(self.run_for_updates(skip_updates))
+
+        return self
+
+    async def stop(self) -> Literal[True]:
+        self.is_running = False
+        return True
 
     async def _check_cancel(self: "TgBot", callback: Callable, update: Any) -> bool:
         logger.debug("Checking listener in %s func", callback.__name__)
