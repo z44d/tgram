@@ -29,10 +29,6 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    _is_running = False
-    _handlers: List["tgram.handlers.Handler"] = []
-    _listen_handlers: List["tgram.types.Listener"] = []
-
     async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
         if self.plugins:
             self.load_plugins()
@@ -41,10 +37,10 @@ class Dispatcher:
             self.allowed_updates,
             100,
         )
-        self._is_running = True
+        self.is_running = True
         self.me = await self.get_me()
 
-        while self._is_running:
+        while self.is_running:
             try:
                 updates = await self.get_updates(
                     offset=offset,
@@ -56,12 +52,18 @@ class Dispatcher:
                     offset = update.update_id + 1
                     await self._check_update(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
-                self._is_running = False
+                self.is_running = False
+            except tgram.StopPropagation:
+                pass
             except Exception as e:
                 logger.exception(e)
 
         session = await self._get_session()
         await session.close()
+
+    async def stop(self) -> Literal[True]:
+        self.is_running = False
+        return True
 
     async def _check_cancel(self: "TgBot", callback: Callable, update: Any) -> bool:
         logger.debug("Checking listener in %s func", callback.__name__)
@@ -121,11 +123,6 @@ class Dispatcher:
 
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
-    me: "tgram.types.User" = None
-    _session: "aiohttp.ClientSession" = None
-    _api_url: str = None
-    _custom_types: dict = {}
-
     def __init__(
         self,
         bot_token: str,
@@ -150,10 +147,18 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
+        self.is_running: bool = None
+        self.me: "tgram.types.User" = None
+
+        self._listen_handlers: List["tgram.types.Listener"] = []
+        self._handlers: List["tgram.handlers.Handler"] = []
+        self._custom_types: dict = {}
+        self._session: "aiohttp.ClientSession" = None
+
         if not api_url.endswith("/"):
             api_url += "/"
 
-        self._api_url = f"{api_url}bot{bot_token}/"
+        self._api_url: str = f"{api_url}bot{bot_token}/"
 
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
         if handler.type == "all":
@@ -226,7 +231,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             ),
         )
 
-        if not self._is_running:
+        if not self.is_running:
             await session.close()
 
         response_json = await response.json()

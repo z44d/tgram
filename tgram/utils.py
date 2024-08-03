@@ -2,6 +2,7 @@ import os
 import tgram
 import re
 import html
+import asyncio
 
 from pathlib import Path
 from typing import List, Union
@@ -315,3 +316,9 @@ def html_unparse(text: str, entities: List["tgram.types.MessageEntity"]) -> str:
             last_offset = offset
 
     return remove_surrogates(text)
+
+
+async def compose(bots: List["tgram.TgBot"]):
+    tasks = [asyncio.create_task(bot.run_for_updates()) for bot in bots]
+
+    return await asyncio.wait(tasks)
