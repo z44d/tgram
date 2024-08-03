@@ -65,11 +65,6 @@ class Dispatcher:
         session = await self._get_session()
         await session.close()
 
-    async def start(self, skip_updates: bool = True) -> "TgBot":
-        asyncio.create_task(self.run_for_updates(skip_updates))
-
-        return self
-
     async def stop(self) -> Literal[True]:
         self.is_running = False
         return True
@@ -237,7 +232,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             ),
         )
 
-        if not self._is_running:
+        if not self.is_running:
             await session.close()
 
         response_json = await response.json()
