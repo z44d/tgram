@@ -29,10 +29,6 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    is_running: bool = None
-    _handlers: List["tgram.handlers.Handler"] = []
-    _listen_handlers: List["tgram.types.Listener"] = []
-
     async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
         if self.plugins:
             self.load_plugins()
@@ -127,11 +123,6 @@ class Dispatcher:
 
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
-    me: "tgram.types.User" = None
-    _session: "aiohttp.ClientSession" = None
-    _api_url: str = None
-    _custom_types: dict = {}
-
     def __init__(
         self,
         bot_token: str,
@@ -156,10 +147,18 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
+        self.is_running: bool = None
+        self.me: "tgram.types.User" = None
+
+        self._listen_handlers: List["tgram.types.Listener"] = []
+        self._handlers: List["tgram.handlers.Handler"] = []
+        self._custom_types: dict = {}
+        self._session: "aiohttp.ClientSession" = None
+
         if not api_url.endswith("/"):
             api_url += "/"
 
-        self._api_url = f"{api_url}bot{bot_token}/"
+        self._api_url: str = f"{api_url}bot{bot_token}/"
 
     def add_handler(self, handler: "tgram.handlers.Handler") -> None:
         if handler.type == "all":
