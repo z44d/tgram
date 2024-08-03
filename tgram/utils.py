@@ -319,8 +319,6 @@ def html_unparse(text: str, entities: List["tgram.types.MessageEntity"]) -> str:
 
 
 async def compose(bots: List["tgram.TgBot"]):
-    tasks = [
-        asyncio.create_task(bot.run_for_updates()) for bot in bots
-    ]
+    tasks = [asyncio.create_task(bot.run_for_updates()) for bot in bots]
 
     return await asyncio.wait(tasks)

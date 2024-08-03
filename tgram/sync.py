@@ -112,4 +112,4 @@ def wrap(source):
 
 
 async_to_sync(utils, "compose")
-idle = utils.compose
+compose = utils.compose
