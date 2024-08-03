@@ -1,4 +1,4 @@
-__all__ = ["types", "TgBot", "handlers", "filters"]
+__all__ = ["types", "TgBot", "handlers", "filters", "idle", "StopPropagation"]
 __version__ = "1.10.7"
 
 __author__ = "Zaid"
@@ -7,3 +7,6 @@ __license__ = "MIT"
 
 from . import types, handlers, filters
 from .tgbot import TgBot
+from .sync import idle
+
+from .errors import StopPropagation
