@@ -4,6 +4,8 @@ import inspect
 import threading
 import logging
 
+from tgram import utils
+
 logger = logging.getLogger(__name__)
 
 
@@ -107,3 +109,7 @@ def wrap(source):
                 method
             ):
                 async_to_sync(source, name)
+
+
+async_to_sync(utils, "idle")
+idle = utils.idle
