@@ -22,13 +22,12 @@ class ReactionTypeCustomEmoji(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
         custom_emoji_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.type = type
+        self.type = "custom_emoji"
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
@@ -39,7 +38,6 @@ class ReactionTypeCustomEmoji(Type_):
             ReactionTypeCustomEmoji(
                 me=me,
                 json=d,
-                type=d.get("type"),
                 custom_emoji_id=d.get("custom_emoji_id"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
