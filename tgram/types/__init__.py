@@ -177,7 +177,6 @@ from ._poll_option import PollOption
 from ._pre_checkout_query import PreCheckoutQuery
 from ._proximity_alert_triggered import ProximityAlertTriggered
 from ._reaction_count import ReactionCount
-from ._reaction_type import ReactionType
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from ._reaction_type_emoji import ReactionTypeEmoji
 from ._refunded_payment import RefundedPayment
@@ -264,6 +263,8 @@ MessageOrigin = _Union[
 ]
 
 PaidMedia = _Union["PaidMediaPreview", "PaidMediaPhoto", "PaidMediaVideo"]
+
+ReactionType = _Union["ReactionTypeCustomEmoji", "ReactionTypeEmoji"]
 
 RevenueWithdrawalState = _Union[
     "RevenueWithdrawalStatePending",
