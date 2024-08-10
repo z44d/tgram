@@ -1,31 +1,18 @@
 import tgram
 from .type_ import Type_
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 
 class ReplyKeyboardMarkup(Type_):
     """
     This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
 
-    .. code-block:: python3
-        :caption: Example on creating ReplyKeyboardMarkup object
-
-        from tgram.types import ReplyKeyboardMarkup, KeyboardButton
-
-        markup = ReplyKeyboardMarkup(resize_keyboard=True)
-        markup.add(KeyboardButton('Text'))
-        # or:
-        markup.add('Text')
-
-        # display this markup:
-        bot.send_message(chat_id, 'Text', reply_markup=markup)
-
     Telegram Documentation: https://core.telegram.org/bots/api#replykeyboardmarkup
 
     :param keyboard: :obj:`list` of button rows, each represented by an :obj:`list` of
-        :class:`tgram.types.KeyboardButton` objects
-    :type keyboard: :obj:`list` of :obj:`list` of :class:`tgram.types.KeyboardButton`
+        :class:`tgram.types.KeyboardButton` or :obj:`str` objects
+    :type keyboard: :obj:`list` of :obj:`list` of :class:`tgram.types.KeyboardButton` or :obj:`str`
 
     :param resize_keyboard: Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make
         the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is
@@ -61,7 +48,7 @@ class ReplyKeyboardMarkup(Type_):
 
     def __init__(
         self,
-        keyboard: List[List["tgram.types.KeyboardButton"]] = None,
+        keyboard: List[List[Union["tgram.types.KeyboardButton", "str"]]] = None,
         is_persistent: "bool" = None,
         resize_keyboard: "bool" = None,
         one_time_keyboard: "bool" = None,
@@ -71,12 +58,21 @@ class ReplyKeyboardMarkup(Type_):
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.keyboard = keyboard
+        self.keyboard = [ReplyKeyboardMarkup._convert(i) for i in keyboard]
         self.is_persistent = is_persistent
         self.resize_keyboard = resize_keyboard
         self.one_time_keyboard = one_time_keyboard
         self.input_field_placeholder = input_field_placeholder
         self.selective = selective
+
+    @staticmethod
+    def _convert(
+        keyboard_row: List[Union["tgram.types.KeyboardButton", "str"]],
+    ) -> List["tgram.types.KeyboardButton"]:
+        return [
+            tgram.types.KeyboardButton(i) if isinstance(i, str) else i
+            for i in keyboard_row
+        ]
 
     @staticmethod
     def _parse(
