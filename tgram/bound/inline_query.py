@@ -12,7 +12,7 @@ class InlineQueryB:
         next_offset: str = None,
         button: "tgram.types.InlineQueryResultsButton" = None,
     ) -> bool:
-        return self._me.answer_inline_query(
+        return await self._me.answer_inline_query(
             inline_query_id=self.id,
             results=results,
             cache_time=cache_time,
