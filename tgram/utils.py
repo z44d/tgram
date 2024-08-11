@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import List, Union
 from struct import unpack
 from io import BytesIO
+from json import dumps
 
 from .handlers import Handlers
 
@@ -16,6 +17,16 @@ ALL_UPDATES: List[str] = [
     getattr(Handlers, i)
     for i in filter(lambda x: not x.startswith("_"), Handlers.__dict__)
 ]
+
+
+class Json(dict):
+    def __str__(self) -> str:
+        return dumps(
+            self,
+            ensure_ascii=False,
+            indent=2,
+            default=lambda obj: repr(obj) if not isinstance(obj, dict) else obj,
+        )
 
 
 def get_file_name(obj):

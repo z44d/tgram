@@ -1,6 +1,7 @@
 import tgram
 import logging
 from json import dumps
+from tgram.utils import Json
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +16,10 @@ class Type_:
             else None
         )
         self._json = json
+
+    @property
+    def json(self) -> dict:
+        return Json(self._json or {})
 
     @staticmethod
     def default(obj: "Type_" = None):
