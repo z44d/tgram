@@ -11,6 +11,7 @@ BOUNDED_TYPES = (
     tgram.types.Message,
     tgram.types.Chat,
     tgram.types.ChatFullInfo,
+    tgram.types.InlineQuery,
 )
 
 

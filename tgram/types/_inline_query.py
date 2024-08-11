@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import Optional
+from tgram import bound
 
 
-class InlineQuery(Type_):
+class InlineQuery(Type_, bound.InlineQueryB):
     """
     This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
 
