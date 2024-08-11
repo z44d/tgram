@@ -10,12 +10,6 @@ class ReplyKeyboardRemove(Type_):
 
     Telegram Documentation: https://core.telegram.org/bots/api#replykeyboardremove
 
-    :param remove_keyboard: Requests clients to remove the custom keyboard (user will not be able to summon this
-        keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in
-        ReplyKeyboardMarkup)
-        Note that this parameter is set to True by default by the library. You cannot modify it.
-    :type remove_keyboard: :obj:`bool`
-
     :param selective: Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets:
         1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has
         reply_to_message_id), sender of the original message.Example: A user votes in a poll, bot returns confirmation
@@ -29,13 +23,12 @@ class ReplyKeyboardRemove(Type_):
 
     def __init__(
         self,
-        remove_keyboard: "bool" = None,
         selective: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
-        self.remove_keyboard = remove_keyboard
+        self.remove_keyboard = True
         self.selective = selective
 
     @staticmethod
@@ -46,7 +39,6 @@ class ReplyKeyboardRemove(Type_):
             ReplyKeyboardRemove(
                 me=me,
                 json=d,
-                remove_keyboard=d.get("remove_keyboard"),
                 selective=d.get("selective"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
