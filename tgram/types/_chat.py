@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import Optional
+from tgram import bound
 
 
-class Chat(Type_):
+class Chat(Type_, bound.ChatB):
     """
     In BotAPI 7.3 Chat was reduced and full info moved to ChatFullInfo:
     "Split out the class ChatFullInfo from the class Chat and changed the return type of the method getChat to ChatFullInfo."

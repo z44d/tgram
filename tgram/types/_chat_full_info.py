@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram import bound
 
 
-class ChatFullInfo(Type_):
+class ChatFullInfo(Type_, bound.ChatB):
     """
     This object represents a chat.
 

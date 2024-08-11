@@ -5,16 +5,18 @@ from tgram.utils import Json
 
 logger = logging.getLogger(__name__)
 
+BOUNDED_TYPES = (
+    tgram.types.User,
+    tgram.types.CallbackQuery,
+    tgram.types.Message,
+    tgram.types.Chat,
+    tgram.types.ChatFullInfo,
+)
+
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
-        self._me = (
-            me
-            if isinstance(
-                self, (tgram.types.User, tgram.types.CallbackQuery, tgram.types.Message)
-            )
-            else None
-        )
+        self._me = me if isinstance(self, BOUNDED_TYPES) else None
         self._json = json
 
     @property
