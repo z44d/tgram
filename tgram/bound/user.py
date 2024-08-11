@@ -1,6 +1,6 @@
 import tgram
 
-from tgram.utils import String
+from tgram.utils import Mention
 
 
 class UserB:
@@ -8,14 +8,8 @@ class UserB:
     def mention(
         self: "tgram.types.User",
         name: str = None,
-    ) -> String:
-        return String(name or self.first_name).put(
-            [
-                tgram.types.MessageEntity(
-                    "text_mention", 0, len(name or self.first_name), user=self
-                )
-            ]
-        )
+    ) -> Mention:
+        return Mention(name or self.first_name, self.id)
 
     @property
     def full_name(self: "tgram.types.User") -> str:
