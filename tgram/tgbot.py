@@ -29,11 +29,13 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    async def run_for_updates(self: "TgBot") -> None:
+    async def run_for_updates(self: "TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
             self.load_plugins()
         offset, allowed_updates, limit = (
-            -1 if self.skip_updates else None,
+            -1
+            if (self.skip_updates if skip_updates is None else skip_updates)
+            else None,
             self.allowed_updates,
             100,
         )
