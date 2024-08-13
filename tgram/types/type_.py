@@ -5,14 +5,14 @@ from tgram.utils import Json
 
 logger = logging.getLogger(__name__)
 
-BOUNDED_TYPES = (
-    tgram.types.User,
-    tgram.types.CallbackQuery,
-    tgram.types.Message,
-    tgram.types.Chat,
-    tgram.types.ChatFullInfo,
-    tgram.types.InlineQuery,
-)
+BOUNDED_TYPES = Union[
+    "tgram.types.User",
+    "tgram.types.CallbackQuery",
+    "tgram.types.Message",
+    "tgram.types.Chat",
+    "tgram.types.ChatFullInfo",
+    "tgram.types.InlineQuery",
+]
 
 
 class Type_:
