@@ -7,18 +7,17 @@ from typing import Union
 
 logger = logging.getLogger(__name__)
 
-BOUNDED_TYPES = Union[
-    "tgram.types.User",
-    "tgram.types.CallbackQuery",
-    "tgram.types.Message",
-    "tgram.types.Chat",
-    "tgram.types.ChatFullInfo",
-    "tgram.types.InlineQuery",
-]
-
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
+        BOUNDED_TYPES = (
+            tgram.types.User,
+            tgram.types.CallbackQuery,
+            tgram.types.Message,
+            tgram.types.Chat,
+            tgram.types.ChatFullInfo,
+            tgram.types.InlineQuery,
+        )
         self._me = me if isinstance(self, BOUNDED_TYPES) else None
         self._json = json
 
