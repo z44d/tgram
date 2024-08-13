@@ -17,7 +17,7 @@ from .sync import wrap
 from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
 
-from typing import List, Any, Literal, Callable, Union
+from typing import List, Any, Literal, Callable, Union, Coroutine
 
 from pathlib import Path
 from importlib import import_module
@@ -60,6 +60,11 @@ class Dispatcher:
 
         session = await self._get_session()
         await session.close()
+
+    async def run(self: "TgBot", main: Coroutine = None) -> Any:
+        if main is None:
+            return await self.run_for_updates()
+        return self.loop.run_until_complete(main)
 
     async def stop(self) -> Literal[True]:
         self.is_running = False
