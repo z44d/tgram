@@ -29,11 +29,11 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    async def run_for_updates(self: "TgBot", skip_updates: bool = True) -> None:
+    async def run_for_updates(self: "TgBot") -> None:
         if self.plugins:
             self.load_plugins()
         offset, allowed_updates, limit = (
-            -1 if skip_updates else None,
+            -1 if self.skip_updates else None,
             self.allowed_updates,
             100,
         )
@@ -134,6 +134,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         workers: int = None,
         retry_after: Union[int, bool] = None,
         plugins: Union[Path, str] = None,
+        skip_updates: bool = True,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -144,6 +145,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.workers = workers or min(32, (os.cpu_count() or 0) + 4)
         self.retry_after = retry_after
         self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
+        self.skip_updates = skip_updates
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
