@@ -3,6 +3,8 @@ import logging
 from json import dumps
 from tgram.utils import Json
 
+from typing import Union
+
 logger = logging.getLogger(__name__)
 
 BOUNDED_TYPES = Union[
