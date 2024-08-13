@@ -127,6 +127,8 @@ from .unpin_all_general_forum_topic_messages import UnpinAllGeneralForumTopicMes
 from .unpin_chat_message import UnpinChatMessage
 from .upload_sticker_file import UploadStickerFile
 
+from .runner import Runner
+
 
 class TelegramBotMethods(
     AddStickerToSet,
@@ -257,5 +259,6 @@ class TelegramBotMethods(
     UnpinAllGeneralForumTopicMessages,
     UnpinChatMessage,
     UploadStickerFile,
+    Runner,
 ):
     pass
