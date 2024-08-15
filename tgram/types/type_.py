@@ -73,6 +73,6 @@ class Type_:
             logger.warn(
                 "You got an error (%s) (The original type returned) when the bot trying to give you custom type, make sure you are doing it in right way, see the example here %s",
                 str(e),
-                "https://github.com/2ei/tgram/blob/main/examples/custom_types.py",
+                "https://github.com/z44d/tgram/blob/main/examples/custom_types.py",
             )
             return a

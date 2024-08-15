@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://github.com/2ei/tgram">
+    <a href="https://github.com/z44d/tgram">
         <img src="https://github.com/user-attachments/assets/ad99412f-8d69-446c-bedf-5b7663f69727" alt="tgram" width="128">
     </a>
     <h1>tgram</h1>
@@ -9,11 +9,11 @@
         Channel
     </a>
     •
-    <a href="https://2ei.github.io/tgram/">
+    <a href="https://z44d.github.io/tgram/">
         Documentation
     </a>
     •
-    <a href="https://github.com/2ei/tgram/tree/main/examples">
+    <a href="https://github.com/z44d/tgram/tree/main/examples">
         Examples
     </a>
 </div>
@@ -37,14 +37,14 @@
   <a href="https://t.me/tgbot_chat">
     <img src="https://img.shields.io/badge/Telegram-Group-blue.svg?logo=telegram" alt="Telegram Group">
   </a>
-  <a href="https://github.com/2ei/tgram/actions/workflows/ruff.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/ruff.yml?style=flat&label=Ruff" alt="Ruff Action Workflow Status">
+  <a href="https://github.com/z44d/tgram/actions/workflows/ruff.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/z44d/tgram/ruff.yml?style=flat&label=Ruff" alt="Ruff Action Workflow Status">
   </a>
-  <a href="https://github.com/2ei/tgram/actions/workflows/build-docs.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/build-docs.yml?style=flat&label=Docs" alt="Docs Action Workflow Status">
+  <a href="https://github.com/z44d/tgram/actions/workflows/build-docs.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/z44d/tgram/build-docs.yml?style=flat&label=Docs" alt="Docs Action Workflow Status">
   </a>
-  <a href="https://github.com/2ei/tgram/actions/workflows/release.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/2ei/tgram/release.yml?style=flat&label=Release" alt="Release Action Workflow Status">
+  <a href="https://github.com/z44d/tgram/actions/workflows/release.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/z44d/tgram/release.yml?style=flat&label=Release" alt="Release Action Workflow Status">
   </a>
 </div>
 
@@ -79,7 +79,7 @@ Here's how to install the tgram library. The commands are given below:
 
 ``` bash
 # With Git
-pip install git+https://github.com/2ei/tgram -U
+pip install git+https://github.com/z44d/tgram -U
 
 # With PyPi (Recommended)
 pip install tgram -U

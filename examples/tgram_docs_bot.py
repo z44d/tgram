@@ -6,7 +6,7 @@ me = bot.get_me()
 
 logging.basicConfig(level=logging.INFO)
 
-docs_url = "https://2ei.github.io/tgram/"
+docs_url = "https://z44d.github.io/tgram/"
 all_types = [
     i for i in filter(lambda x: not x.startswith("_") and not x.islower(), dir(types))
 ]

@@ -18,8 +18,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/2ei/tgram"
-Issues = "https://github.com/2ei/tgram/issues"
+Homepage = "https://github.com/z44d/tgram"
+Issues = "https://github.com/z44d/tgram/issues"
 
 [tool.setuptools]
 include-package-data = false
