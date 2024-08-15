@@ -14,6 +14,7 @@ from .close_general_forum_topic import CloseGeneralForumTopic
 from .copy_message import CopyMessage
 from .copy_messages import CopyMessages
 from .create_chat_invite_link import CreateChatInviteLink
+from .create_chat_subscription_invite_link import CreateChatSubscriptionInviteLink
 from .create_forum_topic import CreateForumTopic
 from .create_invoice_link import CreateInvoiceLink
 from .create_new_sticker_set import CreateNewStickerSet
@@ -147,6 +148,7 @@ class TelegramBotMethods(
     CopyMessage,
     CopyMessages,
     CreateChatInviteLink,
+    CreateChatSubscriptionInviteLink,
     CreateForumTopic,
     CreateInvoiceLink,
     CreateNewStickerSet,
