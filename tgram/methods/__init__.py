@@ -30,6 +30,7 @@ from .delete_sticker_set import DeleteStickerSet
 from .delete_webhook import DeleteWebhook
 from .download_file import DownloadFile
 from .edit_chat_invite_link import EditChatInviteLink
+from .edit_chat_subscription_invite_link import EditChatSubscriptionInviteLink
 from .edit_forum_topic import EditForumTopic
 from .edit_general_forum_topic import EditGeneralForumTopic
 from .edit_message_caption import EditMessageCaption
@@ -164,6 +165,7 @@ class TelegramBotMethods(
     DeleteWebhook,
     DownloadFile,
     EditChatInviteLink,
+    EditChatSubscriptionInviteLink,
     EditForumTopic,
     EditGeneralForumTopic,
     EditMessageCaption,
