@@ -1,7 +1,7 @@
 import tgram
 from .type_ import Type_
 
-from typing import Optional
+from typing import Optional, List
 
 
 class TransactionPartnerUser(Type_):
@@ -24,6 +24,7 @@ class TransactionPartnerUser(Type_):
         self,
         user: "tgram.types.User" = None,
         invoice_payload: "str" = None,
+        paid_media: List["tgram.types.PaidMedia"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -31,6 +32,7 @@ class TransactionPartnerUser(Type_):
         self.type = "user"
         self.user = user
         self.invoice_payload = invoice_payload
+        self.paid_media = paid_media
 
     @staticmethod
     def _parse(
@@ -43,6 +45,18 @@ class TransactionPartnerUser(Type_):
                 type=d.get("type"),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
                 invoice_payload=d.get("invoice_payload"),
+                paid_media=[
+                    (
+                        tgram.types.PaidMediaPreview._parse(me=me, d=i)
+                        if i["type"] == "preview"
+                        else tgram.types.PaidMediaPhoto._parse(me=me, d=i)
+                        if i["type"] == "photo"
+                        else tgram.types.PaidMediaVideo._parse(me=me, d=i)
+                    )
+                    for i in d.get("paid_media")
+                ]
+                if d.get("paid_media")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
