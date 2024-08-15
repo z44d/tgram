@@ -29,6 +29,7 @@ class SendPaidMedia:
         reply_markup: Union[
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
+        business_connection_id: str = None,
     ) -> Message:
         """
         Use this method to send paid media to channel chats. On success, the sent Message is returned.
@@ -68,6 +69,9 @@ class SendPaidMedia:
         :param reply_markup: Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
         :type reply_markup: :class:`tgram.types.InlineKeyboardMarkup` or :class:`tgram.types.ReplyKeyboardMarkup` or :class:`tgram.types.ReplyKeyboardRemove` or :class:`tgram.types.ForceReply`
 
+        :param business_connection_id: Unique identifier of the business connection on behalf of which the message will be sent
+        :type protect_content: :obj:`str`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -87,6 +91,7 @@ class SendPaidMedia:
             else self.protect_content,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            business_connection_id=business_connection_id,
             **files,
         )
         return Message._parse(me=self, d=result["result"])
