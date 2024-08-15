@@ -36,7 +36,7 @@ class CreateChatSubscriptionInviteLink:
         """
 
         result = await self._send_request(
-            "sreateChatSubscriptionInviteLink",
+            "createChatSubscriptionInviteLink",
             chat_id=chat_id,
             subscription_period=subscription_period,
             subscription_price=subscription_price,
