@@ -179,6 +179,7 @@ from ._proximity_alert_triggered import ProximityAlertTriggered
 from ._reaction_count import ReactionCount
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from ._reaction_type_emoji import ReactionTypeEmoji
+from ._reaction_type_paid import ReactionTypePaid
 from ._refunded_payment import RefundedPayment
 from ._reply_keyboard_markup import ReplyKeyboardMarkup
 from ._reply_keyboard_remove import ReplyKeyboardRemove
@@ -264,7 +265,9 @@ MessageOrigin = _Union[
 
 PaidMedia = _Union["PaidMediaPreview", "PaidMediaPhoto", "PaidMediaVideo"]
 
-ReactionType = _Union["ReactionTypeCustomEmoji", "ReactionTypeEmoji"]
+ReactionType = _Union[
+    "ReactionTypeCustomEmoji", "ReactionTypeEmoji", "ReactionTypePaid"
+]
 
 RevenueWithdrawalState = _Union[
     "RevenueWithdrawalStatePending",
