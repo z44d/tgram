@@ -199,9 +199,10 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             logger.info("Sending request using the method: %s", method)
         session = await self._get_session()
         data = aiohttp.FormData(quote_fields=False)
-        has_files, file = False, None
+        has_files = False
 
         for key, value in kwargs.items():
+            file = None
             if value is None or key == "timeout" or key == "retry":
                 continue
             if isinstance(value, Path):
@@ -218,8 +219,8 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 value = str(value)
             data.add_field(
                 key,
-                file if has_files else value,
-                filename=get_file_name(value) if has_files else None,
+                file or value,
+                filename=get_file_name(value) if file else None,
             )
 
         response = await session.request(
