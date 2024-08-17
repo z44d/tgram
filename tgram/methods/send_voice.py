@@ -93,7 +93,6 @@ class SendVoice:
         result = await self._send_request(
             "sendVoice",
             chat_id=chat_id,
-            voice=get_file_path(voice),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
@@ -107,5 +106,6 @@ class SendVoice:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            voice=get_file_path(voice),
         )
         return Message._parse(me=self, d=result["result"])

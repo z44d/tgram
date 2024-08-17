@@ -83,7 +83,6 @@ class SendSticker:
         result = await self._send_request(
             "sendSticker",
             chat_id=chat_id,
-            sticker=sticker,
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             emoji=emoji,
@@ -94,5 +93,6 @@ class SendSticker:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            sticker=sticker,
         )
         return Message._parse(me=self, d=result["result"])

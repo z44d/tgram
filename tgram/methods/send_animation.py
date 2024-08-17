@@ -121,7 +121,6 @@ class SendAnimation:
         result = await self._send_request(
             "sendAnimation",
             chat_id=chat_id,
-            animation=get_file_path(animation),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
@@ -140,5 +139,6 @@ class SendAnimation:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            animation=get_file_path(animation),
         )
         return Message._parse(me=self, d=result["result"])

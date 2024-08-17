@@ -116,7 +116,6 @@ class SendAudio:
         result = await self._send_request(
             "sendAudio",
             chat_id=chat_id,
-            audio=get_file_path(audio),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
@@ -133,5 +132,6 @@ class SendAudio:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            audio=get_file_path(audio),
         )
         return Message._parse(me=self, d=result["result"])

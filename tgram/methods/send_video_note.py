@@ -95,7 +95,6 @@ class SendVideoNote:
         result = await self._send_request(
             "sendVideoNote",
             chat_id=chat_id,
-            video_note=get_file_path(video_note),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
@@ -108,5 +107,6 @@ class SendVideoNote:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            video_note=get_file_path(video_note),
         )
         return Message._parse(me=self, d=result["result"])

@@ -123,7 +123,6 @@ class SendVideo:
         result = await self._send_request(
             "sendVideo",
             chat_id=chat_id,
-            video=get_file_path(video),
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             duration=duration,
@@ -143,5 +142,6 @@ class SendVideo:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            video=get_file_path(video),
         )
         return Message._parse(me=self, d=result["result"])
