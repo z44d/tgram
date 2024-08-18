@@ -16,6 +16,38 @@ MEDIA_TYPES = {
     "document",
 }
 
+SERVICE_TYPES = {
+    "video_chat_participants_invited",
+    "video_chat_ended",
+    "video_chat_started",
+    "video_chat_scheduled",
+    "giveaway_completed",
+    "general_forum_topic_unhidden",
+    "general_forum_topic_hidden",
+    "forum_topic_reopened",
+    "forum_topic_closed",
+    "forum_topic_edited",
+    "forum_topic_created",
+    "chat_background_set",
+    "boost_added",
+    "proximity_alert_triggered",
+    "write_access_allowed",
+    "successful_payment",
+    "refunded_payment",
+    "users_shared",
+    "chat_shared",
+    "pinned_message",
+    "message_auto_delete_timer_changed",
+    "channel_chat_created",
+    "supergroup_chat_created",
+    "group_chat_created",
+    "delete_chat_photo",
+    "new_chat_photo",
+    "new_chat_title",
+    "left_chat_member",
+    "new_chat_members",
+}
+
 
 class MessageB:
     async def reply_text(
@@ -50,6 +82,8 @@ class MessageB:
             reply_markup=reply_markup,
             reply_parameters=self.__reply_param,
         )
+
+    reply = reply_text
 
     async def reply_photo(
         self: "tgram.types.Message",
@@ -383,7 +417,222 @@ class MessageB:
             reply_markup=reply_markup,
         )
 
-    # TODO More soon
+    async def reply_paid_media(
+        self: "tgram.types.Message",
+        star_count: int,
+        media: List["tgram.types.InputPaidMedia"],
+        caption: str = None,
+        parse_mode: str = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
+        show_caption_above_media: bool = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        reply_markup: Union[
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
+        ] = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_paid_media(
+            self.chat.id,
+            star_count=star_count,
+            media=media,
+            caption=caption,
+            parse_mode=parse_mode or self.me_parse_mode,
+            caption_entities=caption_entities,
+            show_caption_above_media=show_caption_above_media,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id,
+        )
+
+    async def reply_chat_action(
+        self: "tgram.types.Message",
+        action: str,
+    ) -> bool:
+        return await self._me.send_chat_action(
+            self.chat.id,
+            action=action,
+            business_connection_id=self.business_connection_id,
+            message_thread_id=self.message_thread_id,
+        )
+
+    async def reply_contact(
+        self: "tgram.types.Message",
+        phone_number: str,
+        first_name: str,
+        last_name: str = None,
+        vcard: str = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: Union[
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
+        ] = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_contact(
+            self.chat.id,
+            phone_number=phone_number,
+            first_name=first_name,
+            business_connection_id=self.business_connection_id,
+            message_thread_id=self.message_thread_id,
+            last_name=last_name,
+            vcard=vcard,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
+
+    async def reply_dice(
+        self: "tgram.types.Message",
+        emoji: str = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: Union[
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
+        ] = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_dice(
+            self.chat.id,
+            business_connection_id=self.usiness_connection_id,
+            message_thread_id=self.message_thread_id,
+            emoji=emoji,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
+
+    async def reply_game(
+        self: "tgram.types.Message",
+        game_short_name: str,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_game(
+            self.chat.id,
+            game_short_name=game_short_name,
+            business_connection_id=self.business_connection_id,
+            message_thread_id=self.message_thread_id,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
+
+    async def reply_invoice(
+        self: "tgram.types.Message",
+        title: str,
+        description: str,
+        payload: str,
+        currency: str,
+        prices: List["tgram.types.LabeledPrice"],
+        provider_token: str = None,
+        max_tip_amount: int = None,
+        suggested_tip_amounts: List[int] = None,
+        start_parameter: str = None,
+        provider_data: str = None,
+        photo_url: str = None,
+        photo_size: int = None,
+        photo_width: int = None,
+        photo_height: int = None,
+        need_name: bool = None,
+        need_phone_number: bool = None,
+        need_email: bool = None,
+        need_shipping_address: bool = None,
+        send_phone_number_to_provider: bool = None,
+        send_email_to_provider: bool = None,
+        is_flexible: bool = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_invoice(
+            self.chat.id,
+            title=title,
+            description=description,
+            payload=payload,
+            currency=currency,
+            prices=prices,
+            message_thread_id=self.message_thread_id,
+            provider_token=provider_token,
+            max_tip_amount=max_tip_amount,
+            suggested_tip_amounts=suggested_tip_amounts,
+            start_parameter=start_parameter,
+            provider_data=provider_data,
+            photo_url=photo_url,
+            photo_size=photo_size,
+            photo_width=photo_width,
+            photo_height=photo_height,
+            need_name=need_name,
+            need_phone_number=need_phone_number,
+            need_email=need_email,
+            need_shipping_address=need_shipping_address,
+            send_phone_number_to_provider=send_phone_number_to_provider,
+            send_email_to_provider=send_email_to_provider,
+            is_flexible=is_flexible,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
+
+    async def reply_sticker(
+        self: "tgram.types.Message",
+        sticker: Union[Path, bytes, str],
+        emoji: str = None,
+        disable_notification: bool = None,
+        protect_content: bool = None,
+        message_effect_id: str = None,
+        reply_markup: Union[
+            "tgram.types.InlineKeyboardMarkup",
+            "tgram.types.ReplyKeyboardMarkup",
+            "tgram.types.ReplyKeyboardRemove",
+            "tgram.types.ForceReply",
+        ] = None,
+    ) -> "tgram.types.Message":
+        return await self._me.send_sticker(
+            self.chat.id,
+            sticker=sticker,
+            business_connection_id=self.business_connection_id,
+            message_thread_id=self.message_thread_id,
+            emoji=emoji,
+            disable_notification=disable_notification,
+            protect_content=protect_content
+            if protect_content is not None
+            else self._me.protect_content,
+            message_effect_id=message_effect_id,
+            reply_parameters=self.__reply_param,
+            reply_markup=reply_markup,
+        )
 
     async def forward(
         self: "tgram.types.Message",
@@ -510,6 +759,48 @@ class MessageB:
         for media_type in MEDIA_TYPES:
             if getattr(self, media_type):
                 return media_type
+
+        return None
+
+    @property
+    def service(
+        self: "tgram.types.Message",
+    ) -> Optional[
+        Literal[
+            "video_chat_participants_invited",
+            "video_chat_ended",
+            "video_chat_started",
+            "video_chat_scheduled",
+            "giveaway_completed",
+            "general_forum_topic_unhidden",
+            "general_forum_topic_hidden",
+            "forum_topic_reopened",
+            "forum_topic_closed",
+            "forum_topic_edited",
+            "forum_topic_created",
+            "chat_background_set",
+            "boost_added",
+            "proximity_alert_triggered",
+            "write_access_allowed",
+            "successful_payment",
+            "refunded_payment",
+            "users_shared",
+            "chat_shared",
+            "pinned_message",
+            "message_auto_delete_timer_changed",
+            "channel_chat_created",
+            "supergroup_chat_created",
+            "group_chat_created",
+            "delete_chat_photo",
+            "new_chat_photo",
+            "new_chat_title",
+            "left_chat_member",
+            "new_chat_members",
+        ]
+    ]:
+        for service_type in SERVICE_TYPES:
+            if getattr(self, service_type):
+                return service_type
 
         return None
 
