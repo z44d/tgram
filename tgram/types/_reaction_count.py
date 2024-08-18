@@ -39,7 +39,15 @@ class ReactionCount(Type_):
             ReactionCount(
                 me=me,
                 json=d,
-                type=tgram.types.ReactionType._parse(me=me, d=d.get("type")),
+                type=(
+                    tgram.types.ReactionTypeCustomEmoji._parse(me, d.get("type"))
+                    if d["type"]["type"] == "custom_emoji"
+                    else tgram.types.ReactionTypeEmoji._parse(me, d.get("type"))
+                    if d["type"]["type"] == "emoji"
+                    else tgram.types.ReactionTypePaid._parse(me, d.get("type"))
+                )
+                if d.get("type")
+                else None,
                 total_count=d.get("total_count"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
