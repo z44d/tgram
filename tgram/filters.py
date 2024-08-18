@@ -102,38 +102,7 @@ video_chat_participants_invited = Filter(
 web_app_data = Filter(lambda m: getattr(m, "web_app_data"))
 reply_markup = Filter(lambda m: getattr(m, "reply_markup"))
 
-service = (
-    video_chat_participants_invited
-    | video_chat_ended
-    | video_chat_started
-    | video_chat_scheduled
-    | giveaway_completed
-    | general_forum_topic_unhidden
-    | general_forum_topic_hidden
-    | forum_topic_reopened
-    | forum_topic_closed
-    | forum_topic_edited
-    | forum_topic_created
-    | chat_background_set
-    | boost_added
-    | proximity_alert_triggered
-    | write_access_allowed
-    | write_access_allowed
-    | successful_payment
-    | refunded_payment
-    | users_shared
-    | chat_shared
-    | pinned_message
-    | message_auto_delete_timer_changed
-    | channel_chat_created
-    | supergroup_chat_created
-    | group_chat_created
-    | delete_chat_photo
-    | new_chat_photo
-    | new_chat_title
-    | left_chat_member
-    | new_chat_members
-)
+service = Filter(lambda m: isinstance(m, tgram.types.Message) and m.service)
 
 media = Filter(lambda m: isinstance(m, tgram.types.Message) and m.media)
 
