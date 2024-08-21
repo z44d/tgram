@@ -29,6 +29,16 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
+    async def handler_worker(self: "TgBot", lock: asyncio.Lock):
+        while True:
+            update = await self.updates_queue.get()
+
+            if update is None:
+                break
+
+            async with lock:
+                await self._check_update(update)
+
     async def run_for_updates(self: "TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
             self.load_plugins()
@@ -42,6 +52,15 @@ class Dispatcher:
         self.is_running = True
         self.me = await self.get_me()
 
+        for _ in range(self.workers):
+            self.locks_list.append(asyncio.Lock())
+
+            self.handler_worker_tasks.append(
+                self.loop.create_task(self.handler_worker(self.locks_list[-1]))
+            )
+
+        logger.info("Started %s HandlerTasks", self.workers)
+
         while self.is_running:
             try:
                 updates = await self.get_updates(
@@ -52,7 +71,7 @@ class Dispatcher:
                 )
                 for update in updates:
                     offset = update.update_id + 1
-                    await self._check_update(update)
+                    self.updates_queue.put_nowait(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
                 self.is_running = False
             except tgram.StopPropagation:
@@ -154,6 +173,10 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._handlers: List["tgram.handlers.Handler"] = []
         self._custom_types: dict = {}
         self._session: "aiohttp.ClientSession" = None
+
+        self.handler_worker_tasks = []
+        self.locks_list = []
+        self.updates_queue = asyncio.Queue()
 
         if not api_url.endswith("/"):
             api_url += "/"
