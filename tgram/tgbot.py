@@ -169,9 +169,10 @@ class Dispatcher:
 
             self.groups[group].append(handler)
             logger.info(
-                "(%s) added to %s handlers",
+                "(%s) added to %s handlers in group %s",
                 handler.callback.__name__,
                 "Update." + handler.type if handler.type != "all" else "all",
+                group,
             )
         finally:
             for lock in self.locks_list:
@@ -191,9 +192,10 @@ class Dispatcher:
 
             self.groups[group].remove(handler)
             logger.info(
-                "(%s) removed from %s handlers",
+                "(%s) removed from %s handlers from group %s",
                 handler.callback.__name__,
                 "Update." + handler.type if handler.type != "all" else "all",
+                group,
             )
         finally:
             for lock in self.locks_list:
