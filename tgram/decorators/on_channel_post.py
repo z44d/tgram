@@ -6,7 +6,7 @@ from tgram.filters import Filter, all
 
 
 class OnChannelPost:
-    def on_channel_post(self=None, filters: Filter = None):
+    def on_channel_post(self=None, filters: Filter = None, group: int = 0):
         def decorator(func: Callable) -> Callable:
             handler = Handler(
                 callback=func,
@@ -14,12 +14,12 @@ class OnChannelPost:
                 filters=self if isinstance(self, Filter) else (filters or all),
             )
             if isinstance(self, tgram.TgBot):
-                self.add_handler(handler)
+                self.add_handler(handler, group)
             else:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
 
-                func.handlers.append(handler)
+                func.handlers.append((handler, group))
 
             return func
 
