@@ -18,6 +18,7 @@ from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from typing import List, Any, Literal, Callable, Union
+from collections import OrderedDict
 
 from pathlib import Path
 from importlib import import_module
@@ -29,6 +30,19 @@ logger = logging.getLogger(__name__)
 
 
 class Dispatcher:
+    async def handler_worker(self: "TgBot", lock: asyncio.Lock):
+        while True:
+            update = await self.updates_queue.get()
+
+            if update is None:
+                break
+
+            async with lock:
+                try:
+                    await self._check_update(update)
+                except Exception as e:
+                    logger.exception(e)
+
     async def run_for_updates(self: "TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
             self.load_plugins()
@@ -42,6 +56,15 @@ class Dispatcher:
         self.is_running = True
         self.me = await self.get_me()
 
+        for _ in range(self.workers):
+            self.locks_list.append(asyncio.Lock())
+
+            self.handler_worker_tasks.append(
+                self.loop.create_task(self.handler_worker(self.locks_list[-1]))
+            )
+
+        logger.info("Started %s Handler Tasks", self.workers)
+
         while self.is_running:
             try:
                 updates = await self.get_updates(
@@ -52,7 +75,7 @@ class Dispatcher:
                 )
                 for update in updates:
                     offset = update.update_id + 1
-                    await self._check_update(update)
+                    self.updates_queue.put_nowait(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
                 self.is_running = False
             except tgram.StopPropagation:
@@ -89,11 +112,18 @@ class Dispatcher:
                     attr, listener.next_step, listener.data
                 )
 
-        for handler in self._handlers:
-            if handler.type == "all":
-                await self._process_update(update, handler.callback)
-            elif (attr := getattr(update, handler.type)) and handler.filter(attr):
-                await self._process_update(attr, handler.callback)
+        for group, group_items in self.groups.items():
+            for handler in group_items:
+                try:
+                    if handler.type == "all":
+                        await self._process_update(update, handler.callback, group)
+                    elif (attr := getattr(update, handler.type)) and handler.filter(
+                        attr
+                    ):
+                        await self._process_update(attr, handler.callback, group)
+                except Exception as e:
+                    logger.exception(e)
+                    continue
 
     async def _process_listener(
         self: "TgBot", update: Any, callback: Callable, data: dict
@@ -109,7 +139,14 @@ class Dispatcher:
         except Exception as e:
             logger.exception(e)
 
-    async def _process_update(self: "TgBot", update: Any, callback: Callable) -> None:
+    async def _process_update(
+        self: "TgBot", update: Any, callback: Callable, group: int
+    ) -> None:
+        if hasattr(update, "groups") and group in getattr(update, "groups"):
+            return
+        if not hasattr(update, "groups"):
+            update.groups = []
+        update.groups.append(group)
         logger.debug("Processing update to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
@@ -118,6 +155,51 @@ class Dispatcher:
                 await self.loop.run_in_executor(self.executor, callback, self, update)
         except Exception as e:
             logger.exception(e)
+
+    async def _add_grouped_handler(
+        self: "TgBot", handler: "tgram.handlers.Handler", group: int
+    ):
+        for lock in self.locks_list:
+            await lock.acquire()
+
+        try:
+            if group not in self.groups:
+                self.groups[group] = []
+                self.groups = OrderedDict(sorted(self.groups.items()))
+
+            self.groups[group].append(handler)
+            logger.info(
+                "(%s) added to %s handlers in group %s",
+                handler.callback.__name__,
+                "Update." + handler.type if handler.type != "all" else "all",
+                group,
+            )
+        finally:
+            for lock in self.locks_list:
+                lock.release()
+
+    async def _remove_grouped_handler(
+        self: "TgBot", handler: "tgram.handlers.Handler", group: int
+    ):
+        for lock in self.locks_list:
+            await lock.acquire()
+
+        try:
+            if group not in self.groups:
+                raise ValueError(
+                    f"Group {group} does not exist. Handler was not removed."
+                )
+
+            self.groups[group].remove(handler)
+            logger.info(
+                "(%s) removed from %s handlers from group %s",
+                handler.callback.__name__,
+                "Update." + handler.type if handler.type != "all" else "all",
+                group,
+            )
+        finally:
+            for lock in self.locks_list:
+                lock.release()
 
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
@@ -151,27 +233,29 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.me: "tgram.types.User" = None
 
         self._listen_handlers: List["tgram.types.Listener"] = []
-        self._handlers: List["tgram.handlers.Handler"] = []
         self._custom_types: dict = {}
         self._session: "aiohttp.ClientSession" = None
+
+        self.handler_worker_tasks: List["asyncio.Task"] = []
+        self.locks_list: List["asyncio.Lock"] = []
+        self.updates_queue = asyncio.Queue()
+        self.groups = OrderedDict()
 
         if not api_url.endswith("/"):
             api_url += "/"
 
         self._api_url: str = f"{api_url}bot{bot_token}/"
 
-    def add_handler(self, handler: "tgram.handlers.Handler") -> None:
+    def add_handler(self, handler: "tgram.handlers.Handler", group: int) -> None:
         if handler.type == "all":
             self.allowed_updates = ALL_UPDATES
         elif handler.type not in self.allowed_updates:
             self.allowed_updates.append(handler.type)
 
-        logger.info(
-            "(%s) added to %s handlers",
-            handler.callback.__name__,
-            "Update." + handler.type if handler.type != "all" else "all",
-        )
-        self._handlers.append(handler)
+        self.loop.create_task(self._add_grouped_handler(handler, group))
+
+    def remove_handler(self, handler: "tgram.handlers.Handler", group: int) -> None:
+        self.loop.create_task(self._remove_grouped_handler(handler, group))
 
     async def _new_session(self) -> None:
         session = aiohttp.ClientSession(
@@ -269,9 +353,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 obj = getattr(module, name)
 
                 if hasattr(obj, "handlers"):
-                    for handler in obj.handlers:
-                        if isinstance(handler, tgram.handlers.Handler):
-                            self.add_handler(handler)
+                    for handler, group in obj.handlers:
+                        if isinstance(handler, tgram.handlers.Handler) and isinstance(
+                            group, int
+                        ):
+                            self.add_handler(handler, group)
 
     def customize(self, old: type, new: type) -> Literal[True]:
         if Type_ not in inspect.getmro(old):
