@@ -112,15 +112,15 @@ class Dispatcher:
                     attr, listener.next_step, listener.data
                 )
 
-        for group in self.groups.values():
-            for handler in group:
+        for group, group_items in self.groups.items():
+            for handler in group_items:
                 try:
                     if handler.type == "all":
-                        await self._process_update(update, handler.callback)
+                        await self._process_update(update, handler.callback, group)
                     elif (attr := getattr(update, handler.type)) and handler.filter(
                         attr
                     ):
-                        await self._process_update(attr, handler.callback)
+                        await self._process_update(attr, handler.callback, group)
                 except Exception as e:
                     logger.exception(e)
                     continue
@@ -139,7 +139,14 @@ class Dispatcher:
         except Exception as e:
             logger.exception(e)
 
-    async def _process_update(self: "TgBot", update: Any, callback: Callable) -> None:
+    async def _process_update(
+        self: "TgBot", update: Any, callback: Callable, group: int
+    ) -> None:
+        if hasattr(update, "groups") and group in getattr(update, "groups"):
+            return
+        if not hasattr(update, "groups"):
+            update.groups = []
+        update.groups.append(group)
         logger.debug("Processing update to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
