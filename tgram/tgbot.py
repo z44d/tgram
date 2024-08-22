@@ -246,7 +246,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         self._api_url: str = f"{api_url}bot{bot_token}/"
 
-    def add_handler(self, handler: "tgram.handlers.Handler", group: int) -> None:
+    def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         if handler.type == "all":
             self.allowed_updates = ALL_UPDATES
         elif handler.type not in self.allowed_updates:
