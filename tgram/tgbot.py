@@ -254,7 +254,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         self.loop.create_task(self._add_grouped_handler(handler, group))
 
-    def remove_handler(self, handler: "tgram.handlers.Handler", group: int) -> None:
+    def remove_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         self.loop.create_task(self._remove_grouped_handler(handler, group))
 
     async def _new_session(self) -> None:
