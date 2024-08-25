@@ -142,11 +142,11 @@ class Dispatcher:
     async def _process_update(
         self: "TgBot", update: Any, callback: Callable, group: int
     ) -> None:
-        if hasattr(update, "groups") and group in getattr(update, "groups"):
+        if hasattr(update, "_groups") and group in getattr(update, "_groups"):
             return
-        if not hasattr(update, "groups"):
-            update.groups = []
-        update.groups.append(group)
+        if not hasattr(update, "_groups"):
+            update._groups = []
+        update._groups.append(group)
         logger.debug("Processing update to %s func", callback.__name__)
         try:
             if asyncio.iscoroutinefunction(callback):
