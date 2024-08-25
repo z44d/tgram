@@ -322,12 +322,13 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         response_json = await response.json()
 
         if not response_json["ok"]:
+            error = APIException._from_json(response_json)
             if (
-                response_json["error_code"] == 429
+                error.error_code == 429
                 and self.retry_after
                 and (not kwargs.get("retry"))
             ):
-                s = response_json["parameters"]["retry_after"]
+                s = error.parameters["retry_after"]
                 retry_after = (
                     s
                     if self.retry_after is True
@@ -340,8 +341,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 )
                 await asyncio.sleep(retry_after)
                 return await self._send_request(method, {"retry": 1, **kwargs})
-            del response_json["ok"]
-            raise APIException(json.dumps(response_json))
+            raise error
 
         return response_json
 
