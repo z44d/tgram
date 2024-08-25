@@ -9,6 +9,8 @@ from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters
 
+from tgram import utils
+
 
 class SendMediaFromFileId:
     async def send_media_from_file_id(
@@ -29,14 +31,18 @@ class SendMediaFromFileId:
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
     ) -> Message:
-        file = await self.get_file(file_id)
-        file_type = file.file_path.split("/")[0][:-1].title()
+        decoded_file_id = utils.decode_file_id(file_id)
+
+        if decoded_file_id["file_type_int"] not in utils.SUPPORTED_FILE_TYPES_TO_SEND:
+            raise ValueError(
+                f"Unsupported file type to send {decoded_file_id['file_type']}, You have to download it first."
+            )
 
         result = await self._send_request(
-            f"send{file_type}",
+            "send" + decoded_file_id["file_type"],
             **{
                 "chat_id": chat_id,
-                file_type.lower(): file_id,
+                decoded_file_id["file_type"].lower(): file_id,
                 "business_connection_id": business_connection_id,
                 "message_thread_id": message_thread_id,
                 "caption": caption,
