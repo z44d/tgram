@@ -19,9 +19,6 @@ def async_to_sync(obj, name):
                 return await agen.__anext__(), False
             except StopAsyncIteration:
                 return None, True
-            except Exception as e:
-                logger.error("Error in async generator: %s", str(e))
-                return None, True
 
         while True:
             try:
@@ -58,13 +55,7 @@ def async_to_sync(obj, name):
                 return coroutine
             else:
                 if inspect.iscoroutine(coroutine):
-                    try:
-                        return loop.run_until_complete(coroutine)
-                    except (asyncio.CancelledError, KeyboardInterrupt):
-                        logger.info("\nThe process %s got killed", coroutine.__name__)
-                    except Exception as e:
-                        logger.error("Error in coroutine execution: %s", str(e))
-                        raise
+                    return loop.run_until_complete(coroutine)
 
                 if inspect.isasyncgen(coroutine):
                     return async_to_sync_gen(coroutine, loop, True)
@@ -73,13 +64,9 @@ def async_to_sync(obj, name):
                 if loop.is_running():
 
                     async def coro_wrapper():
-                        try:
-                            return await asyncio.wrap_future(
-                                asyncio.run_coroutine_threadsafe(coroutine, main_loop)
-                            )
-                        except Exception as e:
-                            logger.error("Error in coroutine wrapper: %s", str(e))
-                            raise
+                        return await asyncio.wrap_future(
+                            asyncio.run_coroutine_threadsafe(coroutine, main_loop)
+                        )
 
                     return coro_wrapper()
                 else:
