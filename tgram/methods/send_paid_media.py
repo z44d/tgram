@@ -19,6 +19,7 @@ class SendPaidMedia:
         chat_id: Union[int, str],
         star_count: int,
         media: List[InputPaidMedia],
+        payload: str = None,
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List[MessageEntity] = None,
@@ -47,6 +48,9 @@ class SendPaidMedia:
 
         :param caption: Media caption, 0-1024 characters after entities parsing
         :type caption: :obj:`str`
+
+        :param payload: Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
+        :type payload: :obj:`str`
 
         :param parse_mode: Mode for parsing entities in the media caption
         :type parse_mode: :obj:`str`
@@ -81,6 +85,7 @@ class SendPaidMedia:
             chat_id=chat_id,
             star_count=star_count,
             media=arr,
+            payload=payload,
             caption=caption,
             parse_mode=parse_mode or self.parse_mode,
             caption_entities=caption_entities,

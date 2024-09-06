@@ -153,6 +153,7 @@ from ._order_info import OrderInfo
 from ._paid_media_info import PaidMediaInfo
 from ._paid_media_photo import PaidMediaPhoto
 from ._paid_media_preview import PaidMediaPreview
+from ._paid_media_purchased import PaidMediaPurchased
 from ._paid_media_video import PaidMediaVideo
 from ._passport_data import PassportData
 from ._passport_element_error import PassportElementError
@@ -439,6 +440,7 @@ __all__ = [
     "PaidMediaInfo",
     "PaidMediaPhoto",
     "PaidMediaPreview",
+    "PaidMediaPurchased",
     "PaidMediaVideo",
     "PassportData",
     "PassportElementError",

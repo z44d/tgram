@@ -19,6 +19,9 @@ class ChatBoostSourceGiveaway(Type_):
     :param user: User that won the prize in the giveaway if any
     :type user: :class:`User`
 
+    :param prize_star_count: Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+    :type prize_star_count: :obj:`int`
+
     :param is_unclaimed: True, if the giveaway was completed, but there was no user to win the prize
     :type is_unclaimed: :obj:`bool`
 
@@ -31,6 +34,7 @@ class ChatBoostSourceGiveaway(Type_):
         source: "str" = None,
         giveaway_message_id: "int" = None,
         user: "tgram.types.User" = None,
+        prize_star_count: "int" = None,
         is_unclaimed: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -39,6 +43,7 @@ class ChatBoostSourceGiveaway(Type_):
         self.source = source
         self.giveaway_message_id = giveaway_message_id
         self.user = user
+        self.prize_star_count = prize_star_count
         self.is_unclaimed = is_unclaimed
 
     @staticmethod
@@ -52,6 +57,7 @@ class ChatBoostSourceGiveaway(Type_):
                 source=d.get("source"),
                 giveaway_message_id=d.get("giveaway_message_id"),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
+                prize_star_count=d.get("prize_star_count"),
                 is_unclaimed=d.get("is_unclaimed"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

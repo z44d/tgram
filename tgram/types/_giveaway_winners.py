@@ -28,6 +28,9 @@ class GiveawayWinners(Type_):
     :param additional_chat_count: Optional. The number of other chats the user had to join in order to be eligible for the giveaway
     :type additional_chat_count: :obj:`int`
 
+    :param prize_star_count: Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+    :type prize_star_count: :obj:`int`
+
     :param premium_subscription_month_count: Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
     :type premium_subscription_month_count: :obj:`int`
 
@@ -55,6 +58,7 @@ class GiveawayWinners(Type_):
         winner_count: "int" = None,
         winners: List["tgram.types.User"] = None,
         additional_chat_count: "int" = None,
+        prize_star_count: "int" = None,
         premium_subscription_month_count: "int" = None,
         unclaimed_prize_count: "int" = None,
         only_new_members: "bool" = None,
@@ -70,6 +74,7 @@ class GiveawayWinners(Type_):
         self.winner_count = winner_count
         self.winners = winners
         self.additional_chat_count = additional_chat_count
+        self.prize_star_count = prize_star_count
         self.premium_subscription_month_count = premium_subscription_month_count
         self.unclaimed_prize_count = unclaimed_prize_count
         self.only_new_members = only_new_members
@@ -92,6 +97,7 @@ class GiveawayWinners(Type_):
                 if d.get("winners")
                 else None,
                 additional_chat_count=d.get("additional_chat_count"),
+                prize_star_count=d.get("prize_star_count"),
                 premium_subscription_month_count=d.get(
                     "premium_subscription_month_count"
                 ),

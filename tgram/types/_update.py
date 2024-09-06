@@ -54,6 +54,9 @@ class Update(Type_):
         checkout
     :type pre_checkout_query: :class:`tgram.types.PreCheckoutQuery`
 
+    :param purchased_paid_media: Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
+    :type purchased_paid_media: :class:`tgram.types.PaidMediaPurchased`
+
     :param poll: Optional. New poll state. Bots receive only updates about stopped polls and polls, which are sent by the
         bot
     :type poll: :class:`tgram.types.Poll`
@@ -115,6 +118,7 @@ class Update(Type_):
         callback_query: "tgram.types.CallbackQuery" = None,
         shipping_query: "tgram.types.ShippingQuery" = None,
         pre_checkout_query: "tgram.types.PreCheckoutQuery" = None,
+        purchased_paid_media: "tgram.types.PaidMediaPurchased" = None,
         poll: "tgram.types.Poll" = None,
         poll_answer: "tgram.types.PollAnswer" = None,
         my_chat_member: "tgram.types.ChatMemberUpdated" = None,
@@ -142,6 +146,7 @@ class Update(Type_):
         self.callback_query = callback_query
         self.shipping_query = shipping_query
         self.pre_checkout_query = pre_checkout_query
+        self.purchased_paid_media = purchased_paid_media
         self.poll = poll
         self.poll_answer = poll_answer
         self.my_chat_member = my_chat_member
@@ -199,6 +204,9 @@ class Update(Type_):
                 ),
                 pre_checkout_query=tgram.types.PreCheckoutQuery._parse(
                     me=me, d=d.get("pre_checkout_query")
+                ),
+                purchased_paid_media=tgram.types.PaidMediaPurchased._parse(
+                    me=me, d=d.get("purchased_paid_media")
                 ),
                 poll=tgram.types.Poll._parse(me=me, d=d.get("poll")),
                 poll_answer=tgram.types.PollAnswer._parse(
