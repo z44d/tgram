@@ -19,6 +19,7 @@ from .on_my_chat_member import OnMyChatMember
 from .on_poll import OnPoll
 from .on_poll_answer import OnPollAnswer
 from .on_pre_checkout_query import OnPreCheckoutQuery
+from .on_purchased_paid_media import OnPurchasedPaidMedia
 from .on_removed_chat_boost import OnRemovedChatBoost
 from .on_shipping_query import OnShippingQuery
 
@@ -45,6 +46,7 @@ class Decorators(
     OnPoll,
     OnPollAnswer,
     OnPreCheckoutQuery,
+    OnPurchasedPaidMedia,
     OnRemovedChatBoost,
     OnShippingQuery,
 ):
