@@ -19,6 +19,9 @@ class GiveawayCompleted(Type_):
     :param giveaway_message: Optional. Message with the giveaway that was completed, if it wasn't deleted
     :type giveaway_message: :class:`Message`
 
+    :param is_star_giveaway: Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway.
+    :type is_star_giveaway: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`GiveawayCompleted`
     """
@@ -28,6 +31,7 @@ class GiveawayCompleted(Type_):
         winner_count: "int" = None,
         unclaimed_prize_count: "int" = None,
         giveaway_message: "tgram.types.Message" = None,
+        is_star_giveaway: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -35,6 +39,7 @@ class GiveawayCompleted(Type_):
         self.winner_count = winner_count
         self.unclaimed_prize_count = unclaimed_prize_count
         self.giveaway_message = giveaway_message
+        self.is_star_giveaway = is_star_giveaway
 
     @staticmethod
     def _parse(
@@ -49,6 +54,7 @@ class GiveawayCompleted(Type_):
                 giveaway_message=tgram.types.Message._parse(
                     me=me, d=d.get("giveaway_message")
                 ),
+                is_star_giveaway=d.get("is_star_giveaway"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
