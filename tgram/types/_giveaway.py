@@ -31,6 +31,9 @@ class Giveaway(Type_):
     :param country_codes: Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway.
     :type country_codes: :obj:`list` of :obj:`str`
 
+    :param prize_star_count: Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+    :type prize_star_count: :obj:`int`
+
     :param premium_subscription_month_count: Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
     :type premium_subscription_month_count: :obj:`int`
 
@@ -47,6 +50,7 @@ class Giveaway(Type_):
         has_public_winners: "bool" = None,
         prize_description: "str" = None,
         country_codes: List["str"] = None,
+        prize_star_count: "int" = None,
         premium_subscription_month_count: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -59,6 +63,7 @@ class Giveaway(Type_):
         self.has_public_winners = has_public_winners
         self.prize_description = prize_description
         self.country_codes = country_codes
+        self.prize_star_count = prize_star_count
         self.premium_subscription_month_count = premium_subscription_month_count
 
     @staticmethod
@@ -78,6 +83,7 @@ class Giveaway(Type_):
                 has_public_winners=d.get("has_public_winners"),
                 prize_description=d.get("prize_description"),
                 country_codes=d.get("country_codes"),
+                prize_star_count=d.get("prize_star_count"),
                 premium_subscription_month_count=d.get(
                     "premium_subscription_month_count"
                 ),
