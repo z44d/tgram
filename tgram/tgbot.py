@@ -100,9 +100,9 @@ class Dispatcher:
 
     async def _check_update(self: "TgBot", update: "tgram.types.Update") -> None:
         for listener in self._listen_handlers:
-            if (attr := getattr(update, listener.update_type)) and listener.filters(
-                attr
-            ):
+            if (
+                attr := getattr(update, listener.update_type)
+            ) and await listener.filters(self, attr):
                 self._listen_handlers.remove(listener)
                 if listener.cancel is not None:
                     result = await self._check_cancel(listener.cancel, attr)
@@ -117,9 +117,9 @@ class Dispatcher:
                 try:
                     if handler.type == "all":
                         await self._process_update(update, handler.callback, group)
-                    elif (attr := getattr(update, handler.type)) and handler.filter(
-                        attr
-                    ):
+                    elif (
+                        attr := getattr(update, handler.type)
+                    ) and await handler.filter(self, attr):
                         await self._process_update(attr, handler.callback, group)
                 except Exception as e:
                     logger.exception(e)
