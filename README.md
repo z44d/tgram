@@ -21,8 +21,8 @@
 <br>
 
 <div align="center">
-  <a href="https://core.telegram.org/bots/api-changelog#august-14-2024">
-    <img src="https://img.shields.io/badge/Bot%20API-7.9-blue?logo=telegram" alt="Supported Bot API version">
+  <a href="https://core.telegram.org/bots/api-changelog#september-6-2024">
+    <img src="https://img.shields.io/badge/Bot%20API-7.10-blue?logo=telegram" alt="Supported Bot API version">
   </a>
   <a href="https://pypi.org/project/tgram/">
     <img src="https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37" alt="PyPI">
