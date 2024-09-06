@@ -1,10 +1,10 @@
 import tgram
 
-from typing import Any, Coroutine, Literal
+from typing import Any, Coroutine, Literal, Optional
 
 
 class Runner:
-    async def run(self: "tgram.TgBot", main: Coroutine = None) -> Any:
+    async def run(self: "tgram.TgBot", main: Optional[Coroutine] = None) -> Any:
         """
         Use this method to run a couroutine function or handle new updates.
 
@@ -15,7 +15,7 @@ class Runner:
         """
         if main is None:
             return await self.run_for_updates()
-        return self.loop.run_until_complete(main)
+        return await main
 
     async def stop(self) -> Literal[True]:
         """
