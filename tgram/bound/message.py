@@ -720,6 +720,93 @@ class MessageB:
             reply_markup=reply_markup,
         )
 
+    async def edit_text(
+        self: "tgram.types.Message",
+        text: str,
+        parse_mode: str = None,
+        entities: List["tgram.types.MessageEntity"] = None,
+        link_preview_options: "tgram.types.LinkPreviewOptions" = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> Union["tgram.types.Message", "bool"]:
+        return await self._me.edit_message_text(
+            text=text,
+            business_connection_id=self.business_connection_id,
+            chat_id=self.chat.id,
+            message_id=self.id,
+            parse_mode=parse_mode or self._me.parse_mode,
+            entities=entities,
+            link_preview_options=link_preview_options or self._me.link_preview_options,
+            reply_markup=reply_markup,
+        )
+
+    edit = edit_text
+
+    async def edit_caption(
+        self: "tgram.types.Message",
+        caption: str = None,
+        parse_mode: str = None,
+        caption_entities: List["tgram.types.MessageEntity"] = None,
+        show_caption_above_media: bool = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> Union["tgram.types.Message", "bool"]:
+        return await self._me.edit_message_caption(
+            business_connection_id=self.business_connection_id,
+            chat_id=self.chat.id,
+            message_id=self.id,
+            caption=caption,
+            parse_mode=parse_mode or self._me.parse_mode,
+            caption_entities=caption_entities,
+            show_caption_above_media=show_caption_above_media,
+            reply_markup=reply_markup,
+        )
+
+    async def edit_reply_markup(
+        self: "tgram.types.Message",
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> Union["tgram.types.Message", "bool"]:
+        return await self._me.edit_message_reply_markup(
+            business_connection_id=self.business_connection_id,
+            chat_id=self.chat.id,
+            message_id=self.id,
+            reply_markup=reply_markup,
+        )
+
+    async def edit_media(
+        self: "tgram.types.Message",
+        media: "tgram.types.InputMedia",
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> Union["tgram.types.Message", "bool"]:
+        return await self._me.edit_message_media(
+            media=media,
+            business_connection_id=self.business_connection_id,
+            chat_id=self.chat.id,
+            message_id=self.id,
+            reply_markup=reply_markup,
+        )
+
+    async def edit_live_location(
+        self: "tgram.types.Message",
+        latitude: float,
+        longitude: float,
+        live_period: int = None,
+        horizontal_accuracy: float = None,
+        heading: int = None,
+        proximity_alert_radius: int = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+    ) -> Union["tgram.types.Message", "bool"]:
+        return await self._me.edit_message_live_location(
+            latitude=latitude,
+            longitude=longitude,
+            business_connection_id=self.business_connection_id,
+            chat_id=self.chat.id,
+            message_id=self.id,
+            live_period=live_period,
+            horizontal_accuracy=horizontal_accuracy,
+            heading=heading,
+            proximity_alert_radius=proximity_alert_radius,
+            reply_markup=reply_markup,
+        )
+
     async def download(
         self: "tgram.types.Message", file_path: str = None, in_memory: bool = None
     ) -> Union[Path, BytesIO]:
