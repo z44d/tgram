@@ -807,6 +807,27 @@ class MessageB:
             reply_markup=reply_markup,
         )
 
+    async def react(
+        self: "tgram.types.Message",
+        reaction: Union[
+            List["tgram.types.ReactionType"], "tgram.types.ReactionType", List[str], str
+        ],
+    ) -> bool:
+        return await self._me.set_message_reaction(
+            self.chat.id,
+            self.id,
+            reaction=[
+                tgram.types.ReactionTypeEmoji(i) if isinstance(i, str) else i
+                for i in reaction
+            ]
+            if isinstance(reaction, list)
+            else [
+                tgram.types.ReactionTypeEmoji(reaction)
+                if isinstance(reaction, str)
+                else reaction
+            ],
+        )
+
     async def download(
         self: "tgram.types.Message", file_path: str = None, in_memory: bool = None
     ) -> Union[Path, BytesIO]:
