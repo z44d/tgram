@@ -1,84 +1,104 @@
 from tgram import utils
-from tgram.types.type_ import Type_
+from json import dumps
 
 
-class ChatNotFound(Exception, Type_):
+class StrException(Exception):
+    def __init__(self, msg: str) -> None:
+        super().__init__(msg)
+        self.message = msg
+
+    def __str__(self) -> str:
+        return dumps(
+            {
+                "_": self.__class__.__name__,
+                **{
+                    k: v
+                    for k, v in self.__dict__.items()
+                    if not k.startswith("_") and v is not None
+                },
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+
+
+class ChatNotFound(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class GroupChatMigrated(Exception, Type_):
+class GroupChatMigrated(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class InvalidFileId(Exception, Type_):
+class InvalidFileId(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageUneditable(Exception, Type_):
+class MessageUneditable(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageNotModified(Exception, Type_):
+class MessageNotModified(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageTextEmpty(Exception, Type_):
+class MessageTextEmpty(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UserNotFound(Exception, Type_):
+class UserNotFound(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class WrongParameter(Exception, Type_):
+class WrongParameter(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class TerminatedByOtherLongPollOrWebhook(Exception, Type_):
+class TerminatedByOtherLongPollOrWebhook(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class BotWasBlocked(Exception, Type_):
+class BotWasBlocked(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UnableSendToBots(Exception, Type_):
+class UnableSendToBots(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class BotWasKicked(Exception, Type_):
+class BotWasKicked(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UserDeactivated(Exception, Type_):
+class UserDeactivated(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class FloodWait(Exception, Type_):
+class FloodWait(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
         self.value: int = args[1].get("parameters", {}).get("retry_after", 0)
 
 
-class Unauthorized(Exception, Type_):
+class Unauthorized(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class WebhookIsActive(Exception, Type_):
+class WebhookIsActive(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
@@ -145,7 +165,7 @@ exceptions = {
 }
 
 
-class APIException(Exception, Type_):
+class APIException(StrException):
     def __init__(
         self, message: str, error_code: int, description: str, parameters: dict = None
     ) -> None:

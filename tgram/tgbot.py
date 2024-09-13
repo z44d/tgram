@@ -45,7 +45,7 @@ class Dispatcher:
                         logger.exception(e)
                 elif isinstance(update, dict):
                     try:
-                        await self._process_exception(update["e"], update["kwargs"])
+                        await self._process_exception(update["e"], **update["kwargs"])
                     except Exception as e:
                         logger.exception(e)
 
@@ -123,6 +123,8 @@ class Dispatcher:
                 try:
                     if handler.type == "all":
                         await self._process_update(update, handler.callback, group)
+                    elif handler.type == "exception":
+                        continue
                     elif (
                         attr := getattr(update, handler.type)
                     ) and await handler.filter(self, attr):
