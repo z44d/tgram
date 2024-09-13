@@ -38,10 +38,16 @@ class Dispatcher:
                 break
 
             async with lock:
-                try:
-                    await self._check_update(update)
-                except Exception as e:
-                    logger.exception(e)
+                if isinstance(update, tgram.types.Update):
+                    try:
+                        await self._check_update(update)
+                    except Exception as e:
+                        logger.exception(e)
+                elif isinstance(update, dict):
+                    try:
+                        await self._process_exception(update["e"], update["kwargs"])
+                    except Exception as e:
+                        logger.exception(e)
 
     async def run_for_updates(self: "TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
@@ -156,6 +162,28 @@ class Dispatcher:
         except Exception as e:
             logger.exception(e)
 
+    async def _process_exception(self: "TgBot", exception: Exception, **kwargs) -> None:
+        for group_items in self.groups.values():
+            for handler in group_items:
+                try:
+                    if handler.type == "exception":
+                        logger.debug(
+                            "Processing exception to %s func", handler.callback.__name__
+                        )
+                        if asyncio.iscoroutinefunction(handler.callback):
+                            await handler.callback(self, exception, **kwargs)
+                        else:
+                            await self.loop.run_in_executor(
+                                self.executor,
+                                handler.callback,
+                                self,
+                                exception,
+                                **kwargs,
+                            )
+                except Exception as e:
+                    logger.exception(e)
+                    continue
+
     async def _add_grouped_handler(
         self: "TgBot", handler: "tgram.handlers.Handler", group: int
     ):
@@ -249,7 +277,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
     def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         if handler.type == "all":
             self.allowed_updates = ALL_UPDATES
-        elif handler.type not in self.allowed_updates:
+        elif handler.type != "exception" and handler.type not in self.allowed_updates:
             self.allowed_updates.append(handler.type)
 
         self.loop.create_task(self._add_grouped_handler(handler, group))
@@ -323,6 +351,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         if not response_json["ok"]:
             error = APIException._from_json(response_json)
+            self.updates_queue.put_nowait({"e": error, "kwargs": kwargs})
             try:
                 raise error
             except tgram.errors.FloodWait as f:

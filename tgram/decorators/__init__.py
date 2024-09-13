@@ -22,6 +22,7 @@ from .on_pre_checkout_query import OnPreCheckoutQuery
 from .on_purchased_paid_media import OnPurchasedPaidMedia
 from .on_removed_chat_boost import OnRemovedChatBoost
 from .on_shipping_query import OnShippingQuery
+from .on_exception import OnException
 
 
 class Decorators(
@@ -49,5 +50,6 @@ class Decorators(
     OnPurchasedPaidMedia,
     OnRemovedChatBoost,
     OnShippingQuery,
+    OnException,
 ):
     pass
