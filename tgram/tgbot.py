@@ -45,7 +45,9 @@ class Dispatcher:
                         logger.exception(e)
                 elif isinstance(update, dict):
                     try:
-                        await self._process_exception(update["e"], **update["kwargs"])
+                        await self._process_exception(
+                            update["e"], update["m"], **update["kwargs"]
+                        )
                     except Exception as e:
                         logger.exception(e)
 
@@ -164,7 +166,9 @@ class Dispatcher:
         except Exception as e:
             logger.exception(e)
 
-    async def _process_exception(self: "TgBot", exception: Exception, **kwargs) -> None:
+    async def _process_exception(
+        self: "TgBot", exception: Exception, method: str, **kwargs
+    ) -> None:
         for group_items in self.groups.values():
             for handler in group_items:
                 try:
@@ -173,13 +177,14 @@ class Dispatcher:
                             "Processing exception to %s func", handler.callback.__name__
                         )
                         if asyncio.iscoroutinefunction(handler.callback):
-                            await handler.callback(self, exception, **kwargs)
+                            await handler.callback(self, exception, method, **kwargs)
                         else:
                             await self.loop.run_in_executor(
                                 self.executor,
                                 handler.callback,
                                 self,
                                 exception,
+                                method,
                                 **kwargs,
                             )
                 except Exception as e:
@@ -353,7 +358,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         if not response_json["ok"]:
             error = APIException._from_json(response_json)
-            self.updates_queue.put_nowait({"e": error, "kwargs": kwargs})
+            self.updates_queue.put_nowait({"e": error, "m": method, "kwargs": kwargs})
             try:
                 raise error
             except tgram.errors.FloodWait as f:
