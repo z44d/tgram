@@ -1,83 +1,84 @@
 from tgram import utils
+from tgram.types.type_ import Type_
 
 
-class ChatNotFound(Exception):
+class ChatNotFound(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class GroupChatMigrated(Exception):
+class GroupChatMigrated(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class InvalidFileId(Exception):
+class InvalidFileId(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageUneditable(Exception):
+class MessageUneditable(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageNotModified(Exception):
+class MessageNotModified(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class MessageTextEmpty(Exception):
+class MessageTextEmpty(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UserNotFound(Exception):
+class UserNotFound(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class WrongParameter(Exception):
+class WrongParameter(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class TerminatedByOtherLongPollOrWebhook(Exception):
+class TerminatedByOtherLongPollOrWebhook(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class BotWasBlocked(Exception):
+class BotWasBlocked(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UnableSendToBots(Exception):
+class UnableSendToBots(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class BotWasKicked(Exception):
+class BotWasKicked(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class UserDeactivated(Exception):
+class UserDeactivated(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class FloodWait(Exception):
+class FloodWait(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
         self.value: int = args[1].get("parameters", {}).get("retry_after", 0)
 
 
-class Unauthorized(Exception):
+class Unauthorized(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
-class WebhookIsActive(Exception):
+class WebhookIsActive(Exception, Type_):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
@@ -144,7 +145,7 @@ exceptions = {
 }
 
 
-class APIException(Exception):
+class APIException(Exception, Type_):
     def __init__(
         self, message: str, error_code: int, description: str, parameters: dict = None
     ) -> None:
