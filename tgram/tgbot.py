@@ -323,25 +323,26 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         if not response_json["ok"]:
             error = APIException._from_json(response_json)
-            if (
-                error.error_code == 429
-                and self.retry_after
-                and (not kwargs.get("retry"))
-            ):
-                s = error.parameters["retry_after"]
-                retry_after = (
-                    s
-                    if self.retry_after is True
-                    else (s if s < self.retry_after else self.retry_after)
-                )
-                logger.warning(
-                    "You got floodwait for %s seconds, I will retry after %s",
-                    s,
-                    retry_after,
-                )
-                await asyncio.sleep(retry_after)
-                return await self._send_request(method, {"retry": 1, **kwargs})
-            raise error
+            try:
+                raise error
+            except tgram.errors.FloodWait as f:
+                if self.retry_after and (not kwargs.get("retry")):
+                    retry_after = (
+                        f.value
+                        if self.retry_after is True
+                        else (
+                            f.value if f.value < self.retry_after else self.retry_after
+                        )
+                    )
+                    logger.warning(
+                        "You got FloodWait for %s seconds, I will retry after %s",
+                        f.value,
+                        retry_after,
+                    )
+                    await asyncio.sleep(retry_after)
+                    return await self._send_request(method, {"retry": 1, **kwargs})
+            except Exception:
+                raise
 
         return response_json
 
