@@ -127,6 +127,7 @@ from .unpin_all_chat_messages import UnpinAllChatMessages
 from .unpin_all_forum_topic_messages import UnpinAllForumTopicMessages
 from .unpin_all_general_forum_topic_messages import UnpinAllGeneralForumTopicMessages
 from .unpin_chat_message import UnpinChatMessage
+from .unrestrict_chat_member import UnRestrictChatMember
 from .upload_sticker_file import UploadStickerFile
 
 from .runner import Runner
@@ -262,6 +263,7 @@ class TelegramBotMethods(
     UnpinAllForumTopicMessages,
     UnpinAllGeneralForumTopicMessages,
     UnpinChatMessage,
+    UnRestrictChatMember,
     UploadStickerFile,
     Runner,
 ):

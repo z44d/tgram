@@ -61,3 +61,14 @@ class ChatB:
             use_independent_chat_permissions=use_independent_chat_permissions,
             until_date=until_date,
         )
+
+    async def unrestrict_member(
+        self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
+        user_id: int,
+        use_independent_chat_permissions: bool = None,
+    ) -> bool:
+        return await self._me.unrestrict_chat_member(
+            self.id,
+            user_id=user_id,
+            use_independent_chat_permissions=use_independent_chat_permissions,
+        )
