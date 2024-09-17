@@ -16,6 +16,7 @@ class Type_:
             tgram.types.Chat,
             tgram.types.ChatFullInfo,
             tgram.types.InlineQuery,
+            tgram.types.PreCheckoutQuery,
         )
         self._me = me if isinstance(self, BOUNDED_TYPES) else None
         self._json = json

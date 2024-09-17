@@ -1,10 +1,12 @@
 import tgram
 from .type_ import Type_
 
+from tgram import bound
+
 from typing import Optional
 
 
-class PreCheckoutQuery(Type_):
+class PreCheckoutQuery(Type_, bound.PreCheckoutQueryB):
     """
     This object contains information about an incoming pre-checkout query.
 
