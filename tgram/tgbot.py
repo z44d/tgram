@@ -14,7 +14,7 @@ from .decorators import Decorators
 from .errors import APIException, MutedError
 from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
-from .storage import KvsqliteStorage, RedisStorage
+from .storage import KvsqliteStorage, RedisStorage, StorageBase
 from .storage.utils import check_update
 from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
@@ -269,7 +269,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.retry_after = retry_after
         self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
         self.skip_updates = skip_updates
-        self.storage: Optional[KvsqliteStorage] = None
+        self.storage: Optional[StorageBase] = None
         self.storage_client = storage_engine
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
