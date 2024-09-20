@@ -36,7 +36,7 @@ class RedisStorage(StorageBase):
         return {}
 
     async def get_chats(self) -> Dict[str, dict]:
-        return json.loads(await self.client.get("chats") or {})
+        return json.loads(await self.client.get("chats") or "{}")
 
     async def update_chats(self, chats: Dict[str, dict]) -> bool:
         return await self.client.set("chats", json.dumps(chats, ensure_ascii=False))
@@ -62,7 +62,7 @@ class RedisStorage(StorageBase):
         return {}
 
     async def get_users(self) -> Dict[str, Dict]:
-        return json.loads(await self.client.get("users") or {})
+        return json.loads(await self.client.get("users") or "{}")
 
     async def update_users(self, users: Dict[str, dict]) -> bool:
         return await self.client.set("users", json.dumps(users, ensure_ascii=False))
@@ -84,7 +84,7 @@ class RedisStorage(StorageBase):
         return await self.update_mute_list(mute_list)
 
     async def get_mute_list(self, _: bool = False) -> List[Tuple[int, int]]:
-        x = json.loads(await self.get("mute")) or []
+        x = json.loads(await self.get("mute") or "[]")
         return x if _ else [tuple(i) for i in x]
 
     async def update_mute_list(self, mute_list: List[Tuple[int, int]]) -> bool:
