@@ -1,18 +1,19 @@
 import tgram
+import json
 from .base import StorageBase
 
 from typing import Any, Dict, List, Tuple, Union
 
 
-class KvsqliteStorage(StorageBase):
+class RedisStorage(StorageBase):
     def __init__(self, bot: "tgram.TgBot") -> None:
-        super().__init__(bot, "kvsqlite")
+        super().__init__(bot, "redis")
 
     async def set(self, key: str, value: Any) -> bool:
-        return await self.client.set(key, value)
+        return await self.client.hset("tgram-" + str(self.bot.me.id), key, value)
 
     async def get(self, key: str) -> Any:
-        return await self.client.get(key)
+        return await self.client.hget("tgram-" + str(self.bot.me.id), key)
 
     async def add_chat(self, chat: "tgram.types.Chat") -> bool:
         chat_json = chat.json
@@ -35,10 +36,10 @@ class KvsqliteStorage(StorageBase):
         return {}
 
     async def get_chats(self) -> Dict[str, dict]:
-        return await self.client.get("chats") or {}
+        return json.loads(await self.client.get("chats") or {})
 
     async def update_chats(self, chats: Dict[str, dict]) -> bool:
-        return await self.client.set("chats", chats)
+        return await self.client.set("chats", json.dumps(chats, ensure_ascii=False))
 
     async def add_user(self, user: "tgram.types.User") -> bool:
         user_json = user.json
@@ -61,29 +62,30 @@ class KvsqliteStorage(StorageBase):
         return {}
 
     async def get_users(self) -> Dict[str, Dict]:
-        return await self.client.get("users") or {}
+        return json.loads(await self.client.get("users") or {})
 
     async def update_users(self, users: Dict[str, dict]) -> bool:
-        return await self.client.set("users", users)
+        return await self.client.set("users", json.dumps(users, ensure_ascii=False))
 
     async def mute(self, chat_id: int, user_id: int) -> bool:
-        mute_list = await self.get_mute_list()
-        packet = (chat_id, user_id)
+        mute_list = await self.get_mute_list(True)
+        packet = [chat_id, user_id]
         if packet in mute_list:
             return False
         mute_list.append(packet)
         return await self.update_mute_list(mute_list)
 
     async def unmute(self, chat_id: int, user_id: int) -> bool:
-        mute_list = await self.get_mute_list()
-        packet = (chat_id, user_id)
+        mute_list = await self.get_mute_list(True)
+        packet = [chat_id, user_id]
         if packet not in mute_list:
             return False
         mute_list.remove(packet)
         return await self.update_mute_list(mute_list)
 
-    async def get_mute_list(self) -> List[Tuple[int, int]]:
-        return await self.get("mute") or []
+    async def get_mute_list(self, _: bool = False) -> List[Tuple[int, int]]:
+        x = json.loads(await self.get("mute")) or []
+        return x if _ else [tuple(i) for i in x]
 
     async def update_mute_list(self, mute_list: List[Tuple[int, int]]) -> bool:
-        return await self.set("mute", mute_list)
+        return await self.set("mute", json.dumps(mute_list, ensure_ascii=False))

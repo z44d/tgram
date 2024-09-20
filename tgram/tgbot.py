@@ -14,7 +14,7 @@ from .decorators import Decorators
 from .errors import APIException, MutedError
 from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
-from .storage import KvsqliteStorage
+from .storage import KvsqliteStorage, RedisStorage
 from .storage.utils import check_update
 from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
@@ -254,7 +254,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         retry_after: Union[int, bool] = None,
         plugins: Union[Path, str] = None,
         skip_updates: bool = True,
-        storage: bool = False,
+        storage: Literal["kvsqlite", "redis"] = None,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -289,14 +289,30 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._api_url: str = f"{api_url}bot{bot_token}/"
 
         if storage:
-            try:
-                __import__("kvsqlite")
-            except ModuleNotFoundError:
-                raise ValueError(
-                    "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
-                )
+            if storage.lower() == "kvsqlite":
+                try:
+                    __import__("kvsqlite")
+                except ModuleNotFoundError:
+                    raise ValueError(
+                        "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
+                    )
+                else:
+                    self.storage = KvsqliteStorage(self)
+            elif storage.lower() == "redis":
+                try:
+                    __import__("redis")
+                except ModuleNotFoundError:
+                    raise ValueError(
+                        "Please install redis module before using storage, see more https://pypi.org/project/redis/"
+                    )
+                else:
+                    self.storage = RedisStorage(self)
             else:
-                self.storage = KvsqliteStorage(self)
+                raise ValueError(
+                    "Unsupported storage engine {}, only {} are supported for now.".format(
+                        storage, " ,".join(i for i in ["redis", "kvsqlite"])
+                    )
+                )
 
     def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         if handler.type == "all":
