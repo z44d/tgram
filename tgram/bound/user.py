@@ -1,9 +1,13 @@
 import tgram
 
-from tgram.utils import Mention
+from tgram.utils import Mention, async_property
 
 
 class UserB:
+    @async_property
+    async def photo(self: "tgram.types.User") -> "tgram.types.PhotoSize":
+        return (await self._me.get_user_profile_photos(self.id, limit=1)).photos[-1][-1]
+
     @property
     def mention(
         self: "tgram.types.User",
