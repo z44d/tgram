@@ -11,13 +11,15 @@ import inspect
 
 from .methods import TelegramBotMethods
 from .decorators import Decorators
-from .errors import APIException
+from .errors import APIException, MutedError
 from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
+from .storage import KvsqliteStorage
+from .storage.utils import check_update
 from .types.type_ import Type_
 from concurrent.futures.thread import ThreadPoolExecutor
 
-from typing import List, Any, Literal, Callable, Union
+from typing import List, Any, Literal, Callable, Union, Optional
 from collections import OrderedDict
 
 from pathlib import Path
@@ -40,7 +42,10 @@ class Dispatcher:
             async with lock:
                 if isinstance(update, tgram.types.Update):
                     try:
+                        await check_update(update)
                         await self._check_update(update)
+                    except MutedError:
+                        continue
                     except Exception as e:
                         logger.exception(e)
                 elif isinstance(update, dict):
@@ -250,6 +255,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         retry_after: Union[int, bool] = None,
         plugins: Union[Path, str] = None,
         skip_updates: bool = True,
+        storage: bool = False,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -261,6 +267,18 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.retry_after = retry_after
         self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
         self.skip_updates = skip_updates
+        self.storage: Optional[KvsqliteStorage] = None
+
+        if storage:
+            try:
+                __import__("kvsqlite")
+            except ModuleNotFoundError:
+                raise ValueError(
+                    "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
+                )
+            else:
+                self.storage = KvsqliteStorage(self)
+
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 

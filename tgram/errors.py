@@ -191,3 +191,7 @@ class APIException(StrException):
 
 class StopPropagation(Exception):
     pass
+
+
+class MutedError(Exception):
+    pass
