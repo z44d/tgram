@@ -36,6 +36,9 @@ async def store_user_and_chat_info(update: "tgram.types.Update") -> None:
         if update_object is None:
             continue
 
+        if not hasattr(update_object, "__dict__"):
+            continue
+
         if all((chat, user)):
             break
 
