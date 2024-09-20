@@ -32,7 +32,7 @@ class RedisStorage(StorageBase):
 
         if chat := chats.get(chat_id.lower() if isinstance(chat_id, str) else chat_id):
             if isinstance(chat, int):
-                return await self.get_chat(chat, parse)
+                return await self.get_chat(str(chat), parse)
             return tgram.types.Chat._parse(self.bot, chat) if parse else chat
 
         return {}
@@ -58,7 +58,7 @@ class RedisStorage(StorageBase):
 
         if user := users.get(user_id.lower() if isinstance(user_id, str) else user_id):
             if isinstance(user, int):
-                return await self.get_user(user, parse)
+                return await self.get_user(str(user), parse)
             return tgram.types.User._parse(self.bot, user) if parse else user
 
         return {}
