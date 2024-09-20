@@ -455,6 +455,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         return self._me
 
 
+wrap(RedisStorage)
 wrap(KvsqliteStorage)
 wrap(Dispatcher)
 wrap(TelegramBotMethods)
