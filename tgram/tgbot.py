@@ -268,16 +268,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.skip_updates = skip_updates
         self.storage: Optional[KvsqliteStorage] = None
 
-        if storage:
-            try:
-                __import__("kvsqlite")
-            except ModuleNotFoundError:
-                raise ValueError(
-                    "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
-                )
-            else:
-                self.storage = KvsqliteStorage(self)
-
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
@@ -297,6 +287,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             api_url += "/"
 
         self._api_url: str = f"{api_url}bot{bot_token}/"
+
+        if storage:
+            try:
+                __import__("kvsqlite")
+            except ModuleNotFoundError:
+                raise ValueError(
+                    "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
+                )
+            else:
+                self.storage = KvsqliteStorage(self)
 
     def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         if handler.type == "all":
@@ -432,5 +432,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         return self._me
 
 
+wrap(KvsqliteStorage)
 wrap(Dispatcher)
 wrap(TelegramBotMethods)
