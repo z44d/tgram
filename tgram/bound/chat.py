@@ -1,6 +1,6 @@
 import tgram
 
-from typing import Union, List, Tuple
+from typing import Union, List
 
 
 class ChatB:
