@@ -1,6 +1,6 @@
 import tgram
 
-from typing import Union
+from typing import Union, List, Tuple
 
 
 class ChatB:
@@ -72,3 +72,29 @@ class ChatB:
             user_id=user_id,
             use_independent_chat_permissions=use_independent_chat_permissions,
         )
+
+    async def mute(
+        self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"], user_id: int
+    ) -> bool:
+        if self._me.storage is None:
+            raise ValueError("Please enable storage option in TgBot class.")
+
+        return await self._me.storage.mute(self.id, user_id)
+
+    async def unmute(
+        self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"], user_id: int
+    ) -> bool:
+        if self._me.storage is None:
+            raise ValueError("Please enable storage option in TgBot class.")
+
+        return await self._me.storage.unmute(self.id, user_id)
+
+    async def get_muted_members(
+        self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
+    ) -> List[int]:
+        if self._me.storage is None:
+            raise ValueError("Please enable storage option in TgBot class.")
+
+        mute_list = await self._me.storage.get_mute_list()
+
+        return [user_id for chat_id, user_id in mute_list if chat_id is self.id]
