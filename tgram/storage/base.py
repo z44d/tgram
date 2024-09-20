@@ -5,17 +5,17 @@ from typing import Any, Dict, Union, List, Tuple
 
 
 class StorageBase(ABC):
-    def __init__(self, bot: "tgram.TgBot", type: "str") -> None:
+    def __init__(self, bot: "tgram.TgBot", type: "str", client) -> None:
         if type == "kvsqlite":
             from kvsqlite import Client
 
-            self.client = Client(
+            self.client = client or Client(
                 "tgram-" + str(bot.me.id), workers=bot.workers, loop=bot.loop
             )
         elif type == "redis":
             import redis.asyncio as redis
 
-            self.client = redis.Redis(decode_responses=True)
+            self.client = client or redis.Redis(decode_responses=True)
         self.bot = bot
 
     @abstractmethod

@@ -6,8 +6,8 @@ from typing import Any, Dict, List, Tuple, Union
 
 
 class RedisStorage(StorageBase):
-    def __init__(self, bot: "tgram.TgBot") -> None:
-        super().__init__(bot, "redis")
+    def __init__(self, bot: "tgram.TgBot", client=None) -> None:
+        super().__init__(bot, "redis", client)
 
     async def set(self, key: str, value: Any) -> bool:
         return await self.client.hset("tgram-" + str(self.bot.me.id), key, value)
