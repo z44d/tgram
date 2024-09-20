@@ -254,7 +254,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         retry_after: Union[int, bool] = None,
         plugins: Union[Path, str] = None,
         skip_updates: bool = True,
-        storage: Union[
+        storage_engine: Union[
             KvsqliteStorage, RedisStorage, Literal["kvsqlite", "redis"]
         ] = None,
     ) -> None:
@@ -290,11 +290,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         self._api_url: str = f"{api_url}bot{bot_token}/"
 
-        if storage:
-            if isinstance(storage, (KvsqliteStorage, RedisStorage)):
-                self.storage = storage
+        if storage_engine:
+            if isinstance(storage_engine, (KvsqliteStorage, RedisStorage)):
+                self.storage = storage_engine
             else:
-                if storage.lower() == "kvsqlite":
+                if storage_engine.lower() == "kvsqlite":
                     try:
                         __import__("kvsqlite")
                     except ModuleNotFoundError:
@@ -303,7 +303,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                         )
                     else:
                         self.storage = KvsqliteStorage(self)
-                elif storage.lower() == "redis":
+                elif storage_engine.lower() == "redis":
                     try:
                         __import__("redis")
                     except ModuleNotFoundError:
@@ -315,7 +315,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 else:
                     raise ValueError(
                         "Unsupported storage engine {}, only {} are supported for now.".format(
-                            storage, " ,".join(i for i in ["redis", "kvsqlite"])
+                            storage_engine, " ,".join(i for i in ["redis", "kvsqlite"])
                         )
                     )
 
