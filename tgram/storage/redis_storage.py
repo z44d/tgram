@@ -9,11 +9,13 @@ class RedisStorage(StorageBase):
     def __init__(self, bot: "tgram.TgBot", client=None) -> None:
         super().__init__(bot, "redis", client)
 
+        self._bot_id = bot.me.id
+
     async def set(self, key: str, value: Any) -> bool:
-        return await self.client.hset("tgram-" + str(self.bot.me.id), key, value)
+        return await self.client.hset("tgram-" + str(self._bot_id), key, value)
 
     async def get(self, key: str) -> Any:
-        return await self.client.hget("tgram-" + str(self.bot.me.id), key)
+        return await self.client.hget("tgram-" + str(self._bot_id), key)
 
     async def add_chat(self, chat: "tgram.types.Chat") -> bool:
         chat_json = chat.json
