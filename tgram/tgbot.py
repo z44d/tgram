@@ -67,7 +67,6 @@ class Dispatcher:
             100,
         )
         self.is_running = True
-        self.me = await self.get_me()
 
         for _ in range(self.workers):
             self.locks_list.append(asyncio.Lock())
@@ -283,7 +282,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.loop = asyncio.get_event_loop()
 
         self.is_running: bool = None
-        self.me: "tgram.types.User" = None
+        self._me: "tgram.types.User" = None
 
         self._listen_handlers: List["tgram.types.Listener"] = []
         self._custom_types: dict = {}
@@ -423,6 +422,14 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._custom_types.update({old.__name__: new})
 
         return True
+
+    @property
+    def me(self) -> "tgram.types.User":
+        if self._me:
+            return self._me
+
+        self._me = self.get_me()
+        return self._me
 
 
 wrap(Dispatcher)

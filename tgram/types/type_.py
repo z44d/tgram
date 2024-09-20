@@ -18,7 +18,11 @@ class Type_:
             tgram.types.InlineQuery,
             tgram.types.PreCheckoutQuery,
         )
-        self._me = me if isinstance(self, BOUNDED_TYPES) else None
+        self._me = (
+            me
+            if any((isinstance(self, BOUNDED_TYPES), me is not None and me.storage))
+            else None
+        )
         self._json = json
 
     @property

@@ -17,7 +17,9 @@ class KvsqliteStorage(StorageBase):
     async def add_chat(self, chat: "tgram.types.Chat") -> bool:
         chat_json = chat.json
         chats = await self.get_chats()
-        chats.update({chat.username or str(chat.id): chat_json})
+        if chat.username:
+            chats.update({chat.username.lower(): chat.id})
+        chats.update({chat.id: chat_json})
         return await self.update_chats(chats)
 
     async def get_chat(
@@ -25,7 +27,9 @@ class KvsqliteStorage(StorageBase):
     ) -> Union[dict, "tgram.types.Chat"]:
         chats = await self.get_chats()
 
-        if chat := chats.get(str(chat_id)):
+        if chat := chats.get(chat_id.lower() if isinstance(chat_id, str) else chat_id):
+            if isinstance(chat, int):
+                return await self.get_chat(chat, parse)
             return tgram.types.Chat._parse(self.bot, chat) if parse else chat
 
         return {}
@@ -39,7 +43,9 @@ class KvsqliteStorage(StorageBase):
     async def add_user(self, user: "tgram.types.User") -> bool:
         user_json = user.json
         users = await self.get_users()
-        users.update({user.username or str(user.id): user_json})
+        if user.username:
+            users.update({user.username.lower(): user.id})
+        users.update({user.id: user_json})
         return await self.update_users(users)
 
     async def get_user(
@@ -47,7 +53,9 @@ class KvsqliteStorage(StorageBase):
     ) -> Union[dict, "tgram.types.User"]:
         users = await self.get_users()
 
-        if user := users.get(str(user_id)):
+        if user := users.get(user_id.lower() if isinstance(user_id, str) else user_id):
+            if isinstance(user, int):
+                return await self.get_user(user, parse)
             return tgram.types.User._parse(self.bot, user) if parse else user
 
         return {}
