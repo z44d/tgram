@@ -257,6 +257,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         storage_engine: Union[
             KvsqliteStorage, RedisStorage, Literal["kvsqlite", "redis"]
         ] = None,
+        storage_client: Any = None,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -269,6 +270,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
         self.skip_updates = skip_updates
         self.storage: Optional[KvsqliteStorage] = None
+        self.storage_client = storage_engine
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
@@ -302,7 +304,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                             "Please install kvsqlite module before using storage, see more https://pypi.org/project/Kvsqlite/"
                         )
                     else:
-                        self.storage = KvsqliteStorage(self)
+                        self.storage = KvsqliteStorage(self, storage_client)
                 elif storage_engine.lower() == "redis":
                     try:
                         __import__("redis")
@@ -311,7 +313,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                             "Please install redis module before using storage, see more https://pypi.org/project/redis/"
                         )
                     else:
-                        self.storage = RedisStorage(self)
+                        self.storage = RedisStorage(self, storage_client)
                 else:
                     raise ValueError(
                         "Unsupported storage engine {}, only {} are supported for now.".format(
