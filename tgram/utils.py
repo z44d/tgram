@@ -91,6 +91,17 @@ def convert_input_media(
     return x, files
 
 
+class async_property:
+    def __init__(self, f):
+        self.f = f
+
+    def __get__(self, obj, *args):
+        return self.f(obj)
+
+
+tgram.sync.async_to_sync(async_property, "__get__")
+
+
 class String(str):
     def __init__(self, *args) -> None:
         self._entities: List["tgram.types.MessageEntity"] = None
