@@ -68,7 +68,7 @@ class Dispatcher:
         )
         self.is_running = True
 
-        if self._me:
+        if not self._me:
             self._me = await self.get_me()
 
         for _ in range(self.workers):
