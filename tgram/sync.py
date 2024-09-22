@@ -99,4 +99,5 @@ def wrap(source):
 
 
 async_to_sync(utils, "compose")
+async_to_sync(utils.AsyncProperty, "__call__")
 compose = utils.compose

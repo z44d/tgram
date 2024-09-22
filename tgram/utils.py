@@ -6,6 +6,7 @@ import asyncio
 import logging
 import base64
 import struct
+import inspect
 
 from pathlib import Path
 from typing import List, Union, TypedDict
@@ -91,15 +92,18 @@ def convert_input_media(
     return x, files
 
 
-class async_property:
-    def __init__(self, f):
+class AsyncProperty:
+    def __init__(self, f, bot: "tgram.TgBot") -> None:
         self.f = f
+        self.bot = bot
 
-    def __get__(self, obj, *args):
-        return self.f(obj)
+    async def __call__(self, *args):
+        if inspect.iscoroutinefunction(self.f):
+            r = await self.f()
+        else:
+            r = await self.bot.loop.run_in_executor(self.bot.executor, self.f, *args)
 
-
-tgram.sync.async_to_sync(async_property, "__get__")
+        return r
 
 
 class String(str):
