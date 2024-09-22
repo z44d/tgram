@@ -1,6 +1,6 @@
 [project]
 name = "tgram"
-version = "1.11.3"
+version = "1.11.4"
 authors = [
   { name="ZAID", email="me@zaid.pro" },
 ]
