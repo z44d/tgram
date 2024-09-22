@@ -60,9 +60,9 @@ async def store_user_and_chat_info(update: "tgram.types.Update") -> None:
 
 
 async def check_update(update: "tgram.types.Update"):
-    storage = update._me.storage
+    storage = update._me and update._me.storage
     is_muted = False
-    if storage is None:
+    if not storage:
         return
 
     if m := update.message:
