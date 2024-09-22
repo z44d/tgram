@@ -1,12 +1,21 @@
 import tgram
 
-from tgram.utils import Mention, async_property
+from tgram.utils import Mention, AsyncProperty
+from typing import Optional
 
 
 class UserB:
-    @async_property
-    async def photo(self: "tgram.types.User") -> "tgram.types.PhotoSize":
-        return (await self._me.get_user_profile_photos(self.id, limit=1)).photos[-1][-1]
+    @property
+    def photo(self: "tgram.types.User") -> Optional["tgram.types.PhotoSize"]:
+        async def func():
+            r = await self._me.get_user_profile_photos(self.id, limit=1)
+
+            if r.photos:
+                return r.photos[-1][-1]
+
+            return None
+
+        return AsyncProperty(func, self._me).__call__()
 
     @property
     def mention(
