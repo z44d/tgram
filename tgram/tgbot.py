@@ -68,6 +68,9 @@ class Dispatcher:
         )
         self.is_running = True
 
+        if self._me:
+            self._me = await self.get_me()
+
         for _ in range(self.workers):
             self.locks_list.append(asyncio.Lock())
 
