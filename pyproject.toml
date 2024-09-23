@@ -1,29 +1,18 @@
-[project]
+[tool.poetry]
 name = "tgram"
 version = "1.11.4"
-authors = [
-  { name="ZAID", email="me@zaid.pro" },
-]
-description = "Very friendly BOT API library for python devs."
+description = "Very friendly BOT API library for Python developers."
+authors = ["Zaid <me@zaid.pro>"]
+license = "MIT"
 readme = "README.md"
-requires-python = ">=3.8"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
-dependencies = [
-  "aiohttp==3.10.2",
-  "asyncio",
-]
 
-[project.urls]
-Homepage = "https://github.com/z44d/tgram"
-Issues = "https://github.com/z44d/tgram/issues"
+[tool.poetry.dependencies]
+python = ">=3.8"
+aiohttp = "3.10.2"
 
-[tool.setuptools]
-include-package-data = false
+[tool.poetry.scripts]
+tgram = "tgram.template.generate:main"
 
-[tool.setuptools.packages.find]
-include = ["tgram*"]
-exclude = ["docs*", "tests*", "examples*"]
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
