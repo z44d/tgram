@@ -50,5 +50,6 @@ def main():
 
         print("\033[92m" + "GENERATED SUCCESSFULLY")
 
+
 if __name__ == "__main__":
     main()
