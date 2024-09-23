@@ -6,7 +6,7 @@ def parse_arguments() -> Namespace:
         description="This script is only to generate ready-template :)"
     )
 
-    parser.add_argument("-t", "--template", required=True)
+    parser.add_argument("-t", "--template", required=True, action="store_true")
 
     return parser.parse_args()
 
@@ -43,9 +43,12 @@ def main():
             f.write(
                 requests.get(
                     "https://raw.githubusercontent.com/z44d/tgram/refs/heads/main/tgram/template/plugins/start.py"
-                )
+                ).text
             )
 
             print("Plugins folder has been generated.")
 
         print("\033[92m" + "GENERATED SUCCESSFULLY")
+
+if __name__ == "__main__":
+    main()
