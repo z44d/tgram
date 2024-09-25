@@ -3,7 +3,7 @@ from .type_ import Type_
 
 from typing import List, Optional
 from tgram import bound
-from tgram.utils import String
+from tgram.utils import String, message_origin_parse
 
 
 class Message(Type_, bound.MessageB):
@@ -493,25 +493,7 @@ class Message(Type_, bound.MessageB):
                     me=me, d=d.get("sender_business_bot")
                 ),
                 business_connection_id=d.get("business_connection_id"),
-                forward_origin=None
-                if not d.get("forward_origin")
-                else tgram.types.MessageOriginUser._parse(
-                    me=me, d=d.get("forward_origin")
-                )
-                if d["forward_origin"].get("sender_user")
-                else tgram.types.MessageOriginHiddenUser._parse(
-                    me=me, d=d.get("forward_origin")
-                )
-                if d["forward_origin"].get("sender_user_name")
-                else tgram.types.MessageOriginChat._parse(
-                    me=me, d=d.get("forward_origin")
-                )
-                if d["forward_origin"].get("sender_chat")
-                else tgram.types.MessageOriginChannel._parse(
-                    me=me, d=d.get("forward_origin")
-                )
-                if d["forward_origin"].get("author_signature")
-                else None,
+                forward_origin=message_origin_parse(d.get("forward_origin"), me),
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
                 reply_to_message=tgram.types.Message._parse(

@@ -2,6 +2,7 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram.utils import message_origin_parse
 
 
 class ExternalReplyInfo(Type_):
@@ -147,19 +148,7 @@ class ExternalReplyInfo(Type_):
             ExternalReplyInfo(
                 me=me,
                 json=d,
-                origin=None
-                if not d.get("origin")
-                else tgram.types.MessageOriginUser._parse(me=me, d=d.get("origin"))
-                if d["origin"].get("sender_user")
-                else tgram.types.MessageOriginHiddenUser._parse(
-                    me=me, d=d.get("origin")
-                )
-                if d["origin"].get("sender_user_name")
-                else tgram.types.MessageOriginChat._parse(me=me, d=d.get("origin"))
-                if d["origin"].get("sender_chat")
-                else tgram.types.MessageOriginChannel._parse(me=me, d=d.get("origin"))
-                if d["origin"].get("author_signature")
-                else None,
+                origin=message_origin_parse(d.get("origin"), me),
                 chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 link_preview_options=tgram.types.LinkPreviewOptions._parse(

@@ -9,7 +9,7 @@ import struct
 import inspect
 
 from pathlib import Path
-from typing import List, Union, TypedDict
+from typing import List, Union, TypedDict, Optional
 from struct import unpack
 from io import BytesIO
 from json import dumps
@@ -374,6 +374,25 @@ async def compose(bots: List["tgram.TgBot"]):
     tasks = [asyncio.create_task(bot.run_for_updates()) for bot in bots]
 
     return await asyncio.wait(tasks)
+
+
+def message_origin_parse(
+    d: Optional[dict] = None, me: Optional["tgram.TgBot"] = None
+) -> Optional["tgram.types.MessageOrigin"]:
+    if d is None:
+        return None
+
+    origin_type = d["type"]
+
+    return (
+        tgram.types.MessageOriginUser._parse(me=me, d=d)
+        if origin_type == "user"
+        else tgram.types.MessageOriginHiddenUser._parse(me=me, d=d)
+        if origin_type == "hidden_user"
+        else tgram.types.MessageOriginChat._parse(me=me, d=d)
+        if origin_type == "chat"
+        else tgram.types.MessageOriginChannel._parse(me=me, d=d)
+    )
 
 
 def b64_decode(s: str) -> bytes:
