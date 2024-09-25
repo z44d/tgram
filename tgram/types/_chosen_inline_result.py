@@ -3,8 +3,10 @@ from .type_ import Type_
 
 from typing import Optional
 
+from tgram import bound
 
-class ChosenInlineResult(Type_):
+
+class ChosenInlineResult(Type_, bound.ChosenInlineResultB):
     """
     Represents a result of an inline query that was chosen by the user and sent to their chat partner.
 

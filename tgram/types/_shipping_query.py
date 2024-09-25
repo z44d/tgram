@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import Optional
+from tgram import bound
 
 
-class ShippingQuery(Type_):
+class ShippingQuery(Type_, bound.ShippingQueryB):
     """
     This object contains information about an incoming shipping query.
 

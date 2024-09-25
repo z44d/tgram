@@ -3,8 +3,10 @@ from .type_ import Type_
 
 from typing import Union, Optional
 
+from tgram import bound
 
-class ChatMemberUpdated(Type_):
+
+class ChatMemberUpdated(Type_, bound.ChatMemberUpdatedB):
     """
     This object represents changes in the status of a chat member.
 

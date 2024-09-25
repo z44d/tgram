@@ -2,9 +2,10 @@ import tgram
 from .type_ import Type_
 
 from typing import Optional
+from tgram import bound
 
 
-class ChatJoinRequest(Type_):
+class ChatJoinRequest(Type_, bound.ChatJoinRequestB):
     """
     Represents a join request sent to a chat.
 

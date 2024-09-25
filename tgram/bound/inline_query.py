@@ -1,6 +1,6 @@
 import tgram
 
-from typing import List
+from typing import List, Optional
 
 
 class InlineQueryB:
@@ -20,3 +20,9 @@ class InlineQueryB:
             next_offset=next_offset,
             button=button,
         )
+
+    @property
+    def user(self: "tgram.types.InlineQuery") -> Optional["tgram.types.User"]:
+        return self.from_user
+
+    sender_user = user

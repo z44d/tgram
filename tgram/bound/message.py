@@ -928,5 +928,11 @@ class MessageB:
         )
 
     @property
+    def user(self: "tgram.types.Message") -> Optional["tgram.types.User"]:
+        return self.from_user
+
+    sender_user = user
+
+    @property
     def __reply_param(self) -> "tgram.types.ReplyParameters":
         return tgram.types.ReplyParameters(self.id, allow_sending_without_reply=True)

@@ -1,6 +1,6 @@
 import tgram
 
-from typing import List, Union
+from typing import List, Union, Optional
 
 
 class CallbackB:
@@ -113,3 +113,9 @@ class CallbackB:
             proximity_alert_radius=proximity_alert_radius,
             reply_markup=reply_markup,
         )
+
+    @property
+    def user(self: "tgram.types.CallbackQuery") -> Optional["tgram.types.User"]:
+        return self.from_user
+
+    sender_user = user

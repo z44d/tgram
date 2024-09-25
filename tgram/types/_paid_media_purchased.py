@@ -4,8 +4,10 @@ from .type_ import Type_
 
 from typing import Optional
 
+from tgram import bound
 
-class PaidMediaPurchased(Type_):
+
+class PaidMediaPurchased(Type_, bound.PaidMediaPurchasedB):
     """
     This object contains information about a paid media purchase.
 
