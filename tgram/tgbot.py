@@ -12,7 +12,7 @@ import inspect
 from .methods import TelegramBotMethods
 from .decorators import Decorators
 from .errors import APIException, MutedError
-from .utils import API_URL, get_file_name, ALL_UPDATES, AsyncProperty
+from .utils import API_URL, get_file_name, ALL_UPDATES
 from .sync import wrap
 from .storage import KvsqliteStorage, RedisStorage, StorageBase
 from .storage.utils import check_update
@@ -459,7 +459,12 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
             return self.me
 
-        return AsyncProperty(func, self).__call__()
+        task = self.loop.create_task(func())
+
+        while not task.done():
+            pass
+
+        return task.result()
 
 
 wrap(RedisStorage)
