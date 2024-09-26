@@ -454,17 +454,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         if self._me:
             return self._me
 
-        async def func():
-            self.me = await self.get_me()
+        import requests
 
-            return self.me
+        response = requests.get(self._api_url + "getMe").json()
 
-        task = self.loop.create_task(func())
+        if not response["ok"]:
+            raise APIException._from_json(response)
 
-        while not task.done():
-            pass
+        self._me = tgram.types.User._parse(self, response["result"])
 
-        return task.result()
+        return self._me
 
 
 wrap(RedisStorage)

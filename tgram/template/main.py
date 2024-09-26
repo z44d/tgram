@@ -6,7 +6,7 @@ import platform
 from tgram import TgBot
 
 # from tgram.types import LinkPreviewOptions
-from config import TOKEN
+from config import BOT_TOKEN
 
 logging.basicConfig(level=logging.INFO)
 py_version = sys.version_info[:2]
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 async def main():
     bot = TgBot(
-        TOKEN,
+        BOT_TOKEN,
         # parse_mode="Markdown",
         # link_preview_options=LinkPreviewOptions(is_disabled=True),
         plugins="./plugins",
