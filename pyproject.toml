@@ -11,7 +11,7 @@ python = ">=3.8"
 aiohttp = "3.10.2"
 
 [tool.poetry.scripts]
-tgram = "tgram.template.generate:main"
+tgram = "tgram.cli.main:main"
 
 [build-system]
 requires = ["poetry-core"]
