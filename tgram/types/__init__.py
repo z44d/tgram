@@ -284,6 +284,7 @@ TransactionPartner = _Union[
 ]
 
 ParseMode = _Literal["Markdown", "MarkdownV2", "HTML"]
+ChatType = _Literal["private", "group", "supergroup", "channel"]
 
 __all__ = [
     "Animation",
@@ -511,4 +512,5 @@ __all__ = [
     "WebhookInfo",
     "WriteAccessAllowed",
     "ParseMode",
+    "ChatType",
 ]

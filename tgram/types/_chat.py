@@ -18,7 +18,7 @@ class Chat(Type_, bound.ChatB):
     def __init__(
         self,
         id: "int" = None,
-        type: "str" = None,
+        type: "tgram.types.ChatType" = None,
         title: "str" = None,
         username: "str" = None,
         first_name: "str" = None,

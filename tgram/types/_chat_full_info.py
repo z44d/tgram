@@ -154,7 +154,7 @@ class ChatFullInfo(Type_, bound.ChatB):
     def __init__(
         self,
         id: "int" = None,
-        type: "str" = None,
+        type: "tgram.types.ChatType" = None,
         accent_color_id: "int" = None,
         max_reaction_count: "int" = None,
         title: "str" = None,

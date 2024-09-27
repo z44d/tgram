@@ -42,7 +42,7 @@ class InlineQuery(Type_, bound.InlineQueryB):
         from_user: "tgram.types.User" = None,
         query: "str" = None,
         offset: "str" = None,
-        chat_type: "str" = None,
+        chat_type: "tgram.types.ChatType" = None,
         location: "tgram.types.Location" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
