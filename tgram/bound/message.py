@@ -53,6 +53,7 @@ class MessageB:
     async def reply_text(
         self: "tgram.types.Message",
         text: str,
+        message_thread_id: int = None,
         parse_mode: str = None,
         entities: List["tgram.types.MessageEntity"] = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
@@ -70,7 +71,7 @@ class MessageB:
             chat_id=self.chat.id,
             text=text,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             parse_mode=parse_mode or self._me.parse_mode,
             entities=entities,
             link_preview_options=link_preview_options or self._me.link_preview_options,
@@ -89,6 +90,7 @@ class MessageB:
         self: "tgram.types.Message",
         photo: Union[Path, bytes, str],
         caption: str = None,
+        message_thread_id: int = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
@@ -107,7 +109,7 @@ class MessageB:
             self.chat.id,
             photo=photo,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             caption=caption,
             parse_mode=parse_mode or self._me.parse_mode,
             caption_entities=caption_entities,
@@ -126,6 +128,7 @@ class MessageB:
         self: "tgram.types.Message",
         audio: Union[Path, bytes, str],
         caption: str = None,
+        message_thread_id: int = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         duration: int = None,
@@ -146,7 +149,7 @@ class MessageB:
             self.chat.id,
             audio=audio,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             caption=caption,
             parse_mode=parse_mode or self._me.parse_mode,
             caption_entities=caption_entities,
@@ -166,6 +169,7 @@ class MessageB:
     async def reply_document(
         self: "tgram.types.Message",
         document: Union[Path, bytes, str],
+        message_thread_id: int = None,
         thumbnail: Union[Path, bytes, str] = None,
         caption: str = None,
         parse_mode: str = None,
@@ -185,7 +189,7 @@ class MessageB:
             self.chat.id,
             document=document,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             thumbnail=thumbnail,
             caption=caption,
             parse_mode=parse_mode or self._me.parse_mode,
@@ -203,6 +207,7 @@ class MessageB:
     async def reply_video(
         self: "tgram.types.Message",
         video: Union[Path, bytes, str],
+        message_thread_id: int = None,
         duration: int = None,
         width: int = None,
         height: int = None,
@@ -227,7 +232,7 @@ class MessageB:
             self.chat.id,
             video=video,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             duration=duration,
             width=width,
             height=height,
@@ -250,6 +255,7 @@ class MessageB:
     async def reply_animation(
         self: "tgram.types.Message",
         animation: Union[Path, bytes, str],
+        message_thread_id: int = None,
         duration: int = None,
         width: int = None,
         height: int = None,
@@ -273,7 +279,7 @@ class MessageB:
             self.chat.id,
             animation=animation,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             duration=duration,
             width=width,
             height=height,
@@ -296,6 +302,7 @@ class MessageB:
         self: "tgram.types.Message",
         voice: Union[Path, bytes, str],
         caption: str = None,
+        message_thread_id: int = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         duration: int = None,
@@ -313,7 +320,7 @@ class MessageB:
             self.chat.id,
             voice=voice,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             caption=caption,
             parse_mode=parse_mode or self._me.parse_mode,
             caption_entities=caption_entities,
@@ -330,6 +337,7 @@ class MessageB:
     async def reply_video_note(
         self: "tgram.types.Message",
         video_note: Union[Path, bytes, str],
+        message_thread_id: int = None,
         duration: int = None,
         length: int = None,
         thumbnail: Union[Path, bytes, str] = None,
@@ -347,7 +355,7 @@ class MessageB:
             self.chat.id,
             video_note=video_note,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             duration=duration,
             length=length,
             thumbnail=thumbnail,
@@ -363,6 +371,7 @@ class MessageB:
     async def reply_media_group(
         self: "tgram.types.Message",
         media: List["tgram.types.InputMedia"],
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -371,7 +380,7 @@ class MessageB:
             self.chat.id,
             media=media,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
@@ -384,6 +393,7 @@ class MessageB:
         self: "tgram.types.Message",
         latitude: float,
         longitude: float,
+        message_thread_id: int = None,
         horizontal_accuracy: float = None,
         live_period: int = None,
         heading: int = None,
@@ -403,7 +413,7 @@ class MessageB:
             latitude=latitude,
             longitude=longitude,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             horizontal_accuracy=horizontal_accuracy,
             live_period=live_period,
             heading=heading,
@@ -452,14 +462,13 @@ class MessageB:
         )
 
     async def reply_chat_action(
-        self: "tgram.types.Message",
-        action: str,
+        self: "tgram.types.Message", action: str, message_thread_id: int = None
     ) -> bool:
         return await self._me.send_chat_action(
             self.chat.id,
             action=action,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
         )
 
     async def reply_contact(
@@ -468,6 +477,7 @@ class MessageB:
         first_name: str,
         last_name: str = None,
         vcard: str = None,
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -483,7 +493,7 @@ class MessageB:
             phone_number=phone_number,
             first_name=first_name,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             last_name=last_name,
             vcard=vcard,
             disable_notification=disable_notification,
@@ -498,6 +508,7 @@ class MessageB:
     async def reply_dice(
         self: "tgram.types.Message",
         emoji: str = None,
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -511,7 +522,7 @@ class MessageB:
         return await self._me.send_dice(
             self.chat.id,
             business_connection_id=self.usiness_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             emoji=emoji,
             disable_notification=disable_notification,
             protect_content=protect_content
@@ -525,6 +536,7 @@ class MessageB:
     async def reply_game(
         self: "tgram.types.Message",
         game_short_name: str,
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -534,7 +546,7 @@ class MessageB:
             self.chat.id,
             game_short_name=game_short_name,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
@@ -567,6 +579,7 @@ class MessageB:
         send_phone_number_to_provider: bool = None,
         send_email_to_provider: bool = None,
         is_flexible: bool = None,
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -579,7 +592,7 @@ class MessageB:
             payload=payload,
             currency=currency,
             prices=prices,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             provider_token=provider_token,
             max_tip_amount=max_tip_amount,
             suggested_tip_amounts=suggested_tip_amounts,
@@ -609,6 +622,7 @@ class MessageB:
         self: "tgram.types.Message",
         sticker: Union[Path, bytes, str],
         emoji: str = None,
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
         message_effect_id: str = None,
@@ -623,7 +637,7 @@ class MessageB:
             self.chat.id,
             sticker=sticker,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             emoji=emoji,
             disable_notification=disable_notification,
             protect_content=protect_content
@@ -637,6 +651,7 @@ class MessageB:
     async def forward(
         self: "tgram.types.Message",
         chat_id: Union[int, str],
+        message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
     ) -> "tgram.types.Message":
@@ -644,7 +659,7 @@ class MessageB:
             chat_id=chat_id,
             from_chat_id=self.chat.id,
             message_id=self.id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
@@ -655,6 +670,7 @@ class MessageB:
         self: "tgram.types.Message",
         file_id: str,
         caption: str = None,
+        message_thread_id: int = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
@@ -672,7 +688,7 @@ class MessageB:
             self.chat.id,
             file_id=file_id,
             business_connection_id=self.business_connection_id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             caption=caption,
             parse_mode=parse_mode,
             caption_entities=caption_entities,
@@ -690,6 +706,7 @@ class MessageB:
         self: "tgram.types.Message",
         chat_id: Union[int, str],
         caption: str = None,
+        message_thread_id: int = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
@@ -707,7 +724,7 @@ class MessageB:
             chat_id=chat_id,
             from_chat_id=self.chat.id,
             message_id=self.id,
-            message_thread_id=self.message_thread_id,
+            message_thread_id=message_thread_id,
             caption=caption,
             parse_mode=parse_mode or self._me.parse_mode,
             caption_entities=caption_entities,
