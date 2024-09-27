@@ -285,6 +285,27 @@ TransactionPartner = _Union[
 
 ParseMode = _Literal["Markdown", "MarkdownV2", "HTML"]
 ChatType = _Literal["private", "group", "supergroup", "channel"]
+MessageEntityType = _Literal[
+    "mention",
+    "hashtag",
+    "cashtag",
+    "bot_command",
+    "url",
+    "email",
+    "phone_number",
+    "bold",
+    "italic",
+    "underline",
+    "strikethrough",
+    "spoiler",
+    "blockquote",
+    "expandable_blockquote",
+    "code",
+    "pre",
+    "text_link",
+    "text_mention",
+    "custom_emoji",
+]
 
 __all__ = [
     "Animation",
@@ -513,4 +534,5 @@ __all__ = [
     "WriteAccessAllowed",
     "ParseMode",
     "ChatType",
+    "MessageEntityType",
 ]

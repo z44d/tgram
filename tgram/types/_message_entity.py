@@ -43,7 +43,7 @@ class MessageEntity(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
+        type: "tgram.types.MessageEntityType" = None,
         offset: "int" = None,
         length: "int" = None,
         url: "str" = None,
