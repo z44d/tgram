@@ -2,11 +2,15 @@ import os
 import argparse
 import requests
 import re
+import json
 
 from tgram import TgBot
 
 
-methods = [i for i in filter(lambda x: not x.startswith("_"), dir(TgBot))]
+methods = [
+    *["_send_request"],
+    *[i for i in filter(lambda x: not x.startswith("_"), dir(TgBot))],
+]
 
 
 def camel_to_snake(name):
@@ -74,8 +78,11 @@ def main():
         )
 
     else:
-        token, method, args = args.token, camel_to_snake(args.method), tuple(args.args)
-
+        token, method, args = (
+            args.token,
+            camel_to_snake(args.method.replace("send_request", "_send_request")),
+            json.loads(args.args[0]) if len(args.args) == 1 else tuple(args.args),
+        )
         try:
             bot = TgBot(token)
 
@@ -84,7 +91,12 @@ def main():
 
             func = getattr(bot, method)
 
-            print(func(*args))
+            if isinstance(args, dict):
+                r = func(**args)
+            else:
+                r = func(*args)
+
+            print(r)
         except Exception as e:
             print(e)
 
