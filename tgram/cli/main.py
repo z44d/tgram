@@ -49,7 +49,7 @@ def generate():
 
 
 async def main():
-    parser = argparse.ArgumentParser(description="Send messages via Telegram API")
+    parser = argparse.ArgumentParser()
 
     parser.add_argument("-t", "--template", required=False, action="store_true")
     parser.add_argument(
