@@ -48,7 +48,7 @@ def generate():
     print("\033[92m" + "GENERATED SUCCESSFULLY")
 
 
-async def main():
+async def _main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-t", "--template", required=False, action="store_true")
@@ -90,10 +90,14 @@ async def main():
             print(e)
 
 
-if __name__ == "__main__":
+def main():
     try:
         loop = asyncio.get_event_loop()
     except RuntimeError:
         loop = asyncio.new_event_loop()
 
-    loop.run_until_complete(main())
+    loop.run_until_complete(_main())
+
+
+if __name__ == "__main__":
+    main()
