@@ -1,5 +1,5 @@
 from pathlib import Path as _Path
-from typing import Union as _Union
+from typing import Union as _Union, Literal as _Literal
 from io import BytesIO as _BytesIo
 
 from ._animation import Animation
@@ -282,6 +282,8 @@ TransactionPartner = _Union[
     "TransactionPartnerOther",
     "TransactionPartnerTelegramAds",
 ]
+
+ParseMode = _Literal["Markdown", "MarkdownV2", "HTML"]
 
 __all__ = [
     "Animation",
