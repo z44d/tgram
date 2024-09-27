@@ -1,4 +1,3 @@
-import asyncio
 import os
 import argparse
 import requests
@@ -48,7 +47,7 @@ def generate():
     print("\033[92m" + "GENERATED SUCCESSFULLY")
 
 
-async def _main():
+def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-t", "--template", required=False, action="store_true")
@@ -85,18 +84,9 @@ async def _main():
 
             func = getattr(bot, method)
 
-            print(await func(*args))
+            print(func(*args))
         except Exception as e:
             print(e)
-
-
-def main():
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-
-    loop.run_until_complete(_main())
 
 
 if __name__ == "__main__":
