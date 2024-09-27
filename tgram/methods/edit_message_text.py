@@ -4,7 +4,7 @@ from typing import Union
 from tgram.types import InlineKeyboardMarkup
 from tgram.types import LinkPreviewOptions
 from tgram.types import Message
-from tgram.types import MessageEntity
+from tgram.types import MessageEntity, ParseMode
 
 
 class EditMessageText:
@@ -15,7 +15,7 @@ class EditMessageText:
         chat_id: Union[int, str] = None,
         message_id: int = None,
         inline_message_id: str = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         entities: List[MessageEntity] = None,
         link_preview_options: LinkPreviewOptions = None,
         reply_markup: InlineKeyboardMarkup = None,

@@ -510,4 +510,5 @@ __all__ = [
     "WebAppInfo",
     "WebhookInfo",
     "WriteAccessAllowed",
+    "ParseMode",
 ]

@@ -8,7 +8,7 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters
+from tgram.types import ReplyParameters, ParseMode
 
 from tgram.utils import convert_input_media
 
@@ -21,7 +21,7 @@ class SendPaidMedia:
         media: List[InputPaidMedia],
         payload: str = None,
         caption: str = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         caption_entities: List[MessageEntity] = None,
         show_caption_above_media: bool = None,
         disable_notification: bool = None,

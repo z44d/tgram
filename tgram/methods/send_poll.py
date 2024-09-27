@@ -8,7 +8,7 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters
+from tgram.types import ReplyParameters, ParseMode
 
 
 class SendPoll:
@@ -19,14 +19,14 @@ class SendPoll:
         options: List[InputPollOption],
         business_connection_id: str = None,
         message_thread_id: int = None,
-        question_parse_mode: str = None,
+        question_parse_mode: ParseMode = None,
         question_entities: List[MessageEntity] = None,
         is_anonymous: bool = None,
         type: str = None,
         allows_multiple_answers: bool = None,
         correct_option_id: int = None,
         explanation: str = None,
-        explanation_parse_mode: str = None,
+        explanation_parse_mode: ParseMode = None,
         explanation_entities: List[MessageEntity] = None,
         open_period: int = None,
         close_date: int = None,

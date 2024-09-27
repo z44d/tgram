@@ -8,6 +8,7 @@ from tgram.types import MessageId
 from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters
+from tgram.types import ParseMode
 
 
 class CopyMessage:
@@ -18,7 +19,7 @@ class CopyMessage:
         message_id: int,
         message_thread_id: int = None,
         caption: str = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         caption_entities: List[MessageEntity] = None,
         show_caption_above_media: bool = None,
         disable_notification: bool = None,

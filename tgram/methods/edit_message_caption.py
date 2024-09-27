@@ -4,6 +4,7 @@ from typing import Union
 from tgram.types import InlineKeyboardMarkup
 from tgram.types import Message
 from tgram.types import MessageEntity
+from tgram.types import ParseMode
 
 
 class EditMessageCaption:
@@ -14,7 +15,7 @@ class EditMessageCaption:
         message_id: int = None,
         inline_message_id: str = None,
         caption: str = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         caption_entities: List[MessageEntity] = None,
         show_caption_above_media: bool = None,
         reply_markup: InlineKeyboardMarkup = None,

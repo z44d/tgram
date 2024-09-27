@@ -7,7 +7,7 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters
+from tgram.types import ReplyParameters, ParseMode
 from pathlib import Path
 from tgram.utils import get_file_path
 
@@ -21,7 +21,7 @@ class SendDocument:
         message_thread_id: int = None,
         thumbnail: Union[Path, bytes, str] = None,
         caption: str = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         caption_entities: List[MessageEntity] = None,
         disable_content_type_detection: bool = None,
         disable_notification: bool = None,

@@ -22,7 +22,7 @@ class CallbackB:
     async def edit_message_text(
         self: "tgram.types.CallbackQuery",
         text: str,
-        parse_mode: str = None,
+        parse_mode: "tgram.types.ParseMode" = None,
         entities: List["tgram.types.MessageEntity"] = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
@@ -43,7 +43,7 @@ class CallbackB:
     async def edit_message_caption(
         self: "tgram.types.CallbackQuery",
         caption: str = None,
-        parse_mode: str = None,
+        parse_mode: "tgram.types.ParseMode" = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: bool = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,

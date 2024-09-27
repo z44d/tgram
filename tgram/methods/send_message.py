@@ -8,7 +8,7 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters
+from tgram.types import ReplyParameters, ParseMode
 
 
 class SendMessage:
@@ -18,7 +18,7 @@ class SendMessage:
         text: str,
         business_connection_id: str = None,
         message_thread_id: int = None,
-        parse_mode: str = None,
+        parse_mode: ParseMode = None,
         entities: List[MessageEntity] = None,
         link_preview_options: LinkPreviewOptions = None,
         disable_notification: bool = None,
