@@ -6,7 +6,7 @@ __copyright__ = "Copyright (C) 2024-present Zaid <https://github.com/z44d>"
 __license__ = "MIT"
 
 from . import types, handlers, filters
-from .tgbot import TgBot
+from .client import TgBot
 from .sync import compose
 
 from .errors import StopPropagation
