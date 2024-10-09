@@ -1,6 +1,7 @@
 import tgram
 
 from typing import Union, List
+from tgram.utils import Mention
 
 
 class ChatB:
@@ -98,3 +99,28 @@ class ChatB:
         mute_list = await self._me.storage.get_mute_list()
 
         return [user_id for chat_id, user_id in mute_list if chat_id is self.id]
+
+    @property
+    def mention(
+        self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
+        name: str = None,
+    ) -> Mention:
+        if self.type != "private":
+            raise ValueError(
+                "You can't mention groups or channels, the chat instance must be user."
+            )
+
+        return Mention(name or self.first_name, self.id)
+
+    @property
+    def full_name(self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"]) -> str:
+        if self.type != "private":
+            raise ValueError(
+                "You can't get full name of groups or channels, the chat instance must be user."
+            )
+
+        return (
+            self.first_name
+            if not self.last_name
+            else f"{self.first_name} {self.last_name}"
+        )
