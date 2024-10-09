@@ -6,7 +6,7 @@ camel_to_snake = lambda s: re.sub(r"(?<!^)(?=[A-Z])", "_", s).lower()
 
 def generate():
     print("Generating template..")
-    for name in [".env", ".gitignore", "README.md", "config.py", "main.py", "requirements.txt", "plugins/start.py"]:
+    for name in [".env", ".gitignore", "README.md", "config.py", "main.py", "requirements.txt", "plugins/start.py", "generate.md"]:
         os.makedirs(os.path.dirname(name), exist_ok=True)
         with open(name, "w", encoding="utf-8") as f:
             f.write(requests.get(f"https://raw.githubusercontent.com/z44d/tgram/main/tgram/cli/template/{name}").text)
