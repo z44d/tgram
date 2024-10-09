@@ -1,20 +1,15 @@
-import os, argparse, requests, re, json, inspect
+import os, argparse, requests, re, inspect
 from tgram import TgBot
 
 methods = ["_send_request"] + [m for m in dir(TgBot) if not m.startswith("_")]
 camel_to_snake = lambda s: re.sub(r"(?<!^)(?=[A-Z])", "_", s).lower()
 
 def generate():
-    files = {
-        ".env": ".env", ".gitignore": ".gitignore", "README.md": "generate.md",
-        "config.py": "config.py", "main.py": "main.py", "requirements.txt": "requirements.txt",
-        "plugins/start.py": "plugins/start.py"
-    }
     print("Generating template..")
-    for name, url in files.items():
-        path = f"https://raw.githubusercontent.com/z44d/tgram/main/tgram/cli/template/{url}"
+    for name in [".env", ".gitignore", "README.md", "config.py", "main.py", "requirements.txt", "plugins/start.py"]:
         os.makedirs(os.path.dirname(name), exist_ok=True)
-        with open(name, "w", encoding="utf-8") as f: f.write(requests.get(path).text)
+        with open(name, "w", encoding="utf-8") as f:
+            f.write(requests.get(f"https://raw.githubusercontent.com/z44d/tgram/main/tgram/cli/template/{name}").text)
         print(f"Generated {name}.")
     print("\033[92mGENERATED SUCCESSFULLY")
 
@@ -30,19 +25,18 @@ def main():
     args, _ = p.parse_known_args()
 
     if args.template: return generate()
-    if not args.token or not args.method: 
+    if not args.token or not args.method:
         return print("Usage: tgram --token TOKEN --method sendMessage --chat_id ... --text ...")
 
     method = camel_to_snake(args.method)
     if method not in methods: return print(f"Wrong method [{method}]")
-
+    
     parse_args(p, method)
     args = p.parse_args()
     params = {k: v for k, v in vars(args).items() if k not in ["token", "method", "template"] and v}
 
     try:
-        bot = TgBot(args.token)
-        print(getattr(bot, method)(**params))
+        print(getattr(TgBot(args.token), method)(**params))
     except Exception as e:
         print(e)
 
