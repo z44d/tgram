@@ -22,7 +22,7 @@ class ChatMemberLeft(Type_):
 
     def __init__(
         self,
-        status: "str" = None,
+        status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,

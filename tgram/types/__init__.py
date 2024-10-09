@@ -285,6 +285,9 @@ TransactionPartner = _Union[
 
 ParseMode = _Literal["Markdown", "MarkdownV2", "HTML"]
 ChatType = _Literal["private", "group", "supergroup", "channel"]
+ChatMemberStatus = _Literal[
+    "creator", "administrator", "member", "restricted", "left", "kicked"
+]
 MessageEntityType = _Literal[
     "mention",
     "hashtag",

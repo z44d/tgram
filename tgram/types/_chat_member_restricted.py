@@ -72,7 +72,7 @@ class ChatMemberRestricted(Type_):
 
     def __init__(
         self,
-        status: "str" = None,
+        status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
         is_member: "bool" = None,
         can_send_messages: "bool" = None,

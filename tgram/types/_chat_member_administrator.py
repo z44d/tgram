@@ -79,7 +79,7 @@ class ChatMemberAdministrator(Type_):
 
     def __init__(
         self,
-        status: "str" = None,
+        status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
         can_be_edited: "bool" = None,
         is_anonymous: "bool" = None,

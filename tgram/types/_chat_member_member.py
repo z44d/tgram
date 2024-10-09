@@ -25,7 +25,7 @@ class ChatMemberMember(Type_):
 
     def __init__(
         self,
-        status: "str" = None,
+        status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
         until_date: "int" = None,
         me: "tgram.TgBot" = None,
