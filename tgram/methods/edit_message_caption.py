@@ -29,7 +29,7 @@ class EditMessageCaption:
             message_id=message_id,
             inline_message_id=inline_message_id,
             caption=caption,
-            pparse_mode=get_parse_mode(self, parse_mode),
+            parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             reply_markup=reply_markup,

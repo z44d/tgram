@@ -99,7 +99,7 @@ class SendMessage:
             text=text,
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
-            pparse_mode=get_parse_mode(self, parse_mode),
+            parse_mode=get_parse_mode(self, parse_mode),
             entities=entities,
             link_preview_options=link_preview_options or self.link_preview_options,
             disable_notification=disable_notification,

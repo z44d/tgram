@@ -103,7 +103,7 @@ class SendPhoto:
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
-            pparse_mode=get_parse_mode(self, parse_mode),
+            parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             has_spoiler=has_spoiler,

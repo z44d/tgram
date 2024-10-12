@@ -120,7 +120,7 @@ class SendAudio:
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
             caption=caption,
-            pparse_mode=get_parse_mode(self, parse_mode),
+            parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             duration=duration,
             performer=performer,

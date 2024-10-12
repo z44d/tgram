@@ -112,7 +112,7 @@ class SendDocument:
             message_thread_id=message_thread_id,
             thumbnail=get_file_path(thumbnail),
             caption=caption,
-            pparse_mode=get_parse_mode(self, parse_mode),
+            parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             disable_content_type_detection=disable_content_type_detection,
             disable_notification=disable_notification,
