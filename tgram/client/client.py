@@ -38,7 +38,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         api_url: str = API_URL,
         allowed_updates: List[str] = [],
         link_preview_options: tgram.types.LinkPreviewOptions = None,
-        parse_mode: Literal["Markdown", "MarkdownV2", "HTML"] = None,
+        parse_mode: tgram.types.ParseMode = None,
         protect_content: bool = None,
         workers: int = None,
         retry_after: Union[int, bool] = None,

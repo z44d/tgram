@@ -283,7 +283,7 @@ TransactionPartner = _Union[
     "TransactionPartnerTelegramAds",
 ]
 
-ParseMode = _Literal["Markdown", "MarkdownV2", "HTML"]
+ParseMode = _Literal["Markdown", "MarkdownV2", "HTML", "Disable"]
 ChatType = _Literal["private", "group", "supergroup", "channel"]
 ChatMemberStatus = _Literal[
     "creator", "administrator", "member", "restricted", "left", "kicked"
