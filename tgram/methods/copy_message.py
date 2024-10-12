@@ -10,6 +10,8 @@ from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters
 from tgram.types import ParseMode
 
+from tgram.utils import get_parse_mode
+
 
 class CopyMessage:
     async def copy_message(
@@ -91,7 +93,7 @@ class CopyMessage:
             message_id=message_id,
             message_thread_id=message_thread_id,
             caption=caption,
-            parse_mode=parse_mode or self.parse_mode,
+            pparse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             disable_notification=disable_notification,

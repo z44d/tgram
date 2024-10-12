@@ -10,6 +10,8 @@ from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters, ParseMode
 
+from tgram.utils import get_parse_mode
+
 
 class SendMessage:
     async def send_message(
@@ -97,7 +99,7 @@ class SendMessage:
             text=text,
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
-            parse_mode=parse_mode or self.parse_mode,
+            pparse_mode=get_parse_mode(self, parse_mode),
             entities=entities,
             link_preview_options=link_preview_options or self.link_preview_options,
             disable_notification=disable_notification,

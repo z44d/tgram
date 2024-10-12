@@ -6,6 +6,8 @@ from tgram.types import LinkPreviewOptions
 from tgram.types import Message
 from tgram.types import MessageEntity, ParseMode
 
+from tgram.utils import get_parse_mode
+
 
 class EditMessageText:
     async def edit_message_text(
@@ -27,7 +29,7 @@ class EditMessageText:
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
-            parse_mode=parse_mode or self.parse_mode,
+            pparse_mode=get_parse_mode(self, parse_mode),
             entities=entities,
             link_preview_options=link_preview_options or self.link_preview_options,
             reply_markup=reply_markup,

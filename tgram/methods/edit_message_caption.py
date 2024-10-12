@@ -6,6 +6,8 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ParseMode
 
+from tgram.utils import get_parse_mode
+
 
 class EditMessageCaption:
     async def edit_message_caption(
@@ -27,7 +29,7 @@ class EditMessageCaption:
             message_id=message_id,
             inline_message_id=inline_message_id,
             caption=caption,
-            parse_mode=parse_mode or self.parse_mode,
+            pparse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             reply_markup=reply_markup,
