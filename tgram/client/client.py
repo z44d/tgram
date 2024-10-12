@@ -32,6 +32,38 @@ logger = logging.getLogger(__name__)
 
 
 class TgBot(TelegramBotMethods, Decorators, Dispatcher):
+    """
+    A class for creating a Telegram bot with extended functionality and
+    support for various features like custom updates, storage engines, and more.
+
+    Inherits from:
+        - `TelegramBotMethods`: Provides various methods to interact with Telegram Bot API.
+        - `Decorators`: Contains decorators to modify bot behavior.
+        - `Dispatcher`: Manages event handling and dispatching for the bot.
+
+    Attributes:
+        bot_token (str): The bot token provided by the BotFather.
+        api_url (str): The base API URL to communicate with Telegram servers.
+        allowed_updates (List[str]): List of update types the bot should listen to.
+        link_preview_options (tgram.types.LinkPreviewOptions): Options for link previews in messages.
+        parse_mode (tgram.types.ParseMode): Default parse mode for formatting messages.
+        protect_content (bool): Whether to protect content from being saved or forwarded.
+        workers (int): Number of worker threads for handling updates.
+        retry_after (Union[int, bool]): Time or condition for retrying failed requests.
+        plugins (Union[Path, str]): Path to the directory containing bot plugins.
+        skip_updates (bool): Whether to skip pending updates on bot startup.
+        storage (Optional[StorageBase]): Storage engine instance for persisting data.
+        storage_client (Any): Client for the storage engine (e.g., Redis or Kvsqlite).
+        executor (ThreadPoolExecutor): Executor for running handler threads.
+        loop (asyncio.AbstractEventLoop): Event loop used by the bot.
+        is_running (bool): Indicates if the bot is currently running.
+        me (tgram.types.User): The bot's user profile.
+        handler_worker_tasks (List[asyncio.Task]): Tasks handling updates processing.
+        locks_list (List[asyncio.Lock]): Locks used for synchronization.
+        updates_queue (asyncio.Queue): Queue for managing incoming updates.
+        groups (OrderedDict): Groups of handlers categorized by update types.
+    """
+
     def __init__(
         self,
         bot_token: str,
