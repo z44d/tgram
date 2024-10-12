@@ -1,6 +1,7 @@
 import tgram
 
 from typing import List, Union, Optional
+from tgram.utils import get_parse_mode
 
 
 class CallbackB:
@@ -34,7 +35,7 @@ class CallbackB:
             else None,
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
-            parse_mode=parse_mode or self._me.parse_mode,
+            parse_mode=get_parse_mode(self._me, parse_mode),
             entities=entities,
             link_preview_options=link_preview_options,
             reply_markup=reply_markup,
@@ -55,7 +56,7 @@ class CallbackB:
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             caption=caption,
-            parse_mode=parse_mode or self._me.parse_mode,
+            parse_mode=get_parse_mode(self._me, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
             reply_markup=reply_markup,
