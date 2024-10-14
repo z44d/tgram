@@ -946,6 +946,20 @@ class MessageB:
         )
 
     @property
+    def file_id(self: "tgram.types.Message") -> str:
+        media = self.media
+
+        if media is None:
+            raise ValueError("This message has no media.")
+
+        m = getattr(self, media)
+
+        if isinstance(m, list):
+            return getattr(m[-1], "file_id")
+        else:
+            return getattr(m, "file_id")
+
+    @property
     def user(self: "tgram.types.Message") -> Optional["tgram.types.User"]:
         return self.from_user
 
