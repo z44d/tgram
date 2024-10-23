@@ -51,3 +51,23 @@ def convert_input_media(
                     count += 1
 
     return x, files
+
+
+def reaction_type_parse(
+    x: Optional[Union[List[dict], dict]],
+) -> "tgram.types.ReactionType":
+    if x is None:
+        return None
+
+    x = x if isinstance(x, list) else [x]
+
+    return [
+        (
+            tgram.types.ReactionTypeCustomEmoji._parse(None, i)
+            if i["type"] == "custom_emoji"
+            else tgram.types.ReactionTypeEmoji._parse(None, i)
+            if i["type"] == "emoji"
+            else tgram.types.ReactionTypePaid._parse(None, i)
+        )
+        for i in x
+    ]

@@ -2,6 +2,7 @@ import tgram
 from .type_ import Type_
 
 from typing import List, Optional
+from tgram import utils
 
 
 class MessageReactionUpdated(Type_):
@@ -67,18 +68,8 @@ class MessageReactionUpdated(Type_):
                 chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                old_reaction=[
-                    tgram.types.ReactionType._parse(me=me, d=i)
-                    for i in d.get("old_reaction")
-                ]
-                if d.get("old_reaction")
-                else None,
-                new_reaction=[
-                    tgram.types.ReactionType._parse(me=me, d=i)
-                    for i in d.get("new_reaction")
-                ]
-                if d.get("new_reaction")
-                else None,
+                old_reaction=utils.reaction_type_parse(d.get("old_reaction")),
+                new_reaction=utils.reaction_type_parse(d.get("new_reaction")),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
                 actor_chat=tgram.types.Chat._parse(me=me, d=d.get("actor_chat")),
             )
