@@ -19,6 +19,11 @@ class EditMessageLiveLocation:
         proximity_alert_radius: int = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Union[Message, bool]:
+        """
+        Use this method to edit live location messages.
+         A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation.
+         On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+        """
         result = await self._send_request(
             "editMessageLiveLocation",
             latitude=latitude,
