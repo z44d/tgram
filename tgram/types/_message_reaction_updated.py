@@ -68,8 +68,8 @@ class MessageReactionUpdated(Type_):
                 chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 message_id=d.get("message_id"),
                 date=d.get("date"),
-                old_reaction=utils.reaction_type_parse(d.get("old_reaction")),
-                new_reaction=utils.reaction_type_parse(d.get("new_reaction")),
+                old_reaction=utils.reaction_type_parse(me, d.get("old_reaction")),
+                new_reaction=utils.reaction_type_parse(me, d.get("new_reaction")),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
                 actor_chat=tgram.types.Chat._parse(me=me, d=d.get("actor_chat")),
             )

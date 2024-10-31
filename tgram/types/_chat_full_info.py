@@ -279,7 +279,7 @@ class ChatFullInfo(Type_, bound.ChatB):
                 ),
                 personal_chat=tgram.types.Chat._parse(me=me, d=d.get("personal_chat")),
                 available_reactions=utils.reaction_type_parse(
-                    d.get("available_reactions")
+                    me, d.get("available_reactions")
                 ),
                 background_custom_emoji_id=d.get("background_custom_emoji_id"),
                 profile_accent_color_id=d.get("profile_accent_color_id"),

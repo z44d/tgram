@@ -54,6 +54,7 @@ def convert_input_media(
 
 
 def reaction_type_parse(
+    bot: "tgram.TgBot",
     x: Optional[Union[List[dict], dict]],
 ) -> "tgram.types.ReactionType":
     if x is None:
@@ -63,11 +64,11 @@ def reaction_type_parse(
 
     return [
         (
-            tgram.types.ReactionTypeCustomEmoji._parse(None, i)
+            tgram.types.ReactionTypeCustomEmoji._parse(bot, i)
             if i["type"] == "custom_emoji"
-            else tgram.types.ReactionTypeEmoji._parse(None, i)
+            else tgram.types.ReactionTypeEmoji._parse(bot, i)
             if i["type"] == "emoji"
-            else tgram.types.ReactionTypePaid._parse(None, i)
+            else tgram.types.ReactionTypePaid._parse(bot, i)
         )
         for i in x
     ]
