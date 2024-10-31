@@ -64,6 +64,7 @@ from ._chat_photo import ChatPhoto
 from ._chat_shared import ChatShared
 from ._chosen_inline_result import ChosenInlineResult
 from ._contact import Contact
+from ._copy_text_button import CopyTextButton
 from ._dice import Dice
 from ._document import Document
 from ._encrypted_credentials import EncryptedCredentials
@@ -371,6 +372,7 @@ __all__ = [
     "ChatShared",
     "ChosenInlineResult",
     "Contact",
+    "CopyTextButton",
     "Dice",
     "Document",
     "EncryptedCredentials",
