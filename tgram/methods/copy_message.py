@@ -30,6 +30,7 @@ class CopyMessage:
         reply_markup: Union[
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
+        allow_paid_broadcast: bool = None,
     ) -> MessageId:
         """
         Use this method to copy messages of any kind.
@@ -82,6 +83,10 @@ class CopyMessage:
         :param show_caption_above_media: Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
         :type show_caption_above_media: :obj:`bool`
 
+        :param allow_paid_broadcast: Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+            The relevant Stars will be withdrawn from the bot's balance
+        :type allow_paid_broadcast: :obj:`bool`
+
         :return: On success, the MessageId of the sent message is returned.
         :rtype: :class:`tgram.types.MessageID`
         """
@@ -102,5 +107,6 @@ class CopyMessage:
             else self.protect_content,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            allow_paid_broadcast=allow_paid_broadcast,
         )
         return MessageId._parse(me=self, d=result["result"])

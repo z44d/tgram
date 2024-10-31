@@ -46,6 +46,9 @@ class InlineKeyboardButton(Type_):
         specified type, open that chat and insert the bot's username and the specified inline query in the input field
     :type switch_inline_query_chosen_chat: :class:`tgram.types.SwitchInlineQueryChosenChat`
 
+    :param copy_text: Optional. Description of the button that copies the specified text to the clipboard.
+    :type copy_text: :class:`tgram.types.CopyTextButton`
+
     :param callback_game: Optional. Description of the game that will be launched when the user presses the
         button. NOTE: This type of button must always be the first button in the first row.
     :type callback_game: :class:`tgram.types.CallbackGame`
@@ -68,6 +71,7 @@ class InlineKeyboardButton(Type_):
         switch_inline_query: "str" = None,
         switch_inline_query_current_chat: "str" = None,
         switch_inline_query_chosen_chat: "tgram.types.SwitchInlineQueryChosenChat" = None,
+        copy_text: "tgram.types.CopyTextButton" = None,
         callback_game: "tgram.types.CallbackGame" = None,
         pay: "bool" = None,
         me: "tgram.TgBot" = None,
@@ -82,6 +86,7 @@ class InlineKeyboardButton(Type_):
         self.switch_inline_query = switch_inline_query
         self.switch_inline_query_current_chat = switch_inline_query_current_chat
         self.switch_inline_query_chosen_chat = switch_inline_query_chosen_chat
+        self.copy_text = copy_text
         self.callback_game = callback_game
         self.pay = pay
 
@@ -104,6 +109,9 @@ class InlineKeyboardButton(Type_):
                 ),
                 switch_inline_query_chosen_chat=tgram.types.SwitchInlineQueryChosenChat._parse(
                     me=me, d=d.get("switch_inline_query_chosen_chat")
+                ),
+                copy_text=tgram.types.CopyTextButton._parse(
+                    me=me, d=d.get("copy_text")
                 ),
                 callback_game=tgram.types.CallbackGame._parse(
                     me=me, d=d.get("callback_game")

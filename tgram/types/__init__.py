@@ -64,6 +64,7 @@ from ._chat_photo import ChatPhoto
 from ._chat_shared import ChatShared
 from ._chosen_inline_result import ChosenInlineResult
 from ._contact import Contact
+from ._copy_text_button import CopyTextButton
 from ._dice import Dice
 from ._document import Document
 from ._encrypted_credentials import EncryptedCredentials
@@ -204,6 +205,7 @@ from ._switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from ._text_quote import TextQuote
 from ._transaction_partner_fragment import TransactionPartnerFragment
 from ._transaction_partner_other import TransactionPartnerOther
+from ._transaction_partner_telegram_api import TransactionPartnerTelegramApi
 from ._transaction_partner_telegram_ads import TransactionPartnerTelegramAds
 from ._transaction_partner_user import TransactionPartnerUser
 from ._update import Update
@@ -371,6 +373,7 @@ __all__ = [
     "ChatShared",
     "ChosenInlineResult",
     "Contact",
+    "CopyTextButton",
     "Dice",
     "Document",
     "EncryptedCredentials",
@@ -516,6 +519,7 @@ __all__ = [
     "TransactionPartner",
     "TransactionPartnerFragment",
     "TransactionPartnerOther",
+    "TransactionPartnerTelegramApi",
     "TransactionPartnerTelegramAds",
     "TransactionPartnerUser",
     "Update",

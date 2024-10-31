@@ -13,6 +13,12 @@ class EditMessageReplyMarkup:
         inline_message_id: str = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Union[Message, bool]:
+        """
+        Use this method to edit only the reply markup of messages.
+        On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+
+        Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
+        """
         result = await self._send_request(
             "editMessageReplyMarkup",
             business_connection_id=business_connection_id,

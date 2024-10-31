@@ -31,6 +31,7 @@ class SendDocument:
         reply_markup: Union[
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
+        allow_paid_broadcast: bool = None,
     ) -> Message:
         """
         Use this method to send general files.
@@ -100,6 +101,10 @@ class SendDocument:
         :param message_effect_id: Unique identifier for the message effect
         :type message_effect_id: :obj:`str`
 
+        :param allow_paid_broadcast: Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+            The relevant Stars will be withdrawn from the bot's balance
+        :type allow_paid_broadcast: :obj:`bool`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -122,5 +127,6 @@ class SendDocument:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            allow_paid_broadcast=allow_paid_broadcast,
         )
         return Message._parse(me=self, d=result["result"])
