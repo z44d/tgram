@@ -31,6 +31,7 @@ class SendPaidMedia:
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
         business_connection_id: str = None,
+        allow_paid_broadcast: bool = None,
     ) -> Message:
         """
         Use this method to send paid media to channel chats. On success, the sent Message is returned.
@@ -76,6 +77,10 @@ class SendPaidMedia:
         :param business_connection_id: Unique identifier of the business connection on behalf of which the message will be sent
         :type protect_content: :obj:`str`
 
+        :param allow_paid_broadcast: Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+            The relevant Stars will be withdrawn from the bot's balance
+        :type allow_paid_broadcast: :obj:`bool`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -97,6 +102,7 @@ class SendPaidMedia:
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
             business_connection_id=business_connection_id,
+            allow_paid_broadcast=allow_paid_broadcast,
             **files,
         )
         return Message._parse(me=self, d=result["result"])

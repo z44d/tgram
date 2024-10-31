@@ -19,6 +19,7 @@ class SendMediaGroup:
         protect_content: bool = None,
         message_effect_id: str = None,
         reply_parameters: ReplyParameters = None,
+        allow_paid_broadcast: bool = None,
     ) -> List[Message]:
         """
         Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files
@@ -59,6 +60,10 @@ class SendMediaGroup:
         :param message_effect_id: Unique identifier of the message effect
         :type message_effect_id: :obj:`str`
 
+        :param allow_paid_broadcast: Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+            The relevant Stars will be withdrawn from the bot's balance
+        :type allow_paid_broadcast: :obj:`bool`
+
         :return: On success, an array of Messages that were sent is returned.
         :rtype: List[types.Message]
         """
@@ -75,6 +80,7 @@ class SendMediaGroup:
             else self.protect_content,
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
+            allow_paid_broadcast=allow_paid_broadcast,
             **files,
         )
         return [Message._parse(me=self, d=i) for i in result["result"]]

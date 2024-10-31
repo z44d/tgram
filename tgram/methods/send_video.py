@@ -36,6 +36,7 @@ class SendVideo:
         reply_markup: Union[
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
+        allow_paid_broadcast: bool = None,
     ) -> Message:
         """
         Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document).
@@ -116,6 +117,10 @@ class SendVideo:
         :param show_caption_above_media: Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
         :type show_caption_above_media: :obj:`bool`
 
+        :param allow_paid_broadcast: Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message.
+            The relevant Stars will be withdrawn from the bot's balance
+        :type allow_paid_broadcast: :obj:`bool`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -143,5 +148,6 @@ class SendVideo:
             message_effect_id=message_effect_id,
             reply_parameters=reply_parameters,
             reply_markup=reply_markup,
+            allow_paid_broadcast=allow_paid_broadcast,
         )
         return Message._parse(me=self, d=result["result"])

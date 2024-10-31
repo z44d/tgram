@@ -30,6 +30,7 @@ class SendMediaFromFileId:
         reply_markup: Union[
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
+        allow_paid_broadcast: bool = None,
     ) -> Message:
         decoded_file_id = utils.decode_file_id(file_id)
 
@@ -56,6 +57,7 @@ class SendMediaFromFileId:
                 "message_effect_id": message_effect_id,
                 "reply_parameters": reply_parameters,
                 "reply_markup": reply_markup,
+                "allow_paid_broadcast": allow_paid_broadcast,
             },
         )
 
