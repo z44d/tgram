@@ -205,6 +205,7 @@ from ._switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from ._text_quote import TextQuote
 from ._transaction_partner_fragment import TransactionPartnerFragment
 from ._transaction_partner_other import TransactionPartnerOther
+from ._transaction_partner_telegram_api import TransactionPartnerTelegramApi
 from ._transaction_partner_telegram_ads import TransactionPartnerTelegramAds
 from ._transaction_partner_user import TransactionPartnerUser
 from ._update import Update
@@ -518,6 +519,7 @@ __all__ = [
     "TransactionPartner",
     "TransactionPartnerFragment",
     "TransactionPartnerOther",
+    "TransactionPartnerTelegramApi",
     "TransactionPartnerTelegramAds",
     "TransactionPartnerUser",
     "Update",
