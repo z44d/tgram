@@ -1,8 +1,3 @@
 __pycache__/
 test/
 test.py
-/dist/
-*.json
-parser_.py
-types_.py
-methods_.py
