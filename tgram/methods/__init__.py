@@ -38,6 +38,7 @@ from .edit_message_live_location import EditMessageLiveLocation
 from .edit_message_media import EditMessageMedia
 from .edit_message_reply_markup import EditMessageReplyMarkup
 from .edit_message_text import EditMessageText
+from .edit_user_star_subscription import EditUserStarSubscription
 from .export_chat_invite_link import ExportChatInviteLink
 from .forward_message import ForwardMessage
 from .forward_messages import ForwardMessages
@@ -174,6 +175,7 @@ class TelegramBotMethods(
     EditMessageMedia,
     EditMessageReplyMarkup,
     EditMessageText,
+    EditUserStarSubscription,
     ExportChatInviteLink,
     ForwardMessage,
     ForwardMessages,
