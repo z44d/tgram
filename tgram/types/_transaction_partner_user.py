@@ -24,6 +24,7 @@ class TransactionPartnerUser(Type_):
         self,
         user: "tgram.types.User" = None,
         invoice_payload: "str" = None,
+        subscription_period: "int" = None,
         paid_media: List["tgram.types.PaidMedia"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -32,6 +33,7 @@ class TransactionPartnerUser(Type_):
         self.type = "user"
         self.user = user
         self.invoice_payload = invoice_payload
+        self.subscription_period = subscription_period
         self.paid_media = paid_media
 
     @staticmethod
@@ -45,6 +47,7 @@ class TransactionPartnerUser(Type_):
                 type=d.get("type"),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
                 invoice_payload=d.get("invoice_payload"),
+                subscription_period=d.get("subscription_period"),
                 paid_media=[
                     (
                         tgram.types.PaidMediaPreview._parse(me=me, d=i)
