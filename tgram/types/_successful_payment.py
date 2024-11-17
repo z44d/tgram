@@ -42,6 +42,9 @@ class SuccessfulPayment(Type_):
         currency: "str" = None,
         total_amount: "int" = None,
         invoice_payload: "str" = None,
+        subscription_expiration_date: int = None,
+        is_recurring: bool = None,
+        is_first_recurring: bool = None,
         telegram_payment_charge_id: "str" = None,
         provider_payment_charge_id: "str" = None,
         shipping_option_id: "str" = None,
@@ -53,6 +56,9 @@ class SuccessfulPayment(Type_):
         self.currency = currency
         self.total_amount = total_amount
         self.invoice_payload = invoice_payload
+        self.subscription_expiration_date = subscription_expiration_date
+        self.is_recurring = is_recurring
+        self.is_first_recurring = is_first_recurring
         self.shipping_option_id = shipping_option_id
         self.order_info = order_info
         self.telegram_payment_charge_id = telegram_payment_charge_id
@@ -69,6 +75,9 @@ class SuccessfulPayment(Type_):
                 currency=d.get("currency"),
                 total_amount=d.get("total_amount"),
                 invoice_payload=d.get("invoice_payload"),
+                subscription_expiration_date=d.get("subscription_expiration_date"),
+                is_recurring=d.get("is_recurring"),
+                is_first_recurring=d.get("is_first_recurring"),
                 telegram_payment_charge_id=d.get("telegram_payment_charge_id"),
                 provider_payment_charge_id=d.get("provider_payment_charge_id"),
                 shipping_option_id=d.get("shipping_option_id"),
