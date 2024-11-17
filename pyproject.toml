@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgram"
-version = "1.12.1"
+version = "1.12.2"
 description = "Very friendly BOT API library for Python developers."
 authors = ["Zaid <me@zaid.pro>"]
 license = "MIT"
