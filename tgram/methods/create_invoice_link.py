@@ -58,6 +58,9 @@ class CreateInvoiceLink:
             (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
         :type prices: :obj:`list` of :obj:`tgram.types.LabeledPrice`
 
+        :param business_connection_id: Unique identifier of the business connection on behalf of which the link will be created.
+        :type business_connection_id: :obj:`str`
+
         :param subscription_period: The number of seconds the subscription will be active for before the next payment.
         The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
         :type subscription_period: :obj:`int`
