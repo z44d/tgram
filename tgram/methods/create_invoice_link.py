@@ -11,6 +11,7 @@ class CreateInvoiceLink:
         payload: str,
         currency: str,
         prices: List[LabeledPrice],
+        subscription_period: int = None,
         provider_token: str = None,
         max_tip_amount: int = None,
         suggested_tip_amounts: List[int] = None,
@@ -55,6 +56,10 @@ class CreateInvoiceLink:
         :param prices: Price breakdown, a list of components
             (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
         :type prices: :obj:`list` of :obj:`tgram.types.LabeledPrice`
+
+        :param subscription_period: The number of seconds the subscription will be active for before the next payment.
+        The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
+        :type subscription_period: :obj:`int`
 
         :param max_tip_amount: The maximum accepted amount for tips in the smallest units of the currency
         :type max_tip_amount: :obj:`int`
@@ -113,6 +118,7 @@ class CreateInvoiceLink:
             payload=payload,
             currency=currency,
             prices=prices,
+            subscription_period=subscription_period,
             provider_token=provider_token,
             max_tip_amount=max_tip_amount,
             suggested_tip_amounts=suggested_tip_amounts,
