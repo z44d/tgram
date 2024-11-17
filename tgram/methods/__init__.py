@@ -118,6 +118,7 @@ from .set_sticker_mask_position import SetStickerMaskPosition
 from .set_sticker_position_in_set import SetStickerPositionInSet
 from .set_sticker_set_thumbnail import SetStickerSetThumbnail
 from .set_sticker_set_title import SetStickerSetTitle
+from .set_user_emoji_status import SetUserEmojiStatus
 from .set_webhook import SetWebhook
 from .stop_message_live_location import StopMessageLiveLocation
 from .stop_poll import StopPoll
@@ -255,6 +256,7 @@ class TelegramBotMethods(
     SetStickerPositionInSet,
     SetStickerSetThumbnail,
     SetStickerSetTitle,
+    SetUserEmojiStatus,
     SetWebhook,
     StopMessageLiveLocation,
     StopPoll,
