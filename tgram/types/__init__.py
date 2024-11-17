@@ -81,6 +81,8 @@ from ._game import Game
 from ._game_high_score import GameHighScore
 from ._general_forum_topic_hidden import GeneralForumTopicHidden
 from ._general_forum_topic_unhidden import GeneralForumTopicUnhidden
+from ._gifts import Gifts
+from ._gift import Gift
 from ._giveaway import Giveaway
 from ._giveaway_completed import GiveawayCompleted
 from ._giveaway_created import GiveawayCreated
@@ -544,4 +546,6 @@ __all__ = [
     "ChatType",
     "MessageEntityType",
     "PreparedInlineMessage",
+    "Gift",
+    "Gifts",
 ]

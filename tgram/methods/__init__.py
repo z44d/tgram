@@ -42,6 +42,7 @@ from .edit_user_star_subscription import EditUserStarSubscription
 from .export_chat_invite_link import ExportChatInviteLink
 from .forward_message import ForwardMessage
 from .forward_messages import ForwardMessages
+from .get_available_gifts import GetAvailableGifts
 from .get_business_connection import GetBusinessConnection
 from .get_chat import GetChat
 from .get_chat_administrators import GetChatAdministrators
@@ -181,6 +182,7 @@ class TelegramBotMethods(
     ExportChatInviteLink,
     ForwardMessage,
     ForwardMessages,
+    GetAvailableGifts,
     GetBusinessConnection,
     GetChat,
     GetChatAdministrators,
