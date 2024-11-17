@@ -26,6 +26,8 @@ class TransactionPartnerUser(Type_):
         invoice_payload: "str" = None,
         subscription_period: "int" = None,
         paid_media: List["tgram.types.PaidMedia"] = None,
+        paid_media_payload: "str" = None,
+        gift: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -35,6 +37,8 @@ class TransactionPartnerUser(Type_):
         self.invoice_payload = invoice_payload
         self.subscription_period = subscription_period
         self.paid_media = paid_media
+        self.paid_media_payload = paid_media_payload
+        self.gift = gift
 
     @staticmethod
     def _parse(
@@ -60,6 +64,8 @@ class TransactionPartnerUser(Type_):
                 ]
                 if d.get("paid_media")
                 else None,
+                paid_media_payload=d.get("paid_media_payload"),
+                gift=d.get("gift"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
