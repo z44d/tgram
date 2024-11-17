@@ -84,6 +84,7 @@ from .send_contact import SendContact
 from .send_dice import SendDice
 from .send_document import SendDocument
 from .send_game import SendGame
+from .send_gift import SendGift
 from .send_invoice import SendInvoice
 from .send_location import SendLocation
 from .send_media_from_file_id import SendMediaFromFileId
@@ -224,6 +225,7 @@ class TelegramBotMethods(
     SendDice,
     SendDocument,
     SendGame,
+    SendGift,
     SendInvoice,
     SendLocation,
     SendMediaFromFileId,
