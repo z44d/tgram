@@ -122,6 +122,7 @@ from .set_user_emoji_status import SetUserEmojiStatus
 from .set_webhook import SetWebhook
 from .stop_message_live_location import StopMessageLiveLocation
 from .stop_poll import StopPoll
+from .save_prepared_inline_message import SavePreparedInlineMessage
 from .unban_chat_member import UnbanChatMember
 from .unban_chat_sender_chat import UnbanChatSenderChat
 from .unhide_general_forum_topic import UnhideGeneralForumTopic
@@ -260,6 +261,7 @@ class TelegramBotMethods(
     SetWebhook,
     StopMessageLiveLocation,
     StopPoll,
+    SavePreparedInlineMessage,
     UnbanChatMember,
     UnbanChatSenderChat,
     UnhideGeneralForumTopic,

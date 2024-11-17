@@ -177,6 +177,7 @@ from ._poll import Poll
 from ._poll_answer import PollAnswer
 from ._poll_option import PollOption
 from ._pre_checkout_query import PreCheckoutQuery
+from ._prepared_inline_message import PreparedInlineMessage
 from ._proximity_alert_triggered import ProximityAlertTriggered
 from ._reaction_count import ReactionCount
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
@@ -542,4 +543,5 @@ __all__ = [
     "ParseMode",
     "ChatType",
     "MessageEntityType",
+    "PreparedInlineMessage",
 ]
