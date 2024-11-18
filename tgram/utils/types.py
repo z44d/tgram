@@ -1,7 +1,8 @@
 import tgram
 import os
+import re
 
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Tuple
 from pathlib import Path
 from io import BytesIO
 
@@ -72,3 +73,24 @@ def reaction_type_parse(
         )
         for i in x
     ]
+
+
+pattern = re.compile(
+    r"^(https?):\/\/" r"([a-zA-Z0-9.-]+)" r"(\.[a-zA-Z]{2,})" r"(\/[^\s]*)?$"
+)
+
+
+def convert_to_inline_keyboard_markup(v: List[List[Tuple]]):
+    return tgram.types.InlineKeyboardMarkup(
+        [
+            [
+                tgram.InlineKeyboardButton(
+                    x,
+                    callback_data=y if not re.match(pattern, y) else None,
+                    url=y if re.match(pattern, y) else None,
+                )
+                for x, y in z
+            ]
+            for z in v
+        ]
+    )

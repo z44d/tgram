@@ -7,7 +7,12 @@ from .readable_time import convert_timestamp, ReadableTime
 from .mention import Mention
 from .parsers import markdown_unparse, html_unparse, String
 from .parse_mode import get_parse_mode
-from .types import message_origin_parse, convert_input_media, reaction_type_parse
+from .types import (
+    message_origin_parse,
+    convert_input_media,
+    reaction_type_parse,
+    convert_to_inline_keyboard_markup,
+)
 
 from ..handlers import Handlers
 from typing import List
@@ -37,4 +42,5 @@ __all__ = [
     "ReadableTime",
     "get_parse_mode",
     "reaction_type_parse",
+    "convert_to_inline_keyboard_markup",
 ]
