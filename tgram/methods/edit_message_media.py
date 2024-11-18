@@ -4,7 +4,7 @@ from tgram.types import InlineKeyboardMarkup
 from tgram.types import InputMedia
 from tgram.types import Message
 
-from tgram.utils import convert_input_media
+from tgram.utils import convert_input_media, convert_to_inline_keyboard_markup
 
 
 class EditMessageMedia:
@@ -33,7 +33,9 @@ class EditMessageMedia:
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
             **file,
         )
         return (

@@ -3,6 +3,8 @@ from typing import Union
 from tgram.types import InlineKeyboardMarkup
 from tgram.types import Poll
 
+from tgram.utils import convert_to_inline_keyboard_markup
+
 
 class StopPoll:
     async def stop_poll(
@@ -38,6 +40,8 @@ class StopPoll:
             chat_id=chat_id,
             message_id=message_id,
             business_connection_id=business_connection_id,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
         )
         return Poll._parse(me=self, d=result["result"])

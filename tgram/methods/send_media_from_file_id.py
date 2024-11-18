@@ -56,7 +56,9 @@ class SendMediaFromFileId:
                 else self.protect_content,
                 "message_effect_id": message_effect_id,
                 "reply_parameters": reply_parameters,
-                "reply_markup": reply_markup,
+                "reply_markup": utils.convert_to_inline_keyboard_markup(reply_markup)
+                if isinstance(reply_markup, list)
+                else reply_markup,
                 "allow_paid_broadcast": allow_paid_broadcast,
             },
         )

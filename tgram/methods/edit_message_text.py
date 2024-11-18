@@ -6,7 +6,7 @@ from tgram.types import LinkPreviewOptions
 from tgram.types import Message
 from tgram.types import MessageEntity, ParseMode
 
-from tgram.utils import get_parse_mode
+from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
 
 
 class EditMessageText:
@@ -38,7 +38,9 @@ class EditMessageText:
             parse_mode=get_parse_mode(self, parse_mode),
             entities=entities,
             link_preview_options=link_preview_options or self.link_preview_options,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
         )
         return (
             Message._parse(me=self, d=result["result"])

@@ -10,7 +10,7 @@ from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters
 from tgram.types import ParseMode
 
-from tgram.utils import get_parse_mode
+from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
 
 
 class CopyMessage:
@@ -106,7 +106,9 @@ class CopyMessage:
             if protect_content is not None
             else self.protect_content,
             reply_parameters=reply_parameters,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
             allow_paid_broadcast=allow_paid_broadcast,
         )
         return MessageId._parse(me=self, d=result["result"])

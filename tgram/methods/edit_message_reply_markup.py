@@ -3,6 +3,8 @@ from typing import Union
 from tgram.types import InlineKeyboardMarkup
 from tgram.types import Message
 
+from tgram.utils import convert_to_inline_keyboard_markup
+
 
 class EditMessageReplyMarkup:
     async def edit_message_reply_markup(
@@ -25,7 +27,9 @@ class EditMessageReplyMarkup:
             chat_id=chat_id,
             message_id=message_id,
             inline_message_id=inline_message_id,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
         )
         return (
             Message._parse(me=self, d=result["result"])

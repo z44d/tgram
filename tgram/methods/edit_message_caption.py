@@ -6,7 +6,7 @@ from tgram.types import Message
 from tgram.types import MessageEntity
 from tgram.types import ParseMode
 
-from tgram.utils import get_parse_mode
+from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
 
 
 class EditMessageCaption:
@@ -38,7 +38,9 @@ class EditMessageCaption:
             parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,
             show_caption_above_media=show_caption_above_media,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
         )
         return (
             Message._parse(me=self, d=result["result"])

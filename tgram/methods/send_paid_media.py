@@ -10,7 +10,11 @@ from tgram.types import ReplyKeyboardMarkup
 from tgram.types import ReplyKeyboardRemove
 from tgram.types import ReplyParameters, ParseMode
 
-from tgram.utils import convert_input_media, get_parse_mode
+from tgram.utils import (
+    convert_input_media,
+    get_parse_mode,
+    convert_to_inline_keyboard_markup,
+)
 
 
 class SendPaidMedia:
@@ -100,7 +104,9 @@ class SendPaidMedia:
             if protect_content is not None
             else self.protect_content,
             reply_parameters=reply_parameters,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
             business_connection_id=business_connection_id,
             allow_paid_broadcast=allow_paid_broadcast,
             **files,

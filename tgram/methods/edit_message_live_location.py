@@ -3,6 +3,8 @@ from typing import Union
 from tgram.types import InlineKeyboardMarkup
 from tgram.types import Message
 
+from tgram.utils import convert_to_inline_keyboard_markup
+
 
 class EditMessageLiveLocation:
     async def edit_message_live_location(
@@ -36,7 +38,9 @@ class EditMessageLiveLocation:
             horizontal_accuracy=horizontal_accuracy,
             heading=heading,
             proximity_alert_radius=proximity_alert_radius,
-            reply_markup=reply_markup,
+            reply_markup=convert_to_inline_keyboard_markup(reply_markup)
+            if isinstance(reply_markup, list)
+            else reply_markup,
         )
         return (
             Message._parse(me=self, d=result["result"])
