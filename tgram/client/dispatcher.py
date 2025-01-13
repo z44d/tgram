@@ -73,8 +73,8 @@ class Dispatcher:
                     self.updates_queue.put_nowait(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
                 self.is_running = False
-            except tgram.StopPropagation:
-                pass
+            except (tgram.StopPropagation, asyncio.TimeoutError):
+                continue
             except Exception as e:
                 logger.exception(e)
 
