@@ -198,7 +198,7 @@ def html_unparse(text: str, entities: List["tgram.types.MessageEntity"]) -> str:
         elif entity_type == "blockquote":
             name = entity_type
             expandable = getattr(entity, "expandable", False)
-            start_tag = f'<{name}{" expandable" if expandable else ""}>'
+            start_tag = f"<{name}{' expandable' if expandable else ''}>"
             end_tag = f"</{name}>"
         elif entity_type in (
             "code",

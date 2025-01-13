@@ -18,8 +18,7 @@ async def function_1(_, m: Message) -> Message:
     if m.text is not None and m.text.lower() == "/start":
         return await m.reply_text(
             (
-                "Hello {mention}!\n"
-                "Send your message and i will forward it to `{owner}`"
+                "Hello {mention}!\nSend your message and i will forward it to `{owner}`"
             ).format(mention=m.from_user.mention.markdown, owner=OWNER_ID)
         )
     else:

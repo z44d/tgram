@@ -71,7 +71,7 @@ async def on_inline(_, inline_query: types.InlineQuery):
                         f"tgram.TgBot.{i}()",
                         description="tgram.TgBot method",
                         input_message_content=types.InputTextMessageContent(
-                            ("[{}]({}) - tgram.TgBot method\n\n" "{}").format(
+                            ("[{}]({}) - tgram.TgBot method\n\n{}").format(
                                 i,
                                 methods_redirect.format(i),
                                 method_description.format(
