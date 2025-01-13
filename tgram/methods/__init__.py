@@ -28,6 +28,7 @@ from .delete_my_commands import DeleteMyCommands
 from .delete_sticker_from_set import DeleteStickerFromSet
 from .delete_sticker_set import DeleteStickerSet
 from .delete_webhook import DeleteWebhook
+from .demote_chat_member import DemoteChatMember
 from .download_file import DownloadFile
 from .edit_chat_invite_link import EditChatInviteLink
 from .edit_chat_subscription_invite_link import EditChatSubscriptionInviteLink
@@ -169,6 +170,7 @@ class TelegramBotMethods(
     DeleteStickerFromSet,
     DeleteStickerSet,
     DeleteWebhook,
+    DemoteChatMember,
     DownloadFile,
     EditChatInviteLink,
     EditChatSubscriptionInviteLink,
