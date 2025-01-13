@@ -8,7 +8,7 @@ __all__ = [
     "utils",
     "storage",
 ]
-__version__ = "1.12.2"
+__version__ = "1.12.3"
 
 from . import filters, utils, storage, handlers, types
 
