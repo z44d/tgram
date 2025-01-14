@@ -8,10 +8,11 @@ import io
 import ssl
 import certifi
 import inspect
+import sys
 
 from ..methods import TelegramBotMethods
 from ..decorators import Decorators
-from ..errors import APIException
+from ..errors import APIException, Unauthorized
 from ..utils import API_URL, get_file_name, ALL_UPDATES
 from ..sync import wrap
 from ..storage import KvsqliteStorage, RedisStorage, StorageBase
@@ -98,7 +99,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.loop = asyncio.get_event_loop()
 
         self.is_running: bool = None
-        self._me: "tgram.types.User" = None
+        self.me: "tgram.types.User" = None
 
         self._listen_handlers: List["tgram.types.Listener"] = []
         self._custom_types: dict = {}
@@ -142,6 +143,20 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                             storage_engine, " ,".join(i for i in ["redis", "kvsqlite"])
                         )
                     )
+
+        self.loop.create_task(self.__me())
+
+        while self.me is None:
+            continue
+
+    async def __me(self) -> "tgram.types.User":
+        try:
+            self.me = await self.get_me()
+        except Unauthorized as e:
+            logger.exception(e)
+            sys.exit()
+
+        return self.me
 
     def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         if handler.type == "all":
@@ -267,22 +282,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._custom_types.update({old.__name__: new})
 
         return True
-
-    @property
-    def me(self) -> "tgram.types.User":
-        if self._me:
-            return self._me
-
-        import requests
-
-        response = requests.get(self._api_url + "getMe").json()
-
-        if not response["ok"]:
-            raise APIException._from_json(response)
-
-        self._me = tgram.types.User._parse(self, response["result"])
-
-        return self._me
 
 
 wrap(TelegramBotMethods)
