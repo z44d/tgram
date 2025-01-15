@@ -13,7 +13,7 @@ from ..methods import TelegramBotMethods
 from ..decorators import Decorators
 from ..errors import APIException
 from ..utils import API_URL, get_file_name, ALL_UPDATES
-from ..sync import wrap
+from ..sync import wrap, async_to_sync
 from ..storage import KvsqliteStorage, RedisStorage, StorageBase
 from ..types.type_ import Type_
 from .dispatcher import Dispatcher
@@ -288,3 +288,4 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
 
 wrap(TelegramBotMethods)
+async_to_sync(TgBot, "__call__")
