@@ -18,7 +18,7 @@ class GetChat:
         :rtype: :class:`tgram.types.ChatFullInfo`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getChat",
             chat_id=chat_id,
         )

@@ -21,7 +21,7 @@ class GetStarTransactions:
         :rtype: :obj:`tgram.types.StarTransactions`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getStarTransactions",
             offset=offset,
             limit=limit,

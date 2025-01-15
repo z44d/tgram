@@ -24,7 +24,7 @@ class SetChatMenuButton:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setChatMenuButton",
             chat_id=chat_id,
             menu_button=menu_button,

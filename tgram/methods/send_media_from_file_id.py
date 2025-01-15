@@ -39,7 +39,7 @@ class SendMediaFromFileId:
                 f"Unsupported file type to send {decoded_file_id['file_type']}, You have to download it first."
             )
 
-        result = await self._send_request(
+        result = await self(
             "send" + decoded_file_id["file_type"],
             **{
                 "chat_id": chat_id,

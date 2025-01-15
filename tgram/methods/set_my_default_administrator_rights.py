@@ -29,7 +29,7 @@ class SetMyDefaultAdministratorRights:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setMyDefaultAdministratorRights",
             rights=rights,
             for_channels=for_channels,

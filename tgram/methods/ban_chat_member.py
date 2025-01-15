@@ -38,7 +38,7 @@ class BanChatMember:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "banChatMember",
             chat_id=chat_id,
             user_id=user_id,

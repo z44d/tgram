@@ -20,7 +20,7 @@ class SetMyName:
         :return: True on success.
         """
 
-        result = await self._send_request(
+        result = await self(
             "setMyName",
             name=name,
             language_code=language_code,

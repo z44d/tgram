@@ -42,7 +42,7 @@ class SendChatAction:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendChatAction",
             chat_id=chat_id,
             action=action,

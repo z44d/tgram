@@ -20,7 +20,7 @@ class DeleteChatStickerSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteChatStickerSet",
             chat_id=chat_id,
         )

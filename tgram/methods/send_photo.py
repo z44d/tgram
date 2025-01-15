@@ -101,7 +101,7 @@ class SendPhoto:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendPhoto",
             chat_id=chat_id,
             photo=get_file_path(photo),

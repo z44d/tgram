@@ -97,7 +97,7 @@ class SendVideoNote:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendVideoNote",
             chat_id=chat_id,
             video_note=get_file_path(video_note),

@@ -36,7 +36,7 @@ class SetStickerSetThumbnail:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerSetThumbnail",
             name=name,
             user_id=user_id,

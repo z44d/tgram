@@ -65,7 +65,7 @@ class SetWebhook:
         :rtype: :obj:`bool` if the request was successful.
         """
 
-        result = await self._send_request(
+        result = await self(
             "setWebhook",
             url=url,
             certificate=certificate,

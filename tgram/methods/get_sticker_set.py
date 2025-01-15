@@ -16,7 +16,7 @@ class GetStickerSet:
         :rtype: :class:`tgram.types.StickerSet`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getStickerSet",
             name=name,
         )

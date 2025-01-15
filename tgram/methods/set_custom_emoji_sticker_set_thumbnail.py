@@ -19,7 +19,7 @@ class SetCustomEmojiStickerSetThumbnail:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setCustomEmojiStickerSetThumbnail",
             name=name,
             custom_emoji_id=custom_emoji_id,

@@ -26,7 +26,7 @@ class SetChatPhoto:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setChatPhoto",
             chat_id=chat_id,
             photo=photo,

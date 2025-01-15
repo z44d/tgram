@@ -19,7 +19,7 @@ class GetBusinessConnection:
         :rtype: :class:`tgram.types.BusinessConnection`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getBusinessConnection",
             business_connection_id=business_connection_id,
         )

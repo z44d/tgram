@@ -48,7 +48,7 @@ class AddStickerToSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "addStickerToSet",
             user_id=user_id,
             name=name,

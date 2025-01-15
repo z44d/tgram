@@ -37,7 +37,7 @@ class SendGift:
         :return: Returns True on success.
         :rtype: :obj:`bool`
         """
-        result = await self._send_request(
+        result = await self(
             "sendGift",
             user_id=user_id,
             gift_id=gift_id,

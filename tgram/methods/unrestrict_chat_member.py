@@ -33,7 +33,7 @@ class UnRestrictChatMember:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "restrictChatMember",
             chat_id=chat_id,
             user_id=user_id,

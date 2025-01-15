@@ -37,7 +37,7 @@ class GetGameHighScores:
         :rtype: List[types.GameHighScore]
         """
 
-        result = await self._send_request(
+        result = await self(
             "getGameHighScores",
             user_id=user_id,
             chat_id=chat_id,

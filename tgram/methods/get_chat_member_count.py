@@ -18,7 +18,7 @@ class GetChatMemberCount:
         :rtype: :obj:`int`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getChatMemberCount",
             chat_id=chat_id,
         )

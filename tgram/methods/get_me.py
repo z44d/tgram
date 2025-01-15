@@ -10,7 +10,7 @@ class GetMe:
         Telegram documentation: https://core.telegram.org/bots/api#getme
         """
 
-        result = await self._send_request(
+        result = await self(
             "getMe",
         )
         return User._parse(me=self, d=result["result"])

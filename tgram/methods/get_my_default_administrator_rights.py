@@ -19,7 +19,7 @@ class GetMyDefaultAdministratorRights:
         :rtype: :class:`tgram.types.ChatAdministratorRights`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getMyDefaultAdministratorRights",
             for_channels=for_channels,
         )

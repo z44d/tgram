@@ -32,7 +32,7 @@ class SetMyCommands:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setMyCommands",
             commands=commands,
             scope=scope,

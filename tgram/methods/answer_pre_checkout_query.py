@@ -33,7 +33,7 @@ class AnswerPreCheckoutQuery:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "answerPreCheckoutQuery",
             pre_checkout_query_id=pre_checkout_query_id,
             ok=ok,

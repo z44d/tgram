@@ -23,7 +23,7 @@ class DeleteMessages:
 
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteMessages",
             chat_id=chat_id,
             message_ids=message_ids,

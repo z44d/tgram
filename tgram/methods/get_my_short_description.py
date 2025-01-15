@@ -16,7 +16,7 @@ class GetMyShortDescription:
         :return: :class:`tgram.types.BotShortDescription`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getMyShortDescription",
             language_code=language_code,
         )

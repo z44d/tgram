@@ -26,9 +26,7 @@ class BanChatSenderChat:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
-            "banChatSenderChat",
-            chat_id=chat_id,
-            sender_chat_id=sender_chat_id,
+        result = await self(
+            "banChatSenderChat", chat_id=chat_id, sender_chat_id=sender_chat_id
         )
         return result["result"]

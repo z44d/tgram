@@ -23,7 +23,7 @@ class UnpinAllForumTopicMessages:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "unpinAllForumTopicMessages",
             chat_id=chat_id,
             message_thread_id=message_thread_id,

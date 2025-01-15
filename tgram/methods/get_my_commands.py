@@ -27,7 +27,7 @@ class GetMyCommands:
         :rtype: :obj:`list` of :class:`tgram.types.BotCommand`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getMyCommands",
             scope=scope,
             language_code=language_code,

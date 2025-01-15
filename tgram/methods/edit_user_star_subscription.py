@@ -11,7 +11,7 @@ class EditUserStarSubscription:
         """
         Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars. Returns True on success.
         """
-        result = await self._send_request(
+        result = await self(
             "editUserStarSubscription",
             user_id=user_id,
             telegram_payment_charge_id=telegram_payment_charge_id,

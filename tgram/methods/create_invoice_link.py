@@ -115,7 +115,7 @@ class CreateInvoiceLink:
         :rtype: :obj:`str`
         """
 
-        result = await self._send_request(
+        result = await self(
             "createInvoiceLink",
             title=title,
             description=description,

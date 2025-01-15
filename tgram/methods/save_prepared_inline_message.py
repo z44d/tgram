@@ -18,7 +18,7 @@ class SavePreparedInlineMessage:
 
         Telegram documentation: https://core.telegram.org/bots/api#savepreparedinlinemessage
         """
-        result = await self._send_request(
+        result = await self(
             "savePreparedInlineMessage",
             user_id=user_id,
             result=result,

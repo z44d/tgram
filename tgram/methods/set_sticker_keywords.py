@@ -21,7 +21,7 @@ class SetStickerKeywords:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerKeywords",
             sticker=sticker,
             keywords=keywords,

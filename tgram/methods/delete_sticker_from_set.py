@@ -13,7 +13,7 @@ class DeleteStickerFromSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteStickerFromSet",
             sticker=sticker,
         )

@@ -26,7 +26,7 @@ class DeleteMyCommands:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteMyCommands",
             scope=scope,
             language_code=language_code,

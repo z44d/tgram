@@ -21,7 +21,7 @@ class UnpinAllChatMessages:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "unpinAllChatMessages",
             chat_id=chat_id,
         )

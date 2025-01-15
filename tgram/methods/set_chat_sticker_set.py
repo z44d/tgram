@@ -23,7 +23,7 @@ class SetChatStickerSet:
         :rtype: :class:`tgram.types.StickerSet`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setChatStickerSet",
             chat_id=chat_id,
             sticker_set_name=sticker_set_name,

@@ -17,7 +17,7 @@ class GetWebhookInfo:
         :rtype: :class:`tgram.types.WebhookInfo`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getWebhookInfo",
         )
         return WebhookInfo._parse(me=self, d=result["result"])

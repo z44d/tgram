@@ -14,7 +14,7 @@ async def on_e(bot: TgBot, e: Exception, method: str, **kwargs):
     print(e)
     if isinstance(e, MessageTextEmpty):
         kwargs.update({"text": "Hi"})
-        r = await bot._send_request(method, **kwargs)
+        r = await bot(method, **kwargs)
 
         msg = Message._parse(bot, r["result"])
         print(msg)

@@ -24,7 +24,7 @@ class SetUserEmojiStatus:
 
         :return: True on success.
         """
-        result = await self._send_request(
+        result = await self(
             "setUserEmojiStatus",
             user_id=user_id,
             emoji_status_custom_emoji_id=emoji_status_custom_emoji_id,

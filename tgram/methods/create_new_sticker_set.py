@@ -73,7 +73,7 @@ class CreateNewStickerSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "createNewStickerSet",
             user_id=user_id,
             name=name,

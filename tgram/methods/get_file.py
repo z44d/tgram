@@ -19,7 +19,7 @@ class GetFile:
         :return: :class:`tgram.types.File`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getFile",
             file_id=file_id,
         )

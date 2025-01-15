@@ -123,7 +123,7 @@ class SendAnimation:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendAnimation",
             chat_id=chat_id,
             animation=get_file_path(animation),

@@ -17,7 +17,7 @@ class LogOut:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "logOut",
         )
         return result["result"]

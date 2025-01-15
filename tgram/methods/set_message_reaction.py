@@ -35,7 +35,7 @@ class SetMessageReaction:
         :return: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setMessageReaction",
             chat_id=chat_id,
             message_id=message_id,

@@ -35,7 +35,7 @@ class CreateChatSubscriptionInviteLink:
         :rtype: :class:`tgram.types.ChatInviteLink`
         """
 
-        result = await self._send_request(
+        result = await self(
             "createChatSubscriptionInviteLink",
             chat_id=chat_id,
             subscription_period=subscription_period,

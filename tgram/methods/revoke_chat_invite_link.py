@@ -25,7 +25,7 @@ class RevokeChatInviteLink:
         :rtype: :class:`tgram.types.ChatInviteLink`
         """
 
-        result = await self._send_request(
+        result = await self(
             "revokeChatInviteLink",
             chat_id=chat_id,
             invite_link=invite_link,

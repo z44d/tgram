@@ -25,7 +25,7 @@ class AnswerWebAppQuery:
         :rtype: :class:`tgram.types.SentWebAppMessage`
         """
 
-        result = await self._send_request(
+        result = await self(
             "answerWebAppQuery",
             web_app_query_id=web_app_query_id,
             result=result,

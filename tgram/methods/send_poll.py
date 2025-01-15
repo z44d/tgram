@@ -135,7 +135,7 @@ class SendPoll:
         :rtype: :obj:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendPoll",
             chat_id=chat_id,
             question=question,

@@ -26,7 +26,7 @@ class SetChatTitle:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setChatTitle",
             chat_id=chat_id,
             title=title,

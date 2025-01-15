@@ -97,7 +97,7 @@ class SendLocation:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendLocation",
             chat_id=chat_id,
             latitude=latitude,

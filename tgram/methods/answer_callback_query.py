@@ -36,7 +36,7 @@ class AnswerCallbackQuery:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "answerCallbackQuery",
             callback_query_id=callback_query_id,
             text=text,

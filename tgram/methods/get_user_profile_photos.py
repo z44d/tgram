@@ -26,7 +26,7 @@ class GetUserProfilePhotos:
 
         """
 
-        result = await self._send_request(
+        result = await self(
             "getUserProfilePhotos",
             user_id=user_id,
             offset=offset,

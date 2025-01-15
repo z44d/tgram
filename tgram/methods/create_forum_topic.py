@@ -34,7 +34,7 @@ class CreateForumTopic:
         :rtype: :class:`tgram.types.ForumTopic`
         """
 
-        result = await self._send_request(
+        result = await self(
             "createForumTopic",
             chat_id=chat_id,
             name=name,

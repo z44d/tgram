@@ -15,7 +15,7 @@ class GetForumTopicIconStickers:
         :rtype: List[:class:`tgram.types.StickerSet`]
         """
 
-        result = await self._send_request(
+        result = await self(
             "getForumTopicIconStickers",
         )
         return [Sticker._parse(me=self, d=i) for i in result["result"]]

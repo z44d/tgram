@@ -118,7 +118,7 @@ class SendAudio:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendAudio",
             chat_id=chat_id,
             audio=get_file_path(audio),

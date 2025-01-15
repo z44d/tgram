@@ -15,7 +15,7 @@ class Close:
         :return: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "close",
         )
         return result["result"]

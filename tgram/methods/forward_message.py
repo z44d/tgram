@@ -43,7 +43,7 @@ class ForwardMessage:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "forwardMessage",
             chat_id=chat_id,
             from_chat_id=from_chat_id,

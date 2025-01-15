@@ -35,7 +35,7 @@ class StopPoll:
         :rtype: :obj:`tgram.types.Poll`
         """
 
-        result = await self._send_request(
+        result = await self(
             "stopPoll",
             chat_id=chat_id,
             message_id=message_id,

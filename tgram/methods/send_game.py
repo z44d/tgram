@@ -69,7 +69,7 @@ class SendGame:
         :rtype: :obj:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendGame",
             chat_id=chat_id,
             game_short_name=game_short_name,

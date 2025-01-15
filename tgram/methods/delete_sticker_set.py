@@ -13,7 +13,7 @@ class DeleteStickerSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteStickerSet",
             name=name,
         )

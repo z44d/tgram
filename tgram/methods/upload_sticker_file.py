@@ -35,7 +35,7 @@ class UploadStickerFile:
         :rtype: :class:`tgram.types.File`
         """
 
-        result = await self._send_request(
+        result = await self(
             "uploadStickerFile",
             user_id=user_id,
             sticker=sticker,

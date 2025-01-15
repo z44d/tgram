@@ -39,7 +39,7 @@ class GetUpdates:
         :rtype: :obj:`list` of :class:`tgram.types.Update`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getUpdates",
             offset=offset,
             limit=limit,

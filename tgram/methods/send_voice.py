@@ -95,7 +95,7 @@ class SendVoice:
         :return: On success, the sent Message is returned.
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendVoice",
             chat_id=chat_id,
             voice=get_file_path(voice),

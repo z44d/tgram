@@ -21,7 +21,7 @@ class DeleteWebhook:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteWebhook",
             drop_pending_updates=drop_pending_updates,
         )

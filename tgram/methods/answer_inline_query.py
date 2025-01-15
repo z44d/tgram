@@ -56,7 +56,7 @@ class AnswerInlineQuery:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "answerInlineQuery",
             inline_query_id=inline_query_id,
             results=results,

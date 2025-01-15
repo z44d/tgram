@@ -20,7 +20,7 @@ class RefundStarPayment:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "refundStarPayment",
             user_id=user_id,
             telegram_payment_charge_id=telegram_payment_charge_id,

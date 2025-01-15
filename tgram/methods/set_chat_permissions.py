@@ -34,7 +34,7 @@ class SetChatPermissions:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setChatPermissions",
             chat_id=chat_id,
             permissions=permissions,

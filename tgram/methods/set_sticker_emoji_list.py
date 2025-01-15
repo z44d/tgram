@@ -20,7 +20,7 @@ class SetStickerEmojiList:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerEmojiList",
             sticker=sticker,
             emoji_list=emoji_list,

@@ -17,7 +17,7 @@ class HideGeneralForumTopic:
         :type chat_id: :obj:`int` or :obj:`str`
         """
 
-        result = await self._send_request(
+        result = await self(
             "hideGeneralForumTopic",
             chat_id=chat_id,
         )

@@ -14,7 +14,7 @@ class SetGameScore:
         message_id: int = None,
         inline_message_id: str = None,
     ) -> Union[Message, bool]:
-        result = await self._send_request(
+        result = await self(
             "setGameScore",
             user_id=user_id,
             score=score,

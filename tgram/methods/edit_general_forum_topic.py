@@ -20,7 +20,7 @@ class EditGeneralForumTopic:
         :type name: :obj:`str`
         """
 
-        result = await self._send_request(
+        result = await self(
             "editGeneralForumTopic",
             chat_id=chat_id,
             name=name,

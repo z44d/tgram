@@ -40,7 +40,7 @@ class CreateChatInviteLink:
         :rtype: :class:`tgram.types.ChatInviteLink`
         """
 
-        result = await self._send_request(
+        result = await self(
             "createChatInviteLink",
             chat_id=chat_id,
             name=name,

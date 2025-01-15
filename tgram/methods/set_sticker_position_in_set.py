@@ -20,7 +20,7 @@ class SetStickerPositionInSet:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerPositionInSet",
             sticker=sticker,
             position=position,

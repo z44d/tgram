@@ -26,7 +26,7 @@ class EditMessageMedia:
         Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
         """
         converted, file = convert_input_media([media])
-        result = await self._send_request(
+        result = await self(
             "editMessageMedia",
             media=converted[0],
             business_connection_id=business_connection_id,

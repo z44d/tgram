@@ -158,7 +158,7 @@ class SendInvoice:
         :rtype: :obj:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendInvoice",
             chat_id=chat_id,
             title=title,

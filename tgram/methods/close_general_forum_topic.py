@@ -17,7 +17,7 @@ class CloseGeneralForumTopic:
         :type chat_id: :obj:`int` or :obj:`str`
         """
 
-        result = await self._send_request(
+        result = await self(
             "closeGeneralForumTopic",
             chat_id=chat_id,
         )

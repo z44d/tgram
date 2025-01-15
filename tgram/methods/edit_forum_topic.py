@@ -36,7 +36,7 @@ class EditForumTopic:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "editForumTopic",
             chat_id=chat_id,
             message_thread_id=message_thread_id,

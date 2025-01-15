@@ -26,7 +26,7 @@ class EditMessageLiveLocation:
          A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation.
          On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
         """
-        result = await self._send_request(
+        result = await self(
             "editMessageLiveLocation",
             latitude=latitude,
             longitude=longitude,

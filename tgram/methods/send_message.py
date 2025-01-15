@@ -98,7 +98,7 @@ class SendMessage:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendMessage",
             chat_id=chat_id,
             text=text,

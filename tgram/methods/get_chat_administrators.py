@@ -10,7 +10,7 @@ class GetChatAdministrators:
     async def get_chat_administrators(
         self: "tgram.TgBot", chat_id: Union[int, str]
     ) -> List[Union[ChatMemberAdministrator, ChatMemberOwner]]:
-        result = await self._send_request(
+        result = await self(
             "getChatAdministrators",
             chat_id=chat_id,
         )

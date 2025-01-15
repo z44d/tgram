@@ -16,7 +16,7 @@ class GetMyName:
         :return: :class:`tgram.types.BotName`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getMyName",
             language_code=language_code,
         )

@@ -91,7 +91,7 @@ class CopyMessage:
         :rtype: :class:`tgram.types.MessageID`
         """
 
-        result = await self._send_request(
+        result = await self(
             "copyMessage",
             chat_id=chat_id,
             from_chat_id=from_chat_id,

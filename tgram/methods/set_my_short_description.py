@@ -20,7 +20,7 @@ class SetMyShortDescription:
         :return: True on success.
         """
 
-        result = await self._send_request(
+        result = await self(
             "setMyShortDescription",
             short_description=short_description,
             language_code=language_code,

@@ -17,7 +17,7 @@ class SetStickerSetTitle:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerSetTitle",
             name=name,
             title=title,

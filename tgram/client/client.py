@@ -174,7 +174,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         return self._session
 
-    async def _send_request(self, method: str, **kwargs) -> Any:
+    async def __call__(self, method: str, **kwargs) -> Any:
         request_url = self._api_url + method
         if method != "getUpdates":
             logger.info("Sending request using the method: %s", method)
@@ -238,7 +238,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                         retry_after,
                     )
                     await asyncio.sleep(retry_after)
-                    return await self._send_request(method, {"retry": 1, **kwargs})
+                    return await self(method, {"retry": 1, **kwargs})
             except Exception:
                 raise
 

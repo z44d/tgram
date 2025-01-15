@@ -15,7 +15,7 @@ class StopMessageLiveLocation:
         inline_message_id: str = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Union[Message, bool]:
-        result = await self._send_request(
+        result = await self(
             "stopMessageLiveLocation",
             business_connection_id=business_connection_id,
             chat_id=chat_id,

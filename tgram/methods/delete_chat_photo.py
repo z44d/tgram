@@ -20,7 +20,7 @@ class DeleteChatPhoto:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "deleteChatPhoto",
             chat_id=chat_id,
         )

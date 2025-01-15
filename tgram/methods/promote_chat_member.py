@@ -96,7 +96,7 @@ class PromoteChatMember:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "promoteChatMember",
             chat_id=chat_id,
             user_id=user_id,

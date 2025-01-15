@@ -109,7 +109,7 @@ class SendDocument:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendDocument",
             chat_id=chat_id,
             document=get_file_path(document),

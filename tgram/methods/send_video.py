@@ -125,7 +125,7 @@ class SendVideo:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendVideo",
             chat_id=chat_id,
             video=get_file_path(video),

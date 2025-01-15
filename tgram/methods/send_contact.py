@@ -90,7 +90,7 @@ class SendContact:
         :rtype: :class:`tgram.types.Message`
         """
 
-        result = await self._send_request(
+        result = await self(
             "sendContact",
             chat_id=chat_id,
             phone_number=phone_number,

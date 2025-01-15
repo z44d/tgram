@@ -23,7 +23,7 @@ class ReopenForumTopic:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "reopenForumTopic",
             chat_id=chat_id,
             message_thread_id=message_thread_id,

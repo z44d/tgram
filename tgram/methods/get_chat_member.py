@@ -20,7 +20,7 @@ class GetChatMember:
         ChatMemberBanned,
         ChatMemberLeft,
     ]:
-        result = await self._send_request(
+        result = await self(
             "getChatMember",
             chat_id=chat_id,
             user_id=user_id,

@@ -33,7 +33,7 @@ class AnswerShippingQuery:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "answerShippingQuery",
             shipping_query_id=shipping_query_id,
             ok=ok,

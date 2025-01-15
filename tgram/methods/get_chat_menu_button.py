@@ -21,7 +21,7 @@ class GetChatMenuButton:
         :rtype: :class:`tgram.types.MenuButton`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getChatMenuButton",
             chat_id=chat_id,
         )

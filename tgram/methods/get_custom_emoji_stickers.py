@@ -18,7 +18,7 @@ class GetCustomEmojiStickers:
         :rtype: :obj:`list` of :class:`tgram.types.Sticker`
         """
 
-        result = await self._send_request(
+        result = await self(
             "getCustomEmojiStickers",
             custom_emoji_ids=custom_emoji_ids,
         )

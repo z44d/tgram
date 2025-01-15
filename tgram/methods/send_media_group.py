@@ -68,7 +68,7 @@ class SendMediaGroup:
         :rtype: List[types.Message]
         """
         arr, files = convert_input_media(media)
-        result = await self._send_request(
+        result = await self(
             "sendMediaGroup",
             chat_id=chat_id,
             media=arr,

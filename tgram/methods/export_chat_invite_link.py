@@ -20,7 +20,7 @@ class ExportChatInviteLink:
         :rtype: :obj:`str`
         """
 
-        result = await self._send_request(
+        result = await self(
             "exportChatInviteLink",
             chat_id=chat_id,
         )

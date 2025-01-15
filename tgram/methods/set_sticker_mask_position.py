@@ -21,7 +21,7 @@ class SetStickerMaskPosition:
         :rtype: :obj:`bool`
         """
 
-        result = await self._send_request(
+        result = await self(
             "setStickerMaskPosition",
             sticker=sticker,
             mask_position=mask_position,

@@ -10,6 +10,6 @@ class GetAvailableGifts:
 
         Telegram documentation: https://core.telegram.org/bots/api#getavailablegifts
         """
-        result = await self._send_request("getAvailableGifts")
+        result = await self("getAvailableGifts")
 
         return Gifts._parse(self, result["result"])

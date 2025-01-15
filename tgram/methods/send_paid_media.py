@@ -89,7 +89,7 @@ class SendPaidMedia:
         :rtype: :class:`tgram.types.Message`
         """
         arr, files = convert_input_media(media)
-        result = await self._send_request(
+        result = await self(
             "sendPaidMedia",
             chat_id=chat_id,
             star_count=star_count,
