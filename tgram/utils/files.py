@@ -1,5 +1,6 @@
 import os
 
+from io import BytesIO
 from pathlib import Path
 
 
@@ -10,4 +11,6 @@ def get_file_name(obj):
 
 
 def get_file_path(file):
+    if isinstance(file, BytesIO):
+        file.seek(0)
     return Path(file) if isinstance(file, str) and os.path.isfile(file) else file
