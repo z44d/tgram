@@ -114,6 +114,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         self._api_url: str = f"{api_url}bot{bot_token}/"
 
+        # Initialize storage engine if provided
         if storage_engine:
             if isinstance(storage_engine, (KvsqliteStorage, RedisStorage)):
                 self.storage = storage_engine
@@ -144,6 +145,13 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                     )
 
     def add_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
+        """
+        Add a handler to the bot.
+
+        Args:
+            handler (tgram.handlers.Handler): The handler to add.
+            group (int): The group to add the handler to.
+        """
         if handler.type == "all":
             self.allowed_updates = ALL_UPDATES
         elif handler.type != "exception" and handler.type not in self.allowed_updates:
@@ -152,9 +160,19 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.loop.create_task(self._add_grouped_handler(handler, group))
 
     def remove_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
+        """
+        Remove a handler from the bot.
+
+        Args:
+            handler (tgram.handlers.Handler): The handler to remove.
+            group (int): The group to remove the handler from.
+        """
         self.loop.create_task(self._remove_grouped_handler(handler, group))
 
     async def _new_session(self) -> None:
+        """
+        Create a new aiohttp session.
+        """
         session = aiohttp.ClientSession(
             connector=aiohttp.TCPConnector(
                 limit=100,
@@ -166,6 +184,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self._session = session
 
     async def _get_session(self) -> "aiohttp.ClientSession":
+        """
+        Get the current aiohttp session, or create a new one if necessary.
+        """
         if self._session is None or self._session.closed:
             await self._new_session()
         elif not self._session.loop.is_running():
@@ -175,6 +196,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         return self._session
 
     async def __call__(self, method: str, **kwargs) -> Any:
+        """
+        Make an API call to the Telegram Bot API.
+
+        Args:
+            method (str): The API method to call.
+            **kwargs: Additional arguments for the API call.
+
+        Returns:
+            Any: The response from the API call.
+        """
         request_url = self._api_url + method
         if method != "getUpdates":
             logger.info("Sending request using the method: %s", method)
@@ -183,31 +214,24 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         has_files = False
 
         for key, value in kwargs.items():
-            file = None
-            if value is None or key == "timeout" or key == "retry":
+            if value is None or key in {"timeout", "retry"}:
                 continue
             if isinstance(value, Path):
                 has_files = True
                 with open(value, "rb") as f:
-                    value = f
-                    file = f.read()
+                    data.add_field(key, f, filename=get_file_name(value))
             elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
                 has_files = True
-                file = value if isinstance(value, bytes) else value.read()
+                data.add_field(key, value if isinstance(value, bytes) else value.read())
             elif isinstance(value, (Type_, list)):
-                value = json.dumps(value, ensure_ascii=False, default=Type_.default)
+                data.add_field(key, json.dumps(value, ensure_ascii=False, default=Type_.default))
             else:
-                value = str(value)
-            data.add_field(
-                key,
-                file or value,
-                filename=get_file_name(value) if file else None,
-            )
+                data.add_field(key, str(value))
 
         response = await session.request(
             "POST" if has_files else "GET",
             request_url,
-            data=data,
+            data=data if has_files else None,
             timeout=aiohttp.ClientTimeout(
                 total=kwargs.get("timeout", 60 if not has_files else 300)
             ),
@@ -224,13 +248,11 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             try:
                 raise error
             except tgram.errors.FloodWait as f:
-                if self.retry_after and (not kwargs.get("retry")):
+                if self.retry_after and not kwargs.get("retry"):
                     retry_after = (
                         f.value
                         if self.retry_after is True
-                        else (
-                            f.value if f.value < self.retry_after else self.retry_after
-                        )
+                        else min(f.value, self.retry_after)
                     )
                     logger.warning(
                         "You got FloodWait for %s seconds, I will retry after %s",
@@ -238,13 +260,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                         retry_after,
                     )
                     await asyncio.sleep(retry_after)
-                    return await self(method, {"retry": 1, **kwargs})
+                    return await self(method, **{**kwargs, "retry": 1})
             except Exception:
                 raise
 
         return response_json
 
     def load_plugins(self) -> None:
+        """
+        Load plugins from the specified plugins directory.
+        """
         for path in sorted(self.plugins.rglob("*.py")):
             module_path = ".".join(path.parent.parts + (path.stem,))
             module = import_module(module_path)
@@ -259,6 +284,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                             self.add_handler(handler, group)
 
     def customize(self, old: type, new: type) -> Literal[True]:
+        """
+        Customize a type used by the bot.
+
+        Args:
+            old (type): The old type to replace.
+            new (type): The new type to use.
+
+        Returns:
+            Literal[True]: Always returns True if customization is successful.
+        """
         if Type_ not in inspect.getmro(old):
             raise ValueError("You can't customize this type, it's not tgram type.")
 
@@ -270,6 +305,12 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
     @property
     def me(self) -> "tgram.types.User":
+        """
+        Get the bot's user profile.
+
+        Returns:
+            tgram.types.User: The bot's user profile.
+        """
         if self._me:
             return self._me
 
