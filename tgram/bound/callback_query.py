@@ -150,6 +150,10 @@ class CallbackB:
         latitude: float,
         longitude: float,
         live_period: int,
+        horizontal_accuracy: float = None,
+        heading: int = None,
+        proximity_alert_radius: int = None,
+        reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
         """
         Edit the live location of the message.
@@ -171,6 +175,10 @@ class CallbackB:
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             live_period=live_period,
+            horizontal_accuracy=horizontal_accuracy,
+            heading=heading,
+            proximity_alert_radius=proximity_alert_radius,
+            reply_markup=reply_markup,
         )
 
     @property
