@@ -39,10 +39,10 @@ class Dispatcher:
     async def run_for_updates(self: "tgram.TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
             self.load_plugins()
+        
+        # Determine offset, allowed updates, and limit based on skip_updates flag
         offset, allowed_updates, limit = (
-            -1
-            if (self.skip_updates if skip_updates is None else skip_updates)
-            else None,
+            -1 if (self.skip_updates if skip_updates is None else skip_updates) else None,
             self.allowed_updates,
             100,
         )
@@ -51,9 +51,9 @@ class Dispatcher:
         if not self._me:
             self._me = await self.get_me()
 
+        # Create handler worker tasks
         for _ in range(self.workers):
             self.locks_list.append(asyncio.Lock())
-
             self.handler_worker_tasks.append(
                 self.loop.create_task(self.handler_worker(self.locks_list[-1]))
             )
