@@ -2,6 +2,7 @@ from tgram import utils
 from json import dumps
 
 
+# Base exception class that converts exception details to a JSON string
 class StrException(Exception):
     def __init__(self, msg: str) -> None:
         super().__init__(msg)
@@ -22,87 +23,104 @@ class StrException(Exception):
         )
 
 
+# Exception for chat not found error
 class ChatNotFound(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for group chat migrated error
 class GroupChatMigrated(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for invalid file ID error
 class InvalidFileId(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for uneditable message error
 class MessageUneditable(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for message not modified error
 class MessageNotModified(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for empty message text error
 class MessageTextEmpty(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for user not found error
 class UserNotFound(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for wrong parameter error
 class WrongParameter(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for termination by other long poll or webhook error
 class TerminatedByOtherLongPollOrWebhook(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for bot blocked by user error
 class BotWasBlocked(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for unable to send to bots error
 class UnableSendToBots(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for bot kicked from group chat error
 class BotWasKicked(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for user deactivated error
 class UserDeactivated(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for flood wait error
 class FloodWait(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
         self.value: int = args[1].get("parameters", {}).get("retry_after", 0)
 
 
+# Exception for unauthorized error
 class Unauthorized(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Exception for webhook active error
 class WebhookIsActive(StrException):
     def __init__(self, *args) -> None:
         super().__init__(args[0])
 
 
+# Dictionary mapping error descriptions to exception classes and messages
 exceptions = {
     "chat not found": (
         ChatNotFound,
@@ -122,7 +140,7 @@ exceptions = {
     ),
     "message is not modified": (
         MessageNotModified,
-        "The current and new message text and reply markups are the same, Actually chanange the text or reply markup of the message to be edited.",
+        "The current and new message text and reply markups are the same, Actually change the text or reply markup of the message to be edited.",
     ),
     "message text is empty": (
         MessageTextEmpty,
@@ -134,10 +152,10 @@ exceptions = {
         "Occurs when the action property value is invalid, Provide a valid value to the action property as specified in the documentation.",
     ),
     "terminated by other long poll or webhook": (
-        "TerminatedByOtherLongPollOrWebhook",
+        TerminatedByOtherLongPollOrWebhook,
         "You have already set up a webhook and are trying to get the updates via getUpdates.",
     ),
-    "bot was blocked by the user": (BotWasBlocked, "The user have blocked the bot."),
+    "bot was blocked by the user": (BotWasBlocked, "The user has blocked the bot."),
     "bot can't send messages to bots": (
         UnableSendToBots,
         "You tried to send a message to another bot. This is not possible.",
@@ -165,6 +183,7 @@ exceptions = {
 }
 
 
+# Exception for API errors
 class APIException(StrException):
     def __init__(
         self, message: str, error_code: int, description: str, parameters: dict = None
@@ -189,9 +208,11 @@ class APIException(StrException):
         )
 
 
+# Exception to stop propagation of an event
 class StopPropagation(Exception):
     pass
 
 
+# Exception for muted errors
 class MutedError(Exception):
     pass
