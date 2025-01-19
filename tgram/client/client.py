@@ -235,14 +235,21 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 filename=get_file_name(value) if file else None,
             )
 
-        response = await session.request(
-            "POST" if has_files else "GET",
-            request_url,
-            data=data,
-            timeout=aiohttp.ClientTimeout(
-                total=kwargs.get("timeout", 60 if not has_files else 300)
-            ),
-        )
+        try:
+            response = await session.request(
+                "POST" if has_files else "GET",
+                request_url,
+                data=data,
+                timeout=aiohttp.ClientTimeout(
+                    total=kwargs.get("timeout", 60 if not has_files else 300)
+                ),
+            )
+        except aiohttp.ClientConnectorError:
+            logger.warning(
+                "Network connection error occurred. Retrying in 5 seconds..."
+            )
+            await asyncio.sleep(5)
+            return await self(method, **kwargs)
 
         if not self.is_running:
             await session.close()
