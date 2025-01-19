@@ -1524,8 +1524,8 @@ class MessageB:
         Adds a reaction to the current message.
 
         Args:
-            reaction (Union[List[tgram.types.ReactionType], tgram.types.ReactionType, List[str], str]): 
-                The reaction(s) to be added. Can be a list of ReactionType objects, a single ReactionType object, 
+            reaction (Union[List[tgram.types.ReactionType], tgram.types.ReactionType, List[str], str]):
+                The reaction(s) to be added. Can be a list of ReactionType objects, a single ReactionType object,
                 a list of emoji strings, or a single emoji string.
 
         Returns:
@@ -1598,7 +1598,9 @@ class MessageB:
 
         media = getattr(self, self.media)
         file_id = media[-1].file_id if isinstance(media, list) else media.file_id
-        return await self._me.download_file(file_id, file_path=file_path, in_memory=in_memory)
+        return await self._me.download_file(
+            file_id, file_path=file_path, in_memory=in_memory
+        )
 
     async def delete(self: "tgram.types.Message") -> bool:
         """

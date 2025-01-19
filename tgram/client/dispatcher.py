@@ -39,10 +39,12 @@ class Dispatcher:
     async def run_for_updates(self: "tgram.TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
             self.load_plugins()
-        
+
         # Determine offset, allowed updates, and limit based on skip_updates flag
         offset, allowed_updates, limit = (
-            -1 if (self.skip_updates if skip_updates is None else skip_updates) else None,
+            -1
+            if (self.skip_updates if skip_updates is None else skip_updates)
+            else None,
             self.allowed_updates,
             100,
         )

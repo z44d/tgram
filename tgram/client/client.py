@@ -224,7 +224,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 has_files = True
                 data.add_field(key, value if isinstance(value, bytes) else value.read())
             elif isinstance(value, (Type_, list)):
-                data.add_field(key, json.dumps(value, ensure_ascii=False, default=Type_.default))
+                data.add_field(
+                    key, json.dumps(value, ensure_ascii=False, default=Type_.default)
+                )
             else:
                 data.add_field(key, str(value))
 

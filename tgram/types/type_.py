@@ -6,6 +6,7 @@ from tgram.utils import Json
 # Initialize logger
 logger = logging.getLogger(__name__)
 
+
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
         # Define the types that are bounded to the bot instance

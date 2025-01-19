@@ -1,6 +1,7 @@
 import tgram
 from typing import List, Union, Optional
 
+
 class CallbackB:
     async def answer(
         self: "tgram.types.CallbackQuery",
@@ -52,7 +53,9 @@ class CallbackB:
         """
         return await self._me.edit_message_text(
             text=text,
-            chat_id=self.message.chat.id if (self.message and self.message.chat) else None,
+            chat_id=self.message.chat.id
+            if (self.message and self.message.chat)
+            else None,
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             parse_mode=parse_mode,
@@ -83,7 +86,9 @@ class CallbackB:
             Union[tgram.types.Message, bool]: The edited message or True on success.
         """
         return await self._me.edit_message_caption(
-            chat_id=self.message.chat.id if (self.message and self.message.chat) else None,
+            chat_id=self.message.chat.id
+            if (self.message and self.message.chat)
+            else None,
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             caption=caption,
@@ -107,7 +112,9 @@ class CallbackB:
             Union[tgram.types.Message, bool]: The edited message or True on success.
         """
         return await self._me.edit_message_reply_markup(
-            chat_id=self.message.chat.id if (self.message and self.message.chat) else None,
+            chat_id=self.message.chat.id
+            if (self.message and self.message.chat)
+            else None,
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             reply_markup=reply_markup,
@@ -131,7 +138,9 @@ class CallbackB:
         return await self._me.edit_message_media(
             media=media,
             inline_message_id=self.inline_message_id,
-            chat_id=self.message.chat.id if (self.message and self.message.chat) else None,
+            chat_id=self.message.chat.id
+            if (self.message and self.message.chat)
+            else None,
             message_id=self.message.id if self.message else None,
             reply_markup=reply_markup,
         )
@@ -140,7 +149,7 @@ class CallbackB:
         self: "tgram.types.CallbackQuery",
         latitude: float,
         longitude: float,
-        live_period: int
+        live_period: int,
     ) -> Union["tgram.types.Message", "bool"]:
         """
         Edit the live location of the message.
@@ -156,7 +165,9 @@ class CallbackB:
         return await self._me.edit_message_live_location(
             latitude=latitude,
             longitude=longitude,
-            chat_id=self.message.chat.id if (self.message and self.message.chat) else None,
+            chat_id=self.message.chat.id
+            if (self.message and self.message.chat)
+            else None,
             message_id=self.message.id if self.message else None,
             inline_message_id=self.inline_message_id,
             live_period=live_period,
