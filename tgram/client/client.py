@@ -214,26 +214,31 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         has_files = False
 
         for key, value in kwargs.items():
-            if value is None or key in {"timeout", "retry"}:
+            file = None
+            if value is None or key == "timeout" or key == "retry":
                 continue
             if isinstance(value, Path):
                 has_files = True
                 with open(value, "rb") as f:
-                    data.add_field(key, f, filename=get_file_name(value))
+                    value = f
+                    file = f.read()
             elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
                 has_files = True
-                data.add_field(key, value if isinstance(value, bytes) else value.read())
+                file = value if isinstance(value, bytes) else value.read()
             elif isinstance(value, (Type_, list)):
-                data.add_field(
-                    key, json.dumps(value, ensure_ascii=False, default=Type_.default)
-                )
+                value = json.dumps(value, ensure_ascii=False, default=Type_.default)
             else:
-                data.add_field(key, str(value))
+                value = str(value)
+            data.add_field(
+                key,
+                file or value,
+                filename=get_file_name(value) if file else None,
+            )
 
         response = await session.request(
             "POST" if has_files else "GET",
             request_url,
-            data=data if has_files else None,
+            data=data,
             timeout=aiohttp.ClientTimeout(
                 total=kwargs.get("timeout", 60 if not has_files else 300)
             ),
@@ -250,11 +255,13 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             try:
                 raise error
             except tgram.errors.FloodWait as f:
-                if self.retry_after and not kwargs.get("retry"):
+                if self.retry_after and (not kwargs.get("retry")):
                     retry_after = (
                         f.value
                         if self.retry_after is True
-                        else min(f.value, self.retry_after)
+                        else (
+                            f.value if f.value < self.retry_after else self.retry_after
+                        )
                     )
                     logger.warning(
                         "You got FloodWait for %s seconds, I will retry after %s",
@@ -262,7 +269,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                         retry_after,
                     )
                     await asyncio.sleep(retry_after)
-                    return await self(method, **{**kwargs, "retry": 1})
+                    return await self(method, {"retry": 1, **kwargs})
             except Exception:
                 raise
 
