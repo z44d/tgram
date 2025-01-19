@@ -3,12 +3,12 @@ import logging
 from json import dumps
 from tgram.utils import Json
 
-
+# Initialize logger
 logger = logging.getLogger(__name__)
-
 
 class Type_:
     def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
+        # Define the types that are bounded to the bot instance
         BOUNDED_TYPES = (
             tgram.types.User,
             tgram.types.CallbackQuery,
@@ -18,19 +18,23 @@ class Type_:
             tgram.types.InlineQuery,
             tgram.types.PreCheckoutQuery,
         )
+        # Assign the bot instance if it is provided and valid
         self._me = (
             me
             if any((isinstance(self, BOUNDED_TYPES), me is not None and me.storage))
             else None
         )
+        # Assign the JSON data
         self._json = json
 
     @property
     def json(self) -> dict:
+        # Return the JSON data as a dictionary
         return Json(self._json or {})
 
     @staticmethod
     def default(obj: "Type_" = None):
+        # Default method for JSON serialization
         if not isinstance(obj, Type_):
             return repr(obj)
         return {
@@ -45,9 +49,11 @@ class Type_:
         }
 
     def __str__(self) -> str:
+        # Return the JSON string representation of the object
         return dumps(self, indent=2, default=Type_.default, ensure_ascii=False)
 
     def __repr__(self) -> str:
+        # Return the string representation of the object
         return "tgram.types.{}({})".format(
             self.__class__.__name__,
             ", ".join(
@@ -59,6 +65,7 @@ class Type_:
 
     @staticmethod
     def _custom_parse(a: "Type_" = None, b: type = None) -> type:
+        # Custom parse method to convert one type to another
         if b is None:
             return a
         obj = b()
@@ -75,7 +82,7 @@ class Type_:
                     setattr(obj, attr, getattr(a, attr))
             return obj
         except Exception as e:
-            logger.warn(
+            logger.warning(
                 "You got an error (%s) (The original type returned) when the bot trying to give you custom type, make sure you are doing it in right way, see the example here %s",
                 str(e),
                 "https://github.com/z44d/tgram/blob/main/examples/custom_types.py",
