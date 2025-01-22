@@ -1,4 +1,4 @@
-<div align="center"> <a href="https://github.com/z44d/tgram"> <img src="https://github.com/user-attachments/assets/ad99412f-8d69-446c-bedf-5b7663f69727" alt="tgram" width="128"> </a> <h1>tgram</h1> <b>A user-friendly Telegram Bot API library for Python developers.</b> <br> <a href="https://t.me/tgbot_channel">Channel</a> • <a href="https://z44d.github.io/tgram/">Documentation</a> • <a href="https://github.com/z44d/tgram/tree/main/examples">Examples</a> </div>
+<div align="center"> <a href="https://github.com/z44d/tgram"> <img src="https://github.com/user-attachments/assets/ad99412f-8d69-446c-bedf-5b7663f69727" alt="tgram" width="128"> </a> <h1>tgram</h1> <b>A developer-friendly Telegram Bot API library designed for Python enthusiasts.</b> <br> <a href="https://t.me/tgbot_channel">Channel</a> • <a href="https://z44d.github.io/tgram/">Documentation</a> • <a href="https://github.com/z44d/tgram/tree/main/examples">Examples</a> </div>
 
 <br>
 
