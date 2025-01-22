@@ -10,9 +10,6 @@ readme = "README.md"
 python = ">=3.8"
 aiohttp = "3.10.11"
 
-[tool.poetry.scripts]
-tgram = "tgram.cli.main:main"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
