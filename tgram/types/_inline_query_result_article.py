@@ -29,9 +29,6 @@ class InlineQueryResultArticle(Type_):
     :param url: Optional. URL of the result
     :type url: :obj:`str`
 
-    :param hide_url: Optional. Pass True, if you don't want the URL to be shown in the message
-    :type hide_url: :obj:`bool`
-
     :param description: Optional. Short description of the result
     :type description: :obj:`str`
 
@@ -54,7 +51,6 @@ class InlineQueryResultArticle(Type_):
         input_message_content: "tgram.types.InputMessageContent" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         url: "str" = None,
-        hide_url: "bool" = None,
         description: "str" = None,
         thumbnail_url: "str" = None,
         thumbnail_width: "int" = None,
@@ -69,7 +65,6 @@ class InlineQueryResultArticle(Type_):
         self.input_message_content = input_message_content
         self.reply_markup = reply_markup
         self.url = url
-        self.hide_url = hide_url
         self.description = description
         self.thumbnail_url = thumbnail_url
         self.thumbnail_width = thumbnail_width
@@ -91,7 +86,6 @@ class InlineQueryResultArticle(Type_):
                     me=me, d=d.get("reply_markup")
                 ),
                 url=d.get("url"),
-                hide_url=d.get("hide_url"),
                 description=d.get("description"),
                 thumbnail_url=d.get("thumbnail_url"),
                 thumbnail_width=d.get("thumbnail_width"),
