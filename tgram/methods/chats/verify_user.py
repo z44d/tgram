@@ -1,10 +1,9 @@
 import tgram
 
+
 class VerifyUser:
     async def verify_user(
-        self: "tgram.TgBot",
-        user_id: int,
-        custom_description: str = None
+        self: "tgram.TgBot", user_id: int, custom_description: str = None
     ) -> bool:
         """
         Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
@@ -22,8 +21,6 @@ class VerifyUser:
         """
 
         result = await self(
-            "verifyUser",
-            user_id=user_id,
-            custom_description=custom_description
+            "verifyUser", user_id=user_id, custom_description=custom_description
         )
         return result["result"]

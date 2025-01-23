@@ -2,11 +2,10 @@ import tgram
 
 from typing import Union
 
+
 class VerifyChat:
     async def verify_chat(
-        self: "tgram.TgBot",
-        chat_id: Union[str, int],
-        custom_description: str = None
+        self: "tgram.TgBot", chat_id: Union[str, int], custom_description: str = None
     ) -> bool:
         """
         Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
@@ -24,8 +23,6 @@ class VerifyChat:
         """
 
         result = await self(
-            "verifyChat",
-            chat_id=chat_id,
-            custom_description=custom_description
+            "verifyChat", chat_id=chat_id, custom_description=custom_description
         )
         return result["result"]

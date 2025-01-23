@@ -2,6 +2,7 @@ import tgram
 
 from typing import Union
 
+
 class RemoveChatVerification:
     async def remove_chat_verification(
         self: "tgram.TgBot",
