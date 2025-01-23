@@ -142,6 +142,11 @@ from .stickers.upload_sticker_file import UploadStickerFile
 
 from .bot.runner import Runner
 
+from .chats.verify_chat import VerifyChat
+from .chats.verify_user import VerifyUser
+from .chats.remove_chat_verification import RemoveChatVerification
+from .chats.remove_user_verification import RemoveUserVerification
+
 
 class TelegramBotMethods(
     AddStickerToSet,
@@ -282,5 +287,9 @@ class TelegramBotMethods(
     UnRestrictChatMember,
     UploadStickerFile,
     Runner,
+    VerifyChat,
+    VerifyUser,
+    RemoveUserVerification,
+    RemoveChatVerification,
 ):
     pass
