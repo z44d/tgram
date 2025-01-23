@@ -1,5 +1,6 @@
 import tgram
 
+
 class RemoveUserVerification:
     async def remove_user_verification(
         self: "tgram.TgBot",
