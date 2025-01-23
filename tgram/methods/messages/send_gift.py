@@ -9,6 +9,7 @@ class SendGift:
         self: "tgram.TgBot",
         user_id: int,
         gift_id: str,
+        pay_for_upgrade: bool = None,
         text: str = None,
         text_parse_mode: ParseMode = None,
         text_entities: List[MessageEntity] = None,
@@ -23,6 +24,10 @@ class SendGift:
 
         :param gift_id: Identifier of the gift
         :type gift_id: :obj:`str`
+
+        :param pay_for_upgrade: Pass True to pay for the gift upgrade from the bot's balance,
+            thereby making the upgrade free for the receiver
+        :type pay_for_upgrade: :obj:`bool`
 
         :param text: Text that will be shown along with the gift; 0-255 characters
         :type text: :obj:`str`
@@ -41,6 +46,7 @@ class SendGift:
             "sendGift",
             user_id=user_id,
             gift_id=gift_id,
+            pay_for_upgrade=pay_for_upgrade,
             text=text,
             text_parse_mode=text_parse_mode,
             text_entities=text_entities,
