@@ -19,6 +19,9 @@ class Gift(Type_):
     :param star_count: The number of Telegram Stars that must be paid to send the sticker
     :type star_count: :obj:`int`
 
+    :param upgrade_star_count: Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
+    :type upgrade_star_count: :obj:`int
+
     :param total_count: Optional. The total number of the gifts of this type that can be sent; for limited gifts only
     :type total_count: :obj:`int`
 
@@ -34,6 +37,7 @@ class Gift(Type_):
         id: "str" = None,
         sticker: "tgram.types.Sticker" = None,
         star_count: "int" = None,
+        upgrade_star_count: "int" = None,
         total_count: "int" = None,
         remaining_count: "int" = None,
         me: "tgram.TgBot" = None,
@@ -43,6 +47,7 @@ class Gift(Type_):
         self.id = id
         self.sticker = sticker
         self.star_count = star_count
+        self.upgrade_star_count = upgrade_star_count
         self.total_count = total_count
         self.remaining_count = remaining_count
 
@@ -55,6 +60,7 @@ class Gift(Type_):
                 id=d.get("id"),
                 sticker=tgram.types.Sticker._parse(me, d.get("sticker")),
                 star_count=d.get("star_count"),
+                upgrade_star_count=d.get("upgrade_star_count"),
                 total_count=d.get("total_count"),
                 remaining_count=d.get("remaining_count"),
             )
