@@ -15,7 +15,7 @@ all_methods = [
 ]
 
 
-@bot.on_message(filters.Filter(lambda m: m.chat.type == "private") & filters.text)
+@bot.on_message(filters.Filter(lambda _, m: m.chat.type == "private") & filters.text)
 async def on_message(_, m: types.Message):
     return await bot.send_message(
         m.chat.id,
