@@ -24,6 +24,14 @@ class InputMediaVideo(Type_):
         multipart/form-data under <file_attach_name>. More information on Sending Files »
     :type thumbnail: InputFile or :obj:`str`
 
+    :param cover: Optional. Cover for the video in the message.
+        Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet,
+        or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
+    :type cover: :class:`InputFile` of :obj:`str`
+
+    :param start_timestamp: Optional. Start timestamp for the video in the message
+    :type start_timestamp: :obj:`int`
+
     :param caption: Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
     :type caption: :obj:`str`
 
@@ -60,7 +68,9 @@ class InputMediaVideo(Type_):
     def __init__(
         self,
         media: Union["Path", "str"] = None,
-        thumbnail: Union["tgram.types.InputFile", "str"] = None,
+        thumbnail: "tgram.types.InputFile" = None,
+        cover: "tgram.types.InputFile" = None,
+        start_timestamp: int = None,
         caption: "str" = None,
         parse_mode: "str" = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
@@ -77,6 +87,8 @@ class InputMediaVideo(Type_):
         self.type = "video"
         self.media = media
         self.thumbnail = thumbnail
+        self.cover = cover
+        self.start_timestamp = start_timestamp
         self.caption = caption
         self.parse_mode = parse_mode
         self.caption_entities = caption_entities
@@ -97,6 +109,8 @@ class InputMediaVideo(Type_):
                 json=d,
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
+                cover=d.get("cover"),
+                start_timestamp=d.get("start_timestamp"),
                 caption=d.get("caption"),
                 parse_mode=d.get("parse_mode"),
                 caption_entities=[

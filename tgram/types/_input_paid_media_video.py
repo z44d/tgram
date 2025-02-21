@@ -27,6 +27,14 @@ class InputPaidMediaVideo(Type_):
         More information on Sending Files »
     :type thumbnail: :class:`InputFile`
 
+    :param cover: Optional. Cover for the video in the message.
+        Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet,
+        or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
+    :type cover: :class:`InputFile` of :obj:`str`
+
+    :param start_timestamp: Optional. Start timestamp for the video in the message
+    :type start_timestamp: :obj:`int`
+
     :param width: Optional. Video width
     :type width: :obj:`int`
 
@@ -47,7 +55,9 @@ class InputPaidMediaVideo(Type_):
     def __init__(
         self,
         media: Union["Path", "str"] = None,
-        thumbnail: Union["tgram.types.InputFile", "str"] = None,
+        thumbnail: "tgram.types.InputFile" = None,
+        cover: "tgram.types.InputFile" = None,
+        start_timestamp: int = None,
         width: "int" = None,
         height: "int" = None,
         duration: "int" = None,
@@ -59,6 +69,8 @@ class InputPaidMediaVideo(Type_):
         self.type = "video"
         self.media = media
         self.thumbnail = thumbnail
+        self.cover = cover
+        self.start_timestamp = start_timestamp
         self.width = width
         self.height = height
         self.duration = duration
@@ -75,6 +87,8 @@ class InputPaidMediaVideo(Type_):
                 type=d.get("type"),
                 media=d.get("media"),
                 thumbnail=d.get("thumbnail"),
+                cover=d.get("cover"),
+                start_timestamp=d.get("start_timestamp"),
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
