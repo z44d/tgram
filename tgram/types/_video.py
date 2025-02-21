@@ -1,7 +1,7 @@
 import tgram
 from .type_ import Type_
 
-from typing import Optional
+from typing import Optional, List
 
 
 class Video(Type_):
@@ -29,6 +29,12 @@ class Video(Type_):
     :param thumbnail: Optional. Video thumbnail
     :type thumbnail: :class:`tgram.types.PhotoSize`
 
+    :param cover: Optional. Video thumbnail
+    :type cover: :obj:`list` of :class:`tgram.types.PhotoSize`
+
+    :param start_timestamp: Optional. Timestamp in seconds from which the video will play in the message
+    :type start_timestamp: :obj:`int`
+
     :param file_name: Optional. Original filename as defined by sender
     :type file_name: :obj:`str`
 
@@ -52,6 +58,8 @@ class Video(Type_):
         height: "int" = None,
         duration: "int" = None,
         thumbnail: "tgram.types.PhotoSize" = None,
+        cover: List["tgram.types.PhotoSize"] = None,
+        start_timestamp: "int" = None,
         file_name: "str" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
@@ -65,6 +73,8 @@ class Video(Type_):
         self.height = height
         self.duration = duration
         self.thumbnail = thumbnail
+        self.cover = cover
+        self.start_timestamp = start_timestamp
         self.file_name = file_name
         self.mime_type = mime_type
         self.file_size = file_size
@@ -83,6 +93,9 @@ class Video(Type_):
                 height=d.get("height"),
                 duration=d.get("duration"),
                 thumbnail=tgram.types.PhotoSize._parse(me=me, d=d.get("thumbnail")),
+                cover=[tgram.types.PhotoSize._parse(me=me, d=i) for i in d.get("cover")]
+                if d.get("cover")
+                else None,
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
