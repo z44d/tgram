@@ -207,6 +207,7 @@ from ._story import Story
 from ._successful_payment import SuccessfulPayment
 from ._switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from ._text_quote import TextQuote
+from ._transaction_partner_affiliate_program import TransactionPartnerAffiliateProgram
 from ._transaction_partner_chat import TransactionPartnerChat
 from ._transaction_partner_fragment import TransactionPartnerFragment
 from ._transaction_partner_other import TransactionPartnerOther
@@ -288,6 +289,8 @@ TransactionPartner = _Union[
     "TransactionPartnerUser",
     "TransactionPartnerOther",
     "TransactionPartnerTelegramAds",
+    "TransactionPartnerAffiliateProgram",
+    "TransactionPartnerChat",
 ]
 
 ParseMode = _Literal["Markdown", "MarkdownV2", "HTML", "Disable"]
@@ -522,6 +525,7 @@ __all__ = [
     "SuccessfulPayment",
     "SwitchInlineQueryChosenChat",
     "TextQuote",
+    "TransactionPartnerAffiliateProgram",
     "TransactionPartnerChat",
     "TransactionPartnerFragment",
     "TransactionPartnerOther",
