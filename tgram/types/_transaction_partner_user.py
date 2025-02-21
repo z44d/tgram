@@ -23,17 +23,19 @@ class TransactionPartnerUser(Type_):
     def __init__(
         self,
         user: "tgram.types.User" = None,
+        affiliate: "tgram.types.AffiliateInfo" = None,
         invoice_payload: "str" = None,
         subscription_period: "int" = None,
         paid_media: List["tgram.types.PaidMedia"] = None,
         paid_media_payload: "str" = None,
-        gift: "str" = None,
+        gift: "tgram.types.Gift" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "user"
         self.user = user
+        self.affiliate = affiliate
         self.invoice_payload = invoice_payload
         self.subscription_period = subscription_period
         self.paid_media = paid_media
@@ -50,6 +52,7 @@ class TransactionPartnerUser(Type_):
                 json=d,
                 type=d.get("type"),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
+                affiliate=tgram.types.AffiliateInfo._parse(me=me, d=d.get("affiliate")),
                 invoice_payload=d.get("invoice_payload"),
                 subscription_period=d.get("subscription_period"),
                 paid_media=[
@@ -65,7 +68,7 @@ class TransactionPartnerUser(Type_):
                 if d.get("paid_media")
                 else None,
                 paid_media_payload=d.get("paid_media_payload"),
-                gift=d.get("gift"),
+                gift=tgram.types.Gift._parse(me=me, d=d.get("gift")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

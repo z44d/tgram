@@ -2,6 +2,7 @@ from pathlib import Path as _Path
 from typing import Union as _Union, Literal as _Literal
 from io import BytesIO as _BytesIo
 
+from ._affiliate_info import AffiliateInfo
 from ._animation import Animation
 from ._audio import Audio
 from ._background_fill import BackgroundFill
@@ -317,6 +318,7 @@ MessageEntityType = _Literal[
 ]
 
 __all__ = [
+    "AffiliateInfo",
     "Animation",
     "Audio",
     "BackgroundFill",
