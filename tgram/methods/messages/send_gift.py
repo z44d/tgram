@@ -1,26 +1,30 @@
 import tgram
 
 from tgram.types import MessageEntity, ParseMode
-from typing import List
+from typing import List, Union
 
 
 class SendGift:
     async def send_gift(
         self: "tgram.TgBot",
-        user_id: int,
         gift_id: str,
+        user_id: int = None,
+        chat_id: Union[int, str] = None,
         pay_for_upgrade: bool = None,
         text: str = None,
         text_parse_mode: ParseMode = None,
         text_entities: List[MessageEntity] = None,
     ) -> bool:
         """
-        Sends a gift to the given user. The gift can't be converted to Telegram Stars by the user. Returns True on success.
+        Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.
 
         Telegram documentation: https://core.telegram.org/bots/api#sendgift
 
-        :param user_id: Unique identifier of the target user that will receive the gift
+        :param user_id: Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
         :type user_id: :obj:`int`
+
+        :param chat_id: Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+        :type chat_id: :obj:`int` or :obj:`str`
 
         :param gift_id: Identifier of the gift
         :type gift_id: :obj:`str`
@@ -45,6 +49,7 @@ class SendGift:
         result = await self(
             "sendGift",
             user_id=user_id,
+            chat_id=chat_id,
             gift_id=gift_id,
             pay_for_upgrade=pay_for_upgrade,
             text=text,
