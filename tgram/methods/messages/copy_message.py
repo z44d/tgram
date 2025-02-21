@@ -20,6 +20,7 @@ class CopyMessage:
         from_chat_id: Union[int, str],
         message_id: int,
         message_thread_id: int = None,
+        video_start_timestamp: int = None,
         caption: str = None,
         parse_mode: ParseMode = None,
         caption_entities: List[MessageEntity] = None,
@@ -42,6 +43,10 @@ class CopyMessage:
 
         :param from_chat_id: Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
         :type from_chat_id: :obj:`int` or :obj:`str`
+
+        :param video_start_timestamp: New start timestamp for the copied video in the message
+        :type video_start_timestamp: :obj:`int`
+
         :param message_id: Message identifier in the chat specified in from_chat_id
         :type message_id: :obj:`int`
 
@@ -97,6 +102,7 @@ class CopyMessage:
             from_chat_id=from_chat_id,
             message_id=message_id,
             message_thread_id=message_thread_id,
+            video_start_timestamp=video_start_timestamp,
             caption=caption,
             parse_mode=get_parse_mode(self, parse_mode),
             caption_entities=caption_entities,

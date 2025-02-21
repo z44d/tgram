@@ -10,6 +10,7 @@ class ForwardMessage:
         from_chat_id: Union[int, str],
         message_id: int,
         message_thread_id: int = None,
+        video_start_timestamp: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
     ) -> Message:
@@ -30,6 +31,9 @@ class ForwardMessage:
         :param message_id: Message identifier in the chat specified in from_chat_id
         :type message_id: :obj:`int`
 
+        :param video_start_timestamp: New start timestamp for the forwarded video in the message
+        :type video_start_timestamp: :obj:`int`
+
         :param protect_content: Protects the contents of the forwarded message from forwarding and saving
         :type protect_content: :obj:`bool`
 
@@ -49,6 +53,7 @@ class ForwardMessage:
             from_chat_id=from_chat_id,
             message_id=message_id,
             message_thread_id=message_thread_id,
+            video_start_timestamp=video_start_timestamp,
             disable_notification=disable_notification,
             protect_content=protect_content
             if protect_content is not None
