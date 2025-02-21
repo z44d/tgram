@@ -134,6 +134,12 @@ class ChatFullInfo(Type_, bound.ChatB):
     :param can_set_sticker_set: Optional. :obj:`bool`, if the bot can change the group sticker set. Returned only in getChat.
     :type can_set_sticker_set: :obj:`bool`
 
+    :param can_send_gift: Optional. :obj:`bool`, if gifts can be sent to the chat.
+    :type can_send_gift: :obj:`bool`
+
+    :param can_send_paid_media: Optional. :obj:`bool`, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
+    :type can_send_paid_media: :obj:`bool`
+
     :param custom_emoji_sticker_set_name: Optional. For supergroups, the name of the group's custom emoji sticker set.
         Custom emoji from this set can be used by all users and bots in the group. Returned only in getChat.
     :param custom_emoji_sticker_set_name: :obj:`str`
@@ -184,6 +190,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         invite_link: "str" = None,
         pinned_message: "tgram.types.Message" = None,
         permissions: "tgram.types.ChatPermissions" = None,
+        can_send_gift: bool = None,
         can_send_paid_media: bool = None,
         slow_mode_delay: "int" = None,
         unrestrict_boost_count: "int" = None,
@@ -234,6 +241,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.invite_link = invite_link
         self.pinned_message = pinned_message
         self.permissions = permissions
+        self.can_send_gift = can_send_gift
         self.can_send_paid_media = can_send_paid_media
         self.slow_mode_delay = slow_mode_delay
         self.unrestrict_boost_count = unrestrict_boost_count
@@ -303,6 +311,7 @@ class ChatFullInfo(Type_, bound.ChatB):
                 permissions=tgram.types.ChatPermissions._parse(
                     me=me, d=d.get("permissions")
                 ),
+                can_send_gift=d.get("can_send_gift"),
                 can_send_paid_media=d.get("can_send_paid_media"),
                 slow_mode_delay=d.get("slow_mode_delay"),
                 unrestrict_boost_count=d.get("unrestrict_boost_count"),
