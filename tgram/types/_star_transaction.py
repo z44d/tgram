@@ -16,6 +16,9 @@ class StarTransaction(Type_):
     :param amount: Number of Telegram Stars transferred by the transaction
     :type amount: :obj:`int`
 
+    :param nanostar_amount: Optional. The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
+    :type nanostar_amount: :obj:`int`
+
     :param date: Date the transaction was created in Unix time
     :type date: :obj:`int`
 
@@ -33,6 +36,7 @@ class StarTransaction(Type_):
         self,
         id: "str" = None,
         amount: "int" = None,
+        nanostar_amount: "int" = None,
         date: "int" = None,
         source: "tgram.types.TransactionPartner" = None,
         receiver: "tgram.types.TransactionPartner" = None,
@@ -42,6 +46,7 @@ class StarTransaction(Type_):
         super().__init__(me=me, json=json)
         self.id = id
         self.amount = amount
+        self.nanostar_amount = nanostar_amount
         self.date = date
         self.source = source
         self.receiver = receiver
@@ -56,6 +61,7 @@ class StarTransaction(Type_):
                 json=d,
                 id=d.get("id"),
                 amount=d.get("amount"),
+                nanostar_amount=d.get("nanostar_amount"),
                 date=d.get("date"),
                 source=tgram.types.TransactionPartner._parse(me=me, d=d.get("source")),
                 receiver=tgram.types.TransactionPartner._parse(
