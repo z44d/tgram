@@ -51,6 +51,14 @@ def convert_input_media(
                     y.thumbnail = f"attach://file_{count}"
                     count += 1
 
+            if hasattr(y, "cover") and getattr(y, "cover"):
+                if (
+                    isinstance(y.cover, (Path, str)) and os.path.isfile(y.cover)
+                ) or isinstance(y.cover, (bytes, BytesIO)):
+                    files[f"file_{count}"] = utils.get_file_path(y.cover)
+                    y.thumbnail = f"attach://file_{count}"
+                    count += 1
+
     return x, files
 
 
