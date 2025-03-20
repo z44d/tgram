@@ -96,6 +96,7 @@ def convert_to_inline_keyboard_markup(v: List[List[Tuple]]):
                     x,
                     callback_data=y if not re.match(pattern, y) else None,
                     url=y if re.match(pattern, y) else None,
+                    user_id=y if isinstance(y, int) else None,
                 )
                 for x, y in z
             ]
