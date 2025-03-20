@@ -64,8 +64,8 @@ class InlineKeyboardButton(Type_):
     def __init__(
         self,
         text: "str" = None,
-        url: "str" = None,
         callback_data: "str" = None,
+        url: "str" = None,
         web_app: "tgram.types.WebAppInfo" = None,
         login_url: "tgram.types.LoginUrl" = None,
         switch_inline_query: "str" = None,
@@ -74,12 +74,12 @@ class InlineKeyboardButton(Type_):
         copy_text: "tgram.types.CopyTextButton" = None,
         callback_game: "tgram.types.CallbackGame" = None,
         pay: "bool" = None,
+        user_id: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = text
-        self.url = url
         self.callback_data = callback_data
         self.web_app = web_app
         self.login_url = login_url
@@ -89,6 +89,8 @@ class InlineKeyboardButton(Type_):
         self.copy_text = copy_text
         self.callback_game = callback_game
         self.pay = pay
+
+        self.url = url or (f"tg://user?id={user_id}" if user_id is not None else None)
 
     @staticmethod
     def _parse(
