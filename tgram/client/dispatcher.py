@@ -75,7 +75,7 @@ class Dispatcher:
                     self.updates_queue.put_nowait(update)
             except (asyncio.CancelledError, KeyboardInterrupt):
                 self.is_running = False
-            except (tgram.StopPropagation, asyncio.TimeoutError):
+            except asyncio.TimeoutError:
                 continue
             except Exception as e:
                 logger.exception(e)
@@ -122,6 +122,8 @@ class Dispatcher:
                         attr := getattr(update, handler.type)
                     ) and await handler.filter(self, attr):
                         await self._process_update(attr, handler.callback, group)
+                except tgram.StopPropagation:
+                    continue
                 except Exception as e:
                     logger.exception(e)
                     continue
