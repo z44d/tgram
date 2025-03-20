@@ -156,6 +156,9 @@ class Dispatcher:
                 await callback(self, update)
             else:
                 await self.loop.run_in_executor(self.executor, callback, self, update)
+        except tgram.StopPropagation:
+            update._groups.remove(group)
+            raise
         except Exception as e:
             logger.exception(e)
 
