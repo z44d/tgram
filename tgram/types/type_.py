@@ -49,6 +49,9 @@ class Type_:
             },
         }
 
+    def stop_propagation(self):
+        raise tgram.StopPropagation()
+
     def __str__(self) -> str:
         # Return the JSON string representation of the object
         return dumps(self, indent=2, default=Type_.default, ensure_ascii=False)
