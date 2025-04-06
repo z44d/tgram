@@ -213,6 +213,10 @@ class StopPropagation(Exception):
     pass
 
 
+class ContinuePropagation(Exception):
+    pass
+
+
 # Exception for muted errors
 class MutedError(Exception):
     pass
