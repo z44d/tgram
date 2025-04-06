@@ -10,7 +10,7 @@ __all__ = [
     "storage",
 ]
 
-__version__ = "1.12.8"
+__version__ = "1.12.9"
 
 from . import (
     filters,
