@@ -153,6 +153,7 @@ from .payments_and_business.set_business_account_name import SetBusinessAccountN
 from .payments_and_business.set_business_account_username import (
     SetBusinessAccountUsername,
 )
+from .payments_and_business.set_business_account_bio import SetBusinessAccountBio
 
 
 class TelegramBotMethods(
@@ -285,6 +286,7 @@ class TelegramBotMethods(
     SetWebhook,
     SetBusinessAccountName,
     SetBusinessAccountUsername,
+    SetBusinessAccountBio,
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
