@@ -147,6 +147,8 @@ from .chats.verify_user import VerifyUser
 from .chats.remove_chat_verification import RemoveChatVerification
 from .chats.remove_user_verification import RemoveUserVerification
 
+from .payments_and_business.read_business_message import ReadBusinessMessage
+
 
 class TelegramBotMethods(
     AddStickerToSet,
@@ -229,6 +231,7 @@ class TelegramBotMethods(
     ReplaceStickerInSet,
     RestrictChatMember,
     RevokeChatInviteLink,
+    ReadBusinessMessage,
     SendAnimation,
     SendAudio,
     SendChatAction,
