@@ -22,8 +22,8 @@ class BusinessConnection(Type_):
     :param date: Date the connection was established in Unix time
     :type date: :obj:`int`
 
-    :param can_reply: True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
-    :type can_reply: :obj:`bool`
+    :param rights: Optional. Rights of the business bot
+    :type rights: :class:`tgram.types.BusinessBotRights`
 
     :param is_enabled: True, if the connection is active
     :type is_enabled: :obj:`bool`
@@ -38,7 +38,7 @@ class BusinessConnection(Type_):
         user: "tgram.types.User" = None,
         user_chat_id: "int" = None,
         date: "int" = None,
-        can_reply: "bool" = None,
+        rights: "tgram.types.BusinessBotRights" = None,
         is_enabled: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -48,7 +48,7 @@ class BusinessConnection(Type_):
         self.user = user
         self.user_chat_id = user_chat_id
         self.date = date
-        self.can_reply = can_reply
+        self.rights = rights
         self.is_enabled = is_enabled
 
     @staticmethod
@@ -63,7 +63,7 @@ class BusinessConnection(Type_):
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
                 user_chat_id=d.get("user_chat_id"),
                 date=d.get("date"),
-                can_reply=d.get("can_reply"),
+                rights=tgram.types.BusinessBotRights._parse(me=me, d=d.get("rights")),
                 is_enabled=d.get("is_enabled"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

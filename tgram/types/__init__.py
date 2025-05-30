@@ -15,6 +15,7 @@ from ._background_type_fill import BackgroundTypeFill
 from ._background_type_pattern import BackgroundTypePattern
 from ._background_type_wallpaper import BackgroundTypeWallpaper
 from ._birthdate import Birthdate
+from ._business_bot_rights import BusinessBotRights
 from ._bot_command import BotCommand
 from ._bot_command_scope import BotCommandScope
 from ._bot_command_scope_all_chat_administrators import (
@@ -334,6 +335,7 @@ __all__ = [
     "BackgroundTypePattern",
     "BackgroundTypeWallpaper",
     "Birthdate",
+    "BusinessBotRights",
     "BotCommand",
     "BotCommandScope",
     "BotCommandScopeAllChatAdministrators",
