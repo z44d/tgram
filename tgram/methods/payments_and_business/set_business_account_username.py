@@ -1,5 +1,6 @@
 import tgram
 
+
 class SetBusinessAccountUsername:
     async def set_business_account_username(
         self: "tgram.TgBot",
