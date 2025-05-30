@@ -2,9 +2,18 @@ import tgram
 import logging
 from json import dumps
 from tgram.utils import Json
+from typing import TypedDict, Union
 
 # Initialize logger
 logger = logging.getLogger(__name__)
+
+
+class Response(TypedDict):
+    ok: bool
+    result: Union[dict, bool]
+    error_code: int
+    description: str
+    parameters: dict
 
 
 class Type_:
