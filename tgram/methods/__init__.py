@@ -149,6 +149,7 @@ from .chats.remove_user_verification import RemoveUserVerification
 
 from .payments_and_business.read_business_message import ReadBusinessMessage
 from .payments_and_business.delete_business_messages import DeleteBusinessMessages
+from .payments_and_business.set_business_account_name import SetBusinessAccountName
 
 
 class TelegramBotMethods(
@@ -279,6 +280,7 @@ class TelegramBotMethods(
     SetStickerSetTitle,
     SetUserEmojiStatus,
     SetWebhook,
+    SetBusinessAccountName,
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
