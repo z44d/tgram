@@ -15,7 +15,6 @@ from ._background_type_fill import BackgroundTypeFill
 from ._background_type_pattern import BackgroundTypePattern
 from ._background_type_wallpaper import BackgroundTypeWallpaper
 from ._birthdate import Birthdate
-from ._business_bot_rights import BusinessBotRights
 from ._bot_command import BotCommand
 from ._bot_command_scope import BotCommandScope
 from ._bot_command_scope_all_chat_administrators import (
@@ -125,6 +124,7 @@ from ._input_media_video import InputMediaVideo
 from ._input_message_content import InputMessageContent
 from ._input_paid_media_photo import InputPaidMediaPhoto
 from ._input_paid_media_video import InputPaidMediaVideo
+from ._input_profile_photo import InputProfilePhotoStatic, InputProfilePhotoAnimated
 from ._input_poll_option import InputPollOption
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
@@ -335,7 +335,6 @@ __all__ = [
     "BackgroundTypePattern",
     "BackgroundTypeWallpaper",
     "Birthdate",
-    "BusinessBotRights",
     "BotCommand",
     "BotCommandScope",
     "BotCommandScopeAllChatAdministrators",
@@ -445,6 +444,8 @@ __all__ = [
     "InputPaidMedia",
     "InputPaidMediaPhoto",
     "InputPaidMediaVideo",
+    "InputProfilePhotoStatic",
+    "InputProfilePhotoAnimated",
     "InputPollOption",
     "InputSticker",
     "InputTextMessageContent",
