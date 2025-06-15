@@ -154,6 +154,12 @@ from .payments_and_business.set_business_account_username import (
     SetBusinessAccountUsername,
 )
 from .payments_and_business.set_business_account_bio import SetBusinessAccountBio
+from .payments_and_business.set_business_account_profile_photo import (
+    SetBusinessAccountProfilePhoto,
+)
+from .payments_and_business.remove_business_account_profile_photo import (
+    RemoveBusinessAccountProfilePhoto,
+)
 
 
 class TelegramBotMethods(
@@ -287,6 +293,7 @@ class TelegramBotMethods(
     SetBusinessAccountName,
     SetBusinessAccountUsername,
     SetBusinessAccountBio,
+    SetBusinessAccountProfilePhoto,
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
@@ -304,5 +311,6 @@ class TelegramBotMethods(
     VerifyUser,
     RemoveUserVerification,
     RemoveChatVerification,
+    RemoveBusinessAccountProfilePhoto,
 ):
     pass
