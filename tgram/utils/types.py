@@ -29,35 +29,49 @@ def message_origin_parse(
 
 
 def convert_input_media(
-    x: List[Union["tgram.types.InputMedia", "tgram.types.InputPaidMedia"]],
+    x: List[
+        Union[
+            "tgram.types.InputMedia",
+            "tgram.types.InputPaidMedia",
+            "tgram.types.InputProfilePhotoAnimated",
+            "tgram.types.InputProfilePhotoStatic",
+        ]
+    ],
 ):
     files = {}
     count = 1
-    for y in x:
-        if (
-            isinstance(y.media, (Path, str))
-            and os.path.isfile(y.media)
-            or isinstance(y.media, (bytes, BytesIO))
-        ):
-            files[f"file_{count}"] = utils.get_file_path(y.media)
-            y.media = f"attach://file_{count}"
+
+    def attach_file(obj, attr):
+        nonlocal count
+        media = getattr(obj, attr, None)
+        if media is None:
+            return
+        is_path = isinstance(media, (Path, str)) and os.path.isfile(media)
+        is_bytes = isinstance(media, (bytes, BytesIO))
+        if is_path or is_bytes:
+            files[f"file_{count}"] = utils.get_file_path(media)
+            setattr(obj, attr, f"attach://file_{count}")
             count += 1
 
-            if hasattr(y, "thumbnail") and getattr(y, "thumbnail"):
-                if (
-                    isinstance(y.thumbnail, (Path, str)) and os.path.isfile(y.thumbnail)
-                ) or isinstance(y.thumbnail, (bytes, BytesIO)):
-                    files[f"file_{count}"] = utils.get_file_path(y.thumbnail)
-                    y.thumbnail = f"attach://file_{count}"
-                    count += 1
-
-            if hasattr(y, "cover") and getattr(y, "cover"):
-                if (
-                    isinstance(y.cover, (Path, str)) and os.path.isfile(y.cover)
-                ) or isinstance(y.cover, (bytes, BytesIO)):
-                    files[f"file_{count}"] = utils.get_file_path(y.cover)
-                    y.thumbnail = f"attach://file_{count}"
-                    count += 1
+    for y in x:
+        # Handle profile photos
+        if isinstance(
+            y,
+            (
+                tgram.types.InputProfilePhotoAnimated,
+                tgram.types.InputProfilePhotoStatic,
+            ),
+        ):
+            attr_name = "animation" if hasattr(y, "animation") else "photo"
+            attach_file(y, attr_name)
+        else:
+            # Handle main media
+            attach_file(y, "media")
+            # Optionally handle thumbnail and cover
+            if hasattr(y, "thumbnail") and getattr(y, "thumbnail", None):
+                attach_file(y, "thumbnail")
+            if hasattr(y, "cover") and getattr(y, "cover", None):
+                attach_file(y, "cover")
 
     return x, files
 
