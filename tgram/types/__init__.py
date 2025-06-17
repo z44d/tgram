@@ -231,6 +231,7 @@ from ._unique_gifts import (
     UniqueGiftModel,
     UniqueGiftSymbol,
 )
+from ._owned_gifts import OwnedGifts, OwnedGiftRegular, OwnedGiftUnique
 from ._venue import Venue
 from ._video import Video
 from ._video_chat_ended import VideoChatEnded
@@ -578,4 +579,7 @@ __all__ = [
     "PreparedInlineMessage",
     "Gift",
     "Gifts",
+    "OwnedGifts",
+    "OwnedGiftRegular",
+    "OwnedGiftUnique",
 ]

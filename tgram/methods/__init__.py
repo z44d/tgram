@@ -169,6 +169,7 @@ from .payments_and_business.get_business_account_star_balance import (
 from .payments_and_business.transfer_business_account_stars import (
     TransferBusinessAccountStars,
 )
+from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
 
 
 class TelegramBotMethods(
@@ -242,6 +243,7 @@ class TelegramBotMethods(
     GetUserChatBoosts,
     GetUserProfilePhotos,
     GetWebhookInfo,
+    GetBusinessAccountGifts,
     GetBusinessAccountStarBalance,
     HideGeneralForumTopic,
     LeaveChat,
