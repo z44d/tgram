@@ -147,6 +147,37 @@ from .chats.verify_user import VerifyUser
 from .chats.remove_chat_verification import RemoveChatVerification
 from .chats.remove_user_verification import RemoveUserVerification
 
+from .payments_and_business.read_business_message import ReadBusinessMessage
+from .payments_and_business.delete_business_messages import DeleteBusinessMessages
+from .payments_and_business.set_business_account_name import SetBusinessAccountName
+from .payments_and_business.set_business_account_username import (
+    SetBusinessAccountUsername,
+)
+from .payments_and_business.set_business_account_bio import SetBusinessAccountBio
+from .payments_and_business.set_business_account_profile_photo import (
+    SetBusinessAccountProfilePhoto,
+)
+from .payments_and_business.remove_business_account_profile_photo import (
+    RemoveBusinessAccountProfilePhoto,
+)
+from .payments_and_business.set_business_account_gift_settings import (
+    SetBusinessAccountGiftSettings,
+)
+from .payments_and_business.get_business_account_star_balance import (
+    GetBusinessAccountStarBalance,
+)
+from .payments_and_business.transfer_business_account_stars import (
+    TransferBusinessAccountStars,
+)
+from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
+from .payments_and_business.gift_premium_subscription import GiftPremiumSubscription
+from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
+from .payments_and_business.upgrade_gift import UpgradeGift
+from .payments_and_business.transfer_gift import TransferGift
+from .payments_and_business.post_story import PostStory
+from .payments_and_business.edit_story import EditStory
+from .payments_and_business.delete_story import DeleteStory
+
 
 class TelegramBotMethods(
     AddStickerToSet,
@@ -169,16 +200,19 @@ class TelegramBotMethods(
     CreateForumTopic,
     CreateInvoiceLink,
     CreateNewStickerSet,
+    ConvertGiftToStars,
     DeclineChatJoinRequest,
     DeleteChatPhoto,
     DeleteChatStickerSet,
     DeleteForumTopic,
     DeleteMessage,
     DeleteMessages,
+    DeleteBusinessMessages,
     DeleteMyCommands,
     DeleteStickerFromSet,
     DeleteStickerSet,
     DeleteWebhook,
+    DeleteStory,
     DemoteChatMember,
     DownloadFile,
     EditChatInviteLink,
@@ -191,6 +225,7 @@ class TelegramBotMethods(
     EditMessageReplyMarkup,
     EditMessageText,
     EditUserStarSubscription,
+    EditStory,
     ExportChatInviteLink,
     ForwardMessage,
     ForwardMessages,
@@ -218,6 +253,9 @@ class TelegramBotMethods(
     GetUserChatBoosts,
     GetUserProfilePhotos,
     GetWebhookInfo,
+    GetBusinessAccountGifts,
+    GetBusinessAccountStarBalance,
+    GiftPremiumSubscription,
     HideGeneralForumTopic,
     LeaveChat,
     LogOut,
@@ -229,6 +267,7 @@ class TelegramBotMethods(
     ReplaceStickerInSet,
     RestrictChatMember,
     RevokeChatInviteLink,
+    ReadBusinessMessage,
     SendAnimation,
     SendAudio,
     SendChatAction,
@@ -274,6 +313,11 @@ class TelegramBotMethods(
     SetStickerSetTitle,
     SetUserEmojiStatus,
     SetWebhook,
+    SetBusinessAccountName,
+    SetBusinessAccountUsername,
+    SetBusinessAccountBio,
+    SetBusinessAccountProfilePhoto,
+    SetBusinessAccountGiftSettings,
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
@@ -286,10 +330,15 @@ class TelegramBotMethods(
     UnpinChatMessage,
     UnRestrictChatMember,
     UploadStickerFile,
+    UpgradeGift,
     Runner,
     VerifyChat,
     VerifyUser,
     RemoveUserVerification,
     RemoveChatVerification,
+    RemoveBusinessAccountProfilePhoto,
+    TransferBusinessAccountStars,
+    TransferGift,
+    PostStory,
 ):
     pass

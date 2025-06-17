@@ -15,7 +15,7 @@ from ..errors import APIException
 from ..utils import API_URL, get_file_name, ALL_UPDATES
 from ..sync import wrap, async_to_sync
 from ..storage import KvsqliteStorage, RedisStorage, StorageBase
-from ..types.type_ import Type_
+from ..types.type_ import Type_, Response
 from .dispatcher import Dispatcher
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -195,7 +195,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
 
         return self._session
 
-    async def __call__(self, method: str, **kwargs) -> Any:
+    async def __call__(self, method: str, **kwargs) -> Response:
         """
         Make an API call to the Telegram Bot API.
 

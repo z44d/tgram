@@ -2,6 +2,7 @@ from pathlib import Path as _Path
 from typing import Union as _Union, Literal as _Literal
 from io import BytesIO as _BytesIo
 
+from ._accepted_gift_types import AcceptedGiftTypes
 from ._affiliate_info import AffiliateInfo
 from ._animation import Animation
 from ._audio import Audio
@@ -84,6 +85,7 @@ from ._general_forum_topic_hidden import GeneralForumTopicHidden
 from ._general_forum_topic_unhidden import GeneralForumTopicUnhidden
 from ._gifts import Gifts
 from ._gift import Gift
+from ._gift_info import GiftInfo
 from ._giveaway import Giveaway
 from ._giveaway_completed import GiveawayCompleted
 from ._giveaway_created import GiveawayCreated
@@ -124,10 +126,12 @@ from ._input_media_video import InputMediaVideo
 from ._input_message_content import InputMessageContent
 from ._input_paid_media_photo import InputPaidMediaPhoto
 from ._input_paid_media_video import InputPaidMediaVideo
+from ._input_profile_photo import InputProfilePhotoStatic, InputProfilePhotoAnimated
 from ._input_poll_option import InputPollOption
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
+from ._input_story_content import InputStoryContentPhoto, InputStoryContentVideo
 from ._invoice import Invoice
 from ._keyboard_button import KeyboardButton
 from ._keyboard_button_poll_type import KeyboardButtonPollType
@@ -138,6 +142,7 @@ from ._link_preview_options import LinkPreviewOptions
 from ._listener import Listener
 from ._location import Location
 from ._login_url import LoginUrl
+from ._location_address import LocationAddress
 from ._mask_position import MaskPosition
 from ._menu_button import MenuButton
 from ._menu_button_commands import MenuButtonCommands
@@ -182,6 +187,7 @@ from ._poll_option import PollOption
 from ._pre_checkout_query import PreCheckoutQuery
 from ._prepared_inline_message import PreparedInlineMessage
 from ._proximity_alert_triggered import ProximityAlertTriggered
+from ._paid_message_price_changed import PaidMessagePriceChanged
 from ._reaction_count import ReactionCount
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from ._reaction_type_emoji import ReactionTypeEmoji
@@ -201,9 +207,19 @@ from ._shipping_option import ShippingOption
 from ._shipping_query import ShippingQuery
 from ._star_transaction import StarTransaction
 from ._star_transactions import StarTransactions
+from ._star_amount import StarAmount
 from ._sticker import Sticker
 from ._sticker_set import StickerSet
 from ._story import Story
+from ._story_area import (
+    StoryArea,
+    StoryAreaPosition,
+    StoryAreaTypeLink,
+    StoryAreaTypeLocation,
+    StoryAreaTypeSuggestedReaction,
+    StoryAreaTypeUniqueGift,
+    StoryAreaTypeWeather,
+)
 from ._successful_payment import SuccessfulPayment
 from ._switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from ._text_quote import TextQuote
@@ -219,6 +235,15 @@ from ._user import User
 from ._user_chat_boosts import UserChatBoosts
 from ._user_profile_photos import UserProfilePhotos
 from ._users_shared import UsersShared
+from ._unique_gifts import (
+    UniqueGift,
+    UniqueGiftBackdrop,
+    UniqueGiftBackdropColors,
+    UniqueGiftInfo,
+    UniqueGiftModel,
+    UniqueGiftSymbol,
+)
+from ._owned_gifts import OwnedGifts, OwnedGiftRegular, OwnedGiftUnique
 from ._venue import Venue
 from ._video import Video
 from ._video_chat_ended import VideoChatEnded
@@ -320,7 +345,18 @@ MessageEntityType = _Literal[
     "custom_emoji",
 ]
 
+InputStoryContent = _Union["InputStoryContentPhoto", "InputStoryContentVideo"]
+
+StoryAreaType = _Union[
+    "StoryAreaTypeLink",
+    "StoryAreaTypeLocation",
+    "StoryAreaTypeSuggestedReaction",
+    "StoryAreaTypeUniqueGift",
+    "StoryAreaTypeWeather",
+]
+
 __all__ = [
+    "AcceptedGiftTypes",
     "AffiliateInfo",
     "Animation",
     "Audio",
@@ -403,6 +439,7 @@ __all__ = [
     "GiveawayCompleted",
     "GiveawayCreated",
     "GiveawayWinners",
+    "GiftInfo",
     "InaccessibleMessage",
     "InlineKeyboardButton",
     "InlineKeyboardMarkup",
@@ -443,8 +480,13 @@ __all__ = [
     "InputPaidMedia",
     "InputPaidMediaPhoto",
     "InputPaidMediaVideo",
+    "InputProfilePhotoStatic",
+    "InputProfilePhotoAnimated",
     "InputPollOption",
     "InputSticker",
+    "InputStoryContentPhoto",
+    "InputStoryContentVideo",
+    "InputStoryContent",
     "InputTextMessageContent",
     "InputVenueMessageContent",
     "Invoice",
@@ -519,10 +561,19 @@ __all__ = [
     "ShippingQuery",
     "StarTransaction",
     "StarTransactions",
+    "StarAmount",
     "Sticker",
     "StickerSet",
-    "Story",
     "SuccessfulPayment",
+    "Story",
+    "StoryArea",
+    "StoryAreaPosition",
+    "StoryAreaTypeLink",
+    "StoryAreaTypeLocation",
+    "StoryAreaTypeSuggestedReaction",
+    "StoryAreaTypeUniqueGift",
+    "StoryAreaTypeWeather",
+    "StoryAreaType",
     "SwitchInlineQueryChosenChat",
     "TextQuote",
     "TransactionPartnerAffiliateProgram",
@@ -537,6 +588,12 @@ __all__ = [
     "UserChatBoosts",
     "UserProfilePhotos",
     "UsersShared",
+    "UniqueGift",
+    "UniqueGiftBackdrop",
+    "UniqueGiftBackdropColors",
+    "UniqueGiftInfo",
+    "UniqueGiftModel",
+    "UniqueGiftSymbol",
     "Venue",
     "Video",
     "VideoChatEnded",
@@ -555,4 +612,9 @@ __all__ = [
     "PreparedInlineMessage",
     "Gift",
     "Gifts",
+    "OwnedGifts",
+    "OwnedGiftRegular",
+    "OwnedGiftUnique",
+    "LocationAddress",
+    "PaidMessagePriceChanged",
 ]

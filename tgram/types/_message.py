@@ -224,6 +224,12 @@ class Message(Type_, bound.MessageB):
     :param chat_shared: Optional. Service message: a chat was shared with the bot
     :type chat_shared: :class:`tgram.types.ChatShared`
 
+    :param gift: Optional. Service message: a regular gift was sent or received
+        :type gift: :class:`tgram.types.GiftInfo`
+
+    :param unique_gift: Optional. Service message: a unique gift was sent or received
+    :type unique_gift: :class:`tgram.types.UniqueGiftInfo`
+
     :param connected_website: Optional. The domain name of the website on which the user has logged in. More about
         Telegram Login »
     :type connected_website: :obj:`str`
@@ -292,6 +298,9 @@ class Message(Type_, bound.MessageB):
 
     :param reply_markup: Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     :type reply_markup: :class:`tgram.types.InlineKeyboardMarkup`
+
+    :param paid_message_price_changed: Optional. Service message: the price for paid messages has changed in the chat
+    :type paid_message_price_changed: :class:`tgram.types.PaidMessagePriceChanged`
 
     :return: Instance of the class
     :rtype: :class:`tgram.types.Message`
@@ -362,6 +371,8 @@ class Message(Type_, bound.MessageB):
         refunded_payment: "tgram.types.RefundedPayment" = None,
         users_shared: "tgram.types.UsersShared" = None,
         chat_shared: "tgram.types.ChatShared" = None,
+        gift: "tgram.types.GiftInfo" = None,
+        unique_gift: "tgram.types.UniqueGiftInfo" = None,
         connected_website: "str" = None,
         write_access_allowed: "tgram.types.WriteAccessAllowed" = None,
         passport_data: "tgram.types.PassportData" = None,
@@ -378,6 +389,7 @@ class Message(Type_, bound.MessageB):
         giveaway: "tgram.types.Giveaway" = None,
         giveaway_winners: "tgram.types.GiveawayWinners" = None,
         giveaway_completed: "tgram.types.GiveawayCompleted" = None,
+        paid_message_price_changed: "tgram.types.PaidMessagePriceChanged" = None,
         video_chat_scheduled: "tgram.types.VideoChatScheduled" = None,
         video_chat_started: "tgram.types.VideoChatStarted" = None,
         video_chat_ended: "tgram.types.VideoChatEnded" = None,
@@ -451,6 +463,8 @@ class Message(Type_, bound.MessageB):
         self.refunded_payment = refunded_payment
         self.users_shared = users_shared
         self.chat_shared = chat_shared
+        self.gift = gift
+        self.unique_gift = unique_gift
         self.connected_website = connected_website
         self.write_access_allowed = write_access_allowed
         self.passport_data = passport_data
@@ -467,6 +481,7 @@ class Message(Type_, bound.MessageB):
         self.giveaway = giveaway
         self.giveaway_winners = giveaway_winners
         self.giveaway_completed = giveaway_completed
+        self.paid_message_price_changed = paid_message_price_changed
         self.video_chat_scheduled = video_chat_scheduled
         self.video_chat_started = video_chat_started
         self.video_chat_ended = video_chat_ended
@@ -593,6 +608,10 @@ class Message(Type_, bound.MessageB):
                 chat_shared=tgram.types.ChatShared._parse(
                     me=me, d=d.get("chat_shared")
                 ),
+                gift=tgram.types.GiftInfo._parse(me=me, d=d.get("gift")),
+                unique_gift=tgram.types.UniqueGiftInfo._parse(
+                    me=me, d=d.get("unique_gift")
+                ),
                 connected_website=d.get("connected_website"),
                 write_access_allowed=tgram.types.WriteAccessAllowed._parse(
                     me=me, d=d.get("write_access_allowed")
@@ -636,6 +655,9 @@ class Message(Type_, bound.MessageB):
                 ),
                 giveaway_completed=tgram.types.GiveawayCompleted._parse(
                     me=me, d=d.get("giveaway_completed")
+                ),
+                paid_message_price_changed=tgram.types.PaidMessagePriceChanged._parse(
+                    me=me, d=d.get("paid_message_price_changed")
                 ),
                 video_chat_scheduled=tgram.types.VideoChatScheduled._parse(
                     me=me, d=d.get("video_chat_scheduled")
