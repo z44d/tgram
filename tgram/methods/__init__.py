@@ -174,6 +174,7 @@ from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
 from .payments_and_business.upgrade_gift import UpgradeGift
 from .payments_and_business.transfer_gift import TransferGift
 from .payments_and_business.post_story import PostStory
+from .payments_and_business.edit_story import EditStory
 
 
 class TelegramBotMethods(
@@ -221,6 +222,7 @@ class TelegramBotMethods(
     EditMessageReplyMarkup,
     EditMessageText,
     EditUserStarSubscription,
+    EditStory,
     ExportChatInviteLink,
     ForwardMessage,
     ForwardMessages,
