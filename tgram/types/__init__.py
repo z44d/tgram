@@ -131,6 +131,7 @@ from ._input_poll_option import InputPollOption
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
+from ._input_story_content import InputStoryContentPhoto, InputStoryContentVideo
 from ._invoice import Invoice
 from ._keyboard_button import KeyboardButton
 from ._keyboard_button_poll_type import KeyboardButtonPollType
@@ -333,6 +334,8 @@ MessageEntityType = _Literal[
     "custom_emoji",
 ]
 
+InputStoryContent = _Union["InputStoryContentPhoto", "InputStoryContentVideo"]
+
 __all__ = [
     "AcceptedGiftTypes",
     "AffiliateInfo",
@@ -462,6 +465,9 @@ __all__ = [
     "InputProfilePhotoAnimated",
     "InputPollOption",
     "InputSticker",
+    "InputStoryContentPhoto",
+    "InputStoryContentVideo",
+    "InputStoryContent",
     "InputTextMessageContent",
     "InputVenueMessageContent",
     "Invoice",
