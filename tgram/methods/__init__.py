@@ -170,6 +170,7 @@ from .payments_and_business.transfer_business_account_stars import (
     TransferBusinessAccountStars,
 )
 from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
+from .payments_and_business.gift_premium_subscription import GiftPremiumSubscription
 from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
 from .payments_and_business.upgrade_gift import UpgradeGift
 from .payments_and_business.transfer_gift import TransferGift
@@ -254,6 +255,7 @@ class TelegramBotMethods(
     GetWebhookInfo,
     GetBusinessAccountGifts,
     GetBusinessAccountStarBalance,
+    GiftPremiumSubscription,
     HideGeneralForumTopic,
     LeaveChat,
     LogOut,
