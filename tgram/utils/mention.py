@@ -20,5 +20,8 @@ class Mention:
         return HTML_MENTION.format(name=self.name, user_id=self.user_id)
 
     def __str__(self) -> str:
-        log.warning("Make sure to use Mention.markdown or Mention.html.")
+        log.warning(
+            "Calling Mention object returns only the name. "
+            "If you want a formatted mention, use the 'markdown' or 'html' properties instead."
+        )
         return self.name
