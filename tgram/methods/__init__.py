@@ -163,6 +163,9 @@ from .payments_and_business.remove_business_account_profile_photo import (
 from .payments_and_business.set_business_account_gift_settings import (
     SetBusinessAccountGiftSettings,
 )
+from .payments_and_business.get_business_account_star_balance import (
+    GetBusinessAccountStarBalance,
+)
 
 
 class TelegramBotMethods(
@@ -236,6 +239,7 @@ class TelegramBotMethods(
     GetUserChatBoosts,
     GetUserProfilePhotos,
     GetWebhookInfo,
+    GetBusinessAccountStarBalance,
     HideGeneralForumTopic,
     LeaveChat,
     LogOut,

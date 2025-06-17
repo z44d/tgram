@@ -204,6 +204,7 @@ from ._shipping_option import ShippingOption
 from ._shipping_query import ShippingQuery
 from ._star_transaction import StarTransaction
 from ._star_transactions import StarTransactions
+from ._star_amount import StarAmount
 from ._sticker import Sticker
 from ._sticker_set import StickerSet
 from ._story import Story
@@ -534,6 +535,7 @@ __all__ = [
     "ShippingQuery",
     "StarTransaction",
     "StarTransactions",
+    "StarAmount",
     "Sticker",
     "StickerSet",
     "Story",
