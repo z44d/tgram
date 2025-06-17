@@ -573,7 +573,7 @@ __all__ = [
     "StoryAreaTypeSuggestedReaction",
     "StoryAreaTypeUniqueGift",
     "StoryAreaTypeWeather",
-    "StoryAreaTypeSuccessfulPayment",
+    "StoryAreaType",
     "SwitchInlineQueryChosenChat",
     "TextQuote",
     "TransactionPartnerAffiliateProgram",
