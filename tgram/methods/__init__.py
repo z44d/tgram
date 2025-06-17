@@ -170,6 +170,7 @@ from .payments_and_business.transfer_business_account_stars import (
     TransferBusinessAccountStars,
 )
 from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
+from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
 
 
 class TelegramBotMethods(
@@ -193,6 +194,7 @@ class TelegramBotMethods(
     CreateForumTopic,
     CreateInvoiceLink,
     CreateNewStickerSet,
+    ConvertGiftToStars,
     DeclineChatJoinRequest,
     DeleteChatPhoto,
     DeleteChatStickerSet,
