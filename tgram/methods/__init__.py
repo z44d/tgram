@@ -173,6 +173,7 @@ from .payments_and_business.get_business_account_gifts import GetBusinessAccount
 from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
 from .payments_and_business.upgrade_gift import UpgradeGift
 from .payments_and_business.transfer_gift import TransferGift
+from .payments_and_business.post_story import PostStory
 
 
 class TelegramBotMethods(
@@ -332,5 +333,6 @@ class TelegramBotMethods(
     RemoveBusinessAccountProfilePhoto,
     TransferBusinessAccountStars,
     TransferGift,
+    PostStory,
 ):
     pass
