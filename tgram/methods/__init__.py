@@ -171,6 +171,7 @@ from .payments_and_business.transfer_business_account_stars import (
 )
 from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
 from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
+from .payments_and_business.upgrade_gift import UpgradeGift
 
 
 class TelegramBotMethods(
@@ -321,6 +322,7 @@ class TelegramBotMethods(
     UnpinChatMessage,
     UnRestrictChatMember,
     UploadStickerFile,
+    UpgradeGift,
     Runner,
     VerifyChat,
     VerifyUser,
