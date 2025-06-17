@@ -175,6 +175,7 @@ from .payments_and_business.upgrade_gift import UpgradeGift
 from .payments_and_business.transfer_gift import TransferGift
 from .payments_and_business.post_story import PostStory
 from .payments_and_business.edit_story import EditStory
+from .payments_and_business.delete_story import DeleteStory
 
 
 class TelegramBotMethods(
@@ -210,6 +211,7 @@ class TelegramBotMethods(
     DeleteStickerFromSet,
     DeleteStickerSet,
     DeleteWebhook,
+    DeleteStory,
     DemoteChatMember,
     DownloadFile,
     EditChatInviteLink,
