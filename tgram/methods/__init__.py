@@ -166,6 +166,9 @@ from .payments_and_business.set_business_account_gift_settings import (
 from .payments_and_business.get_business_account_star_balance import (
     GetBusinessAccountStarBalance,
 )
+from .payments_and_business.transfer_business_account_stars import (
+    TransferBusinessAccountStars,
+)
 
 
 class TelegramBotMethods(
@@ -320,5 +323,6 @@ class TelegramBotMethods(
     RemoveUserVerification,
     RemoveChatVerification,
     RemoveBusinessAccountProfilePhoto,
+    TransferBusinessAccountStars,
 ):
     pass
