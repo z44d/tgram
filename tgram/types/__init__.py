@@ -187,6 +187,7 @@ from ._poll_option import PollOption
 from ._pre_checkout_query import PreCheckoutQuery
 from ._prepared_inline_message import PreparedInlineMessage
 from ._proximity_alert_triggered import ProximityAlertTriggered
+from ._paid_message_price_changed import PaidMessagePriceChanged
 from ._reaction_count import ReactionCount
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from ._reaction_type_emoji import ReactionTypeEmoji
@@ -615,4 +616,5 @@ __all__ = [
     "OwnedGiftRegular",
     "OwnedGiftUnique",
     "LocationAddress",
+    "PaidMessagePriceChanged",
 ]
