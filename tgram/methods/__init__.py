@@ -160,6 +160,9 @@ from .payments_and_business.set_business_account_profile_photo import (
 from .payments_and_business.remove_business_account_profile_photo import (
     RemoveBusinessAccountProfilePhoto,
 )
+from .payments_and_business.set_business_account_gift_settings import (
+    SetBusinessAccountGiftSettings,
+)
 
 
 class TelegramBotMethods(
@@ -294,6 +297,7 @@ class TelegramBotMethods(
     SetBusinessAccountUsername,
     SetBusinessAccountBio,
     SetBusinessAccountProfilePhoto,
+    SetBusinessAccountGiftSettings,
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
