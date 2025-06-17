@@ -142,6 +142,7 @@ from ._link_preview_options import LinkPreviewOptions
 from ._listener import Listener
 from ._location import Location
 from ._login_url import LoginUrl
+from ._location_address import LocationAddress
 from ._mask_position import MaskPosition
 from ._menu_button import MenuButton
 from ._menu_button_commands import MenuButtonCommands
@@ -209,6 +210,15 @@ from ._star_amount import StarAmount
 from ._sticker import Sticker
 from ._sticker_set import StickerSet
 from ._story import Story
+from ._story_area import (
+    StoryArea,
+    StoryAreaPosition,
+    StoryAreaTypeLink,
+    StoryAreaTypeLocation,
+    StoryAreaTypeSuggestedReaction,
+    StoryAreaTypeUniqueGift,
+    StoryAreaTypeWeather,
+)
 from ._successful_payment import SuccessfulPayment
 from ._switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from ._text_quote import TextQuote
@@ -335,6 +345,14 @@ MessageEntityType = _Literal[
 ]
 
 InputStoryContent = _Union["InputStoryContentPhoto", "InputStoryContentVideo"]
+
+StoryAreaType = _Union[
+    "StoryAreaTypeLink",
+    "StoryAreaTypeLocation",
+    "StoryAreaTypeSuggestedReaction",
+    "StoryAreaTypeUniqueGift",
+    "StoryAreaTypeWeather",
+]
 
 __all__ = [
     "AcceptedGiftTypes",
@@ -545,8 +563,16 @@ __all__ = [
     "StarAmount",
     "Sticker",
     "StickerSet",
-    "Story",
     "SuccessfulPayment",
+    "Story",
+    "StoryArea",
+    "StoryAreaPosition",
+    "StoryAreaTypeLink",
+    "StoryAreaTypeLocation",
+    "StoryAreaTypeSuggestedReaction",
+    "StoryAreaTypeUniqueGift",
+    "StoryAreaTypeWeather",
+    "StoryAreaTypeSuccessfulPayment",
     "SwitchInlineQueryChosenChat",
     "TextQuote",
     "TransactionPartnerAffiliateProgram",
@@ -588,4 +614,5 @@ __all__ = [
     "OwnedGifts",
     "OwnedGiftRegular",
     "OwnedGiftUnique",
+    "LocationAddress",
 ]
