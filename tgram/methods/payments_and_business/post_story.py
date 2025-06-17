@@ -64,4 +64,4 @@ class PostStory:
             post_to_chat_page=post_to_chat_page,
             protect_content=protect_content,
         )
-        return result["result"]
+        return tgram.types.Story._parse(me=self, d=result["result"])
