@@ -224,6 +224,12 @@ class Message(Type_, bound.MessageB):
     :param chat_shared: Optional. Service message: a chat was shared with the bot
     :type chat_shared: :class:`tgram.types.ChatShared`
 
+    :param gift: Optional. Service message: a regular gift was sent or received
+        :type gift: :class:`tgram.types.GiftInfo`
+
+    :param unique_gift: Optional. Service message: a unique gift was sent or received
+    :type unique_gift: :class:`tgram.types.UniqueGiftInfo`
+
     :param connected_website: Optional. The domain name of the website on which the user has logged in. More about
         Telegram Login »
     :type connected_website: :obj:`str`
@@ -362,6 +368,8 @@ class Message(Type_, bound.MessageB):
         refunded_payment: "tgram.types.RefundedPayment" = None,
         users_shared: "tgram.types.UsersShared" = None,
         chat_shared: "tgram.types.ChatShared" = None,
+        gift: "tgram.types.GiftInfo" = None,
+        unique_gift: "tgram.types.UniqueGiftInfo" = None,
         connected_website: "str" = None,
         write_access_allowed: "tgram.types.WriteAccessAllowed" = None,
         passport_data: "tgram.types.PassportData" = None,

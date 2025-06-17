@@ -84,6 +84,7 @@ from ._general_forum_topic_hidden import GeneralForumTopicHidden
 from ._general_forum_topic_unhidden import GeneralForumTopicUnhidden
 from ._gifts import Gifts
 from ._gift import Gift
+from ._gift_info import GiftInfo
 from ._giveaway import Giveaway
 from ._giveaway_completed import GiveawayCompleted
 from ._giveaway_created import GiveawayCreated
@@ -220,6 +221,14 @@ from ._user import User
 from ._user_chat_boosts import UserChatBoosts
 from ._user_profile_photos import UserProfilePhotos
 from ._users_shared import UsersShared
+from ._unique_gifts import (
+    UniqueGift,
+    UniqueGiftBackdrop,
+    UniqueGiftBackdropColors,
+    UniqueGiftInfo,
+    UniqueGiftModel,
+    UniqueGiftSymbol,
+)
 from ._venue import Venue
 from ._video import Video
 from ._video_chat_ended import VideoChatEnded
@@ -404,6 +413,7 @@ __all__ = [
     "GiveawayCompleted",
     "GiveawayCreated",
     "GiveawayWinners",
+    "GiftInfo",
     "InaccessibleMessage",
     "InlineKeyboardButton",
     "InlineKeyboardMarkup",
@@ -540,6 +550,12 @@ __all__ = [
     "UserChatBoosts",
     "UserProfilePhotos",
     "UsersShared",
+    "UniqueGift",
+    "UniqueGiftBackdrop",
+    "UniqueGiftBackdropColors",
+    "UniqueGiftInfo",
+    "UniqueGiftModel",
+    "UniqueGiftSymbol",
     "Venue",
     "Video",
     "VideoChatEnded",
