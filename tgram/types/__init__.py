@@ -67,8 +67,13 @@ from ._chat_shared import ChatShared
 from ._chosen_inline_result import ChosenInlineResult
 from ._contact import Contact
 from ._copy_text_button import CopyTextButton
+from ._check_list_task import ChecklistTask
+from ._check_list import Checklist
+from ._checklist_tasks_done import ChecklistTasksDone
+from ._check_list_tasks_added import ChecklistTasksAdded
 from ._dice import Dice
 from ._document import Document
+from ._direct_message_price_changed import DirectMessagePriceChanged
 from ._encrypted_credentials import EncryptedCredentials
 from ._encrypted_passport_element import EncryptedPassportElement
 from ._external_reply_info import ExternalReplyInfo
@@ -132,6 +137,8 @@ from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
 from ._input_story_content import InputStoryContentPhoto, InputStoryContentVideo
+from ._input_checklist_task import InputChecklistTask
+from ._input_checklist import InputChecklist
 from ._invoice import Invoice
 from ._keyboard_button import KeyboardButton
 from ._keyboard_button_poll_type import KeyboardButtonPollType
@@ -419,8 +426,13 @@ __all__ = [
     "ChosenInlineResult",
     "Contact",
     "CopyTextButton",
+    "ChecklistTask",
+    "Checklist",
+    "ChecklistTasksDone",
+    "ChecklistTasksAdded",
     "Dice",
     "Document",
+    "DirectMessagePriceChanged",
     "EncryptedCredentials",
     "EncryptedPassportElement",
     "ExternalReplyInfo",
@@ -489,6 +501,8 @@ __all__ = [
     "InputStoryContent",
     "InputTextMessageContent",
     "InputVenueMessageContent",
+    "InputChecklistTask",
+    "InputChecklist",
     "Invoice",
     "KeyboardButton",
     "KeyboardButtonPollType",

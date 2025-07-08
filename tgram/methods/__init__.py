@@ -35,6 +35,7 @@ from .chats.edit_chat_subscription_invite_link import EditChatSubscriptionInvite
 from .forums.edit_forum_topic import EditForumTopic
 from .forums.edit_general_forum_topic import EditGeneralForumTopic
 from .messages.edit_message_caption import EditMessageCaption
+from .messages.edit_message_checklist import EditMessageChecklist
 from .messages.edit_message_live_location import EditMessageLiveLocation
 from .messages.edit_message_media import EditMessageMedia
 from .messages.edit_message_reply_markup import EditMessageReplyMarkup
@@ -82,6 +83,7 @@ from .messages.send_animation import SendAnimation
 from .messages.send_audio import SendAudio
 from .messages.send_chat_action import SendChatAction
 from .messages.send_contact import SendContact
+from .messages.send_checklist import SendChecklist
 from .messages.send_dice import SendDice
 from .messages.send_document import SendDocument
 from .messages.send_game import SendGame
@@ -220,6 +222,7 @@ class TelegramBotMethods(
     EditForumTopic,
     EditGeneralForumTopic,
     EditMessageCaption,
+    EditMessageChecklist,
     EditMessageLiveLocation,
     EditMessageMedia,
     EditMessageReplyMarkup,
@@ -272,6 +275,7 @@ class TelegramBotMethods(
     SendAudio,
     SendChatAction,
     SendContact,
+    SendChecklist,
     SendDice,
     SendDocument,
     SendGame,
