@@ -257,6 +257,9 @@ class Message(Type_, bound.MessageB):
     :param checklist_tasks_done: Optional. Service message: some tasks in a checklist were marked as done or not done
     :type checklist_tasks_done: :class:`tgram.types.ChecklistTasksDone`
 
+    :param checklist_tasks_added: Optional. Service message: tasks were added to a checklist
+    :type checklist_tasks_added: :class:`tgram.types.ChecklistTasksAdded`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -387,6 +390,7 @@ class Message(Type_, bound.MessageB):
         boost_added: "tgram.types.ChatBoostAdded" = None,
         chat_background_set: "tgram.types.ChatBackground" = None,
         checklist_tasks_done: "tgram.types.ChecklistTasksDone" = None,
+        checklist_tasks_added: "tgram.types.ChecklistTasksAdded" = None,
         forum_topic_created: "tgram.types.ForumTopicCreated" = None,
         forum_topic_edited: "tgram.types.ForumTopicEdited" = None,
         forum_topic_closed: "tgram.types.ForumTopicClosed" = None,
@@ -481,6 +485,7 @@ class Message(Type_, bound.MessageB):
         self.boost_added = boost_added
         self.chat_background_set = chat_background_set
         self.checklist_tasks_done = checklist_tasks_done
+        self.checklist_tasks_added = checklist_tasks_added
         self.forum_topic_created = forum_topic_created
         self.forum_topic_edited = forum_topic_edited
         self.forum_topic_closed = forum_topic_closed
@@ -641,6 +646,9 @@ class Message(Type_, bound.MessageB):
                 ),
                 checklist_tasks_done=tgram.types.ChecklistTasksDone._parse(
                     me=me, d=d.get("checklist_tasks_done")
+                ),
+                checklist_tasks_added=tgram.types.ChecklistTasksAdded._parse(
+                    me=me, d=d.get("checklist_tasks_added")
                 ),
                 forum_topic_created=tgram.types.ForumTopicCreated._parse(
                     me=me, d=d.get("forum_topic_created")
