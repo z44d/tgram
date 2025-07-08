@@ -260,6 +260,9 @@ class Message(Type_, bound.MessageB):
     :param checklist_tasks_added: Optional. Service message: tasks were added to a checklist
     :type checklist_tasks_added: :class:`tgram.types.ChecklistTasksAdded`
 
+    :param direct_message_price_changed: Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
+    :type direct_message_price_changed: :class:`tgram.types.DirectMessagePriceChanged`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -391,6 +394,7 @@ class Message(Type_, bound.MessageB):
         chat_background_set: "tgram.types.ChatBackground" = None,
         checklist_tasks_done: "tgram.types.ChecklistTasksDone" = None,
         checklist_tasks_added: "tgram.types.ChecklistTasksAdded" = None,
+        direct_message_price_changed: "tgram.types.DirectMessagePriceChanged" = None,
         forum_topic_created: "tgram.types.ForumTopicCreated" = None,
         forum_topic_edited: "tgram.types.ForumTopicEdited" = None,
         forum_topic_closed: "tgram.types.ForumTopicClosed" = None,
@@ -486,6 +490,7 @@ class Message(Type_, bound.MessageB):
         self.chat_background_set = chat_background_set
         self.checklist_tasks_done = checklist_tasks_done
         self.checklist_tasks_added = checklist_tasks_added
+        self.direct_message_price_changed = direct_message_price_changed
         self.forum_topic_created = forum_topic_created
         self.forum_topic_edited = forum_topic_edited
         self.forum_topic_closed = forum_topic_closed
@@ -649,6 +654,9 @@ class Message(Type_, bound.MessageB):
                 ),
                 checklist_tasks_added=tgram.types.ChecklistTasksAdded._parse(
                     me=me, d=d.get("checklist_tasks_added")
+                ),
+                direct_message_price_changed=tgram.types.DirectMessagePriceChanged._parse(
+                    me=me, d=d.get("direct_message_price_changed")
                 ),
                 forum_topic_created=tgram.types.ForumTopicCreated._parse(
                     me=me, d=d.get("forum_topic_created")
