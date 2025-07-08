@@ -268,6 +268,7 @@ class UniqueGiftInfo(Type_):
         self,
         gift: "UniqueGift" = None,
         origin: "str" = None,
+        last_resale_star_count: int = None,
         owned_gift_id: "str" = None,
         transfer_star_count: "int" = None,
         next_transfer_date: int = None,
@@ -277,6 +278,7 @@ class UniqueGiftInfo(Type_):
         super().__init__(me=me, json=json)
         self.gift = gift
         self.origin = origin
+        self.last_resale_star_count = last_resale_star_count
         self.owned_gift_id = owned_gift_id
         self.transfer_star_count = transfer_star_count
         self.next_transfer_date = next_transfer_date
@@ -289,8 +291,10 @@ class UniqueGiftInfo(Type_):
             UniqueGiftInfo(
                 gift=UniqueGift._parse(me, d.get("gift")),
                 origin=d.get("origin"),
+                last_resale_star_count=d.get("last_resale_star_count"),
                 owned_gift_id=d.get("owned_gift_id"),
                 transfer_star_count=d.get("transfer_star_count"),
+                next_transfer_date=d.get("next_transfer_date"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
