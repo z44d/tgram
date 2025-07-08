@@ -142,6 +142,9 @@ class Message(Type_, bound.MessageB):
     :param has_media_spoiler: Optional. True, if the message media is covered by a spoiler animation
     :type has_media_spoiler: :obj:`bool`
 
+    :param checklist: Optional. Message is a checklist
+    :type checklist: :class:`tgram.types.Checklist`
+
     :param contact: Optional. Message is a shared contact, information about the contact
     :type contact: :class:`tgram.types.Contact`
 
@@ -348,6 +351,7 @@ class Message(Type_, bound.MessageB):
         caption_entities: List["tgram.types.MessageEntity"] = None,
         show_caption_above_media: "bool" = None,
         has_media_spoiler: "bool" = None,
+        checklist: "tgram.types.Checklist" = None,
         contact: "tgram.types.Contact" = None,
         dice: "tgram.types.Dice" = None,
         game: "tgram.types.Game" = None,
@@ -440,6 +444,7 @@ class Message(Type_, bound.MessageB):
         self.caption_entities = caption_entities
         self.show_caption_above_media = show_caption_above_media
         self.has_media_spoiler = has_media_spoiler
+        self.checklist = checklist
         self.contact = contact
         self.dice = dice
         self.game = game
@@ -561,6 +566,7 @@ class Message(Type_, bound.MessageB):
                 else None,
                 show_caption_above_media=d.get("show_caption_above_media"),
                 has_media_spoiler=d.get("has_media_spoiler"),
+                checklist=tgram.types.Checklist._parse(me=me, d=d.get("checklist")),
                 contact=tgram.types.Contact._parse(me=me, d=d.get("contact")),
                 dice=tgram.types.Dice._parse(me=me, d=d.get("dice")),
                 game=tgram.types.Game._parse(me=me, d=d.get("game")),

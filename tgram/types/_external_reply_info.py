@@ -54,6 +54,9 @@ class ExternalReplyInfo(Type_):
     :param has_media_spoiler: Optional. True, if the message media is covered by a spoiler animation
     :type has_media_spoiler: :obj:`bool`
 
+    :param checklist: Optional. Message is a checklist
+    :type checklist: :class:`tgram.types.Checklist
+
     :param contact: Optional. Message is a shared contact, information about the contact
     :type contact: :class:`Contact`
 
@@ -102,6 +105,7 @@ class ExternalReplyInfo(Type_):
         video_note: "tgram.types.VideoNote" = None,
         voice: "tgram.types.Voice" = None,
         has_media_spoiler: "bool" = None,
+        checklist: "tgram.types.Checklist" = None,
         contact: "tgram.types.Contact" = None,
         dice: "tgram.types.Dice" = None,
         game: "tgram.types.Game" = None,
@@ -130,6 +134,7 @@ class ExternalReplyInfo(Type_):
         self.video_note = video_note
         self.voice = voice
         self.has_media_spoiler = has_media_spoiler
+        self.checklist = checklist
         self.contact = contact
         self.dice = dice
         self.game = game
@@ -169,6 +174,7 @@ class ExternalReplyInfo(Type_):
                 video_note=tgram.types.VideoNote._parse(me=me, d=d.get("video_note")),
                 voice=tgram.types.Voice._parse(me=me, d=d.get("voice")),
                 has_media_spoiler=d.get("has_media_spoiler"),
+                checklist=tgram.types.Checklist._parse(me=me, d=d.get("checklist")),
                 contact=tgram.types.Contact._parse(me=me, d=d.get("contact")),
                 dice=tgram.types.Dice._parse(me=me, d=d.get("dice")),
                 game=tgram.types.Game._parse(me=me, d=d.get("game")),
