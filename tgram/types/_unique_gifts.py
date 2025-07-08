@@ -256,7 +256,7 @@ class UniqueGiftInfo(Type_):
 
     :param gift: Information about the gift
     :type gift: :class:`tgram.types.UniqueGift`
-    :param origin: Origin of the gift. Currently, either “upgrade” or “transfer”
+    :param origin: Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts, “transfer” for gifts transferred from other users or channels, or “resale” for gifts bought from other users
     :type origin: :obj:`str`
     :param owned_gift_id: Optional. Unique identifier of the received gift for the bot; only present for gifts received on behalf of business accounts
     :type owned_gift_id: :obj:`str`
