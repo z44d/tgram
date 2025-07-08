@@ -132,6 +132,7 @@ class OwnedGiftUnique(Type_):
         is_saved: bool = None,
         can_be_transferred: bool = None,
         transfer_star_count: int = None,
+        next_transfer_date: int = None,
         me: "tgram.TgBot" = None,
         json: dict = None,
     ):
@@ -144,6 +145,7 @@ class OwnedGiftUnique(Type_):
         self.is_saved = is_saved
         self.can_be_transferred = can_be_transferred
         self.transfer_star_count = transfer_star_count
+        self.next_transfer_date = next_transfer_date
 
     @staticmethod
     def _parse(
@@ -158,6 +160,7 @@ class OwnedGiftUnique(Type_):
                 is_saved=d.get("is_saved"),
                 can_be_transferred=d.get("can_be_transferred"),
                 transfer_star_count=d.get("transfer_star_count"),
+                next_transfer_date=d.get("next_transfer_date"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -270,6 +270,7 @@ class UniqueGiftInfo(Type_):
         origin: "str" = None,
         owned_gift_id: "str" = None,
         transfer_star_count: "int" = None,
+        next_transfer_date: int = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -278,6 +279,7 @@ class UniqueGiftInfo(Type_):
         self.origin = origin
         self.owned_gift_id = owned_gift_id
         self.transfer_star_count = transfer_star_count
+        self.next_transfer_date = next_transfer_date
 
     @staticmethod
     def _parse(
