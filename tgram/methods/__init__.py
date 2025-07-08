@@ -61,6 +61,7 @@ from .bot.get_my_commands import GetMyCommands
 from .bot.get_my_default_administrator_rights import GetMyDefaultAdministratorRights
 from .bot.get_my_description import GetMyDescription
 from .bot.get_my_name import GetMyName
+from .bot.get_my_stars_balance import GetMyStarBalance
 from .bot.get_my_short_description import GetMyShortDescription
 from .payments_and_business.get_star_transactions import GetStarTransactions
 from .stickers.get_sticker_set import GetStickerSet
@@ -249,6 +250,7 @@ class TelegramBotMethods(
     GetMyDefaultAdministratorRights,
     GetMyDescription,
     GetMyName,
+    GetMyStarBalance,
     GetMyShortDescription,
     GetStarTransactions,
     GetStickerSet,
