@@ -254,6 +254,9 @@ class Message(Type_, bound.MessageB):
     :param chat_background_set: Optional. Service message: chat background set
     :type chat_background_set: :class:`tgram.types.ChatBackground`
 
+    :param checklist_tasks_done: Optional. Service message: some tasks in a checklist were marked as done or not done
+    :type checklist_tasks_done: :class:`tgram.types.ChecklistTasksDone`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -383,6 +386,7 @@ class Message(Type_, bound.MessageB):
         proximity_alert_triggered: "tgram.types.ProximityAlertTriggered" = None,
         boost_added: "tgram.types.ChatBoostAdded" = None,
         chat_background_set: "tgram.types.ChatBackground" = None,
+        checklist_tasks_done: "tgram.types.ChecklistTasksDone" = None,
         forum_topic_created: "tgram.types.ForumTopicCreated" = None,
         forum_topic_edited: "tgram.types.ForumTopicEdited" = None,
         forum_topic_closed: "tgram.types.ForumTopicClosed" = None,
@@ -476,6 +480,7 @@ class Message(Type_, bound.MessageB):
         self.proximity_alert_triggered = proximity_alert_triggered
         self.boost_added = boost_added
         self.chat_background_set = chat_background_set
+        self.checklist_tasks_done = checklist_tasks_done
         self.forum_topic_created = forum_topic_created
         self.forum_topic_edited = forum_topic_edited
         self.forum_topic_closed = forum_topic_closed
@@ -633,6 +638,9 @@ class Message(Type_, bound.MessageB):
                 ),
                 chat_background_set=tgram.types.ChatBackground._parse(
                     me=me, d=d.get("chat_background_set")
+                ),
+                checklist_tasks_done=tgram.types.ChecklistTasksDone._parse(
+                    me=me, d=d.get("checklist_tasks_done")
                 ),
                 forum_topic_created=tgram.types.ForumTopicCreated._parse(
                     me=me, d=d.get("forum_topic_created")
