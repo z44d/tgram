@@ -69,6 +69,7 @@ video_note = Filter(lambda _, m: bool(getattr(m, "video_note", False)))
 voice = Filter(lambda _, m: bool(getattr(m, "voice", False)))
 caption = Filter(lambda _, m: bool(getattr(m, "caption", False)))
 media_spoiler = Filter(lambda _, m: bool(getattr(m, "has_media_spoiler", False)))
+checklist = Filter(lambda _, m: bool(getattr(m, "checklist", False)))
 contact = Filter(lambda _, m: bool(getattr(m, "contact", False)))
 dice = Filter(lambda _, m: bool(getattr(m, "dice", False)))
 game = Filter(lambda _, m: bool(getattr(m, "game", False)))
@@ -111,6 +112,15 @@ proximity_alert_triggered = Filter(
 boost_added = Filter(lambda _, m: bool(getattr(m, "boost_added", False)))
 chat_background_set = Filter(
     lambda _, m: bool(getattr(m, "chat_background_set", False))
+)
+checklist_tasks_done = Filter(
+    lambda _, m: bool(getattr(m, "checklist_tasks_done", False))
+)
+checklist_tasks_added = Filter(
+    lambda _, m: bool(getattr(m, "checklist_tasks_added", False))
+)
+direct_message_price_changed = Filter(
+    lambda _, m: bool(getattr(m, "direct_message_price_changed", False))
 )
 forum_topic_created = Filter(
     lambda _, m: bool(getattr(m, "forum_topic_created", False))
