@@ -1,5 +1,8 @@
-from tgram import utils
+from tgram import utils, types
 from json import dumps
+
+
+from typing import Union
 
 
 # Base exception class that converts exception details to a JSON string
@@ -220,3 +223,11 @@ class ContinuePropagation(Exception):
 # Exception for muted errors
 class MutedError(Exception):
     pass
+
+
+class CanceledListener(Exception):
+    def __init__(
+        self, update: Union["types.Update", "types.Message", "types.CallbackQuery"]
+    ):
+        super().__init__("Listening has been cancelled by the user")
+        self.update = update
