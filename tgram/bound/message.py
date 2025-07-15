@@ -1,6 +1,6 @@
 import tgram
 
-from typing import Union, List, Optional, Literal
+from typing import Callable, Union, List, Optional, Literal
 
 from io import BytesIO
 from pathlib import Path
@@ -1626,6 +1626,45 @@ class MessageB:
             ```
         """
         return await self._me.delete_message(self.chat.id, self.id)
+
+    async def ask(
+        self: "tgram.types.Message",
+        text: str = None,
+        filters: "tgram.filters.Filter" = None,
+        update_type: str = "message",
+        cancel: Callable[["tgram.types.Update"], bool] = None,
+        timeout: float = None,
+    ) -> Union[
+        "tgram.types.Message", "tgram.types.CallbackQuery", "tgram.types.Update"
+    ]:
+        """
+            Replies with `text` if provided, then waits for a matching user response.
+
+        Args:
+            text (str, optional): Optional message to send before waiting.
+            filters (Filter, optional): Filters to apply to the incoming update.
+            update_type (str): Type of update to wait for. Default is "message".
+            cancel (Callable[[Update], bool], optional): A function that cancels the wait.
+            timeout (float, optional): Time in seconds to wait before timeout.
+
+        Returns:
+            Union[Message, CallbackQuery, Update]: The user's next valid response.
+
+        Raises:
+            TimeoutError: If no response is received before the timeout.
+        """
+        if text:
+            await self.reply(text)
+
+        return await self._me.ask(
+            chat_id=self.chat.id,
+            update_type=update_type,
+            user_id=self.user.id if self.user else None,
+            sender_id=self.sender_chat.id if self.sender_chat else None,
+            cancel=cancel,
+            filters=filters,
+            timeout=timeout,
+        )
 
     @property
     def id(self: "tgram.types.Message") -> int:
