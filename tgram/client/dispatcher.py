@@ -97,23 +97,27 @@ class Dispatcher:
         except Exception as e:
             logger.exception(e)
 
-    async def _check_update(self: "tgram.TgBot", update: "tgram.types.Update") -> None:
+    async def _check_listener(
+        self: "tgram.TgBot", update: "tgram.types.Update"
+    ) -> None:
         for listener in self._listen_handlers:
             if (
                 attr := getattr(update, listener.update_type)
+                if listener.update_type
+                else update
             ) and await listener.filters(self, attr):
-                self._listen_handlers.remove(listener)
                 if listener.cancel is not None:
                     result = await self._check_cancel(listener.cancel, attr)
                     if result:
-                        return
-                return await self._process_listener(
-                    attr, listener.next_step, listener.data
-                )
+                        setattr(attr, "canceled", True)
+                listener.future.set_result(attr)
+                raise tgram.ContinuePropagation()
 
+    async def _check_update(self: "tgram.TgBot", update: "tgram.types.Update") -> None:
         for group, group_items in self.groups.items():
             for handler in group_items:
                 try:
+                    await self._check_listener(update)
                     if handler.type == "all":
                         await self._process_update(update, handler.callback, group)
                     elif handler.type == "exception":
@@ -129,20 +133,6 @@ class Dispatcher:
                 except Exception as e:
                     logger.exception(e)
                     continue
-
-    async def _process_listener(
-        self: "tgram.TgBot", update: Any, callback: Callable, data: dict
-    ) -> None:
-        logger.debug("Processing listener to %s func", callback.__name__)
-        try:
-            if asyncio.iscoroutinefunction(callback):
-                await callback(self, update, data)
-            else:
-                await self.loop.run_in_executor(
-                    self.executor, callback, self, update, data
-                )
-        except Exception as e:
-            logger.exception(e)
 
     async def _process_update(
         self: "tgram.TgBot", update: Any, callback: Callable, group: int
