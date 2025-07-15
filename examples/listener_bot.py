@@ -1,44 +1,34 @@
-from tgram import TgBot, filters
+import logging
 
-from tgram.types import Message
-from tgram.handlers import Handlers
+from tgram import TgBot, filters, types, handlers, errors
 
+logging.basicConfig(level=logging.INFO)
 bot = TgBot("API_TOKEN_HERE")
 
 
-@bot.on_message(filters.private & filters.command("start"))
-async def on_message(bot: TgBot, m: Message):
-    await m.reply_text("What is your name?\nSend /cancel to cancel it.")
-    return await bot.ask(
-        update_type=Handlers.MESSAGE,
-        next_step=answer_name,
-        cancel=cancel,
-        filters=filters.chat(m.chat.id) & filters.text,
-        data={},
+@bot.on_message(filters.command("start") & filters.private)
+async def on_pv_msg(bot: TgBot, m: types.Message):
+    await m.reply(
+        "Send your name",
+        reply_markup=types.ReplyKeyboardMarkup([["/cancel"]], resize_keyboard=True),
     )
 
+    try:
+        # Will return Message type, CallbackQuery type, any update type or type Update if the update in bot.allowed_udates and update_type is null
+        ask_for_name = await bot.ask(
+            m.chat.id,
+            handlers.Handlers.MESSAGE,
+            cancel=lambda _, mm: bool(mm.text.lower() == "/cancel"),
+            filters=filters.text,
+        )
 
-async def answer_name(_, m: Message, data: dict):
-    data.update({"name": m.text})
-    await m.reply_text("How old are you?")
-    return await bot.ask(
-        update_type=Handlers.MESSAGE,
-        next_step=answer_age,
-        cancel=cancel,
-        filters=filters.chat(m.chat.id) & filters.text,
-        data=data,
-    )
-
-
-async def answer_age(_, m: Message, data: dict):
-    return await m.reply_text(f"You are {m.text} y.o, and your name is {data['name']}")
-
-
-async def cancel(_, m: Message) -> bool:
-    if m.text.lower() == "/cancel":
-        await m.reply_text("Cancelled.")
-        return True
-    return False
+        return await ask_for_name.reply("Your name is " + ask_for_name.text)
+    except errors.CanceledListener as c:
+        # CanceledListener.update is Message type, CallbackQuery type, any update type or type Update if the update in bot.allowed_udates and update_type is null
+        return await c.update.reply(
+            "Canceled.", reply_markup=types.ReplyKeyboardRemove(selective=True)
+        )
 
 
-bot.run_for_updates()
+if __name__ == "__main__":
+    bot.run()
