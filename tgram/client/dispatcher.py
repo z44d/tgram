@@ -5,7 +5,7 @@ import logging
 from ..errors import MutedError
 from ..storage.utils import check_update
 
-from typing import Callable, Any, Union
+from typing import Callable, Any
 from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
