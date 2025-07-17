@@ -122,7 +122,7 @@ class Dispatcher:
                     await self._check_listener(update)
                     if handler.type == "all":
                         await self._process_update(update, handler.callback, group)
-                    elif handler.type == "exception":
+                    elif handler.type in {"exception", "outgoing", "e-outgoing"}:
                         continue
                     elif (
                         attr := getattr(update, handler.type)
@@ -185,21 +185,29 @@ class Dispatcher:
 
     async def _process_outgoing_message(
         self: "tgram.TgBot",
-        message: Union["tgram.types.Message", "tgram.types.MessageId"],
+        message: "tgram.types.Message",
     ) -> None:
         for group_items in self.groups.values():
             for handler in group_items:
                 try:
-                    if handler.type == "outgoing":
+                    if handler.type == "outgoing" and not message.edit_date:
                         logger.debug(
-                            "Processing outgoing to %s func", handler.callback.__name__
+                            "Processing outgoing message to %s func",
+                            handler.callback.__name__,
                         )
-                        if asyncio.iscoroutinefunction(handler.callback):
-                            await handler.callback(self, message)
-                        else:
-                            await self.loop.run_in_executor(
-                                self.executor, handler.callback, self, message
-                            )
+                    elif handler.type == "e-outgoing" and not message.edit_date:
+                        logger.debug(
+                            "Processing edited outgoing message to %s func",
+                            handler.callback.__name__,
+                        )
+                    else:
+                        continue
+                    if asyncio.iscoroutinefunction(handler.callback):
+                        await handler.callback(self, message)
+                    else:
+                        await self.loop.run_in_executor(
+                            self.executor, handler.callback, self, message
+                        )
                 except Exception as e:
                     logger.exception(e)
                     continue
