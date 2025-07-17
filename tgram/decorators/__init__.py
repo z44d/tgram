@@ -23,6 +23,7 @@ from .on_purchased_paid_media import OnPurchasedPaidMedia
 from .on_removed_chat_boost import OnRemovedChatBoost
 from .on_shipping_query import OnShippingQuery
 from .on_exception import OnException
+from .outgoing_messages import OutgoingMessage
 
 
 class Decorators(
@@ -51,5 +52,6 @@ class Decorators(
     OnRemovedChatBoost,
     OnShippingQuery,
     OnException,
+    OutgoingMessage,
 ):
     pass
