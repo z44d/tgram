@@ -195,7 +195,7 @@ class Dispatcher:
                             "Processing outgoing message to %s func",
                             handler.callback.__name__,
                         )
-                    elif handler.type == "e-outgoing" and not message.edit_date:
+                    elif handler.type == "e-outgoing" and message.edit_date:
                         logger.debug(
                             "Processing edited outgoing message to %s func",
                             handler.callback.__name__,
