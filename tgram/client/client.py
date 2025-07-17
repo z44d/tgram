@@ -54,6 +54,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         skip_updates (bool): Whether to skip pending updates on bot startup.
         storage (Optional[StorageBase]): Storage engine instance for persisting data.
         storage_client (Any): Client for the storage engine (e.g., Redis or Kvsqlite).
+        fetch_outgoing_messages (bool): Handling messages has been sent by the bot.
         executor (ThreadPoolExecutor): Executor for running handler threads.
         loop (asyncio.AbstractEventLoop): Event loop used by the bot.
         is_running (bool): Indicates if the bot is currently running.
@@ -80,6 +81,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             KvsqliteStorage, RedisStorage, Literal["kvsqlite", "redis"]
         ] = None,
         storage_client: Any = None,
+        fetch_outgoing_messages: bool = False,
     ) -> None:
         self.bot_token = bot_token
         self.api_url = api_url
@@ -93,6 +95,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.skip_updates = skip_updates
         self.storage: Optional[StorageBase] = None
         self.storage_client = storage_engine
+        self.fetch_outgoing_messages = fetch_outgoing_messages
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
