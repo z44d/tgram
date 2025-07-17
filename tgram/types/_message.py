@@ -717,7 +717,14 @@ class Message(Type_, bound.MessageB):
             )
         )
 
-        if all((r, me, me.fetch_outgoing_messages, r.from_user, r.from_user.is_bot)):
+        if (
+            r
+            and me
+            and me.fetch_outgoing_messages
+            and (r.from_user and r.from_user.is_bot)
+        ):
             me.updates_queue.put_nowait(r)
+
+        return r
 
         return r
