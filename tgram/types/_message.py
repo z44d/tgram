@@ -513,7 +513,7 @@ class Message(Type_, bound.MessageB):
     def _parse(
         me: "tgram.TgBot" = None, d: dict = None, force: bool = None
     ) -> Optional["tgram.types.Message"]:
-        return (
+        r = (
             Message(
                 me=me,
                 json=d,
@@ -716,3 +716,8 @@ class Message(Type_, bound.MessageB):
                 me._custom_types.get(__class__.__name__),
             )
         )
+
+        if all((r, me, me.fetch_outgoing_messages, r.from_user, r.from_user.is_bot)):
+            me.updates_queue.put_nowait(r)
+
+        return r

@@ -5,7 +5,7 @@ import logging
 from ..errors import MutedError
 from ..storage.utils import check_update
 
-from typing import Callable, Any
+from typing import Callable, Any, Union
 from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
@@ -20,21 +20,23 @@ class Dispatcher:
                 break
 
             async with lock:
-                if isinstance(update, tgram.types.Update):
-                    try:
-                        await check_update(update)
-                        await self._check_update(update)
-                    except MutedError:
-                        continue
-                    except Exception as e:
-                        logger.exception(e)
-                elif isinstance(update, dict):
-                    try:
+                try:
+                    if isinstance(update, tgram.types.Update):
+                        try:
+                            await check_update(update)
+                            await self._check_update(update)
+                        except MutedError:
+                            continue
+                    elif isinstance(update, dict):
                         await self._process_exception(
                             update["e"], update["m"], **update["kwargs"]
                         )
-                    except Exception as e:
-                        logger.exception(e)
+                    elif isinstance(
+                        update, (tgram.types.Message, tgram.types.MessageId)
+                    ):
+                        await self._process_outgoing_message(update)
+                except Exception as e:
+                    logger.exception(e)
 
     async def run_for_updates(self: "tgram.TgBot", skip_updates: bool = None) -> None:
         if self.plugins:
@@ -176,6 +178,27 @@ class Dispatcher:
                                 exception,
                                 method,
                                 **kwargs,
+                            )
+                except Exception as e:
+                    logger.exception(e)
+                    continue
+
+    async def _process_outgoing_message(
+        self: "tgram.TgBot",
+        message: Union["tgram.types.Message", "tgram.types.MessageId"],
+    ) -> None:
+        for group_items in self.groups.values():
+            for handler in group_items:
+                try:
+                    if handler.type == "outgoing":
+                        logger.debug(
+                            "Processing outgoing to %s func", handler.callback.__name__
+                        )
+                        if asyncio.iscoroutinefunction(handler.callback):
+                            await handler.callback(self, message)
+                        else:
+                            await self.loop.run_in_executor(
+                                self.executor, handler.callback, self, message
                             )
                 except Exception as e:
                     logger.exception(e)
