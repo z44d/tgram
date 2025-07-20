@@ -112,7 +112,8 @@ class Dispatcher:
                     result = await self._check_cancel(listener.cancel, attr)
                     if result:
                         setattr(attr, "canceled", True)
-                listener.future.set_result(attr)
+                if not listener.future.done():
+                    listener.future.set_result(attr)
                 raise tgram.ContinuePropagation()
 
     async def _check_update(self: "tgram.TgBot", update: "tgram.types.Update") -> None:
