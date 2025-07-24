@@ -1,4 +1,4 @@
-name: Build DOCs
+name: Build Docs
 on:
   push:
     tags:
@@ -15,21 +15,23 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.9'
-    - name: Install template
+        python-version: '3.10'
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install furo
+        pip install https://github.com/z44d/tgram/archive/refs/heads/main.zip
+        pip install docstring_parser
 
-    - name: Install dependencies
+    - name: Update the docs
       run: |
           pip install aiohttp asyncio
           cd docs
-          make clean html
-          make html
+          python generate_schema.py
+          python generate_docs.py
           cd ..
-          mv docs/_build/html/* .
-          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github README.md pyproject.toml examples
+          mv docs/docs/* .
+          mv docs/tgram_schema.json tgram_schema.json
+          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples
           touch .nojekyll
           git checkout --orphan gh-pages
           git add . -A
