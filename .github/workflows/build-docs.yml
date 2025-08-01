@@ -20,11 +20,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install https://github.com/z44d/tgram/archive/refs/heads/main.zip
-        pip install docstring_parser
+        pip install docstring_parser certifi aiohttp asyncio
 
     - name: Update the docs
-      run: |
-          pip install aiohttp asyncio
+      run: | 
           cd docs
           python generate_schema.py
           python generate_docs.py
