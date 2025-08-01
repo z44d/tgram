@@ -30,7 +30,7 @@ jobs:
           cd ..
           mv docs/docs/* .
           mv docs/tgram_schema.json tgram_schema.json
-          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples
+          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests
           touch .nojekyll
           git checkout --orphan gh-pages
           git add . -A
