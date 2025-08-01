@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gifts - tgram Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="../favicon.svg">
+</head>
+<body class="dark">
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">T</div>
+                    <div class="logo-text">
+                        <h1>tgram</h1>
+                        <p>Telegram Bot API Library</p>
+                    </div>
+                </a>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" id="search" placeholder="Search methods and types..." class="search-input">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                    <span class="theme-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <a href="https://github.com/z44d/tgram" target="_blank" class="github-link" title="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                
+    <div class="sidebar-section">
+        <a href="../search.html" class="search-link ">
+            <span class="search-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </span>
+            <span>Advanced Search</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <button class="sidebar-title collapsible" data-target="methods-section">
+            <span class="sidebar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z"/>
+                    <path d="M7,7h10v2H7V7z M7,11h10v2H7V11z M7,15h7v2H7V15z"/>
+                </svg>
+            </span>
+            <span>Methods (164)</span>
+            <span class="collapse-icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                </svg>
+            </span>
+        </button>
+        <div class="sidebar-content collapsible-content" id="methods-section">
+    
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-add">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>add (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-add">
+        
+                <a href="../methods/add_sticker_to_set.html" class="sidebar-link ">
+                    add_sticker_to_set
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-answer">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>answer (5)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-answer">
+        
+                <a href="../methods/answer_callback_query.html" class="sidebar-link ">
+                    answer_callback_query
+                </a>
+            
+                <a href="../methods/answer_inline_query.html" class="sidebar-link ">
+                    answer_inline_query
+                </a>
+            
+                <a href="../methods/answer_pre_checkout_query.html" class="sidebar-link ">
+                    answer_pre_checkout_query
+                </a>
+            
+                <a href="../methods/answer_shipping_query.html" class="sidebar-link ">
+                    answer_shipping_query
+                </a>
+            
+                <a href="../methods/answer_web_app_query.html" class="sidebar-link ">
+                    answer_web_app_query
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-approve">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>approve (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-approve">
+        
+                <a href="../methods/approve_chat_join_request.html" class="sidebar-link ">
+                    approve_chat_join_request
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-ask">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>ask (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-ask">
+        
+                <a href="../methods/ask.html" class="sidebar-link ">
+                    ask
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-ban">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>ban (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-ban">
+        
+                <a href="../methods/ban_chat_member.html" class="sidebar-link ">
+                    ban_chat_member
+                </a>
+            
+                <a href="../methods/ban_chat_sender_chat.html" class="sidebar-link ">
+                    ban_chat_sender_chat
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-close">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>close (3)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-close">
+        
+                <a href="../methods/close.html" class="sidebar-link ">
+                    close
+                </a>
+            
+                <a href="../methods/close_forum_topic.html" class="sidebar-link ">
+                    close_forum_topic
+                </a>
+            
+                <a href="../methods/close_general_forum_topic.html" class="sidebar-link ">
+                    close_general_forum_topic
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-convert">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>convert (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-convert">
+        
+                <a href="../methods/convert_gift_to_stars.html" class="sidebar-link ">
+                    convert_gift_to_stars
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-copy">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>copy (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-copy">
+        
+                <a href="../methods/copy_message.html" class="sidebar-link ">
+                    copy_message
+                </a>
+            
+                <a href="../methods/copy_messages.html" class="sidebar-link ">
+                    copy_messages
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-create">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>create (5)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-create">
+        
+                <a href="../methods/create_chat_invite_link.html" class="sidebar-link ">
+                    create_chat_invite_link
+                </a>
+            
+                <a href="../methods/create_chat_subscription_invite_link.html" class="sidebar-link ">
+                    create_chat_subscription_invite_link
+                </a>
+            
+                <a href="../methods/create_forum_topic.html" class="sidebar-link ">
+                    create_forum_topic
+                </a>
+            
+                <a href="../methods/create_invoice_link.html" class="sidebar-link ">
+                    create_invoice_link
+                </a>
+            
+                <a href="../methods/create_new_sticker_set.html" class="sidebar-link ">
+                    create_new_sticker_set
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-decline">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>decline (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-decline">
+        
+                <a href="../methods/decline_chat_join_request.html" class="sidebar-link ">
+                    decline_chat_join_request
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-delete">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>delete (11)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-delete">
+        
+                <a href="../methods/delete_business_messages.html" class="sidebar-link ">
+                    delete_business_messages
+                </a>
+            
+                <a href="../methods/delete_chat_photo.html" class="sidebar-link ">
+                    delete_chat_photo
+                </a>
+            
+                <a href="../methods/delete_chat_sticker_set.html" class="sidebar-link ">
+                    delete_chat_sticker_set
+                </a>
+            
+                <a href="../methods/delete_forum_topic.html" class="sidebar-link ">
+                    delete_forum_topic
+                </a>
+            
+                <a href="../methods/delete_message.html" class="sidebar-link ">
+                    delete_message
+                </a>
+            
+                <a href="../methods/delete_messages.html" class="sidebar-link ">
+                    delete_messages
+                </a>
+            
+                <a href="../methods/delete_my_commands.html" class="sidebar-link ">
+                    delete_my_commands
+                </a>
+            
+                <a href="../methods/delete_sticker_from_set.html" class="sidebar-link ">
+                    delete_sticker_from_set
+                </a>
+            
+                <a href="../methods/delete_sticker_set.html" class="sidebar-link ">
+                    delete_sticker_set
+                </a>
+            
+                <a href="../methods/delete_story.html" class="sidebar-link ">
+                    delete_story
+                </a>
+            
+                <a href="../methods/delete_webhook.html" class="sidebar-link ">
+                    delete_webhook
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-demote">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>demote (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-demote">
+        
+                <a href="../methods/demote_chat_member.html" class="sidebar-link ">
+                    demote_chat_member
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-download">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>download (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-download">
+        
+                <a href="../methods/download_file.html" class="sidebar-link ">
+                    download_file
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-edit">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>edit (12)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-edit">
+        
+                <a href="../methods/edit_chat_invite_link.html" class="sidebar-link ">
+                    edit_chat_invite_link
+                </a>
+            
+                <a href="../methods/edit_chat_subscription_invite_link.html" class="sidebar-link ">
+                    edit_chat_subscription_invite_link
+                </a>
+            
+                <a href="../methods/edit_forum_topic.html" class="sidebar-link ">
+                    edit_forum_topic
+                </a>
+            
+                <a href="../methods/edit_general_forum_topic.html" class="sidebar-link ">
+                    edit_general_forum_topic
+                </a>
+            
+                <a href="../methods/edit_message_caption.html" class="sidebar-link ">
+                    edit_message_caption
+                </a>
+            
+                <a href="../methods/edit_message_checklist.html" class="sidebar-link ">
+                    edit_message_checklist
+                </a>
+            
+                <a href="../methods/edit_message_live_location.html" class="sidebar-link ">
+                    edit_message_live_location
+                </a>
+            
+                <a href="../methods/edit_message_media.html" class="sidebar-link ">
+                    edit_message_media
+                </a>
+            
+                <a href="../methods/edit_message_reply_markup.html" class="sidebar-link ">
+                    edit_message_reply_markup
+                </a>
+            
+                <a href="../methods/edit_message_text.html" class="sidebar-link ">
+                    edit_message_text
+                </a>
+            
+                <a href="../methods/edit_story.html" class="sidebar-link ">
+                    edit_story
+                </a>
+            
+                <a href="../methods/edit_user_star_subscription.html" class="sidebar-link ">
+                    edit_user_star_subscription
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-export">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>export (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-export">
+        
+                <a href="../methods/export_chat_invite_link.html" class="sidebar-link ">
+                    export_chat_invite_link
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-forward">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>forward (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-forward">
+        
+                <a href="../methods/forward_message.html" class="sidebar-link ">
+                    forward_message
+                </a>
+            
+                <a href="../methods/forward_messages.html" class="sidebar-link ">
+                    forward_messages
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-get">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>get (27)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-get">
+        
+                <a href="../methods/get_available_gifts.html" class="sidebar-link ">
+                    get_available_gifts
+                </a>
+            
+                <a href="../methods/get_business_account_gifts.html" class="sidebar-link ">
+                    get_business_account_gifts
+                </a>
+            
+                <a href="../methods/get_business_account_star_balance.html" class="sidebar-link ">
+                    get_business_account_star_balance
+                </a>
+            
+                <a href="../methods/get_business_connection.html" class="sidebar-link ">
+                    get_business_connection
+                </a>
+            
+                <a href="../methods/get_chat.html" class="sidebar-link ">
+                    get_chat
+                </a>
+            
+                <a href="../methods/get_chat_administrators.html" class="sidebar-link ">
+                    get_chat_administrators
+                </a>
+            
+                <a href="../methods/get_chat_member.html" class="sidebar-link ">
+                    get_chat_member
+                </a>
+            
+                <a href="../methods/get_chat_member_count.html" class="sidebar-link ">
+                    get_chat_member_count
+                </a>
+            
+                <a href="../methods/get_chat_menu_button.html" class="sidebar-link ">
+                    get_chat_menu_button
+                </a>
+            
+                <a href="../methods/get_custom_emoji_stickers.html" class="sidebar-link ">
+                    get_custom_emoji_stickers
+                </a>
+            
+                <a href="../methods/get_file.html" class="sidebar-link ">
+                    get_file
+                </a>
+            
+                <a href="../methods/get_file_url.html" class="sidebar-link ">
+                    get_file_url
+                </a>
+            
+                <a href="../methods/get_forum_topic_icon_stickers.html" class="sidebar-link ">
+                    get_forum_topic_icon_stickers
+                </a>
+            
+                <a href="../methods/get_game_high_scores.html" class="sidebar-link ">
+                    get_game_high_scores
+                </a>
+            
+                <a href="../methods/get_me.html" class="sidebar-link ">
+                    get_me
+                </a>
+            
+                <a href="../methods/get_my_commands.html" class="sidebar-link ">
+                    get_my_commands
+                </a>
+            
+                <a href="../methods/get_my_default_administrator_rights.html" class="sidebar-link ">
+                    get_my_default_administrator_rights
+                </a>
+            
+                <a href="../methods/get_my_description.html" class="sidebar-link ">
+                    get_my_description
+                </a>
+            
+                <a href="../methods/get_my_name.html" class="sidebar-link ">
+                    get_my_name
+                </a>
+            
+                <a href="../methods/get_my_short_description.html" class="sidebar-link ">
+                    get_my_short_description
+                </a>
+            
+                <a href="../methods/get_my_star_balance.html" class="sidebar-link ">
+                    get_my_star_balance
+                </a>
+            
+                <a href="../methods/get_star_transactions.html" class="sidebar-link ">
+                    get_star_transactions
+                </a>
+            
+                <a href="../methods/get_sticker_set.html" class="sidebar-link ">
+                    get_sticker_set
+                </a>
+            
+                <a href="../methods/get_updates.html" class="sidebar-link ">
+                    get_updates
+                </a>
+            
+                <a href="../methods/get_user_chat_boosts.html" class="sidebar-link ">
+                    get_user_chat_boosts
+                </a>
+            
+                <a href="../methods/get_user_profile_photos.html" class="sidebar-link ">
+                    get_user_profile_photos
+                </a>
+            
+                <a href="../methods/get_webhook_info.html" class="sidebar-link ">
+                    get_webhook_info
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-gift">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>gift (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-gift">
+        
+                <a href="../methods/gift_premium_subscription.html" class="sidebar-link ">
+                    gift_premium_subscription
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-hide">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>hide (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-hide">
+        
+                <a href="../methods/hide_general_forum_topic.html" class="sidebar-link ">
+                    hide_general_forum_topic
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-leave">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>leave (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-leave">
+        
+                <a href="../methods/leave_chat.html" class="sidebar-link ">
+                    leave_chat
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-log">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>log (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-log">
+        
+                <a href="../methods/log_out.html" class="sidebar-link ">
+                    log_out
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-pin">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>pin (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-pin">
+        
+                <a href="../methods/pin_chat_message.html" class="sidebar-link ">
+                    pin_chat_message
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-post">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>post (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-post">
+        
+                <a href="../methods/post_story.html" class="sidebar-link ">
+                    post_story
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-promote">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>promote (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-promote">
+        
+                <a href="../methods/promote_chat_member.html" class="sidebar-link ">
+                    promote_chat_member
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-read">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>read (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-read">
+        
+                <a href="../methods/read_business_message.html" class="sidebar-link ">
+                    read_business_message
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-refund">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>refund (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-refund">
+        
+                <a href="../methods/refund_star_payment.html" class="sidebar-link ">
+                    refund_star_payment
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-remove">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>remove (3)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-remove">
+        
+                <a href="../methods/remove_business_account_profile_photo.html" class="sidebar-link ">
+                    remove_business_account_profile_photo
+                </a>
+            
+                <a href="../methods/remove_chat_verification.html" class="sidebar-link ">
+                    remove_chat_verification
+                </a>
+            
+                <a href="../methods/remove_user_verification.html" class="sidebar-link ">
+                    remove_user_verification
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-reopen">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>reopen (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-reopen">
+        
+                <a href="../methods/reopen_forum_topic.html" class="sidebar-link ">
+                    reopen_forum_topic
+                </a>
+            
+                <a href="../methods/reopen_general_forum_topic.html" class="sidebar-link ">
+                    reopen_general_forum_topic
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-replace">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>replace (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-replace">
+        
+                <a href="../methods/replace_sticker_in_set.html" class="sidebar-link ">
+                    replace_sticker_in_set
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-restrict">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>restrict (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-restrict">
+        
+                <a href="../methods/restrict_chat_member.html" class="sidebar-link ">
+                    restrict_chat_member
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-revoke">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>revoke (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-revoke">
+        
+                <a href="../methods/revoke_chat_invite_link.html" class="sidebar-link ">
+                    revoke_chat_invite_link
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-run">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>run (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-run">
+        
+                <a href="../methods/run.html" class="sidebar-link ">
+                    run
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-save">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>save (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-save">
+        
+                <a href="../methods/save_prepared_inline_message.html" class="sidebar-link ">
+                    save_prepared_inline_message
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-send">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>send (22)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-send">
+        
+                <a href="../methods/send_animation.html" class="sidebar-link ">
+                    send_animation
+                </a>
+            
+                <a href="../methods/send_audio.html" class="sidebar-link ">
+                    send_audio
+                </a>
+            
+                <a href="../methods/send_chat_action.html" class="sidebar-link ">
+                    send_chat_action
+                </a>
+            
+                <a href="../methods/send_checklist.html" class="sidebar-link ">
+                    send_checklist
+                </a>
+            
+                <a href="../methods/send_contact.html" class="sidebar-link ">
+                    send_contact
+                </a>
+            
+                <a href="../methods/send_dice.html" class="sidebar-link ">
+                    send_dice
+                </a>
+            
+                <a href="../methods/send_document.html" class="sidebar-link ">
+                    send_document
+                </a>
+            
+                <a href="../methods/send_game.html" class="sidebar-link ">
+                    send_game
+                </a>
+            
+                <a href="../methods/send_gift.html" class="sidebar-link ">
+                    send_gift
+                </a>
+            
+                <a href="../methods/send_invoice.html" class="sidebar-link ">
+                    send_invoice
+                </a>
+            
+                <a href="../methods/send_location.html" class="sidebar-link ">
+                    send_location
+                </a>
+            
+                <a href="../methods/send_media_from_file_id.html" class="sidebar-link ">
+                    send_media_from_file_id
+                </a>
+            
+                <a href="../methods/send_media_group.html" class="sidebar-link ">
+                    send_media_group
+                </a>
+            
+                <a href="../methods/send_message.html" class="sidebar-link ">
+                    send_message
+                </a>
+            
+                <a href="../methods/send_paid_media.html" class="sidebar-link ">
+                    send_paid_media
+                </a>
+            
+                <a href="../methods/send_photo.html" class="sidebar-link ">
+                    send_photo
+                </a>
+            
+                <a href="../methods/send_poll.html" class="sidebar-link ">
+                    send_poll
+                </a>
+            
+                <a href="../methods/send_sticker.html" class="sidebar-link ">
+                    send_sticker
+                </a>
+            
+                <a href="../methods/send_venue.html" class="sidebar-link ">
+                    send_venue
+                </a>
+            
+                <a href="../methods/send_video.html" class="sidebar-link ">
+                    send_video
+                </a>
+            
+                <a href="../methods/send_video_note.html" class="sidebar-link ">
+                    send_video_note
+                </a>
+            
+                <a href="../methods/send_voice.html" class="sidebar-link ">
+                    send_voice
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-set">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>set (29)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-set">
+        
+                <a href="../methods/set_business_account_bio.html" class="sidebar-link ">
+                    set_business_account_bio
+                </a>
+            
+                <a href="../methods/set_business_account_gift_settings.html" class="sidebar-link ">
+                    set_business_account_gift_settings
+                </a>
+            
+                <a href="../methods/set_business_account_name.html" class="sidebar-link ">
+                    set_business_account_name
+                </a>
+            
+                <a href="../methods/set_business_account_profile_photo.html" class="sidebar-link ">
+                    set_business_account_profile_photo
+                </a>
+            
+                <a href="../methods/set_business_account_username.html" class="sidebar-link ">
+                    set_business_account_username
+                </a>
+            
+                <a href="../methods/set_chat_administrator_custom_title.html" class="sidebar-link ">
+                    set_chat_administrator_custom_title
+                </a>
+            
+                <a href="../methods/set_chat_description.html" class="sidebar-link ">
+                    set_chat_description
+                </a>
+            
+                <a href="../methods/set_chat_menu_button.html" class="sidebar-link ">
+                    set_chat_menu_button
+                </a>
+            
+                <a href="../methods/set_chat_permissions.html" class="sidebar-link ">
+                    set_chat_permissions
+                </a>
+            
+                <a href="../methods/set_chat_photo.html" class="sidebar-link ">
+                    set_chat_photo
+                </a>
+            
+                <a href="../methods/set_chat_sticker_set.html" class="sidebar-link ">
+                    set_chat_sticker_set
+                </a>
+            
+                <a href="../methods/set_chat_title.html" class="sidebar-link ">
+                    set_chat_title
+                </a>
+            
+                <a href="../methods/set_custom_emoji_sticker_set_thumbnail.html" class="sidebar-link ">
+                    set_custom_emoji_sticker_set_thumbnail
+                </a>
+            
+                <a href="../methods/set_game_score.html" class="sidebar-link ">
+                    set_game_score
+                </a>
+            
+                <a href="../methods/set_message_reaction.html" class="sidebar-link ">
+                    set_message_reaction
+                </a>
+            
+                <a href="../methods/set_my_commands.html" class="sidebar-link ">
+                    set_my_commands
+                </a>
+            
+                <a href="../methods/set_my_default_administrator_rights.html" class="sidebar-link ">
+                    set_my_default_administrator_rights
+                </a>
+            
+                <a href="../methods/set_my_description.html" class="sidebar-link ">
+                    set_my_description
+                </a>
+            
+                <a href="../methods/set_my_name.html" class="sidebar-link ">
+                    set_my_name
+                </a>
+            
+                <a href="../methods/set_my_short_description.html" class="sidebar-link ">
+                    set_my_short_description
+                </a>
+            
+                <a href="../methods/set_passport_data_errors.html" class="sidebar-link ">
+                    set_passport_data_errors
+                </a>
+            
+                <a href="../methods/set_sticker_emoji_list.html" class="sidebar-link ">
+                    set_sticker_emoji_list
+                </a>
+            
+                <a href="../methods/set_sticker_keywords.html" class="sidebar-link ">
+                    set_sticker_keywords
+                </a>
+            
+                <a href="../methods/set_sticker_mask_position.html" class="sidebar-link ">
+                    set_sticker_mask_position
+                </a>
+            
+                <a href="../methods/set_sticker_position_in_set.html" class="sidebar-link ">
+                    set_sticker_position_in_set
+                </a>
+            
+                <a href="../methods/set_sticker_set_thumbnail.html" class="sidebar-link ">
+                    set_sticker_set_thumbnail
+                </a>
+            
+                <a href="../methods/set_sticker_set_title.html" class="sidebar-link ">
+                    set_sticker_set_title
+                </a>
+            
+                <a href="../methods/set_user_emoji_status.html" class="sidebar-link ">
+                    set_user_emoji_status
+                </a>
+            
+                <a href="../methods/set_webhook.html" class="sidebar-link ">
+                    set_webhook
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-stop">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>stop (3)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-stop">
+        
+                <a href="../methods/stop.html" class="sidebar-link ">
+                    stop
+                </a>
+            
+                <a href="../methods/stop_message_live_location.html" class="sidebar-link ">
+                    stop_message_live_location
+                </a>
+            
+                <a href="../methods/stop_poll.html" class="sidebar-link ">
+                    stop_poll
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-transfer">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>transfer (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-transfer">
+        
+                <a href="../methods/transfer_business_account_stars.html" class="sidebar-link ">
+                    transfer_business_account_stars
+                </a>
+            
+                <a href="../methods/transfer_gift.html" class="sidebar-link ">
+                    transfer_gift
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-unban">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>unban (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-unban">
+        
+                <a href="../methods/unban_chat_member.html" class="sidebar-link ">
+                    unban_chat_member
+                </a>
+            
+                <a href="../methods/unban_chat_sender_chat.html" class="sidebar-link ">
+                    unban_chat_sender_chat
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-unhide">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>unhide (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-unhide">
+        
+                <a href="../methods/unhide_general_forum_topic.html" class="sidebar-link ">
+                    unhide_general_forum_topic
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-unpin">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>unpin (4)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-unpin">
+        
+                <a href="../methods/unpin_all_chat_messages.html" class="sidebar-link ">
+                    unpin_all_chat_messages
+                </a>
+            
+                <a href="../methods/unpin_all_forum_topic_messages.html" class="sidebar-link ">
+                    unpin_all_forum_topic_messages
+                </a>
+            
+                <a href="../methods/unpin_all_general_forum_topic_messages.html" class="sidebar-link ">
+                    unpin_all_general_forum_topic_messages
+                </a>
+            
+                <a href="../methods/unpin_chat_message.html" class="sidebar-link ">
+                    unpin_chat_message
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-unrestrict">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>unrestrict (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-unrestrict">
+        
+                <a href="../methods/unrestrict_chat_member.html" class="sidebar-link ">
+                    unrestrict_chat_member
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-upgrade">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>upgrade (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-upgrade">
+        
+                <a href="../methods/upgrade_gift.html" class="sidebar-link ">
+                    upgrade_gift
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-upload">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>upload (1)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-upload">
+        
+                <a href="../methods/upload_sticker_file.html" class="sidebar-link ">
+                    upload_sticker_file
+                </a>
+            </div></div>
+            <div class="sidebar-category">
+                <button class="category-title collapsible" data-target="category-verify">
+                    <span class="category-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4,2,4.89,2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                    </span>
+                    <span>verify (2)</span>
+                    <span class="collapse-icon">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="category-methods collapsible-content" id="category-verify">
+        
+                <a href="../methods/verify_chat.html" class="sidebar-link ">
+                    verify_chat
+                </a>
+            
+                <a href="../methods/verify_user.html" class="sidebar-link ">
+                    verify_user
+                </a>
+            </div></div>
+        </div>
+    </div>
+    
+    <div class="sidebar-section">
+        <button class="sidebar-title collapsible" data-target="types-section">
+            <span class="sidebar-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A3,3 0 0,1 15,5V7H20A2,2 0 0,1 22,9V19A2,2 0 0,1 20,21H4A2,2 0 0,1 2,19V9A2,2 0 0,1 4,7H9V5A3,3 0 0,1 12,2M12,4A1,1 0 0,0 11,5V7H13V5A1,1 0 0,0 12,4Z"/>
+                </svg>
+            </span>
+            <span>Types (256)</span>
+            <span class="collapse-icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                </svg>
+            </span>
+        </button>
+        <div class="sidebar-content collapsible-content" id="types-section">
+    
+            <a href="AcceptedGiftTypes.html" class="sidebar-link ">
+                AcceptedGiftTypes
+            </a>
+        
+            <a href="AffiliateInfo.html" class="sidebar-link ">
+                AffiliateInfo
+            </a>
+        
+            <a href="Animation.html" class="sidebar-link ">
+                Animation
+            </a>
+        
+            <a href="Audio.html" class="sidebar-link ">
+                Audio
+            </a>
+        
+            <a href="BackgroundFill.html" class="sidebar-link ">
+                BackgroundFill
+            </a>
+        
+            <a href="BackgroundFillFreeformGradient.html" class="sidebar-link ">
+                BackgroundFillFreeformGradient
+            </a>
+        
+            <a href="BackgroundFillGradient.html" class="sidebar-link ">
+                BackgroundFillGradient
+            </a>
+        
+            <a href="BackgroundFillSolid.html" class="sidebar-link ">
+                BackgroundFillSolid
+            </a>
+        
+            <a href="BackgroundType.html" class="sidebar-link ">
+                BackgroundType
+            </a>
+        
+            <a href="BackgroundTypeChatTheme.html" class="sidebar-link ">
+                BackgroundTypeChatTheme
+            </a>
+        
+            <a href="BackgroundTypeFill.html" class="sidebar-link ">
+                BackgroundTypeFill
+            </a>
+        
+            <a href="BackgroundTypePattern.html" class="sidebar-link ">
+                BackgroundTypePattern
+            </a>
+        
+            <a href="BackgroundTypeWallpaper.html" class="sidebar-link ">
+                BackgroundTypeWallpaper
+            </a>
+        
+            <a href="Birthdate.html" class="sidebar-link ">
+                Birthdate
+            </a>
+        
+            <a href="BotCommand.html" class="sidebar-link ">
+                BotCommand
+            </a>
+        
+            <a href="BotCommandScope.html" class="sidebar-link ">
+                BotCommandScope
+            </a>
+        
+            <a href="BotCommandScopeAllChatAdministrators.html" class="sidebar-link ">
+                BotCommandScopeAllChatAdministrators
+            </a>
+        
+            <a href="BotCommandScopeAllGroupChats.html" class="sidebar-link ">
+                BotCommandScopeAllGroupChats
+            </a>
+        
+            <a href="BotCommandScopeAllPrivateChats.html" class="sidebar-link ">
+                BotCommandScopeAllPrivateChats
+            </a>
+        
+            <a href="BotCommandScopeChat.html" class="sidebar-link ">
+                BotCommandScopeChat
+            </a>
+        
+            <a href="BotCommandScopeChatAdministrators.html" class="sidebar-link ">
+                BotCommandScopeChatAdministrators
+            </a>
+        
+            <a href="BotCommandScopeChatMember.html" class="sidebar-link ">
+                BotCommandScopeChatMember
+            </a>
+        
+            <a href="BotCommandScopeDefault.html" class="sidebar-link ">
+                BotCommandScopeDefault
+            </a>
+        
+            <a href="BotDescription.html" class="sidebar-link ">
+                BotDescription
+            </a>
+        
+            <a href="BotName.html" class="sidebar-link ">
+                BotName
+            </a>
+        
+            <a href="BotShortDescription.html" class="sidebar-link ">
+                BotShortDescription
+            </a>
+        
+            <a href="BusinessConnection.html" class="sidebar-link ">
+                BusinessConnection
+            </a>
+        
+            <a href="BusinessIntro.html" class="sidebar-link ">
+                BusinessIntro
+            </a>
+        
+            <a href="BusinessLocation.html" class="sidebar-link ">
+                BusinessLocation
+            </a>
+        
+            <a href="BusinessMessagesDeleted.html" class="sidebar-link ">
+                BusinessMessagesDeleted
+            </a>
+        
+            <a href="BusinessOpeningHours.html" class="sidebar-link ">
+                BusinessOpeningHours
+            </a>
+        
+            <a href="BusinessOpeningHoursInterval.html" class="sidebar-link ">
+                BusinessOpeningHoursInterval
+            </a>
+        
+            <a href="CallbackGame.html" class="sidebar-link ">
+                CallbackGame
+            </a>
+        
+            <a href="CallbackQuery.html" class="sidebar-link ">
+                CallbackQuery
+            </a>
+        
+            <a href="Chat.html" class="sidebar-link ">
+                Chat
+            </a>
+        
+            <a href="ChatAdministratorRights.html" class="sidebar-link ">
+                ChatAdministratorRights
+            </a>
+        
+            <a href="ChatBackground.html" class="sidebar-link ">
+                ChatBackground
+            </a>
+        
+            <a href="ChatBoost.html" class="sidebar-link ">
+                ChatBoost
+            </a>
+        
+            <a href="ChatBoostAdded.html" class="sidebar-link ">
+                ChatBoostAdded
+            </a>
+        
+            <a href="ChatBoostRemoved.html" class="sidebar-link ">
+                ChatBoostRemoved
+            </a>
+        
+            <a href="ChatBoostSource.html" class="sidebar-link ">
+                ChatBoostSource
+            </a>
+        
+            <a href="ChatBoostSourceGiftCode.html" class="sidebar-link ">
+                ChatBoostSourceGiftCode
+            </a>
+        
+            <a href="ChatBoostSourceGiveaway.html" class="sidebar-link ">
+                ChatBoostSourceGiveaway
+            </a>
+        
+            <a href="ChatBoostSourcePremium.html" class="sidebar-link ">
+                ChatBoostSourcePremium
+            </a>
+        
+            <a href="ChatBoostUpdated.html" class="sidebar-link ">
+                ChatBoostUpdated
+            </a>
+        
+            <a href="ChatFullInfo.html" class="sidebar-link ">
+                ChatFullInfo
+            </a>
+        
+            <a href="ChatInviteLink.html" class="sidebar-link ">
+                ChatInviteLink
+            </a>
+        
+            <a href="ChatJoinRequest.html" class="sidebar-link ">
+                ChatJoinRequest
+            </a>
+        
+            <a href="ChatLocation.html" class="sidebar-link ">
+                ChatLocation
+            </a>
+        
+            <a href="ChatMember.html" class="sidebar-link ">
+                ChatMember
+            </a>
+        
+            <a href="ChatMemberAdministrator.html" class="sidebar-link ">
+                ChatMemberAdministrator
+            </a>
+        
+            <a href="ChatMemberBanned.html" class="sidebar-link ">
+                ChatMemberBanned
+            </a>
+        
+            <a href="ChatMemberLeft.html" class="sidebar-link ">
+                ChatMemberLeft
+            </a>
+        
+            <a href="ChatMemberMember.html" class="sidebar-link ">
+                ChatMemberMember
+            </a>
+        
+            <a href="ChatMemberOwner.html" class="sidebar-link ">
+                ChatMemberOwner
+            </a>
+        
+            <a href="ChatMemberRestricted.html" class="sidebar-link ">
+                ChatMemberRestricted
+            </a>
+        
+            <a href="ChatMemberUpdated.html" class="sidebar-link ">
+                ChatMemberUpdated
+            </a>
+        
+            <a href="ChatPermissions.html" class="sidebar-link ">
+                ChatPermissions
+            </a>
+        
+            <a href="ChatPhoto.html" class="sidebar-link ">
+                ChatPhoto
+            </a>
+        
+            <a href="ChatShared.html" class="sidebar-link ">
+                ChatShared
+            </a>
+        
+            <a href="Checklist.html" class="sidebar-link ">
+                Checklist
+            </a>
+        
+            <a href="ChecklistTask.html" class="sidebar-link ">
+                ChecklistTask
+            </a>
+        
+            <a href="ChecklistTasksAdded.html" class="sidebar-link ">
+                ChecklistTasksAdded
+            </a>
+        
+            <a href="ChecklistTasksDone.html" class="sidebar-link ">
+                ChecklistTasksDone
+            </a>
+        
+            <a href="ChosenInlineResult.html" class="sidebar-link ">
+                ChosenInlineResult
+            </a>
+        
+            <a href="Contact.html" class="sidebar-link ">
+                Contact
+            </a>
+        
+            <a href="CopyTextButton.html" class="sidebar-link ">
+                CopyTextButton
+            </a>
+        
+            <a href="Dice.html" class="sidebar-link ">
+                Dice
+            </a>
+        
+            <a href="DirectMessagePriceChanged.html" class="sidebar-link ">
+                DirectMessagePriceChanged
+            </a>
+        
+            <a href="Document.html" class="sidebar-link ">
+                Document
+            </a>
+        
+            <a href="EncryptedCredentials.html" class="sidebar-link ">
+                EncryptedCredentials
+            </a>
+        
+            <a href="EncryptedPassportElement.html" class="sidebar-link ">
+                EncryptedPassportElement
+            </a>
+        
+            <a href="ExternalReplyInfo.html" class="sidebar-link ">
+                ExternalReplyInfo
+            </a>
+        
+            <a href="File.html" class="sidebar-link ">
+                File
+            </a>
+        
+            <a href="ForceReply.html" class="sidebar-link ">
+                ForceReply
+            </a>
+        
+            <a href="ForumTopic.html" class="sidebar-link ">
+                ForumTopic
+            </a>
+        
+            <a href="ForumTopicClosed.html" class="sidebar-link ">
+                ForumTopicClosed
+            </a>
+        
+            <a href="ForumTopicCreated.html" class="sidebar-link ">
+                ForumTopicCreated
+            </a>
+        
+            <a href="ForumTopicEdited.html" class="sidebar-link ">
+                ForumTopicEdited
+            </a>
+        
+            <a href="ForumTopicReopened.html" class="sidebar-link ">
+                ForumTopicReopened
+            </a>
+        
+            <a href="Game.html" class="sidebar-link ">
+                Game
+            </a>
+        
+            <a href="GameHighScore.html" class="sidebar-link ">
+                GameHighScore
+            </a>
+        
+            <a href="GeneralForumTopicHidden.html" class="sidebar-link ">
+                GeneralForumTopicHidden
+            </a>
+        
+            <a href="GeneralForumTopicUnhidden.html" class="sidebar-link ">
+                GeneralForumTopicUnhidden
+            </a>
+        
+            <a href="Gift.html" class="sidebar-link ">
+                Gift
+            </a>
+        
+            <a href="GiftInfo.html" class="sidebar-link ">
+                GiftInfo
+            </a>
+        
+            <a href="Gifts.html" class="sidebar-link active">
+                Gifts
+            </a>
+        
+            <a href="Giveaway.html" class="sidebar-link ">
+                Giveaway
+            </a>
+        
+            <a href="GiveawayCompleted.html" class="sidebar-link ">
+                GiveawayCompleted
+            </a>
+        
+            <a href="GiveawayCreated.html" class="sidebar-link ">
+                GiveawayCreated
+            </a>
+        
+            <a href="GiveawayWinners.html" class="sidebar-link ">
+                GiveawayWinners
+            </a>
+        
+            <a href="InaccessibleMessage.html" class="sidebar-link ">
+                InaccessibleMessage
+            </a>
+        
+            <a href="InlineKeyboardButton.html" class="sidebar-link ">
+                InlineKeyboardButton
+            </a>
+        
+            <a href="InlineKeyboardMarkup.html" class="sidebar-link ">
+                InlineKeyboardMarkup
+            </a>
+        
+            <a href="InlineQuery.html" class="sidebar-link ">
+                InlineQuery
+            </a>
+        
+            <a href="InlineQueryResultArticle.html" class="sidebar-link ">
+                InlineQueryResultArticle
+            </a>
+        
+            <a href="InlineQueryResultAudio.html" class="sidebar-link ">
+                InlineQueryResultAudio
+            </a>
+        
+            <a href="InlineQueryResultCachedAudio.html" class="sidebar-link ">
+                InlineQueryResultCachedAudio
+            </a>
+        
+            <a href="InlineQueryResultCachedDocument.html" class="sidebar-link ">
+                InlineQueryResultCachedDocument
+            </a>
+        
+            <a href="InlineQueryResultCachedGif.html" class="sidebar-link ">
+                InlineQueryResultCachedGif
+            </a>
+        
+            <a href="InlineQueryResultCachedMpeg4Gif.html" class="sidebar-link ">
+                InlineQueryResultCachedMpeg4Gif
+            </a>
+        
+            <a href="InlineQueryResultCachedPhoto.html" class="sidebar-link ">
+                InlineQueryResultCachedPhoto
+            </a>
+        
+            <a href="InlineQueryResultCachedSticker.html" class="sidebar-link ">
+                InlineQueryResultCachedSticker
+            </a>
+        
+            <a href="InlineQueryResultCachedVideo.html" class="sidebar-link ">
+                InlineQueryResultCachedVideo
+            </a>
+        
+            <a href="InlineQueryResultCachedVoice.html" class="sidebar-link ">
+                InlineQueryResultCachedVoice
+            </a>
+        
+            <a href="InlineQueryResultContact.html" class="sidebar-link ">
+                InlineQueryResultContact
+            </a>
+        
+            <a href="InlineQueryResultDocument.html" class="sidebar-link ">
+                InlineQueryResultDocument
+            </a>
+        
+            <a href="InlineQueryResultGame.html" class="sidebar-link ">
+                InlineQueryResultGame
+            </a>
+        
+            <a href="InlineQueryResultGif.html" class="sidebar-link ">
+                InlineQueryResultGif
+            </a>
+        
+            <a href="InlineQueryResultLocation.html" class="sidebar-link ">
+                InlineQueryResultLocation
+            </a>
+        
+            <a href="InlineQueryResultMpeg4Gif.html" class="sidebar-link ">
+                InlineQueryResultMpeg4Gif
+            </a>
+        
+            <a href="InlineQueryResultPhoto.html" class="sidebar-link ">
+                InlineQueryResultPhoto
+            </a>
+        
+            <a href="InlineQueryResultVenue.html" class="sidebar-link ">
+                InlineQueryResultVenue
+            </a>
+        
+            <a href="InlineQueryResultVideo.html" class="sidebar-link ">
+                InlineQueryResultVideo
+            </a>
+        
+            <a href="InlineQueryResultVoice.html" class="sidebar-link ">
+                InlineQueryResultVoice
+            </a>
+        
+            <a href="InlineQueryResultsButton.html" class="sidebar-link ">
+                InlineQueryResultsButton
+            </a>
+        
+            <a href="InputChecklist.html" class="sidebar-link ">
+                InputChecklist
+            </a>
+        
+            <a href="InputChecklistTask.html" class="sidebar-link ">
+                InputChecklistTask
+            </a>
+        
+            <a href="InputContactMessageContent.html" class="sidebar-link ">
+                InputContactMessageContent
+            </a>
+        
+            <a href="InputInvoiceMessageContent.html" class="sidebar-link ">
+                InputInvoiceMessageContent
+            </a>
+        
+            <a href="InputLocationMessageContent.html" class="sidebar-link ">
+                InputLocationMessageContent
+            </a>
+        
+            <a href="InputMediaAnimation.html" class="sidebar-link ">
+                InputMediaAnimation
+            </a>
+        
+            <a href="InputMediaAudio.html" class="sidebar-link ">
+                InputMediaAudio
+            </a>
+        
+            <a href="InputMediaDocument.html" class="sidebar-link ">
+                InputMediaDocument
+            </a>
+        
+            <a href="InputMediaPhoto.html" class="sidebar-link ">
+                InputMediaPhoto
+            </a>
+        
+            <a href="InputMediaVideo.html" class="sidebar-link ">
+                InputMediaVideo
+            </a>
+        
+            <a href="InputMessageContent.html" class="sidebar-link ">
+                InputMessageContent
+            </a>
+        
+            <a href="InputPaidMediaPhoto.html" class="sidebar-link ">
+                InputPaidMediaPhoto
+            </a>
+        
+            <a href="InputPaidMediaVideo.html" class="sidebar-link ">
+                InputPaidMediaVideo
+            </a>
+        
+            <a href="InputPollOption.html" class="sidebar-link ">
+                InputPollOption
+            </a>
+        
+            <a href="InputProfilePhotoAnimated.html" class="sidebar-link ">
+                InputProfilePhotoAnimated
+            </a>
+        
+            <a href="InputProfilePhotoStatic.html" class="sidebar-link ">
+                InputProfilePhotoStatic
+            </a>
+        
+            <a href="InputSticker.html" class="sidebar-link ">
+                InputSticker
+            </a>
+        
+            <a href="InputStoryContentPhoto.html" class="sidebar-link ">
+                InputStoryContentPhoto
+            </a>
+        
+            <a href="InputStoryContentVideo.html" class="sidebar-link ">
+                InputStoryContentVideo
+            </a>
+        
+            <a href="InputTextMessageContent.html" class="sidebar-link ">
+                InputTextMessageContent
+            </a>
+        
+            <a href="InputVenueMessageContent.html" class="sidebar-link ">
+                InputVenueMessageContent
+            </a>
+        
+            <a href="Invoice.html" class="sidebar-link ">
+                Invoice
+            </a>
+        
+            <a href="KeyboardButton.html" class="sidebar-link ">
+                KeyboardButton
+            </a>
+        
+            <a href="KeyboardButtonPollType.html" class="sidebar-link ">
+                KeyboardButtonPollType
+            </a>
+        
+            <a href="KeyboardButtonRequestChat.html" class="sidebar-link ">
+                KeyboardButtonRequestChat
+            </a>
+        
+            <a href="KeyboardButtonRequestUsers.html" class="sidebar-link ">
+                KeyboardButtonRequestUsers
+            </a>
+        
+            <a href="LabeledPrice.html" class="sidebar-link ">
+                LabeledPrice
+            </a>
+        
+            <a href="LinkPreviewOptions.html" class="sidebar-link ">
+                LinkPreviewOptions
+            </a>
+        
+            <a href="Listener.html" class="sidebar-link ">
+                Listener
+            </a>
+        
+            <a href="Location.html" class="sidebar-link ">
+                Location
+            </a>
+        
+            <a href="LocationAddress.html" class="sidebar-link ">
+                LocationAddress
+            </a>
+        
+            <a href="LoginUrl.html" class="sidebar-link ">
+                LoginUrl
+            </a>
+        
+            <a href="MaskPosition.html" class="sidebar-link ">
+                MaskPosition
+            </a>
+        
+            <a href="MenuButton.html" class="sidebar-link ">
+                MenuButton
+            </a>
+        
+            <a href="MenuButtonCommands.html" class="sidebar-link ">
+                MenuButtonCommands
+            </a>
+        
+            <a href="MenuButtonDefault.html" class="sidebar-link ">
+                MenuButtonDefault
+            </a>
+        
+            <a href="MenuButtonWebApp.html" class="sidebar-link ">
+                MenuButtonWebApp
+            </a>
+        
+            <a href="Message.html" class="sidebar-link ">
+                Message
+            </a>
+        
+            <a href="MessageAutoDeleteTimerChanged.html" class="sidebar-link ">
+                MessageAutoDeleteTimerChanged
+            </a>
+        
+            <a href="MessageEntity.html" class="sidebar-link ">
+                MessageEntity
+            </a>
+        
+            <a href="MessageId.html" class="sidebar-link ">
+                MessageId
+            </a>
+        
+            <a href="MessageOriginChannel.html" class="sidebar-link ">
+                MessageOriginChannel
+            </a>
+        
+            <a href="MessageOriginChat.html" class="sidebar-link ">
+                MessageOriginChat
+            </a>
+        
+            <a href="MessageOriginHiddenUser.html" class="sidebar-link ">
+                MessageOriginHiddenUser
+            </a>
+        
+            <a href="MessageOriginUser.html" class="sidebar-link ">
+                MessageOriginUser
+            </a>
+        
+            <a href="MessageReactionCountUpdated.html" class="sidebar-link ">
+                MessageReactionCountUpdated
+            </a>
+        
+            <a href="MessageReactionUpdated.html" class="sidebar-link ">
+                MessageReactionUpdated
+            </a>
+        
+            <a href="OrderInfo.html" class="sidebar-link ">
+                OrderInfo
+            </a>
+        
+            <a href="OwnedGiftRegular.html" class="sidebar-link ">
+                OwnedGiftRegular
+            </a>
+        
+            <a href="OwnedGiftUnique.html" class="sidebar-link ">
+                OwnedGiftUnique
+            </a>
+        
+            <a href="OwnedGifts.html" class="sidebar-link ">
+                OwnedGifts
+            </a>
+        
+            <a href="PaidMediaInfo.html" class="sidebar-link ">
+                PaidMediaInfo
+            </a>
+        
+            <a href="PaidMediaPhoto.html" class="sidebar-link ">
+                PaidMediaPhoto
+            </a>
+        
+            <a href="PaidMediaPreview.html" class="sidebar-link ">
+                PaidMediaPreview
+            </a>
+        
+            <a href="PaidMediaPurchased.html" class="sidebar-link ">
+                PaidMediaPurchased
+            </a>
+        
+            <a href="PaidMediaVideo.html" class="sidebar-link ">
+                PaidMediaVideo
+            </a>
+        
+            <a href="PaidMessagePriceChanged.html" class="sidebar-link ">
+                PaidMessagePriceChanged
+            </a>
+        
+            <a href="PassportData.html" class="sidebar-link ">
+                PassportData
+            </a>
+        
+            <a href="PassportElementError.html" class="sidebar-link ">
+                PassportElementError
+            </a>
+        
+            <a href="PassportElementErrorDataField.html" class="sidebar-link ">
+                PassportElementErrorDataField
+            </a>
+        
+            <a href="PassportElementErrorFile.html" class="sidebar-link ">
+                PassportElementErrorFile
+            </a>
+        
+            <a href="PassportElementErrorFiles.html" class="sidebar-link ">
+                PassportElementErrorFiles
+            </a>
+        
+            <a href="PassportElementErrorFrontSide.html" class="sidebar-link ">
+                PassportElementErrorFrontSide
+            </a>
+        
+            <a href="PassportElementErrorReverseSide.html" class="sidebar-link ">
+                PassportElementErrorReverseSide
+            </a>
+        
+            <a href="PassportElementErrorSelfie.html" class="sidebar-link ">
+                PassportElementErrorSelfie
+            </a>
+        
+            <a href="PassportElementErrorTranslationFile.html" class="sidebar-link ">
+                PassportElementErrorTranslationFile
+            </a>
+        
+            <a href="PassportElementErrorTranslationFiles.html" class="sidebar-link ">
+                PassportElementErrorTranslationFiles
+            </a>
+        
+            <a href="PassportElementErrorUnspecified.html" class="sidebar-link ">
+                PassportElementErrorUnspecified
+            </a>
+        
+            <a href="PassportFile.html" class="sidebar-link ">
+                PassportFile
+            </a>
+        
+            <a href="PhotoSize.html" class="sidebar-link ">
+                PhotoSize
+            </a>
+        
+            <a href="Poll.html" class="sidebar-link ">
+                Poll
+            </a>
+        
+            <a href="PollAnswer.html" class="sidebar-link ">
+                PollAnswer
+            </a>
+        
+            <a href="PollOption.html" class="sidebar-link ">
+                PollOption
+            </a>
+        
+            <a href="PreCheckoutQuery.html" class="sidebar-link ">
+                PreCheckoutQuery
+            </a>
+        
+            <a href="PreparedInlineMessage.html" class="sidebar-link ">
+                PreparedInlineMessage
+            </a>
+        
+            <a href="ProximityAlertTriggered.html" class="sidebar-link ">
+                ProximityAlertTriggered
+            </a>
+        
+            <a href="ReactionCount.html" class="sidebar-link ">
+                ReactionCount
+            </a>
+        
+            <a href="ReactionTypeCustomEmoji.html" class="sidebar-link ">
+                ReactionTypeCustomEmoji
+            </a>
+        
+            <a href="ReactionTypeEmoji.html" class="sidebar-link ">
+                ReactionTypeEmoji
+            </a>
+        
+            <a href="ReactionTypePaid.html" class="sidebar-link ">
+                ReactionTypePaid
+            </a>
+        
+            <a href="RefundedPayment.html" class="sidebar-link ">
+                RefundedPayment
+            </a>
+        
+            <a href="ReplyKeyboardMarkup.html" class="sidebar-link ">
+                ReplyKeyboardMarkup
+            </a>
+        
+            <a href="ReplyKeyboardRemove.html" class="sidebar-link ">
+                ReplyKeyboardRemove
+            </a>
+        
+            <a href="ReplyParameters.html" class="sidebar-link ">
+                ReplyParameters
+            </a>
+        
+            <a href="Response.html" class="sidebar-link ">
+                Response
+            </a>
+        
+            <a href="ResponseParameters.html" class="sidebar-link ">
+                ResponseParameters
+            </a>
+        
+            <a href="RevenueWithdrawalStateFailed.html" class="sidebar-link ">
+                RevenueWithdrawalStateFailed
+            </a>
+        
+            <a href="RevenueWithdrawalStatePending.html" class="sidebar-link ">
+                RevenueWithdrawalStatePending
+            </a>
+        
+            <a href="RevenueWithdrawalStateSucceeded.html" class="sidebar-link ">
+                RevenueWithdrawalStateSucceeded
+            </a>
+        
+            <a href="SentWebAppMessage.html" class="sidebar-link ">
+                SentWebAppMessage
+            </a>
+        
+            <a href="SharedUser.html" class="sidebar-link ">
+                SharedUser
+            </a>
+        
+            <a href="ShippingAddress.html" class="sidebar-link ">
+                ShippingAddress
+            </a>
+        
+            <a href="ShippingOption.html" class="sidebar-link ">
+                ShippingOption
+            </a>
+        
+            <a href="ShippingQuery.html" class="sidebar-link ">
+                ShippingQuery
+            </a>
+        
+            <a href="StarAmount.html" class="sidebar-link ">
+                StarAmount
+            </a>
+        
+            <a href="StarTransaction.html" class="sidebar-link ">
+                StarTransaction
+            </a>
+        
+            <a href="StarTransactions.html" class="sidebar-link ">
+                StarTransactions
+            </a>
+        
+            <a href="Sticker.html" class="sidebar-link ">
+                Sticker
+            </a>
+        
+            <a href="StickerSet.html" class="sidebar-link ">
+                StickerSet
+            </a>
+        
+            <a href="Story.html" class="sidebar-link ">
+                Story
+            </a>
+        
+            <a href="StoryArea.html" class="sidebar-link ">
+                StoryArea
+            </a>
+        
+            <a href="StoryAreaPosition.html" class="sidebar-link ">
+                StoryAreaPosition
+            </a>
+        
+            <a href="StoryAreaTypeLink.html" class="sidebar-link ">
+                StoryAreaTypeLink
+            </a>
+        
+            <a href="StoryAreaTypeLocation.html" class="sidebar-link ">
+                StoryAreaTypeLocation
+            </a>
+        
+            <a href="StoryAreaTypeSuggestedReaction.html" class="sidebar-link ">
+                StoryAreaTypeSuggestedReaction
+            </a>
+        
+            <a href="StoryAreaTypeUniqueGift.html" class="sidebar-link ">
+                StoryAreaTypeUniqueGift
+            </a>
+        
+            <a href="StoryAreaTypeWeather.html" class="sidebar-link ">
+                StoryAreaTypeWeather
+            </a>
+        
+            <a href="SuccessfulPayment.html" class="sidebar-link ">
+                SuccessfulPayment
+            </a>
+        
+            <a href="SwitchInlineQueryChosenChat.html" class="sidebar-link ">
+                SwitchInlineQueryChosenChat
+            </a>
+        
+            <a href="TextQuote.html" class="sidebar-link ">
+                TextQuote
+            </a>
+        
+            <a href="TransactionPartnerAffiliateProgram.html" class="sidebar-link ">
+                TransactionPartnerAffiliateProgram
+            </a>
+        
+            <a href="TransactionPartnerChat.html" class="sidebar-link ">
+                TransactionPartnerChat
+            </a>
+        
+            <a href="TransactionPartnerFragment.html" class="sidebar-link ">
+                TransactionPartnerFragment
+            </a>
+        
+            <a href="TransactionPartnerOther.html" class="sidebar-link ">
+                TransactionPartnerOther
+            </a>
+        
+            <a href="TransactionPartnerTelegramAds.html" class="sidebar-link ">
+                TransactionPartnerTelegramAds
+            </a>
+        
+            <a href="TransactionPartnerTelegramApi.html" class="sidebar-link ">
+                TransactionPartnerTelegramApi
+            </a>
+        
+            <a href="TransactionPartnerUser.html" class="sidebar-link ">
+                TransactionPartnerUser
+            </a>
+        
+            <a href="UniqueGift.html" class="sidebar-link ">
+                UniqueGift
+            </a>
+        
+            <a href="UniqueGiftBackdrop.html" class="sidebar-link ">
+                UniqueGiftBackdrop
+            </a>
+        
+            <a href="UniqueGiftBackdropColors.html" class="sidebar-link ">
+                UniqueGiftBackdropColors
+            </a>
+        
+            <a href="UniqueGiftInfo.html" class="sidebar-link ">
+                UniqueGiftInfo
+            </a>
+        
+            <a href="UniqueGiftModel.html" class="sidebar-link ">
+                UniqueGiftModel
+            </a>
+        
+            <a href="UniqueGiftSymbol.html" class="sidebar-link ">
+                UniqueGiftSymbol
+            </a>
+        
+            <a href="Update.html" class="sidebar-link ">
+                Update
+            </a>
+        
+            <a href="User.html" class="sidebar-link ">
+                User
+            </a>
+        
+            <a href="UserChatBoosts.html" class="sidebar-link ">
+                UserChatBoosts
+            </a>
+        
+            <a href="UserProfilePhotos.html" class="sidebar-link ">
+                UserProfilePhotos
+            </a>
+        
+            <a href="UsersShared.html" class="sidebar-link ">
+                UsersShared
+            </a>
+        
+            <a href="Venue.html" class="sidebar-link ">
+                Venue
+            </a>
+        
+            <a href="Video.html" class="sidebar-link ">
+                Video
+            </a>
+        
+            <a href="VideoChatEnded.html" class="sidebar-link ">
+                VideoChatEnded
+            </a>
+        
+            <a href="VideoChatParticipantsInvited.html" class="sidebar-link ">
+                VideoChatParticipantsInvited
+            </a>
+        
+            <a href="VideoChatScheduled.html" class="sidebar-link ">
+                VideoChatScheduled
+            </a>
+        
+            <a href="VideoChatStarted.html" class="sidebar-link ">
+                VideoChatStarted
+            </a>
+        
+            <a href="VideoNote.html" class="sidebar-link ">
+                VideoNote
+            </a>
+        
+            <a href="Voice.html" class="sidebar-link ">
+                Voice
+            </a>
+        
+            <a href="WebAppData.html" class="sidebar-link ">
+                WebAppData
+            </a>
+        
+            <a href="WebAppInfo.html" class="sidebar-link ">
+                WebAppInfo
+            </a>
+        
+            <a href="WebhookInfo.html" class="sidebar-link ">
+                WebhookInfo
+            </a>
+        
+            <a href="WriteAccessAllowed.html" class="sidebar-link ">
+                WriteAccessAllowed
+            </a>
+        
+        </div>
+    </div>
+    
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+    <div class="page-header">
+        <a href="../index.html" class="back-button">
+            <span>←</span>
+            Back to Documentation
+        </a>
+        
+        <h1 class="page-title">Gifts</h1>
+        <p class="page-description">This object represent a list of gifts.</p>
+        
+        <div style="display: flex; gap: 12px; margin-top: 16px;">
+            <span class="badge badge-purple">Type</span>
+        </div>
+    </div>
+    
+        <div class="card">
+            <div class="card-title">Properties (1)</div>
+        
+            <div class="parameter-item">
+                <div class="parameter-header">
+                    <span class="badge badge-blue">List</span>
+                    <div>
+                        <div class="parameter-name">gifts</div>
+                        <div class="parameter-description">Photo that will be displayed in the game message in chats.</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    <div class="card">
+        <div class="card-title">Usage in Methods</div>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+            This type is commonly used in the following scenarios:
+        </p>
+        <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 16px;">
+            <ul style="color: var(--text-secondary); margin: 0; padding-left: 20px;">
+                <li>As a return type from API methods</li>
+                <li>As a parameter type in method calls</li>
+                <li>In webhook updates and responses</li>
+            </ul>
+        </div>
+    </div>
+    
+        </main>
+    </div>
+
+    <script src="../search-data.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>
