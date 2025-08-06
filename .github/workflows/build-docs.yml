@@ -19,18 +19,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install https://github.com/z44d/tgram/archive/refs/heads/main.zip
-        pip install docstring_parser certifi aiohttp asyncio
+        pip install -r docs/requirements.txt
 
     - name: Update the docs
       run: | 
           cd docs
-          python generate_schema.py
+          python generate_scheme.py
           python generate_docs.py
+          mkdocs build
           cd ..
-          mv docs/docs/* .
-          mv docs/tgram_schema.json tgram_schema.json
-          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests
+          mv docs/* .
+          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests requirements.txt generate_scheme.py generate_docs.py
+          mv site/* .
           touch .nojekyll
           git checkout --orphan gh-pages
           git add . -A

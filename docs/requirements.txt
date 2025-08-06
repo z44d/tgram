@@ -1,0 +1,9 @@
+https://github.com/z44d/tgram/archive/refs/heads/main.zip
+requests
+certifi
+aiohttp
+asyncio
+
+docstring_parser
+mkdocs-material[all]
+mkdocs

@@ -1,6 +1,15 @@
 import inspect
 import json
-from typing import get_type_hints, Any, Dict
+from typing import (
+    get_type_hints,
+    Any,
+    Dict,
+    Union,
+    get_origin,
+    get_args,
+    List,
+    ForwardRef,
+)
 
 import tgram
 import docstring_parser
@@ -10,12 +19,36 @@ IGNORE_FIELDS = {"key", "json"}
 
 
 def clean_type(tp):
-    if hasattr(tp, "__name__"):
+    if isinstance(tp, ForwardRef):
+        return tp.__forward_arg__
+
+    origin = get_origin(tp)
+    args = get_args(tp)
+
+    if origin is Union:
+        non_none_args = [a for a in args if a is not type(None)]
+        if len(non_none_args) == 1:
+            return clean_type(non_none_args[0])
+        return ", ".join(clean_type(a) for a in non_none_args)
+
+    elif origin in {list, List}:
+        if args:
+            inner = args[0]
+            inner_origin = get_origin(inner)
+            if inner_origin is Union:
+                return [clean_type(a) for a in get_args(inner)]
+            return [clean_type(inner)]
+        return ["Any"]
+
+    elif hasattr(tp, "__name__"):
         return tp.__name__
-    if hasattr(tp, "_name"):
+
+    elif hasattr(tp, "_name"):
         base = tp._name
-        args = getattr(tp, "__args__", [])
-        return f"{base}[{', '.join(clean_type(a) for a in args)}]"
+        if args:
+            return f"{base}[{', '.join(clean_type(a) for a in args)}]"
+        return base
+
     return str(tp)
 
 
@@ -66,7 +99,6 @@ def extract_method_info(cls) -> Dict[str, Any]:
             "description": doc.short_description or "",
             "parameters": parameters,
             "returns": return_type,
-            "path": f"{cls.__module__}.{cls.__name__}.{name}",
         }
 
     return methods
@@ -87,7 +119,6 @@ def extract_type_info(cls) -> Dict[str, Any]:
             "description": doc_fields.get(attr, ""),
         }
 
-    # fallback to __init__ signature if no hints
     if not props:
         try:
             init_sig = inspect.signature(cls.__init__)
@@ -144,7 +175,7 @@ if __name__ == "__main__":
 
     output = {"methods": methods_data, "types": types_data}
 
-    with open("tgram_schema.json", "w", encoding="utf-8") as f:
+    with open("tgram_scheme.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
     print("✅ Extracted successfully to tgram_schema.json")
