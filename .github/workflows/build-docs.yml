@@ -28,8 +28,8 @@ jobs:
           python generate_docs.py
           mkdocs build
           cd ..
-          mv docs/* .
-          rm -rf docs venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests requirements.txt generate_scheme.py generate_docs.py
+          mv doc/* .
+          rm -rf doc venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests requirements.txt generate_scheme.py generate_docs.py
           mv site/* .
           touch .nojekyll
           git checkout --orphan gh-pages

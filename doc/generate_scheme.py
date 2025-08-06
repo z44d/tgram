@@ -178,4 +178,4 @@ if __name__ == "__main__":
     with open("tgram_scheme.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print("✅ Extracted successfully to tgram_schema.json")
+    print("✅ Extracted successfully to tgram_scheme.json")
