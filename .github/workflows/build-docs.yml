@@ -19,17 +19,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r doc/requirements.txt
+        pip install -r docs/requirements.txt
 
     - name: Update the docs
       run: | 
-          cd doc
+          cd docs
           python generate_scheme.py
           python generate_docs.py
           mkdocs build
           cd ..
-          mv doc/* .
-          rm -rf doc venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests requirements.txt generate_scheme.py generate_docs.py
+          mv docs docs-bak
+          mv docs-bak/* .
+          rm -rf docs-bak venv __pycache__ tgram .gitignore LICENSE .github pyproject.toml examples tests requirements.txt generate_scheme.py generate_docs.py
           mv site/* .
           touch .nojekyll
           git checkout --orphan gh-pages

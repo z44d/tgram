@@ -26,7 +26,7 @@ def generate_docs():
 
     def format_type(type_value, context="method"):
         if isinstance(type_value, list):
-            return f"List of {format_type(type_value[0], context)}"
+            return f"List of {' or '.join(format_type(t, context) for t in type_value)}"
         if isinstance(type_value, dict):
             kind = type_value.get("kind")
             if kind == "list":
@@ -35,17 +35,22 @@ def generate_docs():
                 return " or ".join(
                     format_type(t, context) for t in type_value.get("of")
                 )
+        if isinstance(type_value, str) and ", " in type_value:
+            return " or ".join(type_link(t, context) for t in type_value.split(", "))
         return type_link(type_value, context)
 
     def type_link(type_name, context="method"):
         if isinstance(type_name, dict):
             return format_type(type_name, context)
-        if type_name in types_data:
+
+        simple_type_name = type_name.split(".")[-1]
+
+        if simple_type_name in types_data:
             if context == "method" or context == "util":
-                return f"[{type_name}](../types/{type_name}.md)"
+                return f"[{simple_type_name}](../types/{simple_type_name}.md)"
             else:
-                return f"[{type_name}]({type_name}.md)"
-        return f"`{type_name}`"
+                return f"[{simple_type_name}]({simple_type_name}.md)"
+        return f"`{simple_type_name}`"
 
     for type_name, type_info in types_data.items():
         with open(os.path.join(types_dir, f"{type_name}.md"), "w") as f:
