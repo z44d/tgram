@@ -1,13 +1,15 @@
 import tgram
 
-from typing import List
+from typing import List, Union
 
 
 class PostStory:
     async def post_story(
         self: "tgram.TgBot",
         business_connection_id: str,
-        content: "tgram.types.InputStoryContent",
+        content: Union[
+            "tgram.types.InputStoryContentPhoto", "tgram.types.InputStoryContentVideo"
+        ],
         active_period: int,
         caption: str = None,
         parse_mode: str = None,

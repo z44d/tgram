@@ -1,6 +1,6 @@
 import tgram
 
-from typing import List
+from typing import List, Union
 
 
 class EditStory:
@@ -8,7 +8,9 @@ class EditStory:
         self: "tgram.TgBot",
         business_connection_id: str,
         story_id: int,
-        content: "tgram.types.InputStoryContent",
+        content: Union[
+            "tgram.types.InputStoryContentPhoto", "tgram.types.InputStoryContentVideo"
+        ],
         caption: str = None,
         parse_mode: str = None,
         caption_entities: List["tgram.types.MessageEntity"] = None,
