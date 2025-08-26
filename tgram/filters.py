@@ -315,3 +315,32 @@ def command(
         return False
 
     return Filter(filter_func)
+
+
+def parameter(pattern: Union[str, Pattern]) -> Filter:
+    """
+    Filters command parameters using the specified regular expression pattern.
+
+    This filter extracts parameters from commands (e.g., `/start ref_123`) by matching them against the provided regex pattern.
+    Useful for handling commands with dynamic arguments.
+
+    Args:
+        pattern (Union[str, Pattern]): The regular expression pattern to match command parameters.
+        flags (int, optional): Regex flags to modify matching behavior. Defaults to 0.
+
+    Returns:
+        Filter: A filter object that matches command parameters based on the given pattern.
+    """
+
+    async def parameter_func(b: "tgram.TgBot", m: "tgram.types.Message") -> bool:
+        if not m.text:
+            return False
+
+        param = m.parameter
+
+        if not param:
+            return False
+
+        return bool(re.match(pattern, param))
+
+    return Filter(parameter_func)
