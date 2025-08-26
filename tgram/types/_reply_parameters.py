@@ -3,6 +3,7 @@ from .type_ import Type_
 
 from typing import List, Union, Optional
 
+
 class ReplyParameters(Type_):
     """
     Describes reply parameters for the message that is being sent.
