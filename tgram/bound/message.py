@@ -1,3 +1,4 @@
+import re
 import tgram
 
 from typing import Callable, Union, List, Optional, Literal
@@ -1813,6 +1814,19 @@ class MessageB:
         return self.from_user
 
     sender_user = user
+
+    @property
+    def parameter(self: "tgram.types.Message") -> Optional[str]:
+        if not self.text:
+            return None
+
+        pattern = rf"^/(\w+)(?:@{self._me.me.username})?\s+(\S+)$"
+        match = re.match(pattern, self.text)
+
+        if not match:
+            return None
+
+        return match.group(1)
 
     @property
     def __reply_param(self) -> "tgram.types.ReplyParameters":
