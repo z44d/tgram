@@ -4,17 +4,18 @@ from typing import Callable, Union
 from tgram.types import Listener, Message, CallbackQuery, Update
 
 from tgram.errors import CanceledListener
+from tgram import filters
 
 
 class Ask:
     async def ask(
         self: "tgram.TgBot",
         chat_id: int,
-        update_type: str = None,
+        update_type: str = "message",
         user_id: int = None,
         sender_id: int = None,
         cancel: Callable[[Update], bool] = None,
-        filters: "tgram.filters.Filter" = None,
+        filters: "filters.Filter" = filters.all,
         timeout: float = None,
     ) -> Union[Message, CallbackQuery, Update]:
         """
