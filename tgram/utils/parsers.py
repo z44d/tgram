@@ -2,7 +2,7 @@ import html
 import tgram
 import re
 
-from typing import List
+from typing import List, Union, Pattern, Match, Optional
 from struct import unpack
 
 
@@ -15,6 +15,11 @@ class String(str):
         self._entities = e
 
         return self
+
+    def match(
+        self, pattern: Union[str, Pattern[str]], flags: Union[int, re.RegexFlag] = 0
+    ) -> Optional[Match[str]]:
+        return re.match(pattern=pattern, string=self, flags=flags)
 
     @property
     def markdown(self) -> str:
