@@ -1,6 +1,8 @@
 import tgram
+
+from tgram.types import Message, SuggestedPostParameters
+
 from typing import Union
-from tgram.types import Message
 
 
 class ForwardMessage:
@@ -13,6 +15,8 @@ class ForwardMessage:
         video_start_timestamp: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
+        direct_messages_topic_id: int = None,
+        suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """
         Use this method to forward messages of any kind.
@@ -43,6 +47,12 @@ class ForwardMessage:
         :param message_thread_id: Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
         :type message_thread_id: :obj:`int`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
+        :param suggested_post_parameters: A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+        :type suggested_post_parameters: :class:`tgram.types.SuggestedPostParameters`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -58,5 +68,7 @@ class ForwardMessage:
             protect_content=protect_content
             if protect_content is not None
             else self.protect_content,
+            direct_messages_topic_id=direct_messages_topic_id,
+            suggested_post_parameters=suggested_post_parameters,
         )
         return Message._parse(me=self, d=result["result"])

@@ -14,6 +14,7 @@ class CopyMessages:
         disable_notification: bool = None,
         protect_content: bool = None,
         remove_caption: bool = None,
+        direct_messages_topic_id: int = None,
     ) -> List[MessageId]:
         """
         Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped.
@@ -45,6 +46,9 @@ class CopyMessages:
         :param remove_caption: Pass True to copy the messages without their captions
         :type remove_caption: :obj:`bool`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
         :return: On success, an array of MessageId of the sent messages is returned.
         :rtype: :obj:`list` of :class:`tgram.types.MessageID`
         """
@@ -60,5 +64,6 @@ class CopyMessages:
             if protect_content is not None
             else self.protect_content,
             remove_caption=remove_caption,
+            direct_messages_topic_id=direct_messages_topic_id,
         )
         return [MessageId._parse(me=self, d=i) for i in result["result"]]

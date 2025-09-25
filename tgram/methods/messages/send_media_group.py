@@ -1,11 +1,15 @@
 import tgram
-from typing import List
-from typing import Union
-from tgram.types import InputMedia
-from tgram.types import Message
-from tgram.types import ReplyParameters
 
-from tgram.utils import convert_input_media
+from tgram.types import (
+    ReplyParameters,
+    Message,
+    InputMedia,
+)
+from tgram.utils import (
+    convert_input_media,
+)
+
+from typing import Union, List
 
 
 class SendMediaGroup:
@@ -20,6 +24,7 @@ class SendMediaGroup:
         message_effect_id: str = None,
         reply_parameters: ReplyParameters = None,
         allow_paid_broadcast: bool = None,
+        direct_messages_topic_id: int = None,
     ) -> List[Message]:
         """
         Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files
@@ -64,6 +69,9 @@ class SendMediaGroup:
             The relevant Stars will be withdrawn from the bot's balance
         :type allow_paid_broadcast: :obj:`bool`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
         :return: On success, an array of Messages that were sent is returned.
         :rtype: List[types.Message]
         """
@@ -82,5 +90,6 @@ class SendMediaGroup:
             reply_parameters=reply_parameters,
             allow_paid_broadcast=allow_paid_broadcast,
             **files,
+            direct_messages_topic_id=direct_messages_topic_id,
         )
         return [Message._parse(me=self, d=i) for i in result["result"]]

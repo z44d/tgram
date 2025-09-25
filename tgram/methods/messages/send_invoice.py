@@ -1,12 +1,15 @@
 import tgram
-from typing import List
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import LabeledPrice
-from tgram.types import Message
-from tgram.types import ReplyParameters
 
+from tgram.types import (
+    ReplyParameters,
+    SuggestedPostParameters,
+    Message,
+    InlineKeyboardMarkup,
+    LabeledPrice,
+)
 from tgram.utils import convert_to_inline_keyboard_markup
+
+from typing import Union, List
 
 
 class SendInvoice:
@@ -41,6 +44,8 @@ class SendInvoice:
         reply_parameters: ReplyParameters = None,
         reply_markup: InlineKeyboardMarkup = None,
         allow_paid_broadcast: bool = None,
+        direct_messages_topic_id: int = None,
+        suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """
         Sends invoice.
@@ -154,6 +159,12 @@ class SendInvoice:
             The relevant Stars will be withdrawn from the bot's balance
         :type allow_paid_broadcast: :obj:`bool`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
+        :param suggested_post_parameters: A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+        :type suggested_post_parameters: :class:`tgram.types.SuggestedPostParameters`
+
         :return: On success, the sent Message is returned.
         :rtype: :obj:`tgram.types.Message`
         """
@@ -193,5 +204,7 @@ class SendInvoice:
             if isinstance(reply_markup, list)
             else reply_markup,
             allow_paid_broadcast=allow_paid_broadcast,
+            direct_messages_topic_id=direct_messages_topic_id,
+            suggested_post_parameters=suggested_post_parameters,
         )
         return Message._parse(me=self, d=result["result"])

@@ -13,6 +13,7 @@ class ForwardMessages:
         message_thread_id: int = None,
         disable_notification: bool = None,
         protect_content: bool = None,
+        direct_messages_topic_id: int = None,
     ) -> List[MessageId]:
         """
         Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded,
@@ -39,6 +40,9 @@ class ForwardMessages:
         :param protect_content: Protects the contents of the forwarded message from forwarding and saving
         :type protect_content: :obj:`bool`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.MessageID`
         """
@@ -53,5 +57,6 @@ class ForwardMessages:
             protect_content=protect_content
             if protect_content is not None
             else self.protect_content,
+            direct_messages_topic_id=direct_messages_topic_id,
         )
         return [MessageId._parse(me=self, d=i) for i in result["result"]]

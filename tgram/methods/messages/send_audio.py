@@ -1,15 +1,20 @@
 import tgram
-from typing import List
-from typing import Union
-from tgram.types import ForceReply
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import MessageEntity
-from tgram.types import ReplyKeyboardMarkup
-from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters, ParseMode
-from pathlib import Path
+
+from tgram.types import (
+    ReplyParameters,
+    ParseMode,
+    SuggestedPostParameters,
+    Message,
+    InlineKeyboardMarkup,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    ForceReply,
+    MessageEntity,
+)
 from tgram.utils import get_file_path, get_parse_mode, convert_to_inline_keyboard_markup
+
+from pathlib import Path
+from typing import Union, List
 
 
 class SendAudio:
@@ -34,6 +39,8 @@ class SendAudio:
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
         allow_paid_broadcast: bool = None,
+        direct_messages_topic_id: int = None,
+        suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """
         Use this method to send audio files, if you want Telegram clients to display them in the music player.
@@ -114,6 +121,12 @@ class SendAudio:
             The relevant Stars will be withdrawn from the bot's balance
         :type allow_paid_broadcast: :obj:`bool`
 
+        :param direct_messages_topic_id: Identifier of the direct messages topic to which the message will be sent; required if the message is sent to a direct messages chat
+        :type direct_messages_topic_id: :obj:`int`
+
+        :param suggested_post_parameters: A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
+        :type suggested_post_parameters: :class:`tgram.types.SuggestedPostParameters`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -141,5 +154,7 @@ class SendAudio:
             if isinstance(reply_markup, list)
             else reply_markup,
             allow_paid_broadcast=allow_paid_broadcast,
+            direct_messages_topic_id=direct_messages_topic_id,
+            suggested_post_parameters=suggested_post_parameters,
         )
         return Message._parse(me=self, d=result["result"])
