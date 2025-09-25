@@ -154,6 +154,32 @@ reply_markup = Filter(lambda _, m: bool(getattr(m, "reply_markup", False)))
 service = Filter(lambda _, m: isinstance(m, tgram.types.Message) and m.service)
 media = Filter(lambda _, m: isinstance(m, tgram.types.Message) and m.media)
 
+reply_to_checklist_task = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.reply_to_checklist_task_id
+)
+direct_message = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.direct_messages_topic
+)
+paid_post = Filter(lambda _, m: isinstance(m, tgram.types.Message) and m.is_paid_post)
+suggested_post = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_info
+)
+suggested_post_declined = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_declined
+)
+suggested_post_approved = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_approved
+)
+suggested_post_approval_failed = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_approval_failed
+)
+suggested_post_paid = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_paid
+)
+suggested_post_refunded = Filter(
+    lambda _, m: isinstance(m, tgram.types.Message) and m.suggested_post_refunded
+)
+
 
 def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     """Filter messages coming from one or more sender chat"""
