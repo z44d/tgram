@@ -12,50 +12,46 @@ class Message(Type_, bound.MessageB):
 
     Telegram Documentation: https://core.telegram.org/bots/api#message
 
-    :param message_id: Unique message identifier inside this chat
+    :param message_id: Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent
     :type message_id: :obj:`int`
 
     :param message_thread_id: Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
     :type message_thread_id: :obj:`int`
 
-    :param from_user: Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the
-        field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+    :param direct_messages_topic: Optional. Information about the direct messages chat topic that contains the message
+    :type direct_messages_topic: :class:`tgram.types.DirectMessagesTopic`
+
+    :param from_user: Optional. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
     :type from_user: :class:`tgram.types.User`
 
-    :param sender_chat: Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for
-        channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for
-        messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a
-        fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+    :param sender_chat: Optional. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.
     :type sender_chat: :class:`tgram.types.Chat`
 
     :param sender_boost_count: Optional. If the sender of the message boosted the chat, the number of boosts added by the user
     :type sender_boost_count: :obj:`int`
 
-    :param sender_business_bot info: Optional. Information about the business bot that sent the message
-    :type sender_business_bot_info: :class:`tgram.types.User`
+    :param sender_business_bot: Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
+    :type sender_business_bot: :class:`tgram.types.User`
 
-    :param date: Date the message was sent in Unix time
+    :param date: Date the message was sent in Unix time. It is always a positive number, representing a valid date.
     :type date: :obj:`int`
 
-    :param business_connection_id: Optional. Unique identifier of the business connection from which the message was received. If non-empty,
-        the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
+    :param business_connection_id: Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
     :type business_connection_id: :obj:`str`
 
-    :param chat: Conversation the message belongs to
+    :param chat: Chat the message belongs to
     :type chat: :class:`tgram.types.Chat`
 
-    :forward_origin: Optional. For forwarded messages, information about the original message;
+    :param forward_origin: Optional. Information about the original message for forwarded messages
     :type forward_origin: :class:`tgram.types.MessageOrigin`
 
     :param is_topic_message: Optional. True, if the message is sent to a forum topic
     :type is_topic_message: :obj:`bool`
 
-    :param is_automatic_forward: Optional. :obj:`bool`, if the message is a channel post that was automatically
-        forwarded to the connected discussion group
+    :param is_automatic_forward: Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
     :type is_automatic_forward: :obj:`bool`
 
-    :param reply_to_message: Optional. For replies, the original message. Note that the Message object in this field
-        will not contain further reply_to_message fields even if it itself is a reply.
+    :param reply_to_message: Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
     :type reply_to_message: :class:`tgram.types.Message`
 
     :param external_reply: Optional. Information about the message that is being replied to, which may come from another chat or forum topic
@@ -76,36 +72,40 @@ class Message(Type_, bound.MessageB):
     :param edit_date: Optional. Date the message was last edited in Unix time
     :type edit_date: :obj:`int`
 
-    :param has_protected_content: Optional. :obj:`bool`, if the message can't be forwarded
+    :param has_protected_content: Optional. True, if the message can't be forwarded
     :type has_protected_content: :obj:`bool`
 
-    :param is_from_offline: Optional. True, if the message was sent by an implicit action, for example,
-        as an away or a greeting business message, or as a scheduled message
+    :param is_from_offline: Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
     :type is_from_offline: :obj:`bool`
+
+    :param is_paid_post: Optional. True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to receive the payment and can't be edited.
+    :type is_paid_post: :obj:`bool`
 
     :param media_group_id: Optional. The unique identifier of a media message group this message belongs to
     :type media_group_id: :obj:`str`
 
-    :param author_signature: Optional. Signature of the post author for messages in channels, or the custom title of an
-        anonymous group administrator
+    :param author_signature: Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
     :type author_signature: :obj:`str`
+
+    :param paid_star_count: Optional. The number of Telegram Stars that were paid by the sender of the message to send it
+    :type paid_star_count: :obj:`int`
 
     :param text: Optional. For text messages, the actual UTF-8 text of the message
     :type text: :class:`tgram.utils.String`
 
-    :param entities: Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that
-        appear in the text
+    :param entities: Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
     :type entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
-    :param link_preview_options: Optional. Options used for link preview generation for the message,
-        if it is a text message and link preview options were changed
+    :param link_preview_options: Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
     :type link_preview_options: :class:`tgram.types.LinkPreviewOptions`
+
+    :param suggested_post_info: Optional. Information about suggested post parameters if the message is a suggested post in a channel direct messages chat. If the message is an approved or declined suggested post, then it can't be edited.
+    :type suggested_post_info: :class:`tgram.types.SuggestedPostInfo`
 
     :param effect_id: Optional. Unique identifier of the message effect added to the message
     :type effect_id: :obj:`str`
 
-    :param animation: Optional. Message is an animation, information about the animation. For backward
-        compatibility, when this field is set, the document field will also be set
+    :param animation: Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
     :type animation: :class:`tgram.types.Animation`
 
     :param audio: Optional. Message is an audio file, information about the file
@@ -113,6 +113,9 @@ class Message(Type_, bound.MessageB):
 
     :param document: Optional. Message is a general file, information about the file
     :type document: :class:`tgram.types.Document`
+
+    :param paid_media: Optional. Message contains paid media; information about the paid media
+    :type paid_media: :class:`tgram.types.PaidMediaInfo`
 
     :param photo: Optional. Message is a photo, available sizes of the photo
     :type photo: :obj:`list` of :class:`tgram.types.PhotoSize`
@@ -132,11 +135,10 @@ class Message(Type_, bound.MessageB):
     :param voice: Optional. Message is a voice message, information about the file
     :type voice: :class:`tgram.types.Voice`
 
-    :param caption: Optional. Caption for the animation, audio, document, photo, video or voice
-    :type caption: :obj:`str`
+    :param caption: Optional. Caption for the animation, audio, document, paid media, photo, video or voice
+    :type caption: :class:`tgram.utils.String`
 
-    :param caption_entities: Optional. For messages with a caption, special entities like usernames, URLs, bot
-        commands, etc. that appear in the caption
+    :param caption_entities: Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
     :type caption_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
     :param show_caption_above_media: Optional. True, if the caption must be shown above the message media
@@ -160,19 +162,16 @@ class Message(Type_, bound.MessageB):
     :param poll: Optional. Message is a native poll, information about the poll
     :type poll: :class:`tgram.types.Poll`
 
-    :param venue: Optional. Message is a venue, information about the venue. For backward compatibility, when this
-        field is set, the location field will also be set
+    :param venue: Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the location field will also be set
     :type venue: :class:`tgram.types.Venue`
 
     :param location: Optional. Message is a shared location, information about the location
     :type location: :class:`tgram.types.Location`
 
-    :param new_chat_members: Optional. New members that were added to the group or supergroup and information about
-        them (the bot itself may be one of these members)
+    :param new_chat_members: Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
     :type new_chat_members: :obj:`list` of :class:`tgram.types.User`
 
-    :param left_chat_member: Optional. A member was removed from the group, information about them (this member may be
-        the bot itself)
+    :param left_chat_member: Optional. A member was removed from the group, information about them (this member may be the bot itself)
     :type left_chat_member: :class:`tgram.types.User`
 
     :param new_chat_title: Optional. A chat title was changed to this value
@@ -187,68 +186,55 @@ class Message(Type_, bound.MessageB):
     :param group_chat_created: Optional. Service message: the group has been created
     :type group_chat_created: :obj:`bool`
 
-    :param supergroup_chat_created: Optional. Service message: the supergroup has been created. This field can't be
-        received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can
-        only be found in reply_to_message if someone replies to a very first message in a directly created supergroup.
+    :param supergroup_chat_created: Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup.
     :type supergroup_chat_created: :obj:`bool`
 
-    :param channel_chat_created: Optional. Service message: the channel has been created. This field can't be
-        received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only
-        be found in reply_to_message if someone replies to a very first message in a channel.
+    :param channel_chat_created: Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel.
     :type channel_chat_created: :obj:`bool`
 
-    :param message_auto_delete_timer_changed: Optional. Service message: auto-delete timer settings changed in
-        the chat
+    :param message_auto_delete_timer_changed: Optional. Service message: auto-delete timer settings changed in the chat
     :type message_auto_delete_timer_changed: :class:`tgram.types.MessageAutoDeleteTimerChanged`
 
     :param migrate_to_chat_id: Optional. The group has been migrated to a supergroup with the specified identifier.
-        This number may have more than 32 significant bits and some programming languages may have difficulty/silent
-        defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision
-        float type are safe for storing this identifier.
     :type migrate_to_chat_id: :obj:`int`
 
-    :param migrate_from_chat_id: Optional. The supergroup has been migrated from a group with the specified
-        identifier. This number may have more than 32 significant bits and some programming languages may have
-        difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or
-        double-precision float type are safe for storing this identifier.
+    :param migrate_from_chat_id: Optional. The supergroup has been migrated from a group with the specified identifier.
     :type migrate_from_chat_id: :obj:`int`
 
-    :param pinned_message: Optional. Specified message was pinned. Note that the Message object in this field will not
-        contain further reply_to_message fields even if it is itself a reply.
-    :type pinned_message: :class:`tgram.types.Message` or :class:`tgram.types.InaccessibleMessage`
+    :param pinned_message: Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+    :type pinned_message: :class:`tgram.types.MaybeInaccessibleMessage`
 
     :param invoice: Optional. Message is an invoice for a payment, information about the invoice. More about payments »
     :type invoice: :class:`tgram.types.Invoice`
 
-    :param successful_payment: Optional. Message is a service message about a successful payment, information about
-        the payment. More about payments »
+    :param successful_payment: Optional. Message is a service message about a successful payment, information about the payment. More about payments »
     :type successful_payment: :class:`tgram.types.SuccessfulPayment`
 
-    :param users_shared: Optional. Service message: a user was shared with the bot
+    :param refunded_payment: Optional. Message is a service message about a refunded payment, information about the payment. More about payments »
+    :type refunded_payment: :class:`tgram.types.RefundedPayment`
+
+    :param users_shared: Optional. Service message: users were shared with the bot
     :type users_shared: :class:`tgram.types.UsersShared`
 
     :param chat_shared: Optional. Service message: a chat was shared with the bot
     :type chat_shared: :class:`tgram.types.ChatShared`
 
     :param gift: Optional. Service message: a regular gift was sent or received
-        :type gift: :class:`tgram.types.GiftInfo`
+    :type gift: :class:`tgram.types.GiftInfo`
 
     :param unique_gift: Optional. Service message: a unique gift was sent or received
     :type unique_gift: :class:`tgram.types.UniqueGiftInfo`
 
-    :param connected_website: Optional. The domain name of the website on which the user has logged in. More about
-        Telegram Login »
+    :param connected_website: Optional. The domain name of the website on which the user has logged in. More about Telegram Login »
     :type connected_website: :obj:`str`
 
-    :param write_access_allowed: Optional. Service message: the user allowed the bot added to the attachment
-        menu to write messages
+    :param write_access_allowed: Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method requestWriteAccess
     :type write_access_allowed: :class:`tgram.types.WriteAccessAllowed`
 
     :param passport_data: Optional. Telegram Passport data
     :type passport_data: :class:`tgram.types.PassportData`
 
-    :param proximity_alert_triggered: Optional. Service message. A user in the chat triggered another user's
-        proximity alert while sharing Live Location.
+    :param proximity_alert_triggered: Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     :type proximity_alert_triggered: :class:`tgram.types.ProximityAlertTriggered`
 
     :param boost_added: Optional. Service message: user boosted the chat
@@ -284,17 +270,35 @@ class Message(Type_, bound.MessageB):
     :param general_forum_topic_unhidden: Optional. Service message: the 'General' forum topic unhidden
     :type general_forum_topic_unhidden: :class:`tgram.types.GeneralForumTopicUnhidden`
 
-    :param giveaway_created: Optional. Service message: a giveaway has been created
+    :param giveaway_created: Optional. Service message: a scheduled giveaway was created
     :type giveaway_created: :class:`tgram.types.GiveawayCreated`
 
     :param giveaway: Optional. The message is a scheduled giveaway message
     :type giveaway: :class:`tgram.types.Giveaway`
 
-    :param giveaway_winners: Optional. Service message: giveaway winners(public winners)
+    :param giveaway_winners: Optional. A giveaway with public winners was completed
     :type giveaway_winners: :class:`tgram.types.GiveawayWinners`
 
-    :param giveaway_completed: Optional. Service message: giveaway completed, without public winners
+    :param giveaway_completed: Optional. Service message: a giveaway without public winners was completed
     :type giveaway_completed: :class:`tgram.types.GiveawayCompleted`
+
+    :param paid_message_price_changed: Optional. Service message: the price for paid messages has changed in the chat
+    :type paid_message_price_changed: :class:`tgram.types.PaidMessagePriceChanged`
+
+    :param suggested_post_approved: Optional. Service message: a suggested post was approved
+    :type suggested_post_approved: :class:`tgram.types.SuggestedPostApproved`
+
+    :param suggested_post_approval_failed: Optional. Service message: approval of a suggested post has failed
+    :type suggested_post_approval_failed: :class:`tgram.types.SuggestedPostApprovalFailed`
+
+    :param suggested_post_declined: Optional. Service message: a suggested post was declined
+    :type suggested_post_declined: :class:`tgram.types.SuggestedPostDeclined`
+
+    :param suggested_post_paid: Optional. Service message: payment for a suggested post was received
+    :type suggested_post_paid: :class:`tgram.types.SuggestedPostPaid`
+
+    :param suggested_post_refunded: Optional. Service message: payment for a suggested post was refunded
+    :type suggested_post_refunded: :class:`tgram.types.SuggestedPostRefunded`
 
     :param video_chat_scheduled: Optional. Service message: video chat scheduled
     :type video_chat_scheduled: :class:`tgram.types.VideoChatScheduled`
@@ -314,9 +318,6 @@ class Message(Type_, bound.MessageB):
     :param reply_markup: Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     :type reply_markup: :class:`tgram.types.InlineKeyboardMarkup`
 
-    :param paid_message_price_changed: Optional. Service message: the price for paid messages has changed in the chat
-    :type paid_message_price_changed: :class:`tgram.types.PaidMessagePriceChanged`
-
     :return: Instance of the class
     :rtype: :class:`tgram.types.Message`
     """
@@ -324,14 +325,15 @@ class Message(Type_, bound.MessageB):
     def __init__(
         self,
         message_id: "int" = None,
-        date: "int" = None,
-        chat: "tgram.types.Chat" = None,
         message_thread_id: "int" = None,
+        direct_messages_topic: "tgram.types.DirectMessagesTopic" = None,
         from_user: "tgram.types.User" = None,
         sender_chat: "tgram.types.Chat" = None,
         sender_boost_count: "int" = None,
         sender_business_bot: "tgram.types.User" = None,
+        date: "int" = None,
         business_connection_id: "str" = None,
+        chat: "tgram.types.Chat" = None,
         forward_origin: "tgram.types.MessageOrigin" = None,
         is_topic_message: "bool" = None,
         is_automatic_forward: "bool" = None,
@@ -344,11 +346,14 @@ class Message(Type_, bound.MessageB):
         edit_date: "int" = None,
         has_protected_content: "bool" = None,
         is_from_offline: "bool" = None,
+        is_paid_post: "bool" = None,
         media_group_id: "str" = None,
         author_signature: "str" = None,
+        paid_star_count: "int" = None,
         text: "String" = None,
         entities: List["tgram.types.MessageEntity"] = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
+        suggested_post_info: "tgram.types.SuggestedPostInfo" = None,
         effect_id: "str" = None,
         animation: "tgram.types.Animation" = None,
         audio: "tgram.types.Audio" = None,
@@ -382,7 +387,7 @@ class Message(Type_, bound.MessageB):
         message_auto_delete_timer_changed: "tgram.types.MessageAutoDeleteTimerChanged" = None,
         migrate_to_chat_id: "int" = None,
         migrate_from_chat_id: "int" = None,
-        pinned_message: "tgram.types.Message" = None,
+        pinned_message: "tgram.types.MaybeInaccessibleMessage" = None,
         invoice: "tgram.types.Invoice" = None,
         successful_payment: "tgram.types.SuccessfulPayment" = None,
         refunded_payment: "tgram.types.RefundedPayment" = None,
@@ -410,6 +415,11 @@ class Message(Type_, bound.MessageB):
         giveaway_winners: "tgram.types.GiveawayWinners" = None,
         giveaway_completed: "tgram.types.GiveawayCompleted" = None,
         paid_message_price_changed: "tgram.types.PaidMessagePriceChanged" = None,
+        suggested_post_approved: "tgram.types.SuggestedPostApproved" = None,
+        suggested_post_approval_failed: "tgram.types.SuggestedPostApprovalFailed" = None,
+        suggested_post_declined: "tgram.types.SuggestedPostDeclined" = None,
+        suggested_post_paid: "tgram.types.SuggestedPostPaid" = None,
+        suggested_post_refunded: "tgram.types.SuggestedPostRefunded" = None,
         video_chat_scheduled: "tgram.types.VideoChatScheduled" = None,
         video_chat_started: "tgram.types.VideoChatStarted" = None,
         video_chat_ended: "tgram.types.VideoChatEnded" = None,
@@ -422,6 +432,7 @@ class Message(Type_, bound.MessageB):
         super().__init__(me=me, json=json)
         self.message_id = message_id
         self.message_thread_id = message_thread_id
+        self.direct_messages_topic = direct_messages_topic
         self.from_user = from_user
         self.sender_chat = sender_chat
         self.sender_boost_count = sender_boost_count
@@ -441,11 +452,14 @@ class Message(Type_, bound.MessageB):
         self.edit_date = edit_date
         self.has_protected_content = has_protected_content
         self.is_from_offline = is_from_offline
+        self.is_paid_post = is_paid_post
         self.media_group_id = media_group_id
         self.author_signature = author_signature
+        self.paid_star_count = paid_star_count
         self.text = String(text).put(entities) if text else None
         self.entities = entities
         self.link_preview_options = link_preview_options
+        self.suggested_post_info = suggested_post_info
         self.effect_id = effect_id
         self.animation = animation
         self.audio = audio
@@ -507,6 +521,11 @@ class Message(Type_, bound.MessageB):
         self.giveaway_winners = giveaway_winners
         self.giveaway_completed = giveaway_completed
         self.paid_message_price_changed = paid_message_price_changed
+        self.suggested_post_approved = suggested_post_approved
+        self.suggested_post_approval_failed = suggested_post_approval_failed
+        self.suggested_post_declined = suggested_post_declined
+        self.suggested_post_paid = suggested_post_paid
+        self.suggested_post_refunded = suggested_post_refunded
         self.video_chat_scheduled = video_chat_scheduled
         self.video_chat_started = video_chat_started
         self.video_chat_ended = video_chat_ended
@@ -523,16 +542,19 @@ class Message(Type_, bound.MessageB):
                 me=me,
                 json=d,
                 message_id=d.get("message_id"),
-                date=d.get("date"),
-                chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 message_thread_id=d.get("message_thread_id"),
+                direct_messages_topic=tgram.types.DirectMessagesTopic._parse(
+                    me=me, d=d.get("direct_messages_topic")
+                ),
                 from_user=tgram.types.User._parse(me=me, d=d.get("from")),
                 sender_chat=tgram.types.Chat._parse(me=me, d=d.get("sender_chat")),
                 sender_boost_count=d.get("sender_boost_count"),
                 sender_business_bot=tgram.types.User._parse(
                     me=me, d=d.get("sender_business_bot")
                 ),
+                date=d.get("date"),
                 business_connection_id=d.get("business_connection_id"),
+                chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 forward_origin=message_origin_parse(d.get("forward_origin"), me),
                 is_topic_message=d.get("is_topic_message"),
                 is_automatic_forward=d.get("is_automatic_forward"),
@@ -551,8 +573,10 @@ class Message(Type_, bound.MessageB):
                 edit_date=d.get("edit_date"),
                 has_protected_content=d.get("has_protected_content"),
                 is_from_offline=d.get("is_from_offline"),
+                is_paid_post=d.get("is_paid_post"),
                 media_group_id=d.get("media_group_id"),
                 author_signature=d.get("author_signature"),
+                paid_star_count=d.get("paid_star_count"),
                 text=d.get("text"),
                 entities=[
                     tgram.types.MessageEntity._parse(me=me, d=i)
@@ -562,6 +586,9 @@ class Message(Type_, bound.MessageB):
                 else None,
                 link_preview_options=tgram.types.LinkPreviewOptions._parse(
                     me=me, d=d.get("link_preview_options")
+                ),
+                suggested_post_info=tgram.types.SuggestedPostInfo._parse(
+                    me=me, d=d.get("suggested_post_info")
                 ),
                 effect_id=d.get("effect_id"),
                 animation=tgram.types.Animation._parse(me=me, d=d.get("animation")),
@@ -619,7 +646,7 @@ class Message(Type_, bound.MessageB):
                 ),
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 migrate_from_chat_id=d.get("migrate_from_chat_id"),
-                pinned_message=tgram.types.Message._parse(
+                pinned_message=tgram.types.MaybeInaccessibleMessage._parse(
                     me=me, d=d.get("pinned_message")
                 ),
                 invoice=tgram.types.Invoice._parse(me=me, d=d.get("invoice")),
@@ -695,6 +722,21 @@ class Message(Type_, bound.MessageB):
                 paid_message_price_changed=tgram.types.PaidMessagePriceChanged._parse(
                     me=me, d=d.get("paid_message_price_changed")
                 ),
+                suggested_post_approved=tgram.types.SuggestedPostApproved._parse(
+                    me=me, d=d.get("suggested_post_approved")
+                ),
+                suggested_post_approval_failed=tgram.types.SuggestedPostApprovalFailed._parse(
+                    me=me, d=d.get("suggested_post_approval_failed")
+                ),
+                suggested_post_declined=tgram.types.SuggestedPostDeclined._parse(
+                    me=me, d=d.get("suggested_post_declined")
+                ),
+                suggested_post_paid=tgram.types.SuggestedPostPaid._parse(
+                    me=me, d=d.get("suggested_post_paid")
+                ),
+                suggested_post_refunded=tgram.types.SuggestedPostRefunded._parse(
+                    me=me, d=d.get("suggested_post_refunded")
+                ),
                 video_chat_scheduled=tgram.types.VideoChatScheduled._parse(
                     me=me, d=d.get("video_chat_scheduled")
                 ),
@@ -730,7 +772,5 @@ class Message(Type_, bound.MessageB):
             and (r.from_user and r.from_user.is_bot)
         ):
             me.updates_queue.put_nowait(r)
-
-        return r
 
         return r
