@@ -7,16 +7,16 @@ from tgram import bound, utils
 
 class ChatFullInfo(Type_, bound.ChatB):
     """
-    This object represents a chat.
+    This object contains full information about a chat.
 
-    Telegram Documentation: https://core.telegram.org/bots/api#chat
+    Telegram Documentation: https://core.telegram.org/bots/api#chatfullinfo
 
     :param id: Unique identifier for this chat. This number may have more than 32 significant bits and some programming
         languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed
         64-bit integer or double-precision float type are safe for storing this identifier.
     :type id: :obj:`int`
 
-    :param type: Type of chat, can be either “private”, “group”, “supergroup” or “channel”
+    :param type: Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
     :type type: :obj:`str`
 
     :param title: Optional. Title, for supergroups, channels and group chats
@@ -34,123 +34,124 @@ class ChatFullInfo(Type_, bound.ChatB):
     :param is_forum: Optional. True, if the supergroup chat is a forum (has topics enabled)
     :type is_forum: :obj:`bool`
 
-    :param max_reaction_count: Optional. The maximum number of reactions that can be set on a message in the chat
-    :type max_reaction_count: :obj:`int`
+    :param is_direct_messages: Optional. True, if the chat is the direct messages chat of a channel
+    :type is_direct_messages: :obj:`bool`
 
-    :param photo: Optional. Chat photo. Returned only in getChat.
-    :type photo: :class:`tgram.types.ChatPhoto`
-
-    :param active_usernames: Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
-    :type active_usernames: :obj:`list` of :obj:`str`
-
-    :param birthdate: Optional. Birthdate of the other party in a private chat. Returned only in getChat.
-    :type birthdate: :obj:`str`
-
-    :param business_intro: Optional. Business intro for the chat. Returned only in getChat.
-    :type business_intro: :class:`tgram.types.BusinessIntro`
-
-    :param business_location: Optional. Business location for the chat. Returned only in getChat.
-    :type business_location: :class:`tgram.types.BusinessLocation`
-
-    :param business_opening_hours : Optional. Business opening hours for the chat. Returned only in getChat.
-    :type business_opening_hours: :class:`tgram.types.BusinessHours`
-
-    :param personal_chat: Optional. For private chats, the personal channel of the user. Returned only in getChat.
-    :type personal_chat: :class:`tgram.types.Chat`
-
-    :param available_reactions: Optional. List of available chat reactions; for private chats, supergroups and channels. Returned only in getChat.
-    :type available_reactions: :obj:`list` of :class:`tgram.types.ReactionType`
-
-    :param accent_color_id: Optional. Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo,
-        reply header, and link preview. See accent colors for more details. Returned only in getChat. Always returned in getChat.
+    :param accent_color_id: Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview.
     :type accent_color_id: :obj:`int`
 
-    :param background_custom_emoji_id: Optional. Custom emoji identifier of emoji chosen by the chat for the reply header and link preview background. Returned only in getChat.
+    :param max_reaction_count: The maximum number of reactions that can be set on a message in the chat
+    :type max_reaction_count: :obj:`int`
+
+    :param photo: Optional. Chat photo
+    :type photo: :class:`tgram.types.ChatPhoto`
+
+    :param active_usernames: Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
+    :type active_usernames: :obj:`list` of :obj:`str`
+
+    :param birthdate: Optional. For private chats, the date of birth of the user
+    :type birthdate: :class:`tgram.types.Birthdate`
+
+    :param business_intro: Optional. For private chats with business accounts, the intro of the business
+    :type business_intro: :class:`tgram.types.BusinessIntro`
+
+    :param business_location: Optional. For private chats with business accounts, the location of the business
+    :type business_location: :class:`tgram.types.BusinessLocation`
+
+    :param business_opening_hours: Optional. For private chats with business accounts, the opening hours of the business
+    :type business_opening_hours: :class:`tgram.types.BusinessOpeningHours`
+
+    :param personal_chat: Optional. For private chats, the personal channel of the user
+    :type personal_chat: :class:`tgram.types.Chat`
+
+    :param parent_chat: Optional. Information about the corresponding channel chat; for direct messages chats only
+    :type parent_chat: :class:`tgram.types.Chat`
+
+    :param available_reactions: Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
+    :type available_reactions: :obj:`list` of :class:`tgram.types.ReactionType`
+
+    :param background_custom_emoji_id: Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
     :type background_custom_emoji_id: :obj:`str`
 
-    :param profile_accent_color_id: Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details. Returned only in getChat.
+    :param profile_accent_color_id: Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
     :type profile_accent_color_id: :obj:`int`
 
-    :param profile_background_custom_emoji_id: Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background. Returned only in getChat.
+    :param profile_background_custom_emoji_id: Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background
     :type profile_background_custom_emoji_id: :obj:`str`
 
-    :param emoji_status_custom_emoji_id: Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+    :param emoji_status_custom_emoji_id: Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat
     :type emoji_status_custom_emoji_id: :obj:`str`
 
-    :param emoji_status_expiration_date: Optional. Expiration date of the emoji status of the other party in a private chat, if any. Returned only in getChat.
+    :param emoji_status_expiration_date: Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any
     :type emoji_status_expiration_date: :obj:`int`
 
-    :param bio: Optional. Bio of the other party in a private chat. Returned only in getChat.
+    :param bio: Optional. Bio of the other party in a private chat
     :type bio: :obj:`str`
 
-    :param has_private_forwards: Optional. :obj:`bool`, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat.
+    :param has_private_forwards: Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user
     :type has_private_forwards: :obj:`bool`
 
-    :param has_restricted_voice_and_video_messages: Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
-    :type :obj:`bool`
+    :param has_restricted_voice_and_video_messages: Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat
+    :type has_restricted_voice_and_video_messages: :obj:`bool`
 
-    :param join_to_send_messages: Optional. :obj:`bool`, if users need to join the supergroup before they can send messages. Returned only in getChat.
+    :param join_to_send_messages: Optional. True, if users need to join the supergroup before they can send messages
     :type join_to_send_messages: :obj:`bool`
 
-    :param join_by_request: Optional. :obj:`bool`, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+    :param join_by_request: Optional. True, if all users directly joining the supergroup without using an invite link need to be approved by supergroup administrators
     :type join_by_request: :obj:`bool`
 
-    :param description: Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
+    :param description: Optional. Description, for groups, supergroups and channel chats
     :type description: :obj:`str`
 
-    :param invite_link: Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
+    :param invite_link: Optional. Primary invite link, for groups, supergroups and channel chats
     :type invite_link: :obj:`str`
 
-    :param pinned_message: Optional. The most recent pinned message (by sending date). Returned only in getChat.
+    :param pinned_message: Optional. The most recent pinned message (by sending date)
     :type pinned_message: :class:`tgram.types.Message`
 
-    :param permissions: Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
+    :param permissions: Optional. Default chat member permissions, for groups and supergroups
     :type permissions: :class:`tgram.types.ChatPermissions`
 
-    :param slow_mode_delay: Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
-    :type slow_mode_delay: :obj:`int`
+    :param accepted_gift_types: Information about types of gifts that are accepted by the chat or by the corresponding user for private chats
+    :type accepted_gift_types: :class:`tgram.types.AcceptedGiftTypes`
 
-    :param unrestrict_boost_count: Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions. Returned only in getChat.
-    :type unrestrict_boost_count: :obj:`int`
-
-    :param message_auto_delete_time: Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
-    :type message_auto_delete_time: :obj:`int`
-
-    :param has_aggressive_anti_spam_enabled: Optional. :obj:`bool`, if the chat has enabled aggressive anti-spam protection. Returned only in getChat.
-    :type has_aggressive_anti_spam_enabled: :obj:`bool`
-
-    :param has_hidden_members: Optional. :obj:`bool`, if the chat has enabled hidden members. Returned only in getChat.
-    :type has_hidden_members: :obj:`bool`
-
-    :param has_protected_content: Optional. :obj:`bool`, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
-    :type has_protected_content: :obj:`bool`
-
-    :param has_visible_history: Optional. True, if new chat members will have access to old messages; available only to chat administrators. Returned only in getChat.
-    :type has_visible_history: :obj:`bool`
-
-    :param sticker_set_name: Optional. For supergroups, name of group sticker set. Returned only in getChat.
-    :type sticker_set_name: :obj:`str`
-
-    :param can_set_sticker_set: Optional. :obj:`bool`, if the bot can change the group sticker set. Returned only in getChat.
-    :type can_set_sticker_set: :obj:`bool`
-
-    :param AcceptedGiftTypes: Information about types of gifts that are accepted by the chat or by the corresponding user for private chats.
-    :type AcceptedGiftTypes: :class:`tgram.types.AcceptedGiftTypes`
-
-    :param can_send_paid_media: Optional. :obj:`bool`, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
+    :param can_send_paid_media: Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
     :type can_send_paid_media: :obj:`bool`
 
-    :param custom_emoji_sticker_set_name: Optional. For supergroups, the name of the group's custom emoji sticker set.
-        Custom emoji from this set can be used by all users and bots in the group. Returned only in getChat.
-    :param custom_emoji_sticker_set_name: :obj:`str`
+    :param slow_mode_delay: Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
+    :type slow_mode_delay: :obj:`int`
 
-    :param linked_chat_id: Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for
-        a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some
-        programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a
-        signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+    :param unrestrict_boost_count: Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
+    :type unrestrict_boost_count: :obj:`int`
+
+    :param message_auto_delete_time: Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds
+    :type message_auto_delete_time: :obj:`int`
+
+    :param has_aggressive_anti_spam_enabled: Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators.
+    :type has_aggressive_anti_spam_enabled: :obj:`bool`
+
+    :param has_hidden_members: Optional. True, if non-administrators can only get the list of bots and administrators in the chat
+    :type has_hidden_members: :obj:`bool`
+
+    :param has_protected_content: Optional. True, if messages from the chat can't be forwarded to other chats
+    :type has_protected_content: :obj:`bool`
+
+    :param has_visible_history: Optional. True, if new chat members will have access to old messages; available only to chat administrators
+    :type has_visible_history: :obj:`bool`
+
+    :param sticker_set_name: Optional. For supergroups, name of the group sticker set
+    :type sticker_set_name: :obj:`str`
+
+    :param can_set_sticker_set: Optional. True, if the bot can change the group sticker set
+    :type can_set_sticker_set: :obj:`bool`
+
+    :param custom_emoji_sticker_set_name: Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
+    :type custom_emoji_sticker_set_name: :obj:`str`
+
+    :param linked_chat_id: Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats.
     :type linked_chat_id: :obj:`int`
 
-    :param location: Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+    :param location: Optional. For supergroups, the location to which the supergroup is connected
     :type location: :class:`tgram.types.ChatLocation`
 
     :return: Instance of the class
@@ -161,13 +162,14 @@ class ChatFullInfo(Type_, bound.ChatB):
         self,
         id: "int" = None,
         type: "tgram.types.ChatType" = None,
-        accent_color_id: "int" = None,
-        max_reaction_count: "int" = None,
         title: "str" = None,
         username: "str" = None,
         first_name: "str" = None,
         last_name: "str" = None,
         is_forum: "bool" = None,
+        is_direct_messages: "bool" = None,
+        accent_color_id: "int" = None,
+        max_reaction_count: "int" = None,
         photo: "tgram.types.ChatPhoto" = None,
         active_usernames: List["str"] = None,
         birthdate: "tgram.types.Birthdate" = None,
@@ -175,6 +177,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         business_location: "tgram.types.BusinessLocation" = None,
         business_opening_hours: "tgram.types.BusinessOpeningHours" = None,
         personal_chat: "tgram.types.Chat" = None,
+        parent_chat: "tgram.types.Chat" = None,
         available_reactions: List["tgram.types.ReactionType"] = None,
         background_custom_emoji_id: "str" = None,
         profile_accent_color_id: "int" = None,
@@ -191,7 +194,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         pinned_message: "tgram.types.Message" = None,
         permissions: "tgram.types.ChatPermissions" = None,
         accepted_gift_types: "tgram.types.AcceptedGiftTypes" = None,
-        can_send_paid_media: bool = None,
+        can_send_paid_media: "bool" = None,
         slow_mode_delay: "int" = None,
         unrestrict_boost_count: "int" = None,
         message_auto_delete_time: "int" = None,
@@ -215,6 +218,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.first_name = first_name
         self.last_name = last_name
         self.is_forum = is_forum
+        self.is_direct_messages = is_direct_messages
         self.accent_color_id = accent_color_id
         self.max_reaction_count = max_reaction_count
         self.photo = photo
@@ -224,6 +228,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.business_location = business_location
         self.business_opening_hours = business_opening_hours
         self.personal_chat = personal_chat
+        self.parent_chat = parent_chat
         self.available_reactions = available_reactions
         self.background_custom_emoji_id = background_custom_emoji_id
         self.profile_accent_color_id = profile_accent_color_id
@@ -266,13 +271,14 @@ class ChatFullInfo(Type_, bound.ChatB):
                 json=d,
                 id=d.get("id"),
                 type=d.get("type"),
-                accent_color_id=d.get("accent_color_id"),
-                max_reaction_count=d.get("max_reaction_count"),
                 title=d.get("title"),
                 username=d.get("username"),
                 first_name=d.get("first_name"),
                 last_name=d.get("last_name"),
                 is_forum=d.get("is_forum"),
+                is_direct_messages=d.get("is_direct_messages"),
+                accent_color_id=d.get("accent_color_id"),
+                max_reaction_count=d.get("max_reaction_count"),
                 photo=tgram.types.ChatPhoto._parse(me=me, d=d.get("photo")),
                 active_usernames=d.get("active_usernames"),
                 birthdate=tgram.types.Birthdate._parse(me=me, d=d.get("birthdate")),
@@ -286,6 +292,7 @@ class ChatFullInfo(Type_, bound.ChatB):
                     me=me, d=d.get("business_opening_hours")
                 ),
                 personal_chat=tgram.types.Chat._parse(me=me, d=d.get("personal_chat")),
+                parent_chat=tgram.types.Chat._parse(me=me, d=d.get("parent_chat")),
                 available_reactions=utils.reaction_type_parse(
                     me, d.get("available_reactions")
                 ),
