@@ -646,7 +646,7 @@ class Message(Type_, bound.MessageB):
                 ),
                 migrate_to_chat_id=d.get("migrate_to_chat_id"),
                 migrate_from_chat_id=d.get("migrate_from_chat_id"),
-                pinned_message=tgram.types.MaybeInaccessibleMessage._parse(
+                pinned_message=tgram.types.Message._parse(
                     me=me, d=d.get("pinned_message")
                 ),
                 invoice=tgram.types.Invoice._parse(me=me, d=d.get("invoice")),
