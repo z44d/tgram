@@ -2,7 +2,7 @@
 
 <br>
 
-<div align="center"> <a href="https://core.telegram.org/bots/api#july-3-2025"> <img src="https://img.shields.io/badge/Bot%20API-9.1-blue?logo=telegram" alt="Supported Bot API version"> </a> <a href="https://pypi.org/project/tgram/"> <img src="https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37" alt="PyPI"> </a> <a href="https://pepy.tech/project/tgram"> <img src="https://static.pepy.tech/badge/tgram" alt="Downloads"> </a> <a href="https://t.me/tgbot_channel"> <img src="https://img.shields.io/badge/Telegram-Channel-blue.svg?logo=telegram" alt="Telegram Channel"> </a> <a href="https://t.me/tgbot_chat"> <img src="https://img.shields.io/badge/Telegram-Group-blue.svg?logo=telegram" alt="Telegram Group"> </a> </div>
+<div align="center"> <a href="https://core.telegram.org/bots/api#august-15-2025"> <img src="https://img.shields.io/badge/Bot%20API-9.2-blue?logo=telegram" alt="Supported Bot API version"> </a> <a href="https://pypi.org/project/tgram/"> <img src="https://img.shields.io/pypi/v/tgram.svg?logo=python&logoColor=%23959DA5&label=pypi&labelColor=%23282f37" alt="PyPI"> </a> <a href="https://pepy.tech/project/tgram"> <img src="https://static.pepy.tech/badge/tgram" alt="Downloads"> </a> <a href="https://t.me/tgbot_channel"> <img src="https://img.shields.io/badge/Telegram-Channel-blue.svg?logo=telegram" alt="Telegram Channel"> </a> <a href="https://t.me/tgbot_chat"> <img src="https://img.shields.io/badge/Telegram-Group-blue.svg?logo=telegram" alt="Telegram Group"> </a> </div>
 
 ## 🚀 Quick Start
 Here's a basic example to get started with tgram:
