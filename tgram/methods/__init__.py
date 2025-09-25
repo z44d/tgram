@@ -5,6 +5,7 @@ from .other.answer_pre_checkout_query import AnswerPreCheckoutQuery
 from .other.answer_shipping_query import AnswerShippingQuery
 from .other.answer_web_app_query import AnswerWebAppQuery
 from .chats.approve_chat_join_request import ApproveChatJoinRequest
+from .payments_and_business.approve_suggested_post import ApproveSuggestedPost
 from .messages.ask import Ask
 from .chats.ban_chat_member import BanChatMember
 from .chats.ban_chat_sender_chat import BanChatSenderChat
@@ -30,6 +31,7 @@ from .stickers.delete_sticker_set import DeleteStickerSet
 from .bot.delete_webhook import DeleteWebhook
 from .chats.demote_chat_member import DemoteChatMember
 from .files.download_file import DownloadFile
+from .payments_and_business.decline_suggested_post import DeclineSuggestedPost
 from .chats.edit_chat_invite_link import EditChatInviteLink
 from .chats.edit_chat_subscription_invite_link import EditChatSubscriptionInviteLink
 from .forums.edit_forum_topic import EditForumTopic
@@ -190,6 +192,7 @@ class TelegramBotMethods(
     AnswerShippingQuery,
     AnswerWebAppQuery,
     ApproveChatJoinRequest,
+    ApproveSuggestedPost,
     Ask,
     BanChatMember,
     BanChatSenderChat,
@@ -218,6 +221,7 @@ class TelegramBotMethods(
     DeleteStory,
     DemoteChatMember,
     DownloadFile,
+    DeclineSuggestedPost,
     EditChatInviteLink,
     EditChatSubscriptionInviteLink,
     EditForumTopic,
