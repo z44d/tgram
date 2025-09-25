@@ -74,6 +74,7 @@ from ._check_list_tasks_added import ChecklistTasksAdded
 from ._dice import Dice
 from ._document import Document
 from ._direct_message_price_changed import DirectMessagePriceChanged
+from ._direct_messages_topic import DirectMessagesTopic
 from ._encrypted_credentials import EncryptedCredentials
 from ._encrypted_passport_element import EncryptedPassportElement
 from ._external_reply_info import ExternalReplyInfo
@@ -264,6 +265,17 @@ from ._web_app_info import WebAppInfo
 from ._webhook_info import WebhookInfo
 from ._write_access_allowed import WriteAccessAllowed
 
+from ._suggested_post import (
+    SuggestedPostApprovalFailed,
+    SuggestedPostApproved,
+    SuggestedPostDeclined,
+    SuggestedPostInfo,
+    SuggestedPostPaid,
+    SuggestedPostParameters,
+    SuggestedPostPrice,
+    SuggestedPostRefunded,
+)
+
 InlineQueryResult = _Union[
     "InlineQueryResultCachedAudio",
     "InlineQueryResultCachedDocument",
@@ -433,6 +445,7 @@ __all__ = [
     "Dice",
     "Document",
     "DirectMessagePriceChanged",
+    "DirectMessagesTopic",
     "EncryptedCredentials",
     "EncryptedPassportElement",
     "ExternalReplyInfo",
@@ -631,4 +644,12 @@ __all__ = [
     "OwnedGiftUnique",
     "LocationAddress",
     "PaidMessagePriceChanged",
+    "SuggestedPostApprovalFailed",
+    "SuggestedPostApproved",
+    "SuggestedPostDeclined",
+    "SuggestedPostInfo",
+    "SuggestedPostPaid",
+    "SuggestedPostParameters",
+    "SuggestedPostPrice",
+    "SuggestedPostRefunded",
 ]
