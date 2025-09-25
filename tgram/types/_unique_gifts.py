@@ -206,6 +206,8 @@ class UniqueGift(Type_):
     :type symbol: :class:`tgram.types.UniqueGiftSymbol`
     :param backdrop: Backdrop of the gift
     :type backdrop: :class:`tgram.types.UniqueGiftBackdrop`
+    :param publisher_chat: Optional. Information about the chat that published the gift
+    :type publisher_chat: :class:`tgram.types.Chat`
     """
 
     def __init__(
@@ -216,6 +218,7 @@ class UniqueGift(Type_):
         model: "UniqueGiftModel" = None,
         symbol: "UniqueGiftSymbol" = None,
         backdrop: "UniqueGiftBackdrop" = None,
+        publisher_chat: "tgram.types.Chat" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -226,6 +229,7 @@ class UniqueGift(Type_):
         self.model = model
         self.symbol = symbol
         self.backdrop = backdrop
+        self.publisher_chat = publisher_chat
 
     @staticmethod
     def _parse(
@@ -239,6 +243,9 @@ class UniqueGift(Type_):
                 model=UniqueGiftModel._parse(me, d.get("model")),
                 symbol=UniqueGiftSymbol._parse(me, d.get("symbol")),
                 backdrop=UniqueGiftBackdrop._parse(me, d.get("backdrop")),
+                publisher_chat=tgram.types.Chat._parse(me, d.get("publisher_chat"))
+                if d.get("publisher_chat")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
