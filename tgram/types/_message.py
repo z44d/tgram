@@ -67,6 +67,9 @@ class Message(Type_, bound.MessageB):
     :param reply_to_story: Optional. For replies to a story, the original story
     :type reply_to_story: :class:`tgram.types.Story`
 
+    :param reply_to_checklist_task_id: Optional. Identifier of the specific checklist task that is being replied to
+    :type reply_to_checklist_task_id: :obj:`int`
+
     :param via_bot: Optional. Bot through which the message was sent
     :type via_bot: :class:`tgram.types.User`
 
@@ -336,6 +339,7 @@ class Message(Type_, bound.MessageB):
         external_reply: "tgram.types.ExternalReplyInfo" = None,
         quote: "tgram.types.TextQuote" = None,
         reply_to_story: "tgram.types.Story" = None,
+        reply_to_checklist_task_id: "int" = None,
         via_bot: "tgram.types.User" = None,
         edit_date: "int" = None,
         has_protected_content: "bool" = None,
@@ -432,6 +436,7 @@ class Message(Type_, bound.MessageB):
         self.external_reply = external_reply
         self.quote = quote
         self.reply_to_story = reply_to_story
+        self.reply_to_checklist_task_id = reply_to_checklist_task_id
         self.via_bot = via_bot
         self.edit_date = edit_date
         self.has_protected_content = has_protected_content
@@ -541,6 +546,7 @@ class Message(Type_, bound.MessageB):
                 reply_to_story=tgram.types.Story._parse(
                     me=me, d=d.get("reply_to_story")
                 ),
+                reply_to_checklist_task_id=d.get("reply_to_checklist_task_id"),
                 via_bot=tgram.types.User._parse(me=me, d=d.get("via_bot")),
                 edit_date=d.get("edit_date"),
                 has_protected_content=d.get("has_protected_content"),
