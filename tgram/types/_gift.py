@@ -11,7 +11,7 @@ class Gift(Type_):
     Telegram Documentation: https://core.telegram.org/bots/api#gift
 
     :param id: Unique identifier of the gift.
-    :type id: :obj:`int`
+    :type id: :obj:`str`
 
     :param sticker: The sticker that represents the gift
     :type sticker: :class:`tgram.types.Sticker`
@@ -20,13 +20,16 @@ class Gift(Type_):
     :type star_count: :obj:`int`
 
     :param upgrade_star_count: Optional. The number of Telegram Stars that must be paid to upgrade the gift to a unique one
-    :type upgrade_star_count: :obj:`int
+    :type upgrade_star_count: :obj:`int`
 
     :param total_count: Optional. The total number of the gifts of this type that can be sent; for limited gifts only
     :type total_count: :obj:`int`
 
     :param remaining_count: Optional. The number of remaining gifts of this type that can be sent; for limited gifts only
     :type remaining_count: :obj:`int`
+
+    :param publisher_chat: Optional. Information about the chat that published the gift
+    :type publisher_chat: :class:`tgram.types.Chat`
 
     :return: Instance of the class
     :rtype: :class:`tgram.types.Gift`
@@ -40,6 +43,7 @@ class Gift(Type_):
         upgrade_star_count: "int" = None,
         total_count: "int" = None,
         remaining_count: "int" = None,
+        publisher_chat: "tgram.types.Chat" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -50,6 +54,7 @@ class Gift(Type_):
         self.upgrade_star_count = upgrade_star_count
         self.total_count = total_count
         self.remaining_count = remaining_count
+        self.publisher_chat = publisher_chat
 
     @staticmethod
     def _parse(
@@ -63,6 +68,9 @@ class Gift(Type_):
                 upgrade_star_count=d.get("upgrade_star_count"),
                 total_count=d.get("total_count"),
                 remaining_count=d.get("remaining_count"),
+                publisher_chat=tgram.types.Chat._parse(me, d.get("publisher_chat"))
+                if d.get("publisher_chat")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
