@@ -29,16 +29,26 @@ def clean_type(tp):
         non_none_args = [a for a in args if a is not type(None)]
         if len(non_none_args) == 1:
             return clean_type(non_none_args[0])
-        return ", ".join(clean_type(a) for a in non_none_args)
+        cleaned = [clean_type(a) for a in non_none_args]
+        # If any branch is non-string (e.g., list structure), return a structured union
+        if any(not isinstance(c, str) for c in cleaned):
+            return {"kind": "union", "of": cleaned}
+        return ", ".join(cleaned)
 
     elif origin in {list, List}:
         if args:
             inner = args[0]
             inner_origin = get_origin(inner)
             if inner_origin is Union:
-                return [clean_type(a) for a in get_args(inner)]
-            return [clean_type(inner)]
-        return ["Any"]
+                return {
+                    "kind": "list",
+                    "of": {
+                        "kind": "union",
+                        "of": [clean_type(a) for a in get_args(inner)],
+                    },
+                }
+            return {"kind": "list", "of": clean_type(inner)}
+        return {"kind": "list", "of": "Any"}
 
     elif hasattr(tp, "__name__"):
         return tp.__name__
@@ -152,8 +162,6 @@ def walk_module(module, depth=0):
         if name.startswith("_") or name.endswith("_"):
             continue
 
-        print(name)
-
         if inspect.isclass(obj) and obj.__module__.startswith("tgram"):
             if "methods" in obj.__module__:
                 method_info = extract_method_info(obj)
@@ -170,12 +178,65 @@ def walk_module(module, depth=0):
     return methods, types
 
 
+def extract_filters(module) -> Dict[str, Any]:
+    """Return a mapping with two groups: variables and functions.
+
+    variables: top-level instances of Filter
+    functions: callables whose return annotation is Filter (e.g., command, regex, chat, user, sender, parameter)
+    """
+    variables: Dict[str, Any] = {}
+    functions: Dict[str, Any] = {}
+
+    FilterClass = getattr(module, "Filter", None)
+
+    for name, obj in inspect.getmembers(module):
+        if name.startswith("_") or name.endswith("_"):
+            continue
+
+        # Variable filters (instances)
+        if FilterClass is not None and isinstance(obj, FilterClass):
+            description = inspect.getdoc(obj) or getattr(obj, "__doc__", "") or ""
+            variables[name] = {"description": description}
+            continue
+
+        # Filter factory functions (return Filter)
+        if inspect.isfunction(obj) and obj.__module__.startswith(module.__name__):
+            try:
+                sig = inspect.signature(obj)
+            except Exception:
+                continue
+
+            # Determine if it returns a Filter by annotation (best effort)
+            ret_ann = sig.return_annotation
+            returns_filter = False
+            if ret_ann is not inspect.Signature.empty:
+                # Compare by name in case of from __future__ annotations
+                if isinstance(ret_ann, type):
+                    returns_filter = FilterClass is not None and issubclass(
+                        ret_ann, FilterClass
+                    )
+                else:
+                    returns_filter = str(ret_ann).endswith("Filter")
+
+            if not returns_filter:
+                continue
+
+            doc = parse_docstring(obj)
+
+            functions[name] = {
+                "description": doc.short_description or "",
+            }
+
+    return {**variables, **functions}
+
+
 if __name__ == "__main__":
     methods_data, types_data = walk_module(tgram)
+    filters_data = extract_filters(tgram.filters)
 
-    output = {"methods": methods_data, "types": types_data}
+    output = {"methods": methods_data, "types": types_data, "filters": filters_data}
 
     with open("tgram_scheme.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+        json.dump(output, f, ensure_ascii=False, indent=1)
 
     print("✅ Extracted successfully to tgram_scheme.json")
