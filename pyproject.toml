@@ -1,14 +1,15 @@
 [tool.poetry]
 name = "tgram"
-version = "2.0.2"
+version = "2.0.3"
 description = "Tgram is a user-friendly and lightweight Python library that simplifies interaction with the Telegram Bot API. It allows developers to easily create, manage, and automate Telegram bots."
 authors = ["Zaid <zaid@z44d.com>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
-aiohttp = "3.10.11"
+python = ">=3.10"
+aiohttp = ">=3.10.11"
+certifi = ">=2024.12.14"
 
 [build-system]
 requires = ["poetry-core"]
