@@ -154,6 +154,15 @@ class ChatFullInfo(Type_, bound.ChatB):
     :param location: Optional. For supergroups, the location to which the supergroup is connected
     :type location: :class:`tgram.types.ChatLocation`
 
+    :param rating: Optional. User rating for the chat
+    :type rating: :class:`tgram.types.UserRating`
+
+    :param paid_message_star_count: Optional. The number of Telegram Stars that must be paid to send a paid message to the chat
+    :type paid_message_star_count: :obj:`int`
+
+    :param unique_gift_colors: Optional. The colors of the unique gift that a user in a private chat has chosen to display
+    :type unique_gift_colors: :class:`tgram.types.UniqueGiftColors`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.ChatFullInfo`
     """
@@ -207,6 +216,9 @@ class ChatFullInfo(Type_, bound.ChatB):
         custom_emoji_sticker_set_name: "str" = None,
         linked_chat_id: "int" = None,
         location: "tgram.types.ChatLocation" = None,
+        rating: "tgram.types.UserRating" = None,
+        paid_message_star_count: "int" = None,
+        unique_gift_colors: "tgram.types.UniqueGiftColors" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -260,6 +272,9 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.custom_emoji_sticker_set_name = custom_emoji_sticker_set_name
         self.linked_chat_id = linked_chat_id
         self.location = location
+        self.rating = rating
+        self.paid_message_star_count = paid_message_star_count
+        self.unique_gift_colors = unique_gift_colors
 
     @staticmethod
     def _parse(
@@ -336,6 +351,15 @@ class ChatFullInfo(Type_, bound.ChatB):
                 custom_emoji_sticker_set_name=d.get("custom_emoji_sticker_set_name"),
                 linked_chat_id=d.get("linked_chat_id"),
                 location=tgram.types.ChatLocation._parse(me=me, d=d.get("location")),
+                rating=tgram.types.UserRating._parse(me=me, d=d.get("rating"))
+                if d.get("rating")
+                else None,
+                paid_message_star_count=d.get("paid_message_star_count"),
+                unique_gift_colors=tgram.types.UniqueGiftColors._parse(
+                    me=me, d=d.get("unique_gift_colors")
+                )
+                if d.get("unique_gift_colors")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

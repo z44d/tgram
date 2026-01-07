@@ -17,6 +17,7 @@ class ForwardMessage:
         protect_content: bool = None,
         direct_messages_topic_id: int = None,
         suggested_post_parameters: SuggestedPostParameters = None,
+        message_effect_id: str = None,
     ) -> Message:
         """
         Use this method to forward messages of any kind.
@@ -53,6 +54,9 @@ class ForwardMessage:
         :param suggested_post_parameters: A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
         :type suggested_post_parameters: :class:`tgram.types.SuggestedPostParameters`
 
+        :param message_effect_id: Unique identifier of the message effect to be added to the message
+        :type message_effect_id: :obj:`str`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -70,5 +74,6 @@ class ForwardMessage:
             else self.protect_content,
             direct_messages_topic_id=direct_messages_topic_id,
             suggested_post_parameters=suggested_post_parameters,
+            message_effect_id=message_effect_id,
         )
         return Message._parse(me=self, d=result["result"])

@@ -92,6 +92,7 @@ from ._general_forum_topic_unhidden import GeneralForumTopicUnhidden
 from ._gifts import Gifts
 from ._gift import Gift
 from ._gift_info import GiftInfo
+from ._gift_background import GiftBackground
 from ._giveaway import Giveaway
 from ._giveaway_completed import GiveawayCompleted
 from ._giveaway_created import GiveawayCreated
@@ -251,6 +252,8 @@ from ._unique_gifts import (
     UniqueGiftModel,
     UniqueGiftSymbol,
 )
+from ._unique_gift_colors import UniqueGiftColors
+from ._user_rating import UserRating
 from ._owned_gifts import OwnedGifts, OwnedGiftRegular, OwnedGiftUnique
 from ._venue import Venue
 from ._video import Video
@@ -621,6 +624,9 @@ __all__ = [
     "UniqueGiftInfo",
     "UniqueGiftModel",
     "UniqueGiftSymbol",
+    "UniqueGiftColors",
+    "UserRating",
+    "GiftBackground",
     "Venue",
     "Video",
     "VideoChatEnded",

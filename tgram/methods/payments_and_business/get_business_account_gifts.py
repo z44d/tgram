@@ -9,8 +9,10 @@ class GetBusinessAccountGifts:
         exclude_unsaved: bool = None,
         exclude_saved: bool = None,
         exclude_unlimited: bool = None,
-        exclude_limited: bool = None,
+        exclude_limited_upgradable: bool = None,
+        exclude_limited_non_upgradable: bool = None,
         exclude_unique: bool = None,
+        exclude_from_blockchain: bool = None,
         sort_by_price: bool = None,
         offset: str = "",
         limit: int = 100,
@@ -30,10 +32,14 @@ class GetBusinessAccountGifts:
         :type exclude_saved: :obj:`bool`, optional
         :param exclude_unlimited: Exclude gifts that can be purchased an unlimited number of times
         :type exclude_unlimited: :obj:`bool`, optional
-        :param exclude_limited: Exclude gifts that can be purchased a limited number of times
-        :type exclude_limited: :obj:`bool`, optional
+        :param exclude_limited_upgradable: Exclude limited gifts that can be upgraded to unique
+        :type exclude_limited_upgradable: :obj:`bool`, optional
+        :param exclude_limited_non_upgradable: Exclude limited gifts that cannot be upgraded to unique
+        :type exclude_limited_non_upgradable: :obj:`bool`, optional
         :param exclude_unique: Exclude unique gifts
         :type exclude_unique: :obj:`bool`, optional
+        :param exclude_from_blockchain: Exclude gifts that were assigned from the TON blockchain
+        :type exclude_from_blockchain: :obj:`bool`, optional
         :param sort_by_price: Sort results by gift price instead of send date
         :type sort_by_price: :obj:`bool`, optional
         :param offset: Offset of the first entry to return; use empty string for first chunk
@@ -50,8 +56,10 @@ class GetBusinessAccountGifts:
             exclude_unsaved=exclude_unsaved,
             exclude_saved=exclude_saved,
             exclude_unlimited=exclude_unlimited,
-            exclude_limited=exclude_limited,
+            exclude_limited_upgradable=exclude_limited_upgradable,
+            exclude_limited_non_upgradable=exclude_limited_non_upgradable,
             exclude_unique=exclude_unique,
+            exclude_from_blockchain=exclude_from_blockchain,
             sort_by_price=sort_by_price,
             offset=offset,
             limit=limit,

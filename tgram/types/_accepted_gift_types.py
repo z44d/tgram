@@ -21,6 +21,9 @@ class AcceptedGiftTypes(Type_):
     :param premium_subscription: True, if a Telegram Premium subscription is accepted
     :type premium_subscription: :obj:`bool`
 
+    :param gifts_from_channels: Optional. True, if gifts from channels are accepted
+    :type gifts_from_channels: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.AcceptedGiftTypes`
     """
@@ -31,6 +34,7 @@ class AcceptedGiftTypes(Type_):
         limited_gifts: bool = None,
         unique_gifts: bool = None,
         premium_subscription: bool = None,
+        gifts_from_channels: bool = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -39,6 +43,7 @@ class AcceptedGiftTypes(Type_):
         self.limited_gifts = limited_gifts
         self.unique_gifts = unique_gifts
         self.premium_subscription = premium_subscription
+        self.gifts_from_channels = gifts_from_channels
 
     @staticmethod
     def _parse(
@@ -52,6 +57,7 @@ class AcceptedGiftTypes(Type_):
                 limited_gifts=d.get("limited_gifts"),
                 unique_gifts=d.get("unique_gifts"),
                 premium_subscription=d.get("premium_subscription"),
+                gifts_from_channels=d.get("gifts_from_channels"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

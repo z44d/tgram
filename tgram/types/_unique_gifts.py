@@ -208,6 +208,14 @@ class UniqueGift(Type_):
     :type backdrop: :class:`tgram.types.UniqueGiftBackdrop`
     :param publisher_chat: Optional. Information about the chat that published the gift
     :type publisher_chat: :class:`tgram.types.Chat`
+    :param gift_id: Optional. Unique identifier of the gift
+    :type gift_id: :obj:`str`
+    :param is_from_blockchain: Optional. True, if the gift was assigned from the TON blockchain
+    :type is_from_blockchain: :obj:`bool`
+    :param is_premium: Optional. True, if the gift is a premium gift
+    :type is_premium: :obj:`bool`
+    :param colors: Optional. The colors of the unique gift
+    :type colors: :class:`tgram.types.UniqueGiftColors`
     """
 
     def __init__(
@@ -219,6 +227,10 @@ class UniqueGift(Type_):
         symbol: "UniqueGiftSymbol" = None,
         backdrop: "UniqueGiftBackdrop" = None,
         publisher_chat: "tgram.types.Chat" = None,
+        gift_id: "str" = None,
+        is_from_blockchain: "bool" = None,
+        is_premium: "bool" = None,
+        colors: "tgram.types.UniqueGiftColors" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -230,6 +242,10 @@ class UniqueGift(Type_):
         self.symbol = symbol
         self.backdrop = backdrop
         self.publisher_chat = publisher_chat
+        self.gift_id = gift_id
+        self.is_from_blockchain = is_from_blockchain
+        self.is_premium = is_premium
+        self.colors = colors
 
     @staticmethod
     def _parse(
@@ -245,6 +261,12 @@ class UniqueGift(Type_):
                 backdrop=UniqueGiftBackdrop._parse(me, d.get("backdrop")),
                 publisher_chat=tgram.types.Chat._parse(me, d.get("publisher_chat"))
                 if d.get("publisher_chat")
+                else None,
+                gift_id=d.get("gift_id"),
+                is_from_blockchain=d.get("is_from_blockchain"),
+                is_premium=d.get("is_premium"),
+                colors=tgram.types.UniqueGiftColors._parse(me, d.get("colors"))
+                if d.get("colors")
                 else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
@@ -275,7 +297,8 @@ class UniqueGiftInfo(Type_):
         self,
         gift: "UniqueGift" = None,
         origin: "str" = None,
-        last_resale_star_count: int = None,
+        last_resale_currency: str = None,
+        last_resale_amount: int = None,
         owned_gift_id: "str" = None,
         transfer_star_count: "int" = None,
         next_transfer_date: int = None,
@@ -285,7 +308,8 @@ class UniqueGiftInfo(Type_):
         super().__init__(me=me, json=json)
         self.gift = gift
         self.origin = origin
-        self.last_resale_star_count = last_resale_star_count
+        self.last_resale_currency = last_resale_currency
+        self.last_resale_amount = last_resale_amount
         self.owned_gift_id = owned_gift_id
         self.transfer_star_count = transfer_star_count
         self.next_transfer_date = next_transfer_date
@@ -298,7 +322,8 @@ class UniqueGiftInfo(Type_):
             UniqueGiftInfo(
                 gift=UniqueGift._parse(me, d.get("gift")),
                 origin=d.get("origin"),
-                last_resale_star_count=d.get("last_resale_star_count"),
+                last_resale_currency=d.get("last_resale_currency"),
+                last_resale_amount=d.get("last_resale_amount"),
                 owned_gift_id=d.get("owned_gift_id"),
                 transfer_star_count=d.get("transfer_star_count"),
                 next_transfer_date=d.get("next_transfer_date"),

@@ -23,6 +23,9 @@ class ChecklistTask(Type_):
 
     :param completion_date: Optional. Point in time (Unix timestamp) when the task was completed; 0 if the task wasn't completed
     :type completion_date: :obj:`int`
+
+    :param completed_by_chat: Optional. Chat that completed the task; omitted if the task wasn't completed
+    :type completed_by_chat: :class:`tgram.types.Chat`
     """
 
     def __init__(
@@ -32,6 +35,7 @@ class ChecklistTask(Type_):
         text_entities: List["tgram.types.MessageEntity"] = None,
         completed_by_user: "tgram.types.User" = None,
         completion_date: int = None,
+        completed_by_chat: "tgram.types.Chat" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -41,6 +45,7 @@ class ChecklistTask(Type_):
         self.text_entities = text_entities
         self.completed_by_user = completed_by_user
         self.completion_date = completion_date
+        self.completed_by_chat = completed_by_chat
 
     @staticmethod
     def _parse(
@@ -62,6 +67,11 @@ class ChecklistTask(Type_):
                     me=me, d=d.get("completed_by_user")
                 ),
                 completion_date=d.get("completion_date"),
+                completed_by_chat=tgram.types.Chat._parse(
+                    me=me, d=d.get("completed_by_chat")
+                )
+                if d.get("completed_by_chat")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

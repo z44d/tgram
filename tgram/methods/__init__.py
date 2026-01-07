@@ -175,6 +175,8 @@ from .payments_and_business.transfer_business_account_stars import (
     TransferBusinessAccountStars,
 )
 from .payments_and_business.get_business_account_gifts import GetBusinessAccountGifts
+from .payments_and_business.get_user_gifts import GetUserGifts
+from .payments_and_business.get_chat_gifts import GetChatGifts
 from .payments_and_business.gift_premium_subscription import GiftPremiumSubscription
 from .payments_and_business.convert_gift_to_stars import ConvertGiftToStars
 from .payments_and_business.upgrade_gift import UpgradeGift
@@ -182,6 +184,8 @@ from .payments_and_business.transfer_gift import TransferGift
 from .payments_and_business.post_story import PostStory
 from .payments_and_business.edit_story import EditStory
 from .payments_and_business.delete_story import DeleteStory
+from .payments_and_business.repost_story import RepostStory
+from .messages.send_message_draft import SendMessageDraft
 
 
 class TelegramBotMethods(
@@ -264,6 +268,8 @@ class TelegramBotMethods(
     GetWebhookInfo,
     GetBusinessAccountGifts,
     GetBusinessAccountStarBalance,
+    GetUserGifts,
+    GetChatGifts,
     GiftPremiumSubscription,
     HideGeneralForumTopic,
     LeaveChat,
@@ -350,5 +356,7 @@ class TelegramBotMethods(
     TransferBusinessAccountStars,
     TransferGift,
     PostStory,
+    RepostStory,
+    SendMessageDraft,
 ):
     pass

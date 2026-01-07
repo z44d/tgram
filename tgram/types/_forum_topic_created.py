@@ -19,6 +19,9 @@ class ForumTopicCreated(Type_):
     :param icon_custom_emoji_id: Optional. Unique identifier of the custom emoji shown as the topic icon
     :type icon_custom_emoji_id: :obj:`str`
 
+    :param is_name_implicit: Optional. True, if the topic name was automatically set based on the sender's name
+    :type is_name_implicit: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.ForumTopicCreated`
     """
@@ -28,6 +31,7 @@ class ForumTopicCreated(Type_):
         name: "str" = None,
         icon_color: "int" = None,
         icon_custom_emoji_id: "str" = None,
+        is_name_implicit: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -35,6 +39,7 @@ class ForumTopicCreated(Type_):
         self.name = name
         self.icon_color = icon_color
         self.icon_custom_emoji_id = icon_custom_emoji_id
+        self.is_name_implicit = is_name_implicit
 
     @staticmethod
     def _parse(
@@ -47,6 +52,7 @@ class ForumTopicCreated(Type_):
                 name=d.get("name"),
                 icon_color=d.get("icon_color"),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
+                is_name_implicit=d.get("is_name_implicit"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

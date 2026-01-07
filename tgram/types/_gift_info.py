@@ -24,6 +24,10 @@ class GiftInfo(Type_):
     :type entities: List[:class:`tgram.types.MessageEntity`]
     :param is_private: Optional. True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be able to see them
     :type is_private: :obj:`bool`
+    :param is_upgrade_separate: Optional. True, if the gift upgrade was separate
+    :type is_upgrade_separate: :obj:`bool`
+    :param unique_gift_number: Optional. Unique number of the gift variant
+    :type unique_gift_number: :obj:`int`
     """
 
     def __init__(
@@ -36,6 +40,8 @@ class GiftInfo(Type_):
         text: "str" = None,
         entities: List["tgram.types.MessageEntity"] = None,
         is_private: "bool" = None,
+        is_upgrade_separate: "bool" = None,
+        unique_gift_number: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -48,6 +54,8 @@ class GiftInfo(Type_):
         self.text = text
         self.entities = entities
         self.is_private = is_private
+        self.is_upgrade_separate = is_upgrade_separate
+        self.unique_gift_number = unique_gift_number
 
     @staticmethod
     def _parse(
@@ -68,6 +76,8 @@ class GiftInfo(Type_):
                 if d.get("entities")
                 else None,
                 is_private=d.get("is_private"),
+                is_upgrade_separate=d.get("is_upgrade_separate"),
+                unique_gift_number=d.get("unique_gift_number"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
