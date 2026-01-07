@@ -327,7 +327,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         if Type_ not in inspect.getmro(old):
             raise ValueError("You can't customize this type, it's not tgram type.")
 
-        wrap(new)
+        # wrap(new)
 
         self._custom_types.update({old.__name__: new})
 
