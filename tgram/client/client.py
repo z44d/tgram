@@ -16,7 +16,6 @@ from ..utils import API_URL, get_file_name, ALL_UPDATES
 from ..storage import KvsqliteStorage, RedisStorage, StorageBase
 from ..types.type_ import Type_, Response
 from .dispatcher import Dispatcher
-from concurrent.futures.thread import ThreadPoolExecutor
 
 from typing import List, Any, Literal, Union, Optional
 from collections import OrderedDict
@@ -54,7 +53,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         storage (Optional[StorageBase]): Storage engine instance for persisting data.
         storage_client (Any): Client for the storage engine (e.g., Redis or Kvsqlite).
         fetch_outgoing_messages (bool): Handling messages has been sent by the bot.
-        executor (ThreadPoolExecutor): Executor for running handler threads.
         loop (asyncio.AbstractEventLoop): Event loop used by the bot.
         is_running (bool): Indicates if the bot is currently running.
         me (tgram.types.User): The bot's user profile.
@@ -96,7 +94,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.storage_client = storage_engine
         self.fetch_outgoing_messages = fetch_outgoing_messages
 
-        self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handlers")
         self.loop = asyncio.get_event_loop()
 
         self.is_running: bool = None
@@ -329,18 +326,5 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         Returns:
             tgram.types.User: The bot's user profile.
         """
-        if self._me:
-            return self._me
-
-        from urllib.request import urlopen
-
-        response = urlopen(self._api_url + "getMe", timeout=60.0)
-
-        response_json = json.loads(response.read().decode("utf-8"))
-
-        if not response_json["ok"]:
-            raise APIException._from_json(response)
-
-        self._me = tgram.types.User._parse(self, response_json["result"])
-
         return self._me
+

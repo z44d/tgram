@@ -64,38 +64,43 @@ class Dispatcher:
 
         logger.info("Started %s Handler Tasks", self.workers)
 
-        while self.is_running:
-            try:
-                updates = await self.get_updates(
-                    offset=offset,
-                    limit=limit,
-                    allowed_updates=allowed_updates,
-                    timeout=55,
-                )
-                for update in updates:
-                    offset = update.update_id + 1
-                    self.updates_queue.put_nowait(update)
-            except (asyncio.CancelledError, KeyboardInterrupt):
-                self.is_running = False
-            except asyncio.TimeoutError:
-                continue
-            except Exception as e:
-                logger.exception(e)
+        try:
+            while self.is_running:
+                try:
+                    updates = await self.get_updates(
+                        offset=offset,
+                        limit=limit,
+                        allowed_updates=allowed_updates,
+                        timeout=55,
+                    )
+                    for update in updates:
+                        offset = update.update_id + 1
+                        self.updates_queue.put_nowait(update)
+                except (asyncio.CancelledError, KeyboardInterrupt):
+                    self.is_running = False
+                except asyncio.TimeoutError:
+                    continue
+                except Exception as e:
+                    logger.exception(e)
+        finally:
+            # Clean up tasks
+            for task in self.handler_worker_tasks:
+                task.cancel()
+                self.updates_queue.put_nowait(None)  # Unblock workers if stuck on get()
+            
+            await asyncio.gather(*self.handler_worker_tasks, return_exceptions=True)
+            self.handler_worker_tasks.clear()
+            self.locks_list.clear()
 
-        session = await self._get_session()
-        await session.close()
+            session = await self._get_session()
+            await session.close()
 
     async def _check_cancel(
         self: "tgram.TgBot", callback: Callable, update: Any
     ) -> bool:
         logger.debug("Checking listener in %s func", callback.__name__)
         try:
-            if asyncio.iscoroutinefunction(callback):
-                return await callback(self, update)
-            else:
-                return await self.loop.run_in_executor(
-                    self.executor, callback, self, update
-                )
+            return await callback(self, update)
         except Exception as e:
             logger.exception(e)
 
@@ -147,10 +152,7 @@ class Dispatcher:
         update._groups.append(group)
         logger.debug("Processing update to %s func", callback.__name__)
         try:
-            if asyncio.iscoroutinefunction(callback):
-                await callback(self, update)
-            else:
-                await self.loop.run_in_executor(self.executor, callback, self, update)
+            await callback(self, update)
         except tgram.StopPropagation:
             raise
         except tgram.ContinuePropagation:
@@ -169,17 +171,7 @@ class Dispatcher:
                         logger.debug(
                             "Processing exception to %s func", handler.callback.__name__
                         )
-                        if asyncio.iscoroutinefunction(handler.callback):
-                            await handler.callback(self, exception, method, **kwargs)
-                        else:
-                            await self.loop.run_in_executor(
-                                self.executor,
-                                handler.callback,
-                                self,
-                                exception,
-                                method,
-                                **kwargs,
-                            )
+                        await handler.callback(self, exception, method, **kwargs)
                 except Exception as e:
                     logger.exception(e)
                     continue
@@ -203,12 +195,7 @@ class Dispatcher:
                         )
                     else:
                         continue
-                    if asyncio.iscoroutinefunction(handler.callback):
-                        await handler.callback(self, message)
-                    else:
-                        await self.loop.run_in_executor(
-                            self.executor, handler.callback, self, message
-                        )
+                    await handler.callback(self, message)
                 except Exception as e:
                     logger.exception(e)
                     continue
@@ -257,3 +244,4 @@ class Dispatcher:
         finally:
             for lock in self.locks_list:
                 lock.release()
+
