@@ -21,4 +21,6 @@ async def say_hello(_, m: CustomizedMessage) -> CustomizedMessage:
     return await m.reply_text(m.hello)
 
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())

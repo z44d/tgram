@@ -29,4 +29,6 @@ async def on_c(_, m: Message):
         pass
 
 
-bot.run()
+import asyncio
+
+asyncio.run(bot.run())

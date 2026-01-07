@@ -13,4 +13,6 @@ async def on_message(bot: TgBot, message: Message) -> Message:
         return await message.copy(message.chat.id)
 
 
-bot.run()
+import asyncio
+
+asyncio.run(bot.run())

@@ -61,4 +61,6 @@ async def get_id(_, m: Message) -> Message:
     return await m.reply_text(text)
 
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())

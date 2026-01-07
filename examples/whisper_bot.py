@@ -87,4 +87,6 @@ async def on_callback_query(b: TgBot, c: CallbackQuery) -> bool:
             return
 
 
-bot.run()
+import asyncio
+
+asyncio.run(bot.run())

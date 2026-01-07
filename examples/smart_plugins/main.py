@@ -5,4 +5,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 bot = TgBot("API_TOKEN_HERE", parse_mode="Markdown", plugins="./plugins")
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())

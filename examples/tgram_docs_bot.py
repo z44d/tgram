@@ -2,7 +2,6 @@ import logging
 from tgram import types, TgBot, methods, filters
 
 bot = TgBot("API_TOKEN_HERE")
-me = bot.get_me()
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,7 +24,7 @@ async def on_message(_, m: types.Message):
             "for example: `@{username} send_photo`"
         ).format(
             mention=m.from_user.mention.markdown,
-            username=me.username,
+            username=bot.me.username,
         ),
         reply_parameters=types.ReplyParameters(m.message_id),
         parse_mode="Markdown",
@@ -43,7 +42,7 @@ async def on_inline(_, inline_query: types.InlineQuery):
                 types.InlineQueryResultArticle(
                     title="Write to search in docs..",
                     input_message_content=types.InputTextMessageContent(
-                        f"Write anything to search, example: <code>@{me.username} send_photo</code>",
+                        f"Write anything to search, example: <code>@{bot.me.username} send_photo</code>",
                         parse_mode="html",
                     ),
                     reply_markup=types.InlineKeyboardMarkup(
@@ -117,4 +116,6 @@ async def on_inline(_, inline_query: types.InlineQuery):
         )
 
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())

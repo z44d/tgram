@@ -31,4 +31,6 @@ async def answer_callback(_, c: CallbackQuery, __):
     return await c.answer("Hi, how are you?", show_alert=True)
 
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())

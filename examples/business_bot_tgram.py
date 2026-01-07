@@ -11,5 +11,7 @@ async def business_message(_, message: Message) -> Message:
     await message.reply_text("Hi, I'm business bot.")
 
 
-bot.run_for_updates()
+import asyncio
+
+asyncio.run(bot.run())
 # thank @devzaid

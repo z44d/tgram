@@ -26,4 +26,6 @@ async def pr(_, m: Message):
     return await m.reply("Hi!, I'll say good bye after 10 seconds.")
 
 
-bot.run()
+import asyncio
+
+asyncio.run(bot.run())

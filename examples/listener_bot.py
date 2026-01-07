@@ -31,4 +31,6 @@ async def on_pv_msg(bot: TgBot, m: types.Message):
 
 
 if __name__ == "__main__":
-    bot.run()
+    import asyncio
+
+    asyncio.run(bot.run())
