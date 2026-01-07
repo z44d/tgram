@@ -21,5 +21,4 @@ from . import (
 )
 
 from .client import TgBot
-from .sync import compose
 from .errors import StopPropagation, ContinuePropagation
