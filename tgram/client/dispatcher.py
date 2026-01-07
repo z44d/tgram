@@ -59,7 +59,7 @@ class Dispatcher:
         for _ in range(self.workers):
             self.locks_list.append(asyncio.Lock())
             self.handler_worker_tasks.append(
-                self.loop.create_task(self.handler_worker(self.locks_list[-1]))
+                asyncio.create_task(self.handler_worker(self.locks_list[-1]))
             )
 
         logger.info("Started %s Handler Tasks", self.workers)
@@ -87,7 +87,7 @@ class Dispatcher:
             for task in self.handler_worker_tasks:
                 task.cancel()
                 self.updates_queue.put_nowait(None)  # Unblock workers if stuck on get()
-            
+
             await asyncio.gather(*self.handler_worker_tasks, return_exceptions=True)
             self.handler_worker_tasks.clear()
             self.locks_list.clear()
@@ -244,4 +244,3 @@ class Dispatcher:
         finally:
             for lock in self.locks_list:
                 lock.release()
-

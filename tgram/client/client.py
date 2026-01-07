@@ -94,8 +94,6 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.storage_client = storage_engine
         self.fetch_outgoing_messages = fetch_outgoing_messages
 
-        self.loop = asyncio.get_event_loop()
-
         self.is_running: bool = None
         self._me: "tgram.types.User" = None
 
@@ -156,7 +154,16 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         elif handler.type != "exception" and handler.type not in self.allowed_updates:
             self.allowed_updates.append(handler.type)
 
-        self.loop.create_task(self._add_grouped_handler(handler, group))
+        if group not in self.groups:
+            self.groups[group] = []
+            self.groups = OrderedDict(sorted(self.groups.items()))
+        self.groups[group].append(handler)
+        logger.info(
+            "(%s) added to %s handlers in group %s",
+            handler.callback.__name__,
+            "Update." + handler.type if handler.type != "all" else "all",
+            group,
+        )
 
     def remove_handler(self, handler: "tgram.handlers.Handler", group: int = 0) -> None:
         """
@@ -166,7 +173,15 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             handler (tgram.handlers.Handler): The handler to remove.
             group (int): The group to remove the handler from.
         """
-        self.loop.create_task(self._remove_grouped_handler(handler, group))
+        if group not in self.groups:
+            raise ValueError(f"Group {group} does not exist. Handler was not removed.")
+        self.groups[group].remove(handler)
+        logger.info(
+            "(%s) removed from %s handlers from group %s",
+            handler.callback.__name__,
+            "Update." + handler.type if handler.type != "all" else "all",
+            group,
+        )
 
     async def _new_session(self) -> None:
         """
@@ -327,4 +342,3 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
             tgram.types.User: The bot's user profile.
         """
         return self._me
-
