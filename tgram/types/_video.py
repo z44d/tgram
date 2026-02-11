@@ -46,6 +46,9 @@ class Video(Type_):
         double-precision float type are safe for storing this value.
     :type file_size: :obj:`int`
 
+    :param qualities: Optional. List of available qualities of the video
+    :type qualities: :obj:`list` of :class:`tgram.types.VideoQuality`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.Video`
     """
@@ -63,6 +66,7 @@ class Video(Type_):
         file_name: "str" = None,
         mime_type: "str" = None,
         file_size: "int" = None,
+        qualities: List["tgram.types.VideoQuality"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -78,6 +82,7 @@ class Video(Type_):
         self.file_name = file_name
         self.mime_type = mime_type
         self.file_size = file_size
+        self.qualities = qualities
 
     @staticmethod
     def _parse(
@@ -99,6 +104,12 @@ class Video(Type_):
                 file_name=d.get("file_name"),
                 mime_type=d.get("mime_type"),
                 file_size=d.get("file_size"),
+                qualities=[
+                    tgram.types.VideoQuality._parse(me=me, d=i)
+                    for i in d.get("qualities")
+                ]
+                if d.get("qualities")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

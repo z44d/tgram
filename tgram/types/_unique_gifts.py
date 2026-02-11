@@ -15,6 +15,8 @@ class UniqueGiftModel(Type_):
     :type sticker: :class:`tgram.types.Sticker`
     :param rarity_per_mille: The number of unique gifts that receive this model for every 1000 gifts upgraded
     :type rarity_per_mille: :obj:`int`
+    :param rarity: Optional. Rarity of the model if it is a crafted model. Can be “uncommon”, “rare”, “epic”, or “legendary”.
+    :type rarity: :obj:`str`
     """
 
     def __init__(
@@ -22,6 +24,7 @@ class UniqueGiftModel(Type_):
         name: "str" = None,
         sticker: "tgram.types.Sticker" = None,
         rarity_per_mille: "int" = None,
+        rarity: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -29,6 +32,7 @@ class UniqueGiftModel(Type_):
         self.name = name
         self.sticker = sticker
         self.rarity_per_mille = rarity_per_mille
+        self.rarity = rarity
 
     @staticmethod
     def _parse(
@@ -39,6 +43,7 @@ class UniqueGiftModel(Type_):
                 name=d.get("name"),
                 sticker=tgram.types.Sticker._parse(me, d.get("sticker")),
                 rarity_per_mille=d.get("rarity_per_mille"),
+                rarity=d.get("rarity"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
@@ -214,6 +219,8 @@ class UniqueGift(Type_):
     :type is_from_blockchain: :obj:`bool`
     :param is_premium: Optional. True, if the gift is a premium gift
     :type is_premium: :obj:`bool`
+    :param is_burned: Optional. True, if the gift was used to craft another gift and isn't available anymore
+    :type is_burned: :obj:`bool`
     :param colors: Optional. The colors of the unique gift
     :type colors: :class:`tgram.types.UniqueGiftColors`
     """
@@ -230,6 +237,7 @@ class UniqueGift(Type_):
         gift_id: "str" = None,
         is_from_blockchain: "bool" = None,
         is_premium: "bool" = None,
+        is_burned: "bool" = None,
         colors: "tgram.types.UniqueGiftColors" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -245,6 +253,7 @@ class UniqueGift(Type_):
         self.gift_id = gift_id
         self.is_from_blockchain = is_from_blockchain
         self.is_premium = is_premium
+        self.is_burned = is_burned
         self.colors = colors
 
     @staticmethod
@@ -265,6 +274,7 @@ class UniqueGift(Type_):
                 gift_id=d.get("gift_id"),
                 is_from_blockchain=d.get("is_from_blockchain"),
                 is_premium=d.get("is_premium"),
+                is_burned=d.get("is_burned"),
                 colors=tgram.types.UniqueGiftColors._parse(me, d.get("colors"))
                 if d.get("colors")
                 else None,

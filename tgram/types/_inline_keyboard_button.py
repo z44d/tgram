@@ -57,6 +57,12 @@ class InlineKeyboardButton(Type_):
         the first row and can only be used in invoice messages.
     :type pay: :obj:`bool`
 
+    :param icon_custom_emoji_id: Optional. Unique identifier of the custom emoji shown before the text of the button
+    :type icon_custom_emoji_id: :obj:`str`
+
+    :param style: Optional. Style of the button. Must be one of “danger”, “success”, or “primary”
+    :type style: :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.InlineKeyboardButton`
     """
@@ -74,6 +80,8 @@ class InlineKeyboardButton(Type_):
         copy_text: "tgram.types.CopyTextButton" = None,
         callback_game: "tgram.types.CallbackGame" = None,
         pay: "bool" = None,
+        icon_custom_emoji_id: "str" = None,
+        style: "str" = None,
         user_id: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -89,6 +97,8 @@ class InlineKeyboardButton(Type_):
         self.copy_text = copy_text
         self.callback_game = callback_game
         self.pay = pay
+        self.icon_custom_emoji_id = icon_custom_emoji_id
+        self.style = style
 
         self.url = url or (f"tg://user?id={user_id}" if user_id is not None else None)
 
@@ -119,6 +129,8 @@ class InlineKeyboardButton(Type_):
                     me=me, d=d.get("callback_game")
                 ),
                 pay=d.get("pay"),
+                icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
+                style=d.get("style"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

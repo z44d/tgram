@@ -252,6 +252,12 @@ class Message(Type_, bound.MessageB):
     :param direct_message_price_changed: Optional. Service message: the price for paid messages in the corresponding direct messages chat of a channel has changed
     :type direct_message_price_changed: :class:`tgram.types.DirectMessagePriceChanged`
 
+    :param chat_owner_left: Optional. Service message: the chat owner has left
+    :type chat_owner_left: :class:`tgram.types.ChatOwnerLeft`
+
+    :param chat_owner_changed: Optional. Service message: the chat owner has changed
+    :type chat_owner_changed: :class:`tgram.types.ChatOwnerChanged`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -404,6 +410,8 @@ class Message(Type_, bound.MessageB):
         checklist_tasks_done: "tgram.types.ChecklistTasksDone" = None,
         checklist_tasks_added: "tgram.types.ChecklistTasksAdded" = None,
         direct_message_price_changed: "tgram.types.DirectMessagePriceChanged" = None,
+        chat_owner_left: "tgram.types.ChatOwnerLeft" = None,
+        chat_owner_changed: "tgram.types.ChatOwnerChanged" = None,
         forum_topic_created: "tgram.types.ForumTopicCreated" = None,
         forum_topic_edited: "tgram.types.ForumTopicEdited" = None,
         forum_topic_closed: "tgram.types.ForumTopicClosed" = None,
@@ -510,6 +518,8 @@ class Message(Type_, bound.MessageB):
         self.checklist_tasks_done = checklist_tasks_done
         self.checklist_tasks_added = checklist_tasks_added
         self.direct_message_price_changed = direct_message_price_changed
+        self.chat_owner_left = chat_owner_left
+        self.chat_owner_changed = chat_owner_changed
         self.forum_topic_created = forum_topic_created
         self.forum_topic_edited = forum_topic_edited
         self.forum_topic_closed = forum_topic_closed
@@ -690,6 +700,12 @@ class Message(Type_, bound.MessageB):
                 ),
                 direct_message_price_changed=tgram.types.DirectMessagePriceChanged._parse(
                     me=me, d=d.get("direct_message_price_changed")
+                ),
+                chat_owner_left=tgram.types.ChatOwnerLeft._parse(
+                    me=me, d=d.get("chat_owner_left")
+                ),
+                chat_owner_changed=tgram.types.ChatOwnerChanged._parse(
+                    me=me, d=d.get("chat_owner_changed")
                 ),
                 forum_topic_created=tgram.types.ForumTopicCreated._parse(
                     me=me, d=d.get("forum_topic_created")

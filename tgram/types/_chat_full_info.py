@@ -58,6 +58,9 @@ class ChatFullInfo(Type_, bound.ChatB):
     :param business_location: Optional. For private chats with business accounts, the location of the business
     :type business_location: :class:`tgram.types.BusinessLocation`
 
+    :param first_profile_audio: Optional. For private chats, the first audio added to the profile of the user
+    :type first_profile_audio: :class:`tgram.types.Audio`
+
     :param business_opening_hours: Optional. For private chats with business accounts, the opening hours of the business
     :type business_opening_hours: :class:`tgram.types.BusinessOpeningHours`
 
@@ -184,6 +187,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         birthdate: "tgram.types.Birthdate" = None,
         business_intro: "tgram.types.BusinessIntro" = None,
         business_location: "tgram.types.BusinessLocation" = None,
+        first_profile_audio: "tgram.types.Audio" = None,
         business_opening_hours: "tgram.types.BusinessOpeningHours" = None,
         personal_chat: "tgram.types.Chat" = None,
         parent_chat: "tgram.types.Chat" = None,
@@ -238,6 +242,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.birthdate = birthdate
         self.business_intro = business_intro
         self.business_location = business_location
+        self.first_profile_audio = first_profile_audio
         self.business_opening_hours = business_opening_hours
         self.personal_chat = personal_chat
         self.parent_chat = parent_chat
@@ -302,6 +307,9 @@ class ChatFullInfo(Type_, bound.ChatB):
                 ),
                 business_location=tgram.types.BusinessLocation._parse(
                     me=me, d=d.get("business_location")
+                ),
+                first_profile_audio=tgram.types.Audio._parse(
+                    me=me, d=d.get("first_profile_audio")
                 ),
                 business_opening_hours=tgram.types.BusinessOpeningHours._parse(
                     me=me, d=d.get("business_opening_hours")

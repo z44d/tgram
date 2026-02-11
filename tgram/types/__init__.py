@@ -61,6 +61,8 @@ from ._chat_member_member import ChatMemberMember
 from ._chat_member_owner import ChatMemberOwner
 from ._chat_member_restricted import ChatMemberRestricted
 from ._chat_member_updated import ChatMemberUpdated
+from ._chat_owner_left import ChatOwnerLeft
+from ._chat_owner_changed import ChatOwnerChanged
 from ._chat_permissions import ChatPermissions
 from ._chat_photo import ChatPhoto
 from ._chat_shared import ChatShared
@@ -243,6 +245,7 @@ from ._update import Update
 from ._user import User
 from ._user_chat_boosts import UserChatBoosts
 from ._user_profile_photos import UserProfilePhotos
+from ._user_profile_audios import UserProfileAudios
 from ._users_shared import UsersShared
 from ._unique_gifts import (
     UniqueGift,
@@ -257,6 +260,7 @@ from ._user_rating import UserRating
 from ._owned_gifts import OwnedGifts, OwnedGiftRegular, OwnedGiftUnique
 from ._venue import Venue
 from ._video import Video
+from ._video_quality import VideoQuality
 from ._video_chat_ended import VideoChatEnded
 from ._video_chat_participants_invited import VideoChatParticipantsInvited
 from ._video_chat_scheduled import VideoChatScheduled
@@ -435,6 +439,8 @@ __all__ = [
     "ChatMemberOwner",
     "ChatMemberRestricted",
     "ChatMemberUpdated",
+    "ChatOwnerLeft",
+    "ChatOwnerChanged",
     "ChatPermissions",
     "ChatPhoto",
     "ChatShared",
@@ -617,6 +623,7 @@ __all__ = [
     "User",
     "UserChatBoosts",
     "UserProfilePhotos",
+    "UserProfileAudios",
     "UsersShared",
     "UniqueGift",
     "UniqueGiftBackdrop",
@@ -629,6 +636,7 @@ __all__ = [
     "GiftBackground",
     "Venue",
     "Video",
+    "VideoQuality",
     "VideoChatEnded",
     "VideoChatParticipantsInvited",
     "VideoChatScheduled",
