@@ -187,6 +187,10 @@ from .payments_and_business.delete_story import DeleteStory
 from .payments_and_business.repost_story import RepostStory
 from .messages.send_message_draft import SendMessageDraft
 
+from .bot.remove_my_profile_photo import RemoveMyProfilePhoto
+from .bot.set_my_profile_photo import SetMyProfilePhoto
+from .chats.get_user_profile_audios import GetUserProfileAudios
+
 
 class TelegramBotMethods(
     AddStickerToSet,
@@ -358,5 +362,8 @@ class TelegramBotMethods(
     PostStory,
     RepostStory,
     SendMessageDraft,
+    RemoveMyProfilePhoto,
+    SetMyProfilePhoto,
+    GetUserProfileAudios,
 ):
     pass

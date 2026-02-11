@@ -61,6 +61,14 @@ class MessageEntity(Type_):
         self.user = user
         self.language = language
         self.custom_emoji_id = custom_emoji_id
+        self._content: str = None
+
+    @property
+    def html(self) -> str:
+        if self.type == "custom_emoji":
+            return tgram.utils.custom_emoji(self._content, self.custom_emoji_id)
+
+        return self._content
 
     @staticmethod
     def _parse(

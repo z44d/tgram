@@ -13,6 +13,12 @@ class String(str):
 
     def put(self, e: List["tgram.types.MessageEntity"] = None) -> "String":
         self._entities = e
+        if e:
+            text = add_surrogates(self)
+            for entity in e:
+                entity._content = remove_surrogates(
+                    text[entity.offset : entity.offset + entity.length]
+                )
 
         return self
 
@@ -73,8 +79,9 @@ FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
 def add_surrogates(text: str) -> str:
     # Replace each SMP code point with a surrogate pair
     return SMP_RE.sub(
-        lambda match:  # Split SMP in two surrogates
-        "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le"))),
+        lambda match: (  # Split SMP in two surrogates
+            "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le")))
+        ),
         text,
     )
 
@@ -222,8 +229,8 @@ def html_unparse(text: str, entities: List["tgram.types.MessageEntity"]) -> str:
             end_tag = "</a>"
         elif entity_type == "custom_emoji":
             custom_emoji_id = entity.custom_emoji_id
-            start_tag = f'<emoji id="{custom_emoji_id}">'
-            end_tag = "</emoji>"
+            start_tag = f"<tg-emoji emoji-id='{custom_emoji_id}'>"
+            end_tag = "</tg-emoji>"
         else:
             return
 

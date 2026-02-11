@@ -41,6 +41,12 @@ class KeyboardButton(Type_):
         send its identifier to the bot in a “chat_shared” service message. Available in private chats only.
     :type request_chat: :class:`tgram.types.KeyboardButtonRequestChat`
 
+    :param icon_custom_emoji_id: Optional. Unique identifier of the custom emoji shown before the text of the button
+    :type icon_custom_emoji_id: :obj:`str`
+
+    :param style: Optional. Style of the button. Must be one of “danger”, “success”, or “primary”
+    :type style: :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.KeyboardButton`
     """
@@ -54,6 +60,8 @@ class KeyboardButton(Type_):
         request_location: "bool" = None,
         request_poll: "tgram.types.KeyboardButtonPollType" = None,
         web_app: "tgram.types.WebAppInfo" = None,
+        icon_custom_emoji_id: "str" = None,
+        style: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -65,6 +73,8 @@ class KeyboardButton(Type_):
         self.request_location = request_location
         self.request_poll = request_poll
         self.web_app = web_app
+        self.icon_custom_emoji_id = icon_custom_emoji_id
+        self.style = style
 
     @staticmethod
     def _parse(
@@ -87,6 +97,8 @@ class KeyboardButton(Type_):
                     me=me, d=d.get("request_poll")
                 ),
                 web_app=tgram.types.WebAppInfo._parse(me=me, d=d.get("web_app")),
+                icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
+                style=d.get("style"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
