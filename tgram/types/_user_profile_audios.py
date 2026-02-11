@@ -40,9 +40,7 @@ class UserProfileAudios(Type_):
                 me=me,
                 json=d,
                 total_count=d.get("total_count"),
-                audios=[
-                    tgram.types.Audio._parse(me=me, d=i) for i in d.get("audios")
-                ]
+                audios=[tgram.types.Audio._parse(me=me, d=i) for i in d.get("audios")]
                 if d.get("audios")
                 else None,
             )

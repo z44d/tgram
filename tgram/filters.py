@@ -346,10 +346,12 @@ def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
         else {i.lower() if isinstance(i, str) else i for i in ids}
     )
     return Filter(
-        lambda _, m: getattr(m, "sender_chat")
-        and (
-            m.sender_chat.id in ids
-            or (m.sender_chat.username and m.sender_chat.username.lower() in ids)
+        lambda _, m: (
+            getattr(m, "sender_chat")
+            and (
+                m.sender_chat.id in ids
+                or (m.sender_chat.username and m.sender_chat.username.lower() in ids)
+            )
         )
     )
 
@@ -362,10 +364,12 @@ def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
         else {i.lower() if isinstance(i, str) else i for i in ids}
     )
     return Filter(
-        lambda _, m: getattr(m, "from_user")
-        and (
-            m.from_user.id in ids
-            or (m.from_user.username and m.from_user.username.lower() in ids)
+        lambda _, m: (
+            getattr(m, "from_user")
+            and (
+                m.from_user.id in ids
+                or (m.from_user.username and m.from_user.username.lower() in ids)
+            )
         )
     )
 
@@ -378,8 +382,12 @@ def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
         else {i.lower() if isinstance(i, str) else i for i in ids}
     )
     return Filter(
-        lambda _, m: getattr(m, "chat")
-        and (m.chat.id in ids or (m.chat.username and m.chat.username.lower() in ids))
+        lambda _, m: (
+            getattr(m, "chat")
+            and (
+                m.chat.id in ids or (m.chat.username and m.chat.username.lower() in ids)
+            )
+        )
     )
 
 

@@ -79,8 +79,9 @@ FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
 def add_surrogates(text: str) -> str:
     # Replace each SMP code point with a surrogate pair
     return SMP_RE.sub(
-        lambda match:  # Split SMP in two surrogates
-        "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le"))),
+        lambda match: (  # Split SMP in two surrogates
+            "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le")))
+        ),
         text,
     )
 
