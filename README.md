@@ -54,7 +54,7 @@ pip install tgram -U
 
 ## 💡 Requirements
 
-- **Python**: Version 3.8 or higher.
+- **Python**: Version 3.10 or higher.
 - **Telegram Bot Token**: Obtain one by following [this guide](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ## 💬 Help & Support
