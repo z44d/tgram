@@ -1,5 +1,6 @@
 from .async_property import AsyncProperty
 from .compose import compose
+from .custom_emoji import custom_emoji
 from .file_id import decode_file_id, FILE_TYPES, SUPPORTED_FILE_TYPES_TO_SEND
 from .files import get_file_name, get_file_path
 from .json_ import Json
@@ -26,6 +27,7 @@ ALL_UPDATES: List[str] = [
 __all__ = [
     "AsyncProperty",
     "compose",
+    "custom_emoji",
     "decode_file_id",
     "FILE_TYPES",
     "SUPPORTED_FILE_TYPES_TO_SEND",
