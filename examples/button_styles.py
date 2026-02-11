@@ -17,6 +17,7 @@ logging.basicConfig(level=logging.INFO)
 # Replace "YOUR_BOT_TOKEN" with your actual bot token
 bot = TgBot("YOUR_BOT_TOKEN", parse_mode="HTML")
 
+
 @bot.on_message(filters.command("start"))
 async def start(_, message: Message):
     # Example of buttons with different styles
@@ -42,21 +43,23 @@ async def start(_, message: Message):
             ],
         ]
     )
-    
+
     # Using the premium emoji helper
     # logic: custom_emoji("emoji_char", "custom_emoji_id")
     # This generates a <tg-emoji> html tag.
     emo = custom_emoji("〰", "5269705687126009911")
-    
+
     # Respond with the custom emoji and the styled buttons
     await message.reply(
         f"Here are the button styles matches:\n\n{emo} <b>Button Styles</b>",
-        reply_markup=keys
+        reply_markup=keys,
     )
+
 
 @bot.on_callback_query()
 async def callback_handler(bot, callback_query):
     await callback_query.answer(f"You clicked: {callback_query.data}")
+
 
 if __name__ == "__main__":
     asyncio.run(bot.run_for_updates())
