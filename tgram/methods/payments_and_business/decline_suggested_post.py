@@ -34,4 +34,4 @@ class DeclineSuggestedPost:
             message_id=message_id,
             comment=comment,
         )
-        return result["result"]
+        return result.get("result", {})

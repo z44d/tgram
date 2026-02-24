@@ -30,4 +30,4 @@ class DeleteBusinessMessages:
             business_connection_id=business_connection_id,
             message_ids=message_ids,
         )
-        return result["result"]
+        return result.get("result", {})

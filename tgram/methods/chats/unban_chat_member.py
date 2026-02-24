@@ -38,4 +38,4 @@ class UnbanChatMember:
             user_id=user_id,
             only_if_banned=only_if_banned,
         )
-        return result["result"]
+        return result.get("result", {})

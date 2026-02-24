@@ -34,4 +34,4 @@ class SetMyDefaultAdministratorRights:
             rights=rights,
             for_channels=for_channels,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -20,4 +20,4 @@ class GetMyName:
             "getMyName",
             language_code=language_code,
         )
-        return BotName._parse(me=self, d=result["result"])
+        return BotName._parse(me=self, d=result.get("result", {}))

@@ -26,4 +26,4 @@ class SetStickerMaskPosition:
             sticker=sticker,
             mask_position=mask_position,
         )
-        return result["result"]
+        return result.get("result", {})

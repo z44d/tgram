@@ -75,4 +75,4 @@ class SetWebhook:
             drop_pending_updates=drop_pending_updates,
             secret_token=secret_token,
         )
-        return result["result"]
+        return result.get("result", {})

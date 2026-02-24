@@ -15,4 +15,4 @@ class RemoveMyProfilePhoto:
         result = await self(
             "removeMyProfilePhoto",
         )
-        return result["result"]
+        return result.get("result", {})

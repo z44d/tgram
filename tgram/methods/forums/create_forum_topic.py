@@ -41,4 +41,4 @@ class CreateForumTopic:
             icon_color=icon_color,
             icon_custom_emoji_id=icon_custom_emoji_id,
         )
-        return ForumTopic._parse(me=self, d=result["result"])
+        return ForumTopic._parse(me=self, d=result.get("result", {}))

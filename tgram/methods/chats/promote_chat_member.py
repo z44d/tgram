@@ -116,4 +116,4 @@ class PromoteChatMember:
             can_pin_messages=can_pin_messages,
             can_manage_topics=can_manage_topics,
         )
-        return result["result"]
+        return result.get("result", {})

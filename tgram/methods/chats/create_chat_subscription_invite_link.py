@@ -42,4 +42,4 @@ class CreateChatSubscriptionInviteLink:
             subscription_price=subscription_price,
             name=name,
         )
-        return ChatInviteLink._parse(me=self, d=result["result"])
+        return ChatInviteLink._parse(me=self, d=result.get("result", {}))

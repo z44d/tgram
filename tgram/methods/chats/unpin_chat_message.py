@@ -36,4 +36,4 @@ class UnpinChatMessage:
             message_id=message_id,
             business_connection_id=business_connection_id,
         )
-        return result["result"]
+        return result.get("result", {})

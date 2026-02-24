@@ -42,4 +42,4 @@ class DemoteChatMember:
             can_pin_messages=False,
             can_manage_topics=False,
         )
-        return result["result"]
+        return result.get("result", {})

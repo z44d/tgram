@@ -54,4 +54,4 @@ class AddStickerToSet:
             name=name,
             sticker=sticker,
         )
-        return result["result"]
+        return result.get("result", {})

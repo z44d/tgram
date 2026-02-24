@@ -31,4 +31,4 @@ class GetChatGifts:
             offset=offset,
             limit=limit,
         )
-        return OwnedGifts._parse(me=self, d=result["result"])
+        return OwnedGifts._parse(me=self, d=result.get("result", {}))

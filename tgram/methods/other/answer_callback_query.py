@@ -44,4 +44,4 @@ class AnswerCallbackQuery:
             url=url,
             cache_time=cache_time,
         )
-        return result["result"]
+        return result.get("result", {})

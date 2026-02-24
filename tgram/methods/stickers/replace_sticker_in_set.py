@@ -39,4 +39,4 @@ class ReplaceStickerInSet:
             old_sticker=old_sticker,
             sticker=sticker,
         )
-        return result["result"]
+        return result.get("result", {})

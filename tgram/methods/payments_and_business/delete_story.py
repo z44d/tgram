@@ -27,4 +27,4 @@ class DeleteStory:
             business_connection_id=business_connection_id,
             story_id=story_id,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -23,4 +23,4 @@ class GetMyDefaultAdministratorRights:
             "getMyDefaultAdministratorRights",
             for_channels=for_channels,
         )
-        return ChatAdministratorRights._parse(me=self, d=result["result"])
+        return ChatAdministratorRights._parse(me=self, d=result.get("result", {}))

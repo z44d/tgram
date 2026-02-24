@@ -23,4 +23,4 @@ class VerifyUser:
         result = await self(
             "verifyUser", user_id=user_id, custom_description=custom_description
         )
-        return result["result"]
+        return result.get("result", {})

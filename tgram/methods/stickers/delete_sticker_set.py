@@ -17,4 +17,4 @@ class DeleteStickerSet:
             "deleteStickerSet",
             name=name,
         )
-        return result["result"]
+        return result.get("result", {})

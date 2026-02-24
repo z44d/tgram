@@ -28,4 +28,4 @@ class ReopenForumTopic:
             chat_id=chat_id,
             message_thread_id=message_thread_id,
         )
-        return result["result"]
+        return result.get("result", {})

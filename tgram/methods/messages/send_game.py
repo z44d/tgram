@@ -86,4 +86,4 @@ class SendGame:
             else reply_markup,
             allow_paid_broadcast=allow_paid_broadcast,
         )
-        return Message._parse(me=self, d=result["result"])
+        return Message._parse(me=self, d=result.get("result", {}))

@@ -32,4 +32,4 @@ class SetBusinessAccountGiftSettings:
             show_gift_button=show_gift_button,
             accepted_gift_types=accepted_gift_types,
         )
-        return result["result"]
+        return result.get("result", {})

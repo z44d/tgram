@@ -32,4 +32,4 @@ class GetUserProfilePhotos:
             offset=offset,
             limit=limit,
         )
-        return UserProfilePhotos._parse(me=self, d=result["result"])
+        return UserProfilePhotos._parse(me=self, d=result.get("result", {}))

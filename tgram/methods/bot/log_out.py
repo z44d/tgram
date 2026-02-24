@@ -20,4 +20,4 @@ class LogOut:
         result = await self(
             "logOut",
         )
-        return result["result"]
+        return result.get("result", {})

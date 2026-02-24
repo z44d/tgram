@@ -28,4 +28,4 @@ class SetBusinessAccountUsername:
             business_connection_id=business_connection_id,
             username=username,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -51,4 +51,4 @@ class EditChatInviteLink:
             member_limit=member_limit,
             creates_join_request=creates_join_request,
         )
-        return ChatInviteLink._parse(me=self, d=result["result"])
+        return ChatInviteLink._parse(me=self, d=result.get("result", {}))

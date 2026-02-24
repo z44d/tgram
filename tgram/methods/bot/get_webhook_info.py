@@ -20,4 +20,4 @@ class GetWebhookInfo:
         result = await self(
             "getWebhookInfo",
         )
-        return WebhookInfo._parse(me=self, d=result["result"])
+        return WebhookInfo._parse(me=self, d=result.get("result", {}))

@@ -18,4 +18,4 @@ class Close:
         result = await self(
             "close",
         )
-        return result["result"]
+        return result.get("result", {})

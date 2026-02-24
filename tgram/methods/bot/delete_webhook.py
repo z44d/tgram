@@ -25,4 +25,4 @@ class DeleteWebhook:
             "deleteWebhook",
             drop_pending_updates=drop_pending_updates,
         )
-        return result["result"]
+        return result.get("result", {})

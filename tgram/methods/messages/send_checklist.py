@@ -67,4 +67,4 @@ class SendChecklist:
             if isinstance(reply_markup, list)
             else reply_markup,
         )
-        return Message._parse(me=self, d=result["result"])
+        return Message._parse(me=self, d=result.get("result", {}))

@@ -12,4 +12,4 @@ class GetAvailableGifts:
         """
         result = await self("getAvailableGifts")
 
-        return Gifts._parse(self, result["result"])
+        return Gifts._parse(self, result.get("result", {}))

@@ -43,4 +43,4 @@ class EditForumTopic:
             name=name,
             icon_custom_emoji_id=icon_custom_emoji_id,
         )
-        return result["result"]
+        return result.get("result", {})

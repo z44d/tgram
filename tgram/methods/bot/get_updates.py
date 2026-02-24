@@ -46,4 +46,4 @@ class GetUpdates:
             timeout=timeout,
             allowed_updates=allowed_updates,
         )
-        return [Update._parse(me=self, d=i) for i in result["result"]]
+        return [Update._parse(me=self, d=i) for i in result.get("result", {})]

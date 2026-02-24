@@ -41,4 +41,4 @@ class UploadStickerFile:
             sticker=sticker,
             sticker_format=sticker_format,
         )
-        return File._parse(me=self, d=result["result"])
+        return File._parse(me=self, d=result.get("result", {}))

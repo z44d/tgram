@@ -44,4 +44,4 @@ class StopPoll:
             if isinstance(reply_markup, list)
             else reply_markup,
         )
-        return Poll._parse(me=self, d=result["result"])
+        return Poll._parse(me=self, d=result.get("result", {}))

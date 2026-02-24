@@ -32,4 +32,4 @@ class TransferBusinessAccountStars:
             business_connection_id=business_connection_id,
             star_count=star_count,
         )
-        return result["result"]
+        return result.get("result", {})

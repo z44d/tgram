@@ -32,4 +32,4 @@ class GetUserProfileAudios:
                 "limit": limit,
             },
         )
-        return UserProfileAudios._parse(me=self, d=result["result"])
+        return UserProfileAudios._parse(me=self, d=result.get("result", {}))

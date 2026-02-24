@@ -20,4 +20,4 @@ class GetMyDescription:
             "getMyDescription",
             language_code=language_code,
         )
-        return BotDescription._parse(me=self, d=result["result"])
+        return BotDescription._parse(me=self, d=result.get("result", {}))

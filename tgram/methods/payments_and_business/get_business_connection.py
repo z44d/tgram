@@ -23,4 +23,4 @@ class GetBusinessConnection:
             "getBusinessConnection",
             business_connection_id=business_connection_id,
         )
-        return BusinessConnection._parse(me=self, d=result["result"])
+        return BusinessConnection._parse(me=self, d=result.get("result", {}))

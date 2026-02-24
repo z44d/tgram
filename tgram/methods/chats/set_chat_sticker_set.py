@@ -28,4 +28,4 @@ class SetChatStickerSet:
             chat_id=chat_id,
             sticker_set_name=sticker_set_name,
         )
-        return result["result"]
+        return result.get("result", {})

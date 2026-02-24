@@ -39,4 +39,4 @@ class AnswerPreCheckoutQuery:
             ok=ok,
             error_message=error_message,
         )
-        return result["result"]
+        return result.get("result", {})

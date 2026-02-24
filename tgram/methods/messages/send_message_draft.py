@@ -38,4 +38,4 @@ class SendMessageDraft:
             text=text,
             message_thread_id=message_thread_id,
         )
-        return result["result"]
+        return result.get("result", {})

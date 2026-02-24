@@ -28,4 +28,4 @@ class SetBusinessAccountBio:
             business_connection_id=business_connection_id,
             bio=bio,
         )
-        return result["result"]
+        return result.get("result", {})

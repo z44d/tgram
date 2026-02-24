@@ -157,4 +157,4 @@ class SendAudio:
             direct_messages_topic_id=direct_messages_topic_id,
             suggested_post_parameters=suggested_post_parameters,
         )
-        return Message._parse(me=self, d=result["result"])
+        return Message._parse(me=self, d=result.get("result", {}))

@@ -26,4 +26,4 @@ class TransferGift:
             new_owner_chat_id=new_owner_chat_id,
             star_count=star_count,
         )
-        return result["result"]
+        return result.get("result", {})

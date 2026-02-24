@@ -57,4 +57,4 @@ class SendGift:
             text_entities=text_entities,
         )
 
-        return result["result"]
+        return result.get("result", {})

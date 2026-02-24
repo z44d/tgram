@@ -36,4 +36,4 @@ class ApproveSuggestedPost:
             message_id=message_id,
             send_date=send_date,
         )
-        return result["result"]
+        return result.get("result", {})

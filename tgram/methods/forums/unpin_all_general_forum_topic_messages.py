@@ -25,4 +25,4 @@ class UnpinAllGeneralForumTopicMessages:
             "unpinAllGeneralForumTopicMessages",
             chat_id=chat_id,
         )
-        return result["result"]
+        return result.get("result", {})

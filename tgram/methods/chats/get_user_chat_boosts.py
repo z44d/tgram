@@ -27,4 +27,4 @@ class GetUserChatBoosts:
             chat_id=chat_id,
             user_id=user_id,
         )
-        return UserChatBoosts._parse(me=self, d=result["result"])
+        return UserChatBoosts._parse(me=self, d=result.get("result", {}))

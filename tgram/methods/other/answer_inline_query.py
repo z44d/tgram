@@ -65,4 +65,4 @@ class AnswerInlineQuery:
             next_offset=next_offset,
             button=button,
         )
-        return result["result"]
+        return result.get("result", {})

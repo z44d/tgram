@@ -43,4 +43,4 @@ class SetStickerSetThumbnail:
             format=format,
             thumbnail=get_file_path(thumbnail),
         )
-        return result["result"]
+        return result.get("result", {})

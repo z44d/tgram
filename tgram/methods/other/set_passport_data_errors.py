@@ -12,4 +12,4 @@ class SetPassportDataErrors:
             user_id=user_id,
             errors=errors,
         )
-        return result["result"]
+        return result.get("result", {})

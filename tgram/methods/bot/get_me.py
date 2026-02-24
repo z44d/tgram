@@ -13,4 +13,4 @@ class GetMe:
         result = await self(
             "getMe",
         )
-        return User._parse(me=self, d=result["result"])
+        return User._parse(me=self, d=result.get("result", {}))

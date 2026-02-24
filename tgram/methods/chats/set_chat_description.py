@@ -28,4 +28,4 @@ class SetChatDescription:
             chat_id=chat_id,
             description=description,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -14,4 +14,4 @@ class GetMyStarBalance:
         :rtype: :class:`tgram.types.StarAmount`
         """
         result = await self("getMyStarBalance")
-        return StarAmount._parse(me=self, d=result["result"])
+        return StarAmount._parse(me=self, d=result.get("result", {}))

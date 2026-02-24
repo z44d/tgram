@@ -17,4 +17,4 @@ class DeleteStickerFromSet:
             "deleteStickerFromSet",
             sticker=sticker,
         )
-        return result["result"]
+        return result.get("result", {})

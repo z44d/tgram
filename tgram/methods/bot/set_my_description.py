@@ -25,4 +25,4 @@ class SetMyDescription:
             description=description,
             language_code=language_code,
         )
-        return result["result"]
+        return result.get("result", {})

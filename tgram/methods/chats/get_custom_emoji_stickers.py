@@ -22,4 +22,4 @@ class GetCustomEmojiStickers:
             "getCustomEmojiStickers",
             custom_emoji_ids=custom_emoji_ids,
         )
-        return [Sticker._parse(me=self, d=i) for i in result["result"]]
+        return [Sticker._parse(me=self, d=i) for i in result.get("result", {})]

@@ -24,4 +24,4 @@ class SetCustomEmojiStickerSetThumbnail:
             name=name,
             custom_emoji_id=custom_emoji_id,
         )
-        return result["result"]
+        return result.get("result", {})

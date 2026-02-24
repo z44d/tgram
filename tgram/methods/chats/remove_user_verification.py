@@ -21,4 +21,4 @@ class RemoveUserVerification:
             "removeUserVerification",
             user_id=user_id,
         )
-        return result["result"]
+        return result.get("result", {})

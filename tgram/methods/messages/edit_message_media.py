@@ -39,7 +39,7 @@ class EditMessageMedia:
             **file,
         )
         return (
-            Message._parse(me=self, d=result["result"])
-            if isinstance(result["result"], dict)
-            else result["result"]
+            Message._parse(me=self, d=result.get("result", {}))
+            if isinstance(result.get("result", {}), dict)
+            else result.get("result", {})
         )

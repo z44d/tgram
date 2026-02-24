@@ -28,4 +28,4 @@ class DeleteMessages:
             chat_id=chat_id,
             message_ids=message_ids,
         )
-        return result["result"]
+        return result.get("result", {})

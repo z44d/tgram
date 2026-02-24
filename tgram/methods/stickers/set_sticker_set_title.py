@@ -22,4 +22,4 @@ class SetStickerSetTitle:
             name=name,
             title=title,
         )
-        return result["result"]
+        return result.get("result", {})

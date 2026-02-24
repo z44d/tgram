@@ -18,4 +18,4 @@ class GetForumTopicIconStickers:
         result = await self(
             "getForumTopicIconStickers",
         )
-        return [Sticker._parse(me=self, d=i) for i in result["result"]]
+        return [Sticker._parse(me=self, d=i) for i in result.get("result", {})]

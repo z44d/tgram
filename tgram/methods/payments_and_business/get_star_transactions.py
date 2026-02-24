@@ -26,4 +26,4 @@ class GetStarTransactions:
             offset=offset,
             limit=limit,
         )
-        return StarTransactions._parse(me=self, d=result["result"])
+        return StarTransactions._parse(me=self, d=result.get("result", {}))

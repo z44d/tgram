@@ -27,4 +27,4 @@ class RemoveBusinessAccountProfilePhoto:
             business_connection_id=business_connection_id,
             is_public=is_public,
         )
-        return result["result"]
+        return result.get("result", {})

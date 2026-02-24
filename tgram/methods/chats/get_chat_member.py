@@ -25,4 +25,4 @@ class GetChatMember:
             chat_id=chat_id,
             user_id=user_id,
         )
-        return ChatMember._parse(me=self, d=result["result"])
+        return ChatMember._parse(me=self, d=result.get("result", {}))

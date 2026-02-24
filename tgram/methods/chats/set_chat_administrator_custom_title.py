@@ -33,4 +33,4 @@ class SetChatAdministratorCustomTitle:
             user_id=user_id,
             custom_title=custom_title,
         )
-        return result["result"]
+        return result.get("result", {})

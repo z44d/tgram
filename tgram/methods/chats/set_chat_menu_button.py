@@ -29,4 +29,4 @@ class SetChatMenuButton:
             chat_id=chat_id,
             menu_button=menu_button,
         )
-        return result["result"]
+        return result.get("result", {})

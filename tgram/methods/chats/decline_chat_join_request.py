@@ -29,4 +29,4 @@ class DeclineChatJoinRequest:
             chat_id=chat_id,
             user_id=user_id,
         )
-        return result["result"]
+        return result.get("result", {})

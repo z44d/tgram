@@ -26,4 +26,4 @@ class UpgradeGift:
             keep_original_details=keep_original_details,
             star_count=star_count,
         )
-        return result["result"]
+        return result.get("result", {})

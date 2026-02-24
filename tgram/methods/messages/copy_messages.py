@@ -66,4 +66,4 @@ class CopyMessages:
             remove_caption=remove_caption,
             direct_messages_topic_id=direct_messages_topic_id,
         )
-        return [MessageId._parse(me=self, d=i) for i in result["result"]]
+        return [MessageId._parse(me=self, d=i) for i in result.get("result", {})]

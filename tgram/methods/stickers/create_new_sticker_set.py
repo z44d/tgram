@@ -82,4 +82,4 @@ class CreateNewStickerSet:
             sticker_type=sticker_type,
             needs_repainting=needs_repainting,
         )
-        return result["result"]
+        return result.get("result", {})

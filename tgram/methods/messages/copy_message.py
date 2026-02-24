@@ -135,4 +135,4 @@ class CopyMessage:
             suggested_post_parameters=suggested_post_parameters,
             message_effect_id=message_effect_id,
         )
-        return MessageId._parse(me=self, d=result["result"])
+        return MessageId._parse(me=self, d=result.get("result", {}))

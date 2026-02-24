@@ -23,4 +23,4 @@ class GetFile:
             "getFile",
             file_id=file_id,
         )
-        return File._parse(me=self, d=result["result"])
+        return File._parse(me=self, d=result.get("result", {}))

@@ -14,4 +14,4 @@ class GetChatAdministrators:
             "getChatAdministrators",
             chat_id=chat_id,
         )
-        return [ChatMember._parse(me=self, d=i) for i in result["result"]]
+        return [ChatMember._parse(me=self, d=i) for i in result.get("result", {})]

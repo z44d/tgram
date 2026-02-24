@@ -49,4 +49,4 @@ class SendChatAction:
             business_connection_id=business_connection_id,
             message_thread_id=message_thread_id,
         )
-        return result["result"]
+        return result.get("result", {})

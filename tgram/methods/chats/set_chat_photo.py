@@ -31,4 +31,4 @@ class SetChatPhoto:
             chat_id=chat_id,
             photo=photo,
         )
-        return result["result"]
+        return result.get("result", {})

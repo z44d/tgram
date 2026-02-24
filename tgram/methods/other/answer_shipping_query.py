@@ -40,4 +40,4 @@ class AnswerShippingQuery:
             shipping_options=shipping_options,
             error_message=error_message,
         )
-        return result["result"]
+        return result.get("result", {})

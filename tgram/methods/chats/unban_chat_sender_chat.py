@@ -29,4 +29,4 @@ class UnbanChatSenderChat:
             chat_id=chat_id,
             sender_chat_id=sender_chat_id,
         )
-        return result["result"]
+        return result.get("result", {})

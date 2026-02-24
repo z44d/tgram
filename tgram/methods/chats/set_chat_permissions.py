@@ -40,4 +40,4 @@ class SetChatPermissions:
             permissions=permissions,
             use_independent_chat_permissions=use_independent_chat_permissions,
         )
-        return result["result"]
+        return result.get("result", {})

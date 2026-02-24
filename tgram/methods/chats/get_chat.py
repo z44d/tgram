@@ -22,4 +22,4 @@ class GetChat:
             "getChat",
             chat_id=chat_id,
         )
-        return ChatFullInfo._parse(me=self, d=result["result"])
+        return ChatFullInfo._parse(me=self, d=result.get("result", {}))

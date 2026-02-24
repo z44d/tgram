@@ -26,4 +26,4 @@ class SetStickerKeywords:
             sticker=sticker,
             keywords=keywords,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -18,4 +18,4 @@ class GetBusinessAccountStarBalance:
             "getBusinessAccountStarBalance",
             business_connection_id=business_connection_id,
         )
-        return StarAmount._parse(me=self, d=result["result"])
+        return StarAmount._parse(me=self, d=result.get("result", {}))

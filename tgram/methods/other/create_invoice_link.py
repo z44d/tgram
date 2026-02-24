@@ -140,4 +140,4 @@ class CreateInvoiceLink:
             send_email_to_provider=send_email_to_provider,
             is_flexible=is_flexible,
         )
-        return result["result"]
+        return result.get("result", {})

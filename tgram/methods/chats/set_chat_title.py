@@ -31,4 +31,4 @@ class SetChatTitle:
             chat_id=chat_id,
             title=title,
         )
-        return result["result"]
+        return result.get("result", {})

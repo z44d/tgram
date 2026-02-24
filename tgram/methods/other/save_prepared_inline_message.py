@@ -28,4 +28,4 @@ class SavePreparedInlineMessage:
             allow_channel_chats=allow_channel_chats,
         )
 
-        return PreparedInlineMessage._parse(self, result["result"])
+        return PreparedInlineMessage._parse(self, result.get("result", {}))

@@ -44,4 +44,4 @@ class GetGameHighScores:
             message_id=message_id,
             inline_message_id=inline_message_id,
         )
-        return [GameHighScore._parse(me=self, d=i) for i in result["result"]]
+        return [GameHighScore._parse(me=self, d=i) for i in result.get("result", {})]

@@ -32,4 +32,4 @@ class GetMyCommands:
             scope=scope,
             language_code=language_code,
         )
-        return [BotCommand._parse(me=self, d=i) for i in result["result"]]
+        return [BotCommand._parse(me=self, d=i) for i in result.get("result", {})]

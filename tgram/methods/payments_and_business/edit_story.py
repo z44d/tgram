@@ -56,4 +56,4 @@ class EditStory:
             caption_entities=caption_entities,
             areas=areas,
         )
-        return tgram.types.Story._parse(me=self, d=result["result"])
+        return tgram.types.Story._parse(me=self, d=result.get("result", {}))

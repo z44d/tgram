@@ -20,4 +20,4 @@ class GetStickerSet:
             "getStickerSet",
             name=name,
         )
-        return StickerSet._parse(me=self, d=result["result"])
+        return StickerSet._parse(me=self, d=result.get("result", {}))

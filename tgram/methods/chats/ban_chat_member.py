@@ -45,4 +45,4 @@ class BanChatMember:
             until_date=until_date,
             revoke_messages=revoke_messages,
         )
-        return result["result"]
+        return result.get("result", {})

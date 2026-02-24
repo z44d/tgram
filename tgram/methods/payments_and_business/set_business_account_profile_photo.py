@@ -40,4 +40,4 @@ class SetBusinessAccountProfilePhoto:
             is_public=is_public,
             **file,
         )
-        return result["result"]
+        return result.get("result", {})

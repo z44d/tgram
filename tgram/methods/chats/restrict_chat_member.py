@@ -80,4 +80,4 @@ class RestrictChatMember:
             use_independent_chat_permissions=use_independent_chat_permissions,
             until_date=until_date,
         )
-        return result["result"]
+        return result.get("result", {})

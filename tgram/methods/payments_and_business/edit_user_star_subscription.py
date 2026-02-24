@@ -17,4 +17,4 @@ class EditUserStarSubscription:
             telegram_payment_charge_id=telegram_payment_charge_id,
             is_canceled=is_canceled,
         )
-        return result["result"]
+        return result.get("result", {})

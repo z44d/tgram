@@ -30,4 +30,4 @@ class SetUserEmojiStatus:
             emoji_status_custom_emoji_id=emoji_status_custom_emoji_id,
             emoji_status_expiration_date=emoji_status_expiration_date,
         )
-        return result["result"]
+        return result.get("result", {})

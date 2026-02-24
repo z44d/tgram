@@ -30,4 +30,4 @@ class AnswerWebAppQuery:
             web_app_query_id=web_app_query_id,
             result=result,
         )
-        return SentWebAppMessage._parse(me=self, d=result["result"])
+        return SentWebAppMessage._parse(me=self, d=result.get("result", {}))

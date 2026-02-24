@@ -25,4 +25,4 @@ class RefundStarPayment:
             user_id=user_id,
             telegram_payment_charge_id=telegram_payment_charge_id,
         )
-        return result["result"]
+        return result.get("result", {})

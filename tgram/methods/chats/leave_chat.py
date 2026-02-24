@@ -19,4 +19,4 @@ class LeaveChat:
             "leaveChat",
             chat_id=chat_id,
         )
-        return result["result"]
+        return result.get("result", {})

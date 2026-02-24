@@ -25,4 +25,4 @@ class GetChatMenuButton:
             "getChatMenuButton",
             chat_id=chat_id,
         )
-        return MenuButton._parse(me=self, d=result["result"])
+        return MenuButton._parse(me=self, d=result.get("result", {}))

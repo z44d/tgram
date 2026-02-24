@@ -25,4 +25,4 @@ class VerifyChat:
         result = await self(
             "verifyChat", chat_id=chat_id, custom_description=custom_description
         )
-        return result["result"]
+        return result.get("result", {})

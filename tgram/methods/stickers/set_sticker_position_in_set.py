@@ -25,4 +25,4 @@ class SetStickerPositionInSet:
             sticker=sticker,
             position=position,
         )
-        return result["result"]
+        return result.get("result", {})

@@ -33,4 +33,4 @@ class RepostStory:
             story_sender_chat_id=story_sender_chat_id,
             story_id=story_id,
         )
-        return Story._parse(me=self, d=result["result"])
+        return Story._parse(me=self, d=result.get("result", {}))

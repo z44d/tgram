@@ -25,4 +25,4 @@ class SetStickerEmojiList:
             sticker=sticker,
             emoji_list=emoji_list,
         )
-        return result["result"]
+        return result.get("result", {})

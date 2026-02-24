@@ -25,4 +25,4 @@ class SetMyName:
             name=name,
             language_code=language_code,
         )
-        return result["result"]
+        return result.get("result", {})

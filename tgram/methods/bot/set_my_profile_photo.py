@@ -28,4 +28,4 @@ class SetMyProfilePhoto:
                 "photo": photo,
             },
         )
-        return result["result"]
+        return result.get("result", {})

@@ -19,4 +19,4 @@ class ConvertGiftToStars:
             business_connection_id=business_connection_id,
             owned_gift_id=owned_gift_id,
         )
-        return result["result"]
+        return result.get("result", {})

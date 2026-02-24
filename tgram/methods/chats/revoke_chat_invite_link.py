@@ -30,4 +30,4 @@ class RevokeChatInviteLink:
             chat_id=chat_id,
             invite_link=invite_link,
         )
-        return ChatInviteLink._parse(me=self, d=result["result"])
+        return ChatInviteLink._parse(me=self, d=result.get("result", {}))

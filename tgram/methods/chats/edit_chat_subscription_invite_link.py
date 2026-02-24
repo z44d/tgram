@@ -37,4 +37,4 @@ class EditChatSubscriptionInviteLink:
             invite_link=invite_link,
             name=name,
         )
-        return ChatInviteLink._parse(me=self, d=result["result"])
+        return ChatInviteLink._parse(me=self, d=result.get("result", {}))

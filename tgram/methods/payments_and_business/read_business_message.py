@@ -33,4 +33,4 @@ class ReadBusinessMessage:
             chat_id=chat_id,
             message_id=message_id,
         )
-        return result["result"]
+        return result.get("result", {})

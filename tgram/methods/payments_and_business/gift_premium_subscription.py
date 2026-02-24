@@ -49,4 +49,4 @@ class GiftPremiumSubscription:
             text_parse_mode=text_parse_mode,
             text_entities=text_entities,
         )
-        return result["result"]
+        return result.get("result", {})

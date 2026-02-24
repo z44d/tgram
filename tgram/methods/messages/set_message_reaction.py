@@ -42,4 +42,4 @@ class SetMessageReaction:
             reaction=reaction,
             is_big=is_big,
         )
-        return result["result"]
+        return result.get("result", {})

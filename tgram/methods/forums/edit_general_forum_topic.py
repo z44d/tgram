@@ -25,4 +25,4 @@ class EditGeneralForumTopic:
             chat_id=chat_id,
             name=name,
         )
-        return result["result"]
+        return result.get("result", {})

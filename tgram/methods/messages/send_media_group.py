@@ -92,4 +92,4 @@ class SendMediaGroup:
             **files,
             direct_messages_topic_id=direct_messages_topic_id,
         )
-        return [Message._parse(me=self, d=i) for i in result["result"]]
+        return [Message._parse(me=self, d=i) for i in result.get("result", {})]
