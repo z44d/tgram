@@ -22,6 +22,7 @@ class PromoteChatMember:
         can_edit_messages: bool = None,
         can_pin_messages: bool = None,
         can_manage_topics: bool = None,
+        can_manage_tags: bool = None,
     ) -> bool:
         """
         Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator
@@ -83,6 +84,9 @@ class PromoteChatMember:
             and reopen forum topics, supergroups only
         :type can_manage_topics: :obj:`bool`
 
+        :param can_manage_tags: Pass True if the administrator is allowed to manage profile tags
+        :type can_manage_tags: :obj:`bool`
+
         :param can_post_stories: Pass True if the administrator can create the channel's stories
         :type can_post_stories: :obj:`bool`
 
@@ -115,5 +119,6 @@ class PromoteChatMember:
             can_edit_messages=can_edit_messages,
             can_pin_messages=can_pin_messages,
             can_manage_topics=can_manage_topics,
+            can_manage_tags=can_manage_tags,
         )
         return result.get("result", {})

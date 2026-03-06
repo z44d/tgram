@@ -61,6 +61,9 @@ class ChatMemberAdministrator(Type_):
         supergroups only
     :type can_manage_topics: :obj:`bool`
 
+    :param can_manage_tags: Optional. True, if the administrator is allowed to manage profile tags
+    :type can_manage_tags: :obj:`bool`
+
     :param custom_title: Optional. Custom title for this user
     :type custom_title: :obj:`str`
 
@@ -97,6 +100,7 @@ class ChatMemberAdministrator(Type_):
         can_edit_messages: "bool" = None,
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
+        can_manage_tags: "bool" = None,
         custom_title: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -120,6 +124,7 @@ class ChatMemberAdministrator(Type_):
         self.can_edit_messages = can_edit_messages
         self.can_pin_messages = can_pin_messages
         self.can_manage_topics = can_manage_topics
+        self.can_manage_tags = can_manage_tags
         self.custom_title = custom_title
 
     @staticmethod
@@ -148,6 +153,7 @@ class ChatMemberAdministrator(Type_):
                 can_edit_messages=d.get("can_edit_messages"),
                 can_pin_messages=d.get("can_pin_messages"),
                 can_manage_topics=d.get("can_manage_topics"),
+                can_manage_tags=d.get("can_manage_tags"),
                 custom_title=d.get("custom_title"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

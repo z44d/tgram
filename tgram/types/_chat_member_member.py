@@ -16,6 +16,9 @@ class ChatMemberMember(Type_):
     :param user: Information about the user
     :type user: :class:`tgram.types.User`
 
+    :param tag: Optional. User's profile tag in the chat
+    :type tag: :obj:`str`
+
     :param until_date: Optional. Date when the user's subscription will expire; Unix time
     :type status: :obj:`int`
 
@@ -27,6 +30,7 @@ class ChatMemberMember(Type_):
         self,
         status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
+        tag: "str" = None,
         until_date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -34,6 +38,7 @@ class ChatMemberMember(Type_):
         super().__init__(me=me, json=json)
         self.status = status
         self.user = user
+        self.tag = tag
         self.until_date = until_date
 
     @staticmethod
@@ -46,6 +51,7 @@ class ChatMemberMember(Type_):
                 json=d,
                 status=d.get("status"),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
+                tag=d.get("tag"),
                 until_date=d.get("until_date"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

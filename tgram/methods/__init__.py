@@ -111,6 +111,7 @@ from .chats.set_chat_permissions import SetChatPermissions
 from .chats.set_chat_photo import SetChatPhoto
 from .chats.set_chat_sticker_set import SetChatStickerSet
 from .chats.set_chat_title import SetChatTitle
+from .chats.set_chat_member_tag import SetChatMemberTag
 from .stickers.set_custom_emoji_sticker_set_thumbnail import (
     SetCustomEmojiStickerSetThumbnail,
 )
@@ -316,6 +317,7 @@ class TelegramBotMethods(
     SetChatPhoto,
     SetChatStickerSet,
     SetChatTitle,
+    SetChatMemberTag,
     SetCustomEmojiStickerSetThumbnail,
     SetGameScore,
     SetMessageReaction,

@@ -87,6 +87,9 @@ class Message(Type_, bound.MessageB):
     :param author_signature: Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
     :type author_signature: :obj:`str`
 
+    :param sender_tag: Optional. If the sender of the message sent it on behalf of a chat, the tag of the sender
+    :type sender_tag: :obj:`str`
+
     :param paid_star_count: Optional. The number of Telegram Stars that were paid by the sender of the message to send it
     :type paid_star_count: :obj:`int`
 
@@ -355,6 +358,7 @@ class Message(Type_, bound.MessageB):
         is_paid_post: "bool" = None,
         media_group_id: "str" = None,
         author_signature: "str" = None,
+        sender_tag: "str" = None,
         paid_star_count: "int" = None,
         text: "String" = None,
         entities: List["tgram.types.MessageEntity"] = None,
@@ -463,6 +467,7 @@ class Message(Type_, bound.MessageB):
         self.is_paid_post = is_paid_post
         self.media_group_id = media_group_id
         self.author_signature = author_signature
+        self.sender_tag = sender_tag
         self.paid_star_count = paid_star_count
         self.text = String(text).put(entities) if text else None
         self.entities = entities
@@ -586,6 +591,7 @@ class Message(Type_, bound.MessageB):
                 is_paid_post=d.get("is_paid_post"),
                 media_group_id=d.get("media_group_id"),
                 author_signature=d.get("author_signature"),
+                sender_tag=d.get("sender_tag"),
                 paid_star_count=d.get("paid_star_count"),
                 text=d.get("text"),
                 entities=[

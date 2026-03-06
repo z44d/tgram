@@ -16,6 +16,12 @@ class ChatMemberRestricted(Type_):
     :param user: Information about the user
     :type user: :class:`tgram.types.User`
 
+    :param tag: Optional. User's profile tag in the chat
+    :type tag: :obj:`str`
+
+    :param can_edit_tag: True, if the user is allowed to edit their profile tag
+    :type can_edit_tag: :obj:`bool`
+
     :param is_member: True, if the user is a member of the chat at the moment of the request
     :type is_member: :obj:`bool`
 
@@ -89,7 +95,9 @@ class ChatMemberRestricted(Type_):
         can_invite_users: "bool" = None,
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
+        can_edit_tag: "bool" = None,
         until_date: "int" = None,
+        tag: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -111,7 +119,9 @@ class ChatMemberRestricted(Type_):
         self.can_invite_users = can_invite_users
         self.can_pin_messages = can_pin_messages
         self.can_manage_topics = can_manage_topics
+        self.can_edit_tag = can_edit_tag
         self.until_date = until_date
+        self.tag = tag
 
     @staticmethod
     def _parse(
@@ -138,7 +148,9 @@ class ChatMemberRestricted(Type_):
                 can_invite_users=d.get("can_invite_users"),
                 can_pin_messages=d.get("can_pin_messages"),
                 can_manage_topics=d.get("can_manage_topics"),
+                can_edit_tag=d.get("can_edit_tag"),
                 until_date=d.get("until_date"),
+                tag=d.get("tag"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

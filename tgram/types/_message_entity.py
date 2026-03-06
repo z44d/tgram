@@ -15,7 +15,8 @@ class MessageEntity(Type_):
         “bold” (bold text), “italic” (italic text), “underline” (underlined text), “strikethrough” (strikethrough text),
         “spoiler” (spoiler message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block quotation),
         “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text URLs),
-        “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers)
+        “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers),
+        “date_time” (for formatted date and time to the user)
     :type type: :obj:`str`
 
     :param offset: Offset in UTF-16 code units to the start of the entity
