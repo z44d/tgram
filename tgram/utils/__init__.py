@@ -15,6 +15,7 @@ from .types import (
     convert_to_inline_keyboard_markup,
     rich_text_parse,
     rich_block_parse,
+    input_rich_block_parse,
 )
 
 from ..handlers import Handlers
@@ -49,4 +50,5 @@ __all__ = [
     "convert_to_inline_keyboard_markup",
     "rich_text_parse",
     "rich_block_parse",
+    "input_rich_block_parse",
 ]

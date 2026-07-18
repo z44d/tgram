@@ -18,6 +18,7 @@ from ._background_type_wallpaper import BackgroundTypeWallpaper
 from ._birthdate import Birthdate
 from ._bot_access_settings import BotAccessSettings
 from ._bot_command import BotCommand
+from ._bot_subscription_updated import BotSubscriptionUpdated
 from ._bot_command_scope import BotCommandScope
 from ._bot_command_scope_all_chat_administrators import (
     BotCommandScopeAllChatAdministrators,
@@ -63,6 +64,9 @@ from ._chat_member_owner import ChatMemberOwner
 from ._chat_member_restricted import ChatMemberRestricted
 from ._chat_member_updated import ChatMemberUpdated
 from ._chat_owner_left import ChatOwnerLeft
+from ._community import Community
+from ._community_chat_added import CommunityChatAdded
+from ._community_chat_removed import CommunityChatRemoved
 from ._chat_owner_changed import ChatOwnerChanged
 from ._chat_permissions import ChatPermissions
 from ._chat_photo import ChatPhoto
@@ -137,6 +141,7 @@ from ._input_media_location import InputMediaLocation
 from ._input_media_sticker import InputMediaSticker
 from ._input_media_venue import InputMediaVenue
 from ._input_media_video import InputMediaVideo
+from ._input_media_voice_note import InputMediaVoiceNote
 from ._input_message_content import InputMessageContent
 from ._input_paid_media_photo import InputPaidMediaPhoto
 from ._input_paid_media_live_photo import InputPaidMediaLivePhoto
@@ -148,6 +153,31 @@ from ._input_poll_option import InputPollOption
 from ._input_poll_option_media import InputPollOptionMedia
 from ._input_rich_message import InputRichMessage
 from ._input_rich_message_content import InputRichMessageContent
+from ._input_rich_message_media import InputRichMessageMedia
+from ._input_rich_block import InputRichBlock
+from ._input_rich_block_list_item import InputRichBlockListItem
+from ._input_rich_block_table_cell import InputRichBlockTableCell
+from ._input_rich_block_paragraph import InputRichBlockParagraph
+from ._input_rich_block_section_heading import InputRichBlockSectionHeading
+from ._input_rich_block_preformatted import InputRichBlockPreformatted
+from ._input_rich_block_footer import InputRichBlockFooter
+from ._input_rich_block_divider import InputRichBlockDivider
+from ._input_rich_block_mathematical_expression import InputRichBlockMathematicalExpression
+from ._input_rich_block_anchor import InputRichBlockAnchor
+from ._input_rich_block_list import InputRichBlockList
+from ._input_rich_block_block_quotation import InputRichBlockBlockQuotation
+from ._input_rich_block_pull_quotation import InputRichBlockPullQuotation
+from ._input_rich_block_collage import InputRichBlockCollage
+from ._input_rich_block_slideshow import InputRichBlockSlideshow
+from ._input_rich_block_table import InputRichBlockTable
+from ._input_rich_block_details import InputRichBlockDetails
+from ._input_rich_block_map import InputRichBlockMap
+from ._input_rich_block_animation import InputRichBlockAnimation
+from ._input_rich_block_audio import InputRichBlockAudio
+from ._input_rich_block_photo import InputRichBlockPhoto
+from ._input_rich_block_video import InputRichBlockVideo
+from ._input_rich_block_voice_note import InputRichBlockVoiceNote
+from ._input_rich_block_thinking import InputRichBlockThinking
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
@@ -387,6 +417,7 @@ InputMedia = _Union[
     "InputMediaLivePhoto",
     "InputMediaPhoto",
     "InputMediaVideo",
+    "InputMediaVoiceNote",
 ]
 
 InputPaidMedia = _Union[
@@ -531,6 +562,7 @@ __all__ = [
     "Birthdate",
     "BotAccessSettings",
     "BotCommand",
+    "BotSubscriptionUpdated",
     "BotCommandScope",
     "BotCommandScopeAllChatAdministrators",
     "BotCommandScopeAllGroupChats",
@@ -575,6 +607,9 @@ __all__ = [
     "ChatMemberUpdated",
     "ChatOwnerLeft",
     "ChatOwnerChanged",
+    "Community",
+    "CommunityChatAdded",
+    "CommunityChatRemoved",
     "ChatPermissions",
     "ChatPhoto",
     "ChatShared",
@@ -649,6 +684,7 @@ __all__ = [
     "InputMediaSticker",
     "InputMediaVenue",
     "InputMediaVideo",
+    "InputMediaVoiceNote",
     "InputMessageContent",
     "InputPaidMedia",
     "InputPaidMediaLivePhoto",
@@ -661,6 +697,31 @@ __all__ = [
     "InputPollOptionMedia",
     "InputRichMessage",
     "InputRichMessageContent",
+    "InputRichMessageMedia",
+    "InputRichBlock",
+    "InputRichBlockListItem",
+    "InputRichBlockTableCell",
+    "InputRichBlockParagraph",
+    "InputRichBlockSectionHeading",
+    "InputRichBlockPreformatted",
+    "InputRichBlockFooter",
+    "InputRichBlockDivider",
+    "InputRichBlockMathematicalExpression",
+    "InputRichBlockAnchor",
+    "InputRichBlockList",
+    "InputRichBlockBlockQuotation",
+    "InputRichBlockPullQuotation",
+    "InputRichBlockCollage",
+    "InputRichBlockSlideshow",
+    "InputRichBlockTable",
+    "InputRichBlockDetails",
+    "InputRichBlockMap",
+    "InputRichBlockAnimation",
+    "InputRichBlockAudio",
+    "InputRichBlockPhoto",
+    "InputRichBlockVideo",
+    "InputRichBlockVoiceNote",
+    "InputRichBlockThinking",
     "InputSticker",
     "InputStoryContentPhoto",
     "InputStoryContentVideo",

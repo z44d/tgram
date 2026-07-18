@@ -169,6 +169,9 @@ class ChatFullInfo(Type_, bound.ChatB):
     :param unique_gift_colors: Optional. The colors of the unique gift that a user in a private chat has chosen to display
     :type unique_gift_colors: :class:`tgram.types.UniqueGiftColors`
 
+    :param community: Optional. Information about the community the chat belongs to, if any
+    :type community: :class:`tgram.types.Community`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.ChatFullInfo`
     """
@@ -227,6 +230,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         paid_message_star_count: "int" = None,
         guard_bot: "tgram.types.User" = None,
         unique_gift_colors: "tgram.types.UniqueGiftColors" = None,
+        community: "tgram.types.Community" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -285,6 +289,7 @@ class ChatFullInfo(Type_, bound.ChatB):
         self.paid_message_star_count = paid_message_star_count
         self.guard_bot = guard_bot
         self.unique_gift_colors = unique_gift_colors
+        self.community = community
 
     @staticmethod
     def _parse(
@@ -376,6 +381,9 @@ class ChatFullInfo(Type_, bound.ChatB):
                 )
                 if d.get("unique_gift_colors")
                 else None,
+                community=tgram.types.Community._parse(
+                    me=me, d=d.get("community")
+                ),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

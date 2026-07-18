@@ -17,6 +17,9 @@ class BotCommand(Type_):
     :param description: Description of the command; 1-256 characters.
     :type description: :obj:`str`
 
+    :param is_ephemeral: Optional. True, if the command is ephemeral
+    :type is_ephemeral: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.BotCommand`
     """
@@ -25,12 +28,14 @@ class BotCommand(Type_):
         self,
         command: "str" = None,
         description: "str" = None,
+        is_ephemeral: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
         super().__init__(me=me, json=json)
         self.command = command
         self.description = description
+        self.is_ephemeral = is_ephemeral
 
     @staticmethod
     def _parse(
@@ -42,6 +47,7 @@ class BotCommand(Type_):
                 json=d,
                 command=d.get("command"),
                 description=d.get("description"),
+                is_ephemeral=d.get("is_ephemeral"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -1,0 +1,25 @@
+from typing import Union as _Union
+
+InputRichBlock = _Union[
+    "InputRichBlockParagraph",
+    "InputRichBlockSectionHeading",
+    "InputRichBlockPreformatted",
+    "InputRichBlockFooter",
+    "InputRichBlockDivider",
+    "InputRichBlockMathematicalExpression",
+    "InputRichBlockAnchor",
+    "InputRichBlockList",
+    "InputRichBlockBlockQuotation",
+    "InputRichBlockPullQuotation",
+    "InputRichBlockCollage",
+    "InputRichBlockSlideshow",
+    "InputRichBlockTable",
+    "InputRichBlockDetails",
+    "InputRichBlockMap",
+    "InputRichBlockAnimation",
+    "InputRichBlockAudio",
+    "InputRichBlockPhoto",
+    "InputRichBlockVideo",
+    "InputRichBlockVoiceNote",
+    "InputRichBlockThinking",
+]

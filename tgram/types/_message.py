@@ -287,6 +287,18 @@ class Message(Type_, bound.MessageB):
     :param poll_option_deleted: Optional. Service message: a poll option was deleted
     :type poll_option_deleted: :class:`tgram.types.PollOptionDeleted`
 
+    :param receiver_user: Optional. The user that received the message
+    :type receiver_user: :class:`tgram.types.User`
+
+    :param ephemeral_message_id: Optional. Unique identifier of the ephemeral message
+    :type ephemeral_message_id: :obj:`int`
+
+    :param community_chat_added: Optional. Service message: a chat was added to a community
+    :type community_chat_added: :class:`tgram.types.CommunityChatAdded`
+
+    :param community_chat_removed: Optional. Service message: a chat was removed from a community
+    :type community_chat_removed: :class:`tgram.types.CommunityChatRemoved`
+
     :param rich_message: Optional. Rich message
     :type rich_message: :class:`tgram.types.RichMessage`
 
@@ -476,6 +488,10 @@ class Message(Type_, bound.MessageB):
         poll_option_deleted: "tgram.types.PollOptionDeleted" = None,
         reply_to_poll_option_id: "str" = None,
         rich_message: "tgram.types.RichMessage" = None,
+        receiver_user: "tgram.types.User" = None,
+        ephemeral_message_id: "int" = None,
+        community_chat_added: "tgram.types.CommunityChatAdded" = None,
+        community_chat_removed: "tgram.types.CommunityChatRemoved" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -594,6 +610,10 @@ class Message(Type_, bound.MessageB):
         self.poll_option_deleted = poll_option_deleted
         self.reply_to_poll_option_id = reply_to_poll_option_id
         self.rich_message = rich_message
+        self.receiver_user = receiver_user
+        self.ephemeral_message_id = ephemeral_message_id
+        self.community_chat_added = community_chat_added
+        self.community_chat_removed = community_chat_removed
 
     @staticmethod
     def _parse(
@@ -849,6 +869,16 @@ class Message(Type_, bound.MessageB):
                 )
                 if d.get("rich_message")
                 else None,
+                receiver_user=tgram.types.User._parse(
+                    me=me, d=d.get("receiver_user")
+                ),
+                ephemeral_message_id=d.get("ephemeral_message_id"),
+                community_chat_added=tgram.types.CommunityChatAdded._parse(
+                    me=me, d=d.get("community_chat_added")
+                ),
+                community_chat_removed=tgram.types.CommunityChatRemoved._parse(
+                    me=me, d=d.get("community_chat_removed")
+                ),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

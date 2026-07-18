@@ -102,6 +102,9 @@ class Update(Type_):
     :param managed_bot: Optional. A managed bot was created or its token changed.
     :type managed_bot: :class:`tgram.types.ManagedBotUpdated`
 
+    :param subscription: Optional. A user subscribed to the bot or cancelled their subscription
+    :type subscription: :class:`tgram.types.BotSubscriptionUpdated`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.Update`
 
@@ -135,6 +138,7 @@ class Update(Type_):
         chat_boost: "tgram.types.ChatBoostUpdated" = None,
         removed_chat_boost: "tgram.types.ChatBoostRemoved" = None,
         managed_bot: "tgram.types.ManagedBotUpdated" = None,
+        subscription: "tgram.types.BotSubscriptionUpdated" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -165,6 +169,7 @@ class Update(Type_):
         self.chat_boost = chat_boost
         self.removed_chat_boost = removed_chat_boost
         self.managed_bot = managed_bot
+        self.subscription = subscription
 
     @staticmethod
     def _parse(
@@ -243,6 +248,9 @@ class Update(Type_):
                 ),
                 managed_bot=tgram.types.ManagedBotUpdated._parse(
                     me=me, d=d.get("managed_bot")
+                ),
+                subscription=tgram.types.BotSubscriptionUpdated._parse(
+                    me=me, d=d.get("subscription")
                 ),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

@@ -215,6 +215,61 @@ def rich_block_parse(
     )
 
 
+def input_rich_block_parse(
+    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+) -> Optional["tgram.types.InputRichBlock"]:
+    if d is None:
+        return None
+
+    block_type = d.get("type")
+
+    return (
+        tgram.types.InputRichBlockParagraph._parse(me=me, d=d)
+        if block_type == "paragraph"
+        else tgram.types.InputRichBlockSectionHeading._parse(me=me, d=d)
+        if block_type == "section_heading"
+        else tgram.types.InputRichBlockPreformatted._parse(me=me, d=d)
+        if block_type == "preformatted"
+        else tgram.types.InputRichBlockFooter._parse(me=me, d=d)
+        if block_type == "footer"
+        else tgram.types.InputRichBlockDivider._parse(me=me, d=d)
+        if block_type == "divider"
+        else tgram.types.InputRichBlockMathematicalExpression._parse(me=me, d=d)
+        if block_type == "mathematical_expression"
+        else tgram.types.InputRichBlockAnchor._parse(me=me, d=d)
+        if block_type == "anchor"
+        else tgram.types.InputRichBlockList._parse(me=me, d=d)
+        if block_type == "list"
+        else tgram.types.InputRichBlockBlockQuotation._parse(me=me, d=d)
+        if block_type == "block_quotation"
+        else tgram.types.InputRichBlockPullQuotation._parse(me=me, d=d)
+        if block_type == "pull_quotation"
+        else tgram.types.InputRichBlockCollage._parse(me=me, d=d)
+        if block_type == "collage"
+        else tgram.types.InputRichBlockSlideshow._parse(me=me, d=d)
+        if block_type == "slideshow"
+        else tgram.types.InputRichBlockTable._parse(me=me, d=d)
+        if block_type == "table"
+        else tgram.types.InputRichBlockDetails._parse(me=me, d=d)
+        if block_type == "details"
+        else tgram.types.InputRichBlockMap._parse(me=me, d=d)
+        if block_type == "map"
+        else tgram.types.InputRichBlockAnimation._parse(me=me, d=d)
+        if block_type == "animation"
+        else tgram.types.InputRichBlockAudio._parse(me=me, d=d)
+        if block_type == "audio"
+        else tgram.types.InputRichBlockPhoto._parse(me=me, d=d)
+        if block_type == "photo"
+        else tgram.types.InputRichBlockVideo._parse(me=me, d=d)
+        if block_type == "video"
+        else tgram.types.InputRichBlockVoiceNote._parse(me=me, d=d)
+        if block_type == "voice_note"
+        else tgram.types.InputRichBlockThinking._parse(me=me, d=d)
+        if block_type == "thinking"
+        else None
+    )
+
+
 pattern = re.compile(
     r"^(https?):\/\/" r"([a-zA-Z0-9.-]+)" r"(\.[a-zA-Z]{2,})" r"(\/[^\s]*)?$"
 )

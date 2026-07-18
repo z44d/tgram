@@ -40,6 +40,8 @@ class SendMessage:
         allow_paid_broadcast: bool = None,
         direct_messages_topic_id: int = None,
         suggested_post_parameters: SuggestedPostParameters = None,
+        receiver_user_id: int = None,
+        callback_query_id: str = None,
     ) -> Message:
         """
         Use this method to send text messages.
@@ -109,6 +111,12 @@ class SendMessage:
         :param suggested_post_parameters: A JSON-serialized object containing the parameters of the suggested post to send; for direct messages chats only. If the message is sent as a reply to another suggested post, then that suggested post is automatically declined.
         :type suggested_post_parameters: :class:`tgram.types.SuggestedPostParameters`
 
+        :param receiver_user_id: Optional. Unique identifier of the user that will receive the message
+        :type receiver_user_id: :obj:`int`
+
+        :param callback_query_id: Optional. Identifier of the callback query to reply to
+        :type callback_query_id: :obj:`str`
+
         :return: On success, the sent Message is returned.
         :rtype: :class:`tgram.types.Message`
         """
@@ -134,5 +142,7 @@ class SendMessage:
             allow_paid_broadcast=allow_paid_broadcast,
             direct_messages_topic_id=direct_messages_topic_id,
             suggested_post_parameters=suggested_post_parameters,
+            receiver_user_id=receiver_user_id,
+            callback_query_id=callback_query_id,
         )
         return Message._parse(me=self, d=result.get("result", {}))

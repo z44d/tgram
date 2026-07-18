@@ -37,6 +37,9 @@ class ReplyParameters(Type_):
     :param poll_option_id: Optional. Identifier of the specific poll option to be replied to.
     :type poll_option_id: :obj:`str`
 
+    :param ephemeral_message_id: Optional. Identifier of the ephemeral message to be replied to.
+    :type ephemeral_message_id: :obj:`int`
+
     :return: Instance of the class
     :rtype: :class:`ReplyParameters`
     """
@@ -52,6 +55,7 @@ class ReplyParameters(Type_):
         quote_position: "int" = None,
         checklist_task_id: "int" = None,
         poll_option_id: "str" = None,
+        ephemeral_message_id: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -65,6 +69,7 @@ class ReplyParameters(Type_):
         self.quote_position = quote_position
         self.checklist_task_id = checklist_task_id
         self.poll_option_id = poll_option_id
+        self.ephemeral_message_id = ephemeral_message_id
 
     @staticmethod
     def _parse(
@@ -88,6 +93,7 @@ class ReplyParameters(Type_):
                 quote_position=d.get("quote_position"),
                 checklist_task_id=d.get("checklist_task_id"),
                 poll_option_id=d.get("poll_option_id"),
+                ephemeral_message_id=d.get("ephemeral_message_id"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

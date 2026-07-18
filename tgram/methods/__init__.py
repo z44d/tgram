@@ -29,6 +29,7 @@ from .messages.delete_all_message_reactions import DeleteAllMessageReactions
 from .messages.delete_message import DeleteMessage
 from .messages.delete_message_reaction import DeleteMessageReaction
 from .messages.delete_messages import DeleteMessages
+from .messages.delete_ephemeral_message import DeleteEphemeralMessage
 from .bot.delete_my_commands import DeleteMyCommands
 from .stickers.delete_sticker_from_set import DeleteStickerFromSet
 from .stickers.delete_sticker_set import DeleteStickerSet
@@ -46,6 +47,10 @@ from .messages.edit_message_live_location import EditMessageLiveLocation
 from .messages.edit_message_media import EditMessageMedia
 from .messages.edit_message_reply_markup import EditMessageReplyMarkup
 from .messages.edit_message_text import EditMessageText
+from .messages.edit_ephemeral_message_text import EditEphemeralMessageText
+from .messages.edit_ephemeral_message_media import EditEphemeralMessageMedia
+from .messages.edit_ephemeral_message_caption import EditEphemeralMessageCaption
+from .messages.edit_ephemeral_message_reply_markup import EditEphemeralMessageReplyMarkup
 from .payments_and_business.edit_user_star_subscription import EditUserStarSubscription
 from .chats.export_chat_invite_link import ExportChatInviteLink
 from .messages.forward_message import ForwardMessage
@@ -236,6 +241,7 @@ class TelegramBotMethods(
     DeleteAllMessageReactions,
     DeleteChatPhoto,
     DeleteChatStickerSet,
+    DeleteEphemeralMessage,
     DeleteForumTopic,
     DeleteMessage,
     DeleteMessageReaction,
@@ -253,6 +259,10 @@ class TelegramBotMethods(
     EditChatSubscriptionInviteLink,
     EditForumTopic,
     EditGeneralForumTopic,
+    EditEphemeralMessageCaption,
+    EditEphemeralMessageMedia,
+    EditEphemeralMessageReplyMarkup,
+    EditEphemeralMessageText,
     EditMessageCaption,
     EditMessageChecklist,
     EditMessageLiveLocation,

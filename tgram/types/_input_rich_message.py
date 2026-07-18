@@ -19,6 +19,12 @@ class InputRichMessage(Type_):
     :param entities: Optional. Entities
     :type entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
+    :param media: Optional. Media
+    :type media: :class:`tgram.types.InputRichMessageMedia`
+
+    :param blocks: Optional. Blocks
+    :type blocks: :obj:`list` of :class:`tgram.types.InputRichBlock`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.InputRichMessage`
     """
@@ -28,6 +34,8 @@ class InputRichMessage(Type_):
         text: "str" = None,
         parse_mode: "str" = None,
         entities: List["tgram.types.MessageEntity"] = None,
+        media: "tgram.types.InputRichMessageMedia" = None,
+        blocks: List["tgram.types.InputRichBlock"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -35,6 +43,8 @@ class InputRichMessage(Type_):
         self.text = text
         self.parse_mode = parse_mode
         self.entities = entities
+        self.media = media
+        self.blocks = blocks
 
     @staticmethod
     def _parse(
@@ -51,6 +61,15 @@ class InputRichMessage(Type_):
                     for i in d.get("entities")
                 ]
                 if d.get("entities")
+                else None,
+                media=tgram.types.InputRichMessageMedia._parse(
+                    me=me, d=d.get("media")
+                ),
+                blocks=[
+                    tgram.utils.input_rich_block_parse(me, i)
+                    for i in d.get("blocks")
+                ]
+                if d.get("blocks")
                 else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
