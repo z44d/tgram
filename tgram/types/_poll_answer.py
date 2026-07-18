@@ -23,6 +23,9 @@ class PollAnswer(Type_):
         their vote.
     :type option_ids: :obj:`list` of :obj:`int`
 
+    :param option_persistent_ids: Optional. Persistent identifiers of the answer options, chosen by the user. May be empty if the user retracted their vote.
+    :type option_persistent_ids: :obj:`list` of :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollAnswer`
     """
@@ -31,6 +34,7 @@ class PollAnswer(Type_):
         self,
         poll_id: "str" = None,
         option_ids: List["int"] = None,
+        option_persistent_ids: List["str"] = None,
         voter_chat: "tgram.types.Chat" = None,
         user: "tgram.types.User" = None,
         me: "tgram.TgBot" = None,
@@ -41,6 +45,7 @@ class PollAnswer(Type_):
         self.voter_chat = voter_chat
         self.user = user
         self.option_ids = option_ids
+        self.option_persistent_ids = option_persistent_ids
 
     @staticmethod
     def _parse(
@@ -52,6 +57,7 @@ class PollAnswer(Type_):
                 json=d,
                 poll_id=d.get("poll_id"),
                 option_ids=d.get("option_ids"),
+                option_persistent_ids=d.get("option_persistent_ids"),
                 voter_chat=tgram.types.Chat._parse(me=me, d=d.get("voter_chat")),
                 user=tgram.types.User._parse(me=me, d=d.get("user")),
             )

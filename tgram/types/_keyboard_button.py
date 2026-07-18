@@ -47,6 +47,9 @@ class KeyboardButton(Type_):
     :param style: Optional. Style of the button. Must be one of “danger”, “success”, or “primary”
     :type style: :obj:`str`
 
+    :param request_managed_bot: Optional. If specified, the user will be asked to create a managed bot and share its identifier.
+    :type request_managed_bot: :class:`tgram.types.KeyboardButtonRequestManagedBot`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.KeyboardButton`
     """
@@ -62,6 +65,7 @@ class KeyboardButton(Type_):
         web_app: "tgram.types.WebAppInfo" = None,
         icon_custom_emoji_id: "str" = None,
         style: "str" = None,
+        request_managed_bot: "tgram.types.KeyboardButtonRequestManagedBot" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -75,6 +79,7 @@ class KeyboardButton(Type_):
         self.web_app = web_app
         self.icon_custom_emoji_id = icon_custom_emoji_id
         self.style = style
+        self.request_managed_bot = request_managed_bot
 
     @staticmethod
     def _parse(
@@ -99,6 +104,9 @@ class KeyboardButton(Type_):
                 web_app=tgram.types.WebAppInfo._parse(me=me, d=d.get("web_app")),
                 icon_custom_emoji_id=d.get("icon_custom_emoji_id"),
                 style=d.get("style"),
+                request_managed_bot=tgram.types.KeyboardButtonRequestManagedBot._parse(
+                    me=me, d=d.get("request_managed_bot")
+                ),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -134,6 +134,7 @@ from .bot.set_webhook import SetWebhook
 from .messages.stop_message_live_location import StopMessageLiveLocation
 from .messages.stop_poll import StopPoll
 from .other.save_prepared_inline_message import SavePreparedInlineMessage
+from .other.save_prepared_keyboard_button import SavePreparedKeyboardButton
 from .chats.unban_chat_member import UnbanChatMember
 from .chats.unban_chat_sender_chat import UnbanChatSenderChat
 from .forums.unhide_general_forum_topic import UnhideGeneralForumTopic
@@ -190,6 +191,8 @@ from .messages.send_message_draft import SendMessageDraft
 
 from .bot.remove_my_profile_photo import RemoveMyProfilePhoto
 from .bot.set_my_profile_photo import SetMyProfilePhoto
+from .bot.get_managed_bot_token import GetManagedBotToken
+from .bot.replace_managed_bot_token import ReplaceManagedBotToken
 from .chats.get_user_profile_audios import GetUserProfileAudios
 
 
@@ -265,6 +268,7 @@ class TelegramBotMethods(
     GetMyName,
     GetMyStarBalance,
     GetMyShortDescription,
+    GetManagedBotToken,
     GetStarTransactions,
     GetStickerSet,
     GetUpdates,
@@ -282,6 +286,7 @@ class TelegramBotMethods(
     PinChatMessage,
     PromoteChatMember,
     RefundStarPayment,
+    ReplaceManagedBotToken,
     ReopenForumTopic,
     ReopenGeneralForumTopic,
     ReplaceStickerInSet,
@@ -343,6 +348,7 @@ class TelegramBotMethods(
     StopMessageLiveLocation,
     StopPoll,
     SavePreparedInlineMessage,
+    SavePreparedKeyboardButton,
     UnbanChatMember,
     UnbanChatSenderChat,
     UnhideGeneralForumTopic,

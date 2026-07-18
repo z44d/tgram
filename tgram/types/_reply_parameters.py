@@ -34,6 +34,9 @@ class ReplyParameters(Type_):
     :param checklist_task_id: Optional. Identifier of the specific checklist task to be replied to
     :type checklist_task_id: :obj:`int`
 
+    :param poll_option_id: Optional. Identifier of the specific poll option to be replied to.
+    :type poll_option_id: :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`ReplyParameters`
     """
@@ -48,6 +51,7 @@ class ReplyParameters(Type_):
         quote_entities: List["tgram.types.MessageEntity"] = None,
         quote_position: "int" = None,
         checklist_task_id: "int" = None,
+        poll_option_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -60,6 +64,7 @@ class ReplyParameters(Type_):
         self.quote_entities = quote_entities
         self.quote_position = quote_position
         self.checklist_task_id = checklist_task_id
+        self.poll_option_id = poll_option_id
 
     @staticmethod
     def _parse(
@@ -82,6 +87,7 @@ class ReplyParameters(Type_):
                 else None,
                 quote_position=d.get("quote_position"),
                 checklist_task_id=d.get("checklist_task_id"),
+                poll_option_id=d.get("poll_option_id"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -35,8 +35,8 @@ class Poll(Type_):
     :param allows_multiple_answers: True, if the poll allows multiple answers
     :type allows_multiple_answers: :obj:`bool`
 
-    :param correct_option_id: Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
-    :type correct_option_id: :obj:`int`
+    :param correct_option_ids: Optional. 0-based identifiers of the correct answer options. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
+    :type correct_option_ids: :obj:`list` of :obj:`int`
 
     :param explanation: Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
     :type explanation: :class:`tgram.utils.String`
@@ -53,6 +53,15 @@ class Poll(Type_):
     :param question_entities: Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
     :type question_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
+    :param allows_revoting: Optional. True, if the poll allows revoting.
+    :type allows_revoting: :obj:`bool`
+
+    :param description: Optional. Poll description, 0-512 characters.
+    :type description: :class:`tgram.utils.String`
+
+    :param description_entities: Optional. Special entities that appear in the description. Currently, only custom emoji entities are allowed in poll descriptions.
+    :type description_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.Poll`
     """
@@ -68,11 +77,14 @@ class Poll(Type_):
         type: "str" = None,
         allows_multiple_answers: "bool" = None,
         question_entities: List["tgram.types.MessageEntity"] = None,
-        correct_option_id: "int" = None,
+        correct_option_ids: List["int"] = None,
         explanation: "String" = None,
         explanation_entities: List["tgram.types.MessageEntity"] = None,
         open_period: "int" = None,
         close_date: "int" = None,
+        allows_revoting: "bool" = None,
+        description: "String" = None,
+        description_entities: List["tgram.types.MessageEntity"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -86,13 +98,16 @@ class Poll(Type_):
         self.is_anonymous = is_anonymous
         self.type = type
         self.allows_multiple_answers = allows_multiple_answers
-        self.correct_option_id = correct_option_id
+        self.correct_option_ids = correct_option_ids
         self.explanation = (
             String(explanation).put(explanation_entities) if explanation else None
         )
         self.explanation_entities = explanation_entities
         self.open_period = open_period
         self.close_date = close_date
+        self.allows_revoting = allows_revoting
+        self.description = String(description).put(description_entities) if description else None
+        self.description_entities = description_entities
 
     @staticmethod
     def _parse(
@@ -120,7 +135,7 @@ class Poll(Type_):
                 ]
                 if d.get("question_entities")
                 else None,
-                correct_option_id=d.get("correct_option_id"),
+                correct_option_ids=d.get("correct_option_ids"),
                 explanation=d.get("explanation"),
                 explanation_entities=[
                     tgram.types.MessageEntity._parse(me=me, d=i)
@@ -130,6 +145,14 @@ class Poll(Type_):
                 else None,
                 open_period=d.get("open_period"),
                 close_date=d.get("close_date"),
+                allows_revoting=d.get("allows_revoting"),
+                description=d.get("description"),
+                description_entities=[
+                    tgram.types.MessageEntity._parse(me=me, d=i)
+                    for i in d.get("description_entities")
+                ]
+                if d.get("description_entities")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -26,7 +26,7 @@ class SendPoll:
         is_anonymous: bool = None,
         type: str = None,
         allows_multiple_answers: bool = None,
-        correct_option_id: int = None,
+        correct_option_ids: List[int] = None,
         explanation: str = None,
         explanation_parse_mode: ParseMode = None,
         explanation_entities: List[MessageEntity] = None,
@@ -41,6 +41,13 @@ class SendPoll:
             InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
         ] = None,
         allow_paid_broadcast: bool = None,
+        allows_revoting: bool = None,
+        shuffle_options: bool = None,
+        allow_adding_options: bool = None,
+        hide_results_until_closes: bool = None,
+        description: str = None,
+        description_parse_mode: ParseMode = None,
+        description_entities: List[MessageEntity] = None,
     ) -> Message:
         """
         Use this method to send a native poll.
@@ -66,9 +73,9 @@ class SendPoll:
         :param allows_multiple_answers: True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
         :type allows_multiple_answers: :obj:`bool`
 
-        :param correct_option_id: 0-based identifier of the correct answer option. Available only for polls in quiz mode,
+        :param correct_option_ids: 0-based identifiers of the correct answer options. Available only for polls in quiz mode,
             defaults to None
-        :type correct_option_id: :obj:`int`
+        :type correct_option_ids: :obj:`list` of :obj:`int`
 
         :param explanation: Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll,
             0-200 characters with at most 2 line feeds after entities parsing
@@ -131,6 +138,27 @@ class SendPoll:
             The relevant Stars will be withdrawn from the bot's balance
         :type allow_paid_broadcast: :obj:`bool`
 
+        :param allows_revoting: Pass True to allow users to change their vote.
+        :type allows_revoting: :obj:`bool`
+
+        :param shuffle_options: Pass True to shuffle the options.
+        :type shuffle_options: :obj:`bool`
+
+        :param allow_adding_options: Pass True to allow users to add options.
+        :type allow_adding_options: :obj:`bool`
+
+        :param hide_results_until_closes: Pass True to hide results until the poll closes.
+        :type hide_results_until_closes: :obj:`bool`
+
+        :param description: Poll description, 0-512 characters.
+        :type description: :obj:`str`
+
+        :param description_parse_mode: Mode for parsing entities in the description.
+        :type description_parse_mode: :obj:`str`
+
+        :param description_entities: A JSON-serialized list of special entities that appear in the description.
+        :type description_entities: :obj:`list` of :obj:`MessageEntity`
+
         :return: On success, the sent Message is returned.
         :rtype: :obj:`tgram.types.Message`
         """
@@ -147,7 +175,7 @@ class SendPoll:
             is_anonymous=is_anonymous,
             type=type,
             allows_multiple_answers=allows_multiple_answers,
-            correct_option_id=correct_option_id,
+            correct_option_ids=correct_option_ids,
             explanation=explanation,
             explanation_parse_mode=explanation_parse_mode,
             explanation_entities=explanation_entities,
@@ -164,5 +192,12 @@ class SendPoll:
             if isinstance(reply_markup, list)
             else reply_markup,
             allow_paid_broadcast=allow_paid_broadcast,
+            allows_revoting=allows_revoting,
+            shuffle_options=shuffle_options,
+            allow_adding_options=allow_adding_options,
+            hide_results_until_closes=hide_results_until_closes,
+            description=description,
+            description_parse_mode=description_parse_mode,
+            description_entities=description_entities,
         )
         return Message._parse(me=self, d=result.get("result", {}))

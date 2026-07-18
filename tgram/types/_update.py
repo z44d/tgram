@@ -95,6 +95,9 @@ class Update(Type_):
     :param deleted_business_messages: Optional. Service message: the chat connected to the business account was deleted
     :type deleted_business_messages: :class:`tgram.types.BusinessMessagesDeleted`
 
+    :param managed_bot: Optional. A managed bot was created or its token changed.
+    :type managed_bot: :class:`tgram.types.ManagedBotUpdated`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.Update`
 
@@ -126,6 +129,7 @@ class Update(Type_):
         chat_join_request: "tgram.types.ChatJoinRequest" = None,
         chat_boost: "tgram.types.ChatBoostUpdated" = None,
         removed_chat_boost: "tgram.types.ChatBoostRemoved" = None,
+        managed_bot: "tgram.types.ManagedBotUpdated" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -154,6 +158,7 @@ class Update(Type_):
         self.chat_join_request = chat_join_request
         self.chat_boost = chat_boost
         self.removed_chat_boost = removed_chat_boost
+        self.managed_bot = managed_bot
 
     @staticmethod
     def _parse(
@@ -226,6 +231,9 @@ class Update(Type_):
                 ),
                 removed_chat_boost=tgram.types.ChatBoostRemoved._parse(
                     me=me, d=d.get("removed_chat_boost")
+                ),
+                managed_bot=tgram.types.ManagedBotUpdated._parse(
+                    me=me, d=d.get("managed_bot")
                 ),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

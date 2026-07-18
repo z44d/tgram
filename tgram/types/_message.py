@@ -66,6 +66,9 @@ class Message(Type_, bound.MessageB):
     :param reply_to_checklist_task_id: Optional. Identifier of the specific checklist task that is being replied to
     :type reply_to_checklist_task_id: :obj:`int`
 
+    :param reply_to_poll_option_id: Optional. Identifier of the specific poll option that is being replied to
+    :type reply_to_poll_option_id: :obj:`str`
+
     :param via_bot: Optional. Bot through which the message was sent
     :type via_bot: :class:`tgram.types.User`
 
@@ -261,6 +264,15 @@ class Message(Type_, bound.MessageB):
     :param chat_owner_changed: Optional. Service message: the chat owner has changed
     :type chat_owner_changed: :class:`tgram.types.ChatOwnerChanged`
 
+    :param managed_bot_created: Optional. Service message: a managed bot was created
+    :type managed_bot_created: :class:`tgram.types.ManagedBotCreated`
+
+    :param poll_option_added: Optional. Service message: a poll option was added
+    :type poll_option_added: :class:`tgram.types.PollOptionAdded`
+
+    :param poll_option_deleted: Optional. Service message: a poll option was deleted
+    :type poll_option_deleted: :class:`tgram.types.PollOptionDeleted`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -438,6 +450,10 @@ class Message(Type_, bound.MessageB):
         video_chat_participants_invited: "tgram.types.VideoChatParticipantsInvited" = None,
         web_app_data: "tgram.types.WebAppData" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
+        managed_bot_created: "tgram.types.ManagedBotCreated" = None,
+        poll_option_added: "tgram.types.PollOptionAdded" = None,
+        poll_option_deleted: "tgram.types.PollOptionDeleted" = None,
+        reply_to_poll_option_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -547,6 +563,10 @@ class Message(Type_, bound.MessageB):
         self.video_chat_participants_invited = video_chat_participants_invited
         self.web_app_data = web_app_data
         self.reply_markup = reply_markup
+        self.managed_bot_created = managed_bot_created
+        self.poll_option_added = poll_option_added
+        self.poll_option_deleted = poll_option_deleted
+        self.reply_to_poll_option_id = reply_to_poll_option_id
 
     @staticmethod
     def _parse(
@@ -777,6 +797,16 @@ class Message(Type_, bound.MessageB):
                 reply_markup=tgram.types.InlineKeyboardMarkup._parse(
                     me=me, d=d.get("reply_markup")
                 ),
+                managed_bot_created=tgram.types.ManagedBotCreated._parse(
+                    me=me, d=d.get("managed_bot_created")
+                ),
+                poll_option_added=tgram.types.PollOptionAdded._parse(
+                    me=me, d=d.get("poll_option_added")
+                ),
+                poll_option_deleted=tgram.types.PollOptionDeleted._parse(
+                    me=me, d=d.get("poll_option_deleted")
+                ),
+                reply_to_poll_option_id=d.get("reply_to_poll_option_id"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

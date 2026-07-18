@@ -20,6 +20,18 @@ class PollOption(Type_):
     :param text_entities: Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts
     :type text_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
+    :param persistent_id: Optional. Persistent identifier of the poll option.
+    :type persistent_id: :obj:`str`
+
+    :param added_by_user: Optional. The user that added the poll option.
+    :type added_by_user: :class:`tgram.types.User`
+
+    :param added_by_chat: Optional. The chat that added the poll option.
+    :type added_by_chat: :class:`tgram.types.Chat`
+
+    :param addition_date: Optional. Point in time (Unix timestamp) when the poll option was added.
+    :type addition_date: :obj:`int`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollOption`
     """
@@ -29,6 +41,10 @@ class PollOption(Type_):
         text: "String" = None,
         voter_count: "int" = None,
         text_entities: List["tgram.types.MessageEntity"] = None,
+        persistent_id: "str" = None,
+        added_by_user: "tgram.types.User" = None,
+        added_by_chat: "tgram.types.Chat" = None,
+        addition_date: "int" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -36,6 +52,10 @@ class PollOption(Type_):
         self.text = String(text).put(text_entities)
         self.text_entities = text_entities
         self.voter_count = voter_count
+        self.persistent_id = persistent_id
+        self.added_by_user = added_by_user
+        self.added_by_chat = added_by_chat
+        self.addition_date = addition_date
 
     @staticmethod
     def _parse(
@@ -53,6 +73,14 @@ class PollOption(Type_):
                 ]
                 if d.get("text_entities")
                 else None,
+                persistent_id=d.get("persistent_id"),
+                added_by_user=tgram.types.User._parse(me=me, d=d.get("added_by_user"))
+                if d.get("added_by_user")
+                else None,
+                added_by_chat=tgram.types.Chat._parse(me=me, d=d.get("added_by_chat"))
+                if d.get("added_by_chat")
+                else None,
+                addition_date=d.get("addition_date"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

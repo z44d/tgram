@@ -147,6 +147,7 @@ from ._invoice import Invoice
 from ._keyboard_button import KeyboardButton
 from ._keyboard_button_poll_type import KeyboardButtonPollType
 from ._keyboard_button_request_chat import KeyboardButtonRequestChat
+from ._keyboard_button_request_managed_bot import KeyboardButtonRequestManagedBot
 from ._keyboard_button_request_users import KeyboardButtonRequestUsers
 from ._labeled_price import LabeledPrice
 from ._link_preview_options import LinkPreviewOptions
@@ -154,6 +155,8 @@ from ._listener import Listener
 from ._location import Location
 from ._login_url import LoginUrl
 from ._location_address import LocationAddress
+from ._managed_bot_created import ManagedBotCreated
+from ._managed_bot_updated import ManagedBotUpdated
 from ._mask_position import MaskPosition
 from ._menu_button import MenuButton
 from ._menu_button_commands import MenuButtonCommands
@@ -195,8 +198,11 @@ from ._photo_size import PhotoSize
 from ._poll import Poll
 from ._poll_answer import PollAnswer
 from ._poll_option import PollOption
+from ._poll_option_added import PollOptionAdded
+from ._poll_option_deleted import PollOptionDeleted
 from ._pre_checkout_query import PreCheckoutQuery
 from ._prepared_inline_message import PreparedInlineMessage
+from ._prepared_keyboard_button import PreparedKeyboardButton
 from ._proximity_alert_triggered import ProximityAlertTriggered
 from ._paid_message_price_changed import PaidMessagePriceChanged
 from ._reaction_count import ReactionCount
@@ -529,6 +535,7 @@ __all__ = [
     "KeyboardButton",
     "KeyboardButtonPollType",
     "KeyboardButtonRequestChat",
+    "KeyboardButtonRequestManagedBot",
     "KeyboardButtonRequestUsers",
     "LabeledPrice",
     "LinkPreviewOptions",
@@ -575,6 +582,8 @@ __all__ = [
     "Poll",
     "PollAnswer",
     "PollOption",
+    "PollOptionAdded",
+    "PollOptionDeleted",
     "PreCheckoutQuery",
     "ProximityAlertTriggered",
     "ReactionCount",
@@ -651,12 +660,15 @@ __all__ = [
     "ChatType",
     "MessageEntityType",
     "PreparedInlineMessage",
+    "PreparedKeyboardButton",
     "Gift",
     "Gifts",
     "OwnedGifts",
     "OwnedGiftRegular",
     "OwnedGiftUnique",
     "LocationAddress",
+    "ManagedBotCreated",
+    "ManagedBotUpdated",
     "PaidMessagePriceChanged",
     "SuggestedPostApprovalFailed",
     "SuggestedPostApproved",
