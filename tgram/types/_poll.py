@@ -62,6 +62,18 @@ class Poll(Type_):
     :param description_entities: Optional. Special entities that appear in the description. Currently, only custom emoji entities are allowed in poll descriptions.
     :type description_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
+    :param media: Optional. Media in the poll
+    :type media: :class:`tgram.types.PollMedia`
+
+    :param explanation_media: Optional. Media in the quiz explanation
+    :type explanation_media: :class:`tgram.types.PollMedia`
+
+    :param members_only: Optional. True, if only members of the chat can vote in the poll
+    :type members_only: :obj:`bool`
+
+    :param country_codes: Optional. List of country codes, for polls that are only available in certain countries
+    :type country_codes: :obj:`list` of :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.Poll`
     """
@@ -85,6 +97,10 @@ class Poll(Type_):
         allows_revoting: "bool" = None,
         description: "String" = None,
         description_entities: List["tgram.types.MessageEntity"] = None,
+        media: "tgram.types.PollMedia" = None,
+        explanation_media: "tgram.types.PollMedia" = None,
+        members_only: "bool" = None,
+        country_codes: List["str"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -108,6 +124,10 @@ class Poll(Type_):
         self.allows_revoting = allows_revoting
         self.description = String(description).put(description_entities) if description else None
         self.description_entities = description_entities
+        self.media = media
+        self.explanation_media = explanation_media
+        self.members_only = members_only
+        self.country_codes = country_codes
 
     @staticmethod
     def _parse(
@@ -153,6 +173,12 @@ class Poll(Type_):
                 ]
                 if d.get("description_entities")
                 else None,
+                media=tgram.types.PollMedia._parse(me=me, d=d.get("media")),
+                explanation_media=tgram.types.PollMedia._parse(
+                    me=me, d=d.get("explanation_media")
+                ),
+                members_only=d.get("members_only"),
+                country_codes=d.get("country_codes"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

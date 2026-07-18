@@ -32,6 +32,9 @@ class PollOption(Type_):
     :param addition_date: Optional. Point in time (Unix timestamp) when the poll option was added.
     :type addition_date: :obj:`int`
 
+    :param media: Optional. Media in the poll option
+    :type media: :obj:`list` of :class:`tgram.types.PollMedia`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollOption`
     """
@@ -45,6 +48,7 @@ class PollOption(Type_):
         added_by_user: "tgram.types.User" = None,
         added_by_chat: "tgram.types.Chat" = None,
         addition_date: "int" = None,
+        media: List["tgram.types.PollMedia"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -56,6 +60,7 @@ class PollOption(Type_):
         self.added_by_user = added_by_user
         self.added_by_chat = added_by_chat
         self.addition_date = addition_date
+        self.media = media
 
     @staticmethod
     def _parse(
@@ -81,6 +86,9 @@ class PollOption(Type_):
                 if d.get("added_by_chat")
                 else None,
                 addition_date=d.get("addition_date"),
+                media=[tgram.types.PollMedia._parse(me=me, d=i) for i in d.get("media")]
+                if d.get("media")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

@@ -16,6 +16,7 @@ from ._background_type_fill import BackgroundTypeFill
 from ._background_type_pattern import BackgroundTypePattern
 from ._background_type_wallpaper import BackgroundTypeWallpaper
 from ._birthdate import Birthdate
+from ._bot_access_settings import BotAccessSettings
 from ._bot_command import BotCommand
 from ._bot_command_scope import BotCommandScope
 from ._bot_command_scope_all_chat_administrators import (
@@ -131,12 +132,19 @@ from ._input_media_animation import InputMediaAnimation
 from ._input_media_audio import InputMediaAudio
 from ._input_media_document import InputMediaDocument
 from ._input_media_photo import InputMediaPhoto
+from ._input_media_live_photo import InputMediaLivePhoto
+from ._input_media_location import InputMediaLocation
+from ._input_media_sticker import InputMediaSticker
+from ._input_media_venue import InputMediaVenue
 from ._input_media_video import InputMediaVideo
 from ._input_message_content import InputMessageContent
 from ._input_paid_media_photo import InputPaidMediaPhoto
+from ._input_paid_media_live_photo import InputPaidMediaLivePhoto
 from ._input_paid_media_video import InputPaidMediaVideo
 from ._input_profile_photo import InputProfilePhotoStatic, InputProfilePhotoAnimated
+from ._input_poll_media import InputPollMedia
 from ._input_poll_option import InputPollOption
+from ._input_poll_option_media import InputPollOptionMedia
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
@@ -152,6 +160,7 @@ from ._keyboard_button_request_users import KeyboardButtonRequestUsers
 from ._labeled_price import LabeledPrice
 from ._link_preview_options import LinkPreviewOptions
 from ._listener import Listener
+from ._live_photo import LivePhoto
 from ._location import Location
 from ._login_url import LoginUrl
 from ._location_address import LocationAddress
@@ -177,6 +186,7 @@ from ._paid_media_info import PaidMediaInfo
 from ._paid_media_photo import PaidMediaPhoto
 from ._paid_media_preview import PaidMediaPreview
 from ._paid_media_purchased import PaidMediaPurchased
+from ._paid_media_live_photo import PaidMediaLivePhoto
 from ._paid_media_video import PaidMediaVideo
 from ._passport_data import PassportData
 from ._passport_element_error import PassportElementError
@@ -197,6 +207,7 @@ from ._passport_file import PassportFile
 from ._photo_size import PhotoSize
 from ._poll import Poll
 from ._poll_answer import PollAnswer
+from ._poll_media import PollMedia
 from ._poll_option import PollOption
 from ._poll_option_added import PollOptionAdded
 from ._poll_option_deleted import PollOptionDeleted
@@ -217,6 +228,7 @@ from ._response_parameters import ResponseParameters
 from ._revenue_withdrawal_state_failed import RevenueWithdrawalStateFailed
 from ._revenue_withdrawal_state_pending import RevenueWithdrawalStatePending
 from ._revenue_withdrawal_state_succeeded import RevenueWithdrawalStateSucceeded
+from ._sent_guest_message import SentGuestMessage
 from ._sent_web_app_message import SentWebAppMessage
 from ._shared_user import SharedUser
 from ._shipping_address import ShippingAddress
@@ -315,10 +327,17 @@ InlineQueryResult = _Union[
 InputFile = _Union["bytes", "_Path", "str", "_BytesIo"]
 
 InputMedia = _Union[
-    "InputMediaAudio", "InputMediaDocument", "InputMediaPhoto", "InputMediaVideo"
+    "InputMediaAnimation",
+    "InputMediaAudio",
+    "InputMediaDocument",
+    "InputMediaLivePhoto",
+    "InputMediaPhoto",
+    "InputMediaVideo",
 ]
 
-InputPaidMedia = _Union["InputPaidMediaPhoto", "InputPaidMediaVideo"]
+InputPaidMedia = _Union[
+    "InputPaidMediaLivePhoto", "InputPaidMediaPhoto", "InputPaidMediaVideo"
+]
 
 MaybeInaccessibleMessage = _Union["InaccessibleMessage", "Message"]
 
@@ -329,7 +348,9 @@ MessageOrigin = _Union[
     "MessageOriginChannel",
 ]
 
-PaidMedia = _Union["PaidMediaPreview", "PaidMediaPhoto", "PaidMediaVideo"]
+PaidMedia = _Union[
+    "PaidMediaLivePhoto", "PaidMediaPreview", "PaidMediaPhoto", "PaidMediaVideo"
+]
 
 ReactionType = _Union[
     "ReactionTypeCustomEmoji", "ReactionTypeEmoji", "ReactionTypePaid"
@@ -402,6 +423,7 @@ __all__ = [
     "BackgroundTypePattern",
     "BackgroundTypeWallpaper",
     "Birthdate",
+    "BotAccessSettings",
     "BotCommand",
     "BotCommandScope",
     "BotCommandScopeAllChatAdministrators",
@@ -514,15 +536,22 @@ __all__ = [
     "InputMediaAnimation",
     "InputMediaAudio",
     "InputMediaDocument",
+    "InputMediaLivePhoto",
+    "InputMediaLocation",
     "InputMediaPhoto",
+    "InputMediaSticker",
+    "InputMediaVenue",
     "InputMediaVideo",
     "InputMessageContent",
     "InputPaidMedia",
+    "InputPaidMediaLivePhoto",
     "InputPaidMediaPhoto",
     "InputPaidMediaVideo",
     "InputProfilePhotoStatic",
     "InputProfilePhotoAnimated",
+    "InputPollMedia",
     "InputPollOption",
+    "InputPollOptionMedia",
     "InputSticker",
     "InputStoryContentPhoto",
     "InputStoryContentVideo",
@@ -540,6 +569,7 @@ __all__ = [
     "LabeledPrice",
     "LinkPreviewOptions",
     "Listener",
+    "LivePhoto",
     "Location",
     "LoginUrl",
     "MaskPosition",
@@ -562,6 +592,7 @@ __all__ = [
     "OrderInfo",
     "PaidMedia",
     "PaidMediaInfo",
+    "PaidMediaLivePhoto",
     "PaidMediaPhoto",
     "PaidMediaPreview",
     "PaidMediaPurchased",
@@ -581,6 +612,7 @@ __all__ = [
     "PhotoSize",
     "Poll",
     "PollAnswer",
+    "PollMedia",
     "PollOption",
     "PollOptionAdded",
     "PollOptionDeleted",
@@ -599,6 +631,7 @@ __all__ = [
     "RevenueWithdrawalStateFailed",
     "RevenueWithdrawalStatePending",
     "RevenueWithdrawalStateSucceeded",
+    "SentGuestMessage",
     "SentWebAppMessage",
     "SharedUser",
     "ShippingAddress",

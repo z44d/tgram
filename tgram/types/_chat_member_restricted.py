@@ -65,6 +65,9 @@ class ChatMemberRestricted(Type_):
         bots
     :type can_send_other_messages: :obj:`bool`
 
+    :param can_react_to_messages: True, if the user is allowed to react to messages
+    :type can_react_to_messages: :obj:`bool`
+
     :param can_add_web_page_previews: True, if the user is allowed to add web page previews to their messages
     :type can_add_web_page_previews: :obj:`bool`
 
@@ -91,6 +94,7 @@ class ChatMemberRestricted(Type_):
         can_send_polls: "bool" = None,
         can_send_other_messages: "bool" = None,
         can_add_web_page_previews: "bool" = None,
+        can_react_to_messages: "bool" = None,
         can_change_info: "bool" = None,
         can_invite_users: "bool" = None,
         can_pin_messages: "bool" = None,
@@ -115,6 +119,7 @@ class ChatMemberRestricted(Type_):
         self.can_send_polls = can_send_polls
         self.can_send_other_messages = can_send_other_messages
         self.can_add_web_page_previews = can_add_web_page_previews
+        self.can_react_to_messages = can_react_to_messages
         self.can_change_info = can_change_info
         self.can_invite_users = can_invite_users
         self.can_pin_messages = can_pin_messages
@@ -144,6 +149,7 @@ class ChatMemberRestricted(Type_):
                 can_send_polls=d.get("can_send_polls"),
                 can_send_other_messages=d.get("can_send_other_messages"),
                 can_add_web_page_previews=d.get("can_add_web_page_previews"),
+                can_react_to_messages=d.get("can_react_to_messages"),
                 can_change_info=d.get("can_change_info"),
                 can_invite_users=d.get("can_invite_users"),
                 can_pin_messages=d.get("can_pin_messages"),

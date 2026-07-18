@@ -33,6 +33,9 @@ class ExternalReplyInfo(Type_):
     :param document: Optional. Message is a general file, information about the file
     :type document: :class:`Document`
 
+    :param live_photo: Optional. Message is a live photo, information about the live photo
+    :type live_photo: :class:`LivePhoto`
+
     :param photo: Optional. Message is a photo, available sizes of the photo
     :type photo: :obj:`list` of :class:`PhotoSize`
 
@@ -97,6 +100,7 @@ class ExternalReplyInfo(Type_):
         animation: "tgram.types.Animation" = None,
         audio: "tgram.types.Audio" = None,
         document: "tgram.types.Document" = None,
+        live_photo: "tgram.types.LivePhoto" = None,
         paid_media: "tgram.types.PaidMediaInfo" = None,
         photo: List["tgram.types.PhotoSize"] = None,
         sticker: "tgram.types.Sticker" = None,
@@ -126,6 +130,7 @@ class ExternalReplyInfo(Type_):
         self.animation = animation
         self.audio = audio
         self.document = document
+        self.live_photo = live_photo
         self.paid_media = paid_media
         self.photo = photo
         self.sticker = sticker
@@ -162,6 +167,9 @@ class ExternalReplyInfo(Type_):
                 animation=tgram.types.Animation._parse(me=me, d=d.get("animation")),
                 audio=tgram.types.Audio._parse(me=me, d=d.get("audio")),
                 document=tgram.types.Document._parse(me=me, d=d.get("document")),
+                live_photo=tgram.types.LivePhoto._parse(
+                    me=me, d=d.get("live_photo")
+                ),
                 paid_media=tgram.types.PaidMediaInfo._parse(
                     me=me, d=d.get("paid_media")
                 ),

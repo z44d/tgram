@@ -57,6 +57,9 @@ class ChatPermissions(Type_):
         value of can_pin_messages
     :type can_manage_topics: :obj:`bool`
 
+    :param can_react_to_messages: Optional. True, if the user is allowed to react to messages
+    :type can_react_to_messages: :obj:`bool`
+
     :param can_edit_tag: Optional. True, if the user is allowed to edit their profile tag
     :type can_edit_tag: :obj:`bool`
 
@@ -83,6 +86,7 @@ class ChatPermissions(Type_):
         can_invite_users: "bool" = None,
         can_pin_messages: "bool" = None,
         can_manage_topics: "bool" = None,
+        can_react_to_messages: "bool" = None,
         can_edit_tag: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -102,6 +106,7 @@ class ChatPermissions(Type_):
         self.can_invite_users = can_invite_users
         self.can_pin_messages = can_pin_messages
         self.can_manage_topics = can_manage_topics
+        self.can_react_to_messages = can_react_to_messages
         self.can_edit_tag = can_edit_tag
 
     @staticmethod
@@ -126,6 +131,7 @@ class ChatPermissions(Type_):
                 can_invite_users=d.get("can_invite_users"),
                 can_pin_messages=d.get("can_pin_messages"),
                 can_manage_topics=d.get("can_manage_topics"),
+                can_react_to_messages=d.get("can_react_to_messages"),
                 can_edit_tag=d.get("can_edit_tag"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

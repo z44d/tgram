@@ -1,5 +1,6 @@
 from .stickers.add_sticker_to_set import AddStickerToSet
 from .other.answer_callback_query import AnswerCallbackQuery
+from .other.answer_guest_query import AnswerGuestQuery
 from .other.answer_inline_query import AnswerInlineQuery
 from .other.answer_pre_checkout_query import AnswerPreCheckoutQuery
 from .other.answer_shipping_query import AnswerShippingQuery
@@ -23,7 +24,9 @@ from .chats.decline_chat_join_request import DeclineChatJoinRequest
 from .chats.delete_chat_photo import DeleteChatPhoto
 from .chats.delete_chat_sticker_set import DeleteChatStickerSet
 from .forums.delete_forum_topic import DeleteForumTopic
+from .messages.delete_all_message_reactions import DeleteAllMessageReactions
 from .messages.delete_message import DeleteMessage
+from .messages.delete_message_reaction import DeleteMessageReaction
 from .messages.delete_messages import DeleteMessages
 from .bot.delete_my_commands import DeleteMyCommands
 from .stickers.delete_sticker_from_set import DeleteStickerFromSet
@@ -50,6 +53,7 @@ from .bot.get_available_gifts import GetAvailableGifts
 from .payments_and_business.get_business_connection import GetBusinessConnection
 from .chats.get_chat import GetChat
 from .chats.get_chat_administrators import GetChatAdministrators
+from .bot.get_managed_bot_access_settings import GetManagedBotAccessSettings
 from .chats.get_chat_member import GetChatMember
 from .chats.get_chat_member_count import GetChatMemberCount
 from .chats.get_chat_menu_button import GetChatMenuButton
@@ -69,6 +73,7 @@ from .payments_and_business.get_star_transactions import GetStarTransactions
 from .stickers.get_sticker_set import GetStickerSet
 from .bot.get_updates import GetUpdates
 from .chats.get_user_chat_boosts import GetUserChatBoosts
+from .chats.get_user_personal_chat_messages import GetUserPersonalChatMessages
 from .chats.get_user_profile_photos import GetUserProfilePhotos
 from .bot.get_webhook_info import GetWebhookInfo
 from .forums.hide_general_forum_topic import HideGeneralForumTopic
@@ -97,6 +102,7 @@ from .messages.send_media_from_file_id import SendMediaFromFileId
 from .messages.send_media_group import SendMediaGroup
 from .messages.send_message import SendMessage
 from .messages.send_paid_media import SendPaidMedia
+from .messages.send_live_photo import SendLivePhoto
 from .messages.send_photo import SendPhoto
 from .messages.send_poll import SendPoll
 from .messages.send_sticker import SendSticker
@@ -117,6 +123,7 @@ from .stickers.set_custom_emoji_sticker_set_thumbnail import (
 )
 from .other.set_game_score import SetGameScore
 from .messages.set_message_reaction import SetMessageReaction
+from .bot.set_managed_bot_access_settings import SetManagedBotAccessSettings
 from .bot.set_my_commands import SetMyCommands
 from .bot.set_my_default_administrator_rights import SetMyDefaultAdministratorRights
 from .bot.set_my_description import SetMyDescription
@@ -199,6 +206,7 @@ from .chats.get_user_profile_audios import GetUserProfileAudios
 class TelegramBotMethods(
     AddStickerToSet,
     AnswerCallbackQuery,
+    AnswerGuestQuery,
     AnswerInlineQuery,
     AnswerPreCheckoutQuery,
     AnswerShippingQuery,
@@ -220,10 +228,12 @@ class TelegramBotMethods(
     CreateNewStickerSet,
     ConvertGiftToStars,
     DeclineChatJoinRequest,
+    DeleteAllMessageReactions,
     DeleteChatPhoto,
     DeleteChatStickerSet,
     DeleteForumTopic,
     DeleteMessage,
+    DeleteMessageReaction,
     DeleteMessages,
     DeleteBusinessMessages,
     DeleteMyCommands,
@@ -253,6 +263,7 @@ class TelegramBotMethods(
     GetBusinessConnection,
     GetChat,
     GetChatAdministrators,
+    GetManagedBotAccessSettings,
     GetChatMember,
     GetChatMemberCount,
     GetChatMenuButton,
@@ -273,6 +284,7 @@ class TelegramBotMethods(
     GetStickerSet,
     GetUpdates,
     GetUserChatBoosts,
+    GetUserPersonalChatMessages,
     GetUserProfilePhotos,
     GetWebhookInfo,
     GetBusinessAccountGifts,
@@ -303,6 +315,7 @@ class TelegramBotMethods(
     SendGame,
     SendGift,
     SendInvoice,
+    SendLivePhoto,
     SendLocation,
     SendMediaFromFileId,
     SendMediaGroup,
@@ -325,6 +338,7 @@ class TelegramBotMethods(
     SetChatMemberTag,
     SetCustomEmojiStickerSetThumbnail,
     SetGameScore,
+    SetManagedBotAccessSettings,
     SetMessageReaction,
     SetMyCommands,
     SetMyDefaultAdministratorRights,

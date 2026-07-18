@@ -95,6 +95,10 @@ class Update(Type_):
     :param deleted_business_messages: Optional. Service message: the chat connected to the business account was deleted
     :type deleted_business_messages: :class:`tgram.types.BusinessMessagesDeleted`
 
+    :param guest_message: Optional. New guest message. The bot can use the field Message.guest_query_id and the method
+        answerGuestQuery to send a message in response.
+    :type guest_message: :class:`tgram.types.Message`
+
     :param managed_bot: Optional. A managed bot was created or its token changed.
     :type managed_bot: :class:`tgram.types.ManagedBotUpdated`
 
@@ -114,6 +118,7 @@ class Update(Type_):
         business_message: "tgram.types.Message" = None,
         edited_business_message: "tgram.types.Message" = None,
         deleted_business_messages: "tgram.types.BusinessMessagesDeleted" = None,
+        guest_message: "tgram.types.Message" = None,
         message_reaction: "tgram.types.MessageReactionUpdated" = None,
         message_reaction_count: "tgram.types.MessageReactionCountUpdated" = None,
         inline_query: "tgram.types.InlineQuery" = None,
@@ -143,6 +148,7 @@ class Update(Type_):
         self.business_message = business_message
         self.edited_business_message = edited_business_message
         self.deleted_business_messages = deleted_business_messages
+        self.guest_message = guest_message
         self.message_reaction = message_reaction
         self.message_reaction_count = message_reaction_count
         self.inline_query = inline_query
@@ -188,6 +194,9 @@ class Update(Type_):
                 ),
                 deleted_business_messages=tgram.types.BusinessMessagesDeleted._parse(
                     me=me, d=d.get("deleted_business_messages")
+                ),
+                guest_message=tgram.types.Message._parse(
+                    me=me, d=d.get("guest_message")
                 ),
                 message_reaction=tgram.types.MessageReactionUpdated._parse(
                     me=me, d=d.get("message_reaction")

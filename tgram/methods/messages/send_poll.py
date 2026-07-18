@@ -3,6 +3,7 @@ from typing import List
 from typing import Union
 from tgram.types import ForceReply
 from tgram.types import InlineKeyboardMarkup
+from tgram.types import InputPollMedia
 from tgram.types import InputPollOption
 from tgram.types import Message
 from tgram.types import MessageEntity
@@ -48,6 +49,10 @@ class SendPoll:
         description: str = None,
         description_parse_mode: ParseMode = None,
         description_entities: List[MessageEntity] = None,
+        media: InputPollMedia = None,
+        explanation_media: InputPollMedia = None,
+        members_only: bool = None,
+        country_codes: List[str] = None,
     ) -> Message:
         """
         Use this method to send a native poll.
@@ -159,6 +164,18 @@ class SendPoll:
         :param description_entities: A JSON-serialized list of special entities that appear in the description.
         :type description_entities: :obj:`list` of :obj:`MessageEntity`
 
+        :param media: A JSON-serialized object for a media to add to the poll
+        :type media: :class:`tgram.types.InputPollMedia`
+
+        :param explanation_media: A JSON-serialized object for a media to add to the quiz explanation
+        :type explanation_media: :class:`tgram.types.InputPollMedia`
+
+        :param members_only: Pass True, if only members of the chat can vote in the poll
+        :type members_only: :obj:`bool`
+
+        :param country_codes: A JSON-serialized list of country codes, for polls that are only available in certain countries
+        :type country_codes: :obj:`list` of :obj:`str`
+
         :return: On success, the sent Message is returned.
         :rtype: :obj:`tgram.types.Message`
         """
@@ -199,5 +216,9 @@ class SendPoll:
             description=description,
             description_parse_mode=description_parse_mode,
             description_entities=description_entities,
+            media=media,
+            explanation_media=explanation_media,
+            members_only=members_only,
+            country_codes=country_codes,
         )
         return Message._parse(me=self, d=result.get("result", {}))

@@ -19,6 +19,9 @@ class InputPollOption(Type_):
     :param text_entities: Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
     :type text_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
+    :param media: Optional. A JSON-serialized list of media to add to the poll option
+    :type media: :obj:`list` of :class:`tgram.types.InputPollOptionMedia`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollOption`
     """
@@ -28,6 +31,7 @@ class InputPollOption(Type_):
         text: "str" = None,
         text_parse_mode: "str" = None,
         text_entities: List["tgram.types.MessageEntity"] = None,
+        media: List["tgram.types.InputPollOptionMedia"] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -35,6 +39,7 @@ class InputPollOption(Type_):
         self.text = text
         self.text_parse_mode = text_parse_mode
         self.text_entities = text_entities
+        self.media = media
 
     @staticmethod
     def _parse(
@@ -51,6 +56,12 @@ class InputPollOption(Type_):
                     for i in d.get("text_entities")
                 ]
                 if d.get("text_entities")
+                else None,
+                media=[
+                    tgram.types.InputPollOptionMedia._parse(me=me, d=i)
+                    for i in d.get("media")
+                ]
+                if d.get("media")
                 else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)

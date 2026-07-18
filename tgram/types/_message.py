@@ -34,7 +34,10 @@ class Message(Type_, bound.MessageB):
     :type sender_business_bot: :class:`tgram.types.User`
 
     :param date: Date the message was sent in Unix time. It is always a positive number, representing a valid date.
-    :type date: :obj:`int`
+
+    :param guest_query_id: Optional. The unique identifier for the guest query. Use this identifier with the method
+        answerGuestQuery to send a response message.
+    :type guest_query_id: :obj:`str`
 
     :param business_connection_id: Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
     :type business_connection_id: :obj:`str`
@@ -71,6 +74,14 @@ class Message(Type_, bound.MessageB):
 
     :param via_bot: Optional. Bot through which the message was sent
     :type via_bot: :class:`tgram.types.User`
+
+    :param guest_bot_caller_user: Optional. For a message sent by a guest bot, this is the user whose original message
+        triggered the bot's response
+    :type guest_bot_caller_user: :class:`tgram.types.User`
+
+    :param guest_bot_caller_chat: Optional. For a message sent by a guest bot, this is the chat whose original message
+        triggered the bot's response
+    :type guest_bot_caller_chat: :class:`tgram.types.Chat`
 
     :param edit_date: Optional. Date the message was last edited in Unix time
     :type edit_date: :obj:`int`
@@ -119,6 +130,9 @@ class Message(Type_, bound.MessageB):
 
     :param document: Optional. Message is a general file, information about the file
     :type document: :class:`tgram.types.Document`
+
+    :param live_photo: Optional. Message is a live photo, information about the live photo
+    :type live_photo: :class:`tgram.types.LivePhoto`
 
     :param paid_media: Optional. Message contains paid media; information about the paid media
     :type paid_media: :class:`tgram.types.PaidMediaInfo`
@@ -353,6 +367,7 @@ class Message(Type_, bound.MessageB):
         sender_boost_count: "int" = None,
         sender_business_bot: "tgram.types.User" = None,
         date: "int" = None,
+        guest_query_id: "str" = None,
         business_connection_id: "str" = None,
         chat: "tgram.types.Chat" = None,
         forward_origin: "tgram.types.MessageOrigin" = None,
@@ -364,6 +379,8 @@ class Message(Type_, bound.MessageB):
         reply_to_story: "tgram.types.Story" = None,
         reply_to_checklist_task_id: "int" = None,
         via_bot: "tgram.types.User" = None,
+        guest_bot_caller_user: "tgram.types.User" = None,
+        guest_bot_caller_chat: "tgram.types.Chat" = None,
         edit_date: "int" = None,
         has_protected_content: "bool" = None,
         is_from_offline: "bool" = None,
@@ -380,6 +397,7 @@ class Message(Type_, bound.MessageB):
         animation: "tgram.types.Animation" = None,
         audio: "tgram.types.Audio" = None,
         document: "tgram.types.Document" = None,
+        live_photo: "tgram.types.LivePhoto" = None,
         paid_media: "tgram.types.PaidMediaInfo" = None,
         photo: List["tgram.types.PhotoSize"] = None,
         sticker: "tgram.types.Sticker" = None,
@@ -466,6 +484,7 @@ class Message(Type_, bound.MessageB):
         self.sender_boost_count = sender_boost_count
         self.sender_business_bot = sender_business_bot
         self.date = date
+        self.guest_query_id = guest_query_id
         self.business_connection_id = business_connection_id
         self.chat = chat
         self.forward_origin = forward_origin
@@ -477,6 +496,8 @@ class Message(Type_, bound.MessageB):
         self.reply_to_story = reply_to_story
         self.reply_to_checklist_task_id = reply_to_checklist_task_id
         self.via_bot = via_bot
+        self.guest_bot_caller_user = guest_bot_caller_user
+        self.guest_bot_caller_chat = guest_bot_caller_chat
         self.edit_date = edit_date
         self.has_protected_content = has_protected_content
         self.is_from_offline = is_from_offline
@@ -493,6 +514,7 @@ class Message(Type_, bound.MessageB):
         self.animation = animation
         self.audio = audio
         self.document = document
+        self.live_photo = live_photo
         self.paid_media = paid_media
         self.photo = photo
         self.sticker = sticker
@@ -588,6 +610,7 @@ class Message(Type_, bound.MessageB):
                     me=me, d=d.get("sender_business_bot")
                 ),
                 date=d.get("date"),
+                guest_query_id=d.get("guest_query_id"),
                 business_connection_id=d.get("business_connection_id"),
                 chat=tgram.types.Chat._parse(me=me, d=d.get("chat")),
                 forward_origin=message_origin_parse(d.get("forward_origin"), me),
@@ -605,6 +628,12 @@ class Message(Type_, bound.MessageB):
                 ),
                 reply_to_checklist_task_id=d.get("reply_to_checklist_task_id"),
                 via_bot=tgram.types.User._parse(me=me, d=d.get("via_bot")),
+                guest_bot_caller_user=tgram.types.User._parse(
+                    me=me, d=d.get("guest_bot_caller_user")
+                ),
+                guest_bot_caller_chat=tgram.types.Chat._parse(
+                    me=me, d=d.get("guest_bot_caller_chat")
+                ),
                 edit_date=d.get("edit_date"),
                 has_protected_content=d.get("has_protected_content"),
                 is_from_offline=d.get("is_from_offline"),
@@ -630,6 +659,9 @@ class Message(Type_, bound.MessageB):
                 animation=tgram.types.Animation._parse(me=me, d=d.get("animation")),
                 audio=tgram.types.Audio._parse(me=me, d=d.get("audio")),
                 document=tgram.types.Document._parse(me=me, d=d.get("document")),
+                live_photo=tgram.types.LivePhoto._parse(
+                    me=me, d=d.get("live_photo")
+                ),
                 paid_media=tgram.types.PaidMediaInfo._parse(
                     me=me, d=d.get("paid_media")
                 ),

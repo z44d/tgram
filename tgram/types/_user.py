@@ -59,6 +59,10 @@ class User(Type_, bound.UserB):
     :param allows_users_to_create_topics: Optional. True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
     :type allows_users_to_create_topics: :obj:`bool`
 
+    :param supports_guest_queries: Optional. True, if the bot supports guest queries from chats it is not a member of.
+        Returned only in getMe.
+    :type supports_guest_queries: :obj:`bool`
+
     :param can_manage_bots: Optional. True, if the bot can manage bots. Returned only in getMe.
     :type can_manage_bots: :obj:`bool`
 
@@ -83,6 +87,7 @@ class User(Type_, bound.UserB):
         has_main_web_app: "bool" = None,
         has_topics_enabled: "bool" = None,
         allows_users_to_create_topics: "bool" = None,
+        supports_guest_queries: "bool" = None,
         can_manage_bots: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
@@ -103,6 +108,7 @@ class User(Type_, bound.UserB):
         self.has_main_web_app = has_main_web_app
         self.has_topics_enabled = has_topics_enabled
         self.allows_users_to_create_topics = allows_users_to_create_topics
+        self.supports_guest_queries = supports_guest_queries
         self.can_manage_bots = can_manage_bots
 
     @staticmethod
@@ -128,6 +134,7 @@ class User(Type_, bound.UserB):
                 has_main_web_app=d.get("has_main_web_app"),
                 has_topics_enabled=d.get("has_topics_enabled"),
                 allows_users_to_create_topics=d.get("allows_users_to_create_topics"),
+                supports_guest_queries=d.get("supports_guest_queries"),
                 can_manage_bots=d.get("can_manage_bots"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
