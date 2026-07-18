@@ -66,6 +66,10 @@ class User(Type_, bound.UserB):
     :param can_manage_bots: Optional. True, if the bot can manage bots. Returned only in getMe.
     :type can_manage_bots: :obj:`bool`
 
+    :param supports_join_request_queries: Optional. True, if the bot supports join request queries. Returned only in
+        getMe.
+    :type supports_join_request_queries: :obj:`bool`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.User`
     """
@@ -89,6 +93,7 @@ class User(Type_, bound.UserB):
         allows_users_to_create_topics: "bool" = None,
         supports_guest_queries: "bool" = None,
         can_manage_bots: "bool" = None,
+        supports_join_request_queries: "bool" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -110,6 +115,7 @@ class User(Type_, bound.UserB):
         self.allows_users_to_create_topics = allows_users_to_create_topics
         self.supports_guest_queries = supports_guest_queries
         self.can_manage_bots = can_manage_bots
+        self.supports_join_request_queries = supports_join_request_queries
 
     @staticmethod
     def _parse(
@@ -136,6 +142,7 @@ class User(Type_, bound.UserB):
                 allows_users_to_create_topics=d.get("allows_users_to_create_topics"),
                 supports_guest_queries=d.get("supports_guest_queries"),
                 can_manage_bots=d.get("can_manage_bots"),
+                supports_join_request_queries=d.get("supports_join_request_queries"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

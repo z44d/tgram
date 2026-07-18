@@ -5,6 +5,7 @@ from .other.answer_inline_query import AnswerInlineQuery
 from .other.answer_pre_checkout_query import AnswerPreCheckoutQuery
 from .other.answer_shipping_query import AnswerShippingQuery
 from .other.answer_web_app_query import AnswerWebAppQuery
+from .chats.answer_chat_join_request_query import AnswerChatJoinRequestQuery
 from .chats.approve_chat_join_request import ApproveChatJoinRequest
 from .payments_and_business.approve_suggested_post import ApproveSuggestedPost
 from .messages.ask import Ask
@@ -91,6 +92,7 @@ from .messages.send_animation import SendAnimation
 from .messages.send_audio import SendAudio
 from .messages.send_chat_action import SendChatAction
 from .messages.send_contact import SendContact
+from .messages.send_chat_join_request_web_app import SendChatJoinRequestWebApp
 from .messages.send_checklist import SendChecklist
 from .messages.send_dice import SendDice
 from .messages.send_document import SendDocument
@@ -101,6 +103,8 @@ from .messages.send_location import SendLocation
 from .messages.send_media_from_file_id import SendMediaFromFileId
 from .messages.send_media_group import SendMediaGroup
 from .messages.send_message import SendMessage
+from .messages.send_rich_message import SendRichMessage
+from .messages.send_rich_message_draft import SendRichMessageDraft
 from .messages.send_paid_media import SendPaidMedia
 from .messages.send_live_photo import SendLivePhoto
 from .messages.send_photo import SendPhoto
@@ -206,6 +210,7 @@ from .chats.get_user_profile_audios import GetUserProfileAudios
 class TelegramBotMethods(
     AddStickerToSet,
     AnswerCallbackQuery,
+    AnswerChatJoinRequestQuery,
     AnswerGuestQuery,
     AnswerInlineQuery,
     AnswerPreCheckoutQuery,
@@ -308,6 +313,7 @@ class TelegramBotMethods(
     SendAnimation,
     SendAudio,
     SendChatAction,
+    SendChatJoinRequestWebApp,
     SendContact,
     SendChecklist,
     SendDice,
@@ -321,6 +327,8 @@ class TelegramBotMethods(
     SendMediaGroup,
     SendMessage,
     SendPaidMedia,
+    SendRichMessage,
+    SendRichMessageDraft,
     SendPhoto,
     SendPoll,
     SendSticker,

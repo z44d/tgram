@@ -1,7 +1,7 @@
 import tgram
 from .type_ import Type_
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 
 class InputPollOption(Type_):
@@ -20,7 +20,7 @@ class InputPollOption(Type_):
     :type text_entities: :obj:`list` of :class:`tgram.types.MessageEntity`
 
     :param media: Optional. A JSON-serialized list of media to add to the poll option
-    :type media: :obj:`list` of :class:`tgram.types.InputPollOptionMedia`
+    :type media: :obj:`list` of :class:`tgram.types.InputPollOptionMedia` or :class:`tgram.types.InputMediaLink`
 
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollOption`
@@ -31,7 +31,7 @@ class InputPollOption(Type_):
         text: "str" = None,
         text_parse_mode: "str" = None,
         text_entities: List["tgram.types.MessageEntity"] = None,
-        media: List["tgram.types.InputPollOptionMedia"] = None,
+        media: List[Union["tgram.types.InputPollOptionMedia", "tgram.types.InputMediaLink"]] = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):

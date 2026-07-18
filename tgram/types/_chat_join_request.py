@@ -33,6 +33,9 @@ class ChatJoinRequest(Type_, bound.ChatJoinRequestB):
     :param invite_link: Optional. Chat invite link that was used by the user to send the join request
     :type invite_link: :class:`tgram.types.ChatInviteLink`
 
+    :param query_id: Optional. The unique identifier for the join request query
+    :type query_id: :obj:`str`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.ChatJoinRequest`
     """
@@ -45,6 +48,7 @@ class ChatJoinRequest(Type_, bound.ChatJoinRequestB):
         date: "int" = None,
         bio: "str" = None,
         invite_link: "tgram.types.ChatInviteLink" = None,
+        query_id: "str" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -55,6 +59,7 @@ class ChatJoinRequest(Type_, bound.ChatJoinRequestB):
         self.date = date
         self.bio = bio
         self.invite_link = invite_link
+        self.query_id = query_id
 
     @staticmethod
     def _parse(
@@ -72,6 +77,7 @@ class ChatJoinRequest(Type_, bound.ChatJoinRequestB):
                 invite_link=tgram.types.ChatInviteLink._parse(
                     me=me, d=d.get("invite_link")
                 ),
+                query_id=d.get("query_id"),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

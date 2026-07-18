@@ -25,6 +25,9 @@ class PollMedia(Type_):
     :param duration: Optional. Media duration in seconds
     :type duration: :obj:`int`
 
+    :param link: Optional. Link
+    :type link: :class:`tgram.types.Link`
+
     :return: Instance of the class
     :rtype: :class:`tgram.types.PollMedia`
     """
@@ -36,6 +39,7 @@ class PollMedia(Type_):
         width: "int" = None,
         height: "int" = None,
         duration: "int" = None,
+        link: "tgram.types.Link" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -45,6 +49,7 @@ class PollMedia(Type_):
         self.width = width
         self.height = height
         self.duration = duration
+        self.link = link
 
     @staticmethod
     def _parse(
@@ -59,6 +64,9 @@ class PollMedia(Type_):
                 width=d.get("width"),
                 height=d.get("height"),
                 duration=d.get("duration"),
+                link=tgram.types.Link._parse(me=me, d=d.get("link"))
+                if d.get("link")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

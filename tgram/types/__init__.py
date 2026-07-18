@@ -142,9 +142,12 @@ from ._input_paid_media_photo import InputPaidMediaPhoto
 from ._input_paid_media_live_photo import InputPaidMediaLivePhoto
 from ._input_paid_media_video import InputPaidMediaVideo
 from ._input_profile_photo import InputProfilePhotoStatic, InputProfilePhotoAnimated
+from ._input_media_link import InputMediaLink
 from ._input_poll_media import InputPollMedia
 from ._input_poll_option import InputPollOption
 from ._input_poll_option_media import InputPollOptionMedia
+from ._input_rich_message import InputRichMessage
+from ._input_rich_message_content import InputRichMessageContent
 from ._input_sticker import InputSticker
 from ._input_text_message_content import InputTextMessageContent
 from ._input_venue_message_content import InputVenueMessageContent
@@ -158,6 +161,7 @@ from ._keyboard_button_request_chat import KeyboardButtonRequestChat
 from ._keyboard_button_request_managed_bot import KeyboardButtonRequestManagedBot
 from ._keyboard_button_request_users import KeyboardButtonRequestUsers
 from ._labeled_price import LabeledPrice
+from ._link import Link
 from ._link_preview_options import LinkPreviewOptions
 from ._listener import Listener
 from ._live_photo import LivePhoto
@@ -216,6 +220,56 @@ from ._prepared_inline_message import PreparedInlineMessage
 from ._prepared_keyboard_button import PreparedKeyboardButton
 from ._proximity_alert_triggered import ProximityAlertTriggered
 from ._paid_message_price_changed import PaidMessagePriceChanged
+from ._rich_block_anchor import RichBlockAnchor
+from ._rich_block_animation import RichBlockAnimation
+from ._rich_block_audio import RichBlockAudio
+from ._rich_block_block_quotation import RichBlockBlockQuotation
+from ._rich_block_caption import RichBlockCaption
+from ._rich_block_collage import RichBlockCollage
+from ._rich_block_details import RichBlockDetails
+from ._rich_block_divider import RichBlockDivider
+from ._rich_block_footer import RichBlockFooter
+from ._rich_block_list import RichBlockList
+from ._rich_block_list_item import RichBlockListItem
+from ._rich_block_map import RichBlockMap
+from ._rich_block_mathematical_expression import RichBlockMathematicalExpression
+from ._rich_block_paragraph import RichBlockParagraph
+from ._rich_block_photo import RichBlockPhoto
+from ._rich_block_preformatted import RichBlockPreformatted
+from ._rich_block_pull_quotation import RichBlockPullQuotation
+from ._rich_block_section_heading import RichBlockSectionHeading
+from ._rich_block_slideshow import RichBlockSlideshow
+from ._rich_block_table import RichBlockTable
+from ._rich_block_table_cell import RichBlockTableCell
+from ._rich_block_thinking import RichBlockThinking
+from ._rich_block_video import RichBlockVideo
+from ._rich_block_voice_note import RichBlockVoiceNote
+from ._rich_message import RichMessage
+from ._rich_text_anchor import RichTextAnchor
+from ._rich_text_anchor_link import RichTextAnchorLink
+from ._rich_text_bank_card_number import RichTextBankCardNumber
+from ._rich_text_bold import RichTextBold
+from ._rich_text_bot_command import RichTextBotCommand
+from ._rich_text_cashtag import RichTextCashtag
+from ._rich_text_code import RichTextCode
+from ._rich_text_custom_emoji import RichTextCustomEmoji
+from ._rich_text_date_time import RichTextDateTime
+from ._rich_text_email_address import RichTextEmailAddress
+from ._rich_text_hashtag import RichTextHashtag
+from ._rich_text_italic import RichTextItalic
+from ._rich_text_marked import RichTextMarked
+from ._rich_text_mathematical_expression import RichTextMathematicalExpression
+from ._rich_text_mention import RichTextMention
+from ._rich_text_phone_number import RichTextPhoneNumber
+from ._rich_text_reference import RichTextReference
+from ._rich_text_reference_link import RichTextReferenceLink
+from ._rich_text_spoiler import RichTextSpoiler
+from ._rich_text_strikethrough import RichTextStrikethrough
+from ._rich_text_subscript import RichTextSubscript
+from ._rich_text_superscript import RichTextSuperscript
+from ._rich_text_text_mention import RichTextTextMention
+from ._rich_text_underline import RichTextUnderline
+from ._rich_text_url import RichTextUrl
 from ._reaction_count import ReactionCount
 from ._reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from ._reaction_type_emoji import ReactionTypeEmoji
@@ -400,6 +454,58 @@ MessageEntityType = _Literal[
 
 InputStoryContent = _Union["InputStoryContentPhoto", "InputStoryContentVideo"]
 
+RichBlock = _Union[
+    "RichBlockParagraph",
+    "RichBlockSectionHeading",
+    "RichBlockPreformatted",
+    "RichBlockFooter",
+    "RichBlockDivider",
+    "RichBlockMathematicalExpression",
+    "RichBlockAnchor",
+    "RichBlockList",
+    "RichBlockBlockQuotation",
+    "RichBlockPullQuotation",
+    "RichBlockCollage",
+    "RichBlockSlideshow",
+    "RichBlockTable",
+    "RichBlockDetails",
+    "RichBlockMap",
+    "RichBlockAnimation",
+    "RichBlockAudio",
+    "RichBlockPhoto",
+    "RichBlockVideo",
+    "RichBlockVoiceNote",
+    "RichBlockThinking",
+]
+
+RichText = _Union[
+    "RichTextBold",
+    "RichTextItalic",
+    "RichTextUnderline",
+    "RichTextStrikethrough",
+    "RichTextSpoiler",
+    "RichTextDateTime",
+    "RichTextTextMention",
+    "RichTextSubscript",
+    "RichTextSuperscript",
+    "RichTextMarked",
+    "RichTextCode",
+    "RichTextCustomEmoji",
+    "RichTextMathematicalExpression",
+    "RichTextUrl",
+    "RichTextEmailAddress",
+    "RichTextPhoneNumber",
+    "RichTextBankCardNumber",
+    "RichTextMention",
+    "RichTextHashtag",
+    "RichTextCashtag",
+    "RichTextBotCommand",
+    "RichTextAnchor",
+    "RichTextAnchorLink",
+    "RichTextReference",
+    "RichTextReferenceLink",
+]
+
 StoryAreaType = _Union[
     "StoryAreaTypeLink",
     "StoryAreaTypeLocation",
@@ -536,6 +642,7 @@ __all__ = [
     "InputMediaAnimation",
     "InputMediaAudio",
     "InputMediaDocument",
+    "InputMediaLink",
     "InputMediaLivePhoto",
     "InputMediaLocation",
     "InputMediaPhoto",
@@ -552,6 +659,8 @@ __all__ = [
     "InputPollMedia",
     "InputPollOption",
     "InputPollOptionMedia",
+    "InputRichMessage",
+    "InputRichMessageContent",
     "InputSticker",
     "InputStoryContentPhoto",
     "InputStoryContentVideo",
@@ -567,6 +676,7 @@ __all__ = [
     "KeyboardButtonRequestManagedBot",
     "KeyboardButtonRequestUsers",
     "LabeledPrice",
+    "Link",
     "LinkPreviewOptions",
     "Listener",
     "LivePhoto",
@@ -711,4 +821,56 @@ __all__ = [
     "SuggestedPostParameters",
     "SuggestedPostPrice",
     "SuggestedPostRefunded",
+    "RichBlock",
+    "RichBlockAnchor",
+    "RichBlockAnimation",
+    "RichBlockAudio",
+    "RichBlockBlockQuotation",
+    "RichBlockCaption",
+    "RichBlockCollage",
+    "RichBlockDetails",
+    "RichBlockDivider",
+    "RichBlockFooter",
+    "RichBlockList",
+    "RichBlockListItem",
+    "RichBlockMap",
+    "RichBlockMathematicalExpression",
+    "RichBlockParagraph",
+    "RichBlockPhoto",
+    "RichBlockPreformatted",
+    "RichBlockPullQuotation",
+    "RichBlockSectionHeading",
+    "RichBlockSlideshow",
+    "RichBlockTable",
+    "RichBlockTableCell",
+    "RichBlockThinking",
+    "RichBlockVideo",
+    "RichBlockVoiceNote",
+    "RichMessage",
+    "RichText",
+    "RichTextAnchor",
+    "RichTextAnchorLink",
+    "RichTextBankCardNumber",
+    "RichTextBold",
+    "RichTextBotCommand",
+    "RichTextCashtag",
+    "RichTextCode",
+    "RichTextCustomEmoji",
+    "RichTextDateTime",
+    "RichTextEmailAddress",
+    "RichTextHashtag",
+    "RichTextItalic",
+    "RichTextMarked",
+    "RichTextMathematicalExpression",
+    "RichTextMention",
+    "RichTextPhoneNumber",
+    "RichTextReference",
+    "RichTextReferenceLink",
+    "RichTextSpoiler",
+    "RichTextStrikethrough",
+    "RichTextSubscript",
+    "RichTextSuperscript",
+    "RichTextTextMention",
+    "RichTextUnderline",
+    "RichTextUrl",
 ]

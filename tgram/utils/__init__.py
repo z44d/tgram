@@ -13,6 +13,8 @@ from .types import (
     convert_input_media,
     reaction_type_parse,
     convert_to_inline_keyboard_markup,
+    rich_text_parse,
+    rich_block_parse,
 )
 
 from ..handlers import Handlers
@@ -45,4 +47,6 @@ __all__ = [
     "get_parse_mode",
     "reaction_type_parse",
     "convert_to_inline_keyboard_markup",
+    "rich_text_parse",
+    "rich_block_parse",
 ]

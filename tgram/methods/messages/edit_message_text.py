@@ -5,6 +5,7 @@ from tgram.types import InlineKeyboardMarkup
 from tgram.types import LinkPreviewOptions
 from tgram.types import Message
 from tgram.types import MessageEntity, ParseMode
+from tgram.types import InputRichMessage
 
 from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
 
@@ -12,7 +13,7 @@ from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
 class EditMessageText:
     async def edit_message_text(
         self: "tgram.TgBot",
-        text: str,
+        text: str = None,
         business_connection_id: str = None,
         chat_id: Union[int, str] = None,
         message_id: int = None,
@@ -21,6 +22,7 @@ class EditMessageText:
         entities: List[MessageEntity] = None,
         link_preview_options: LinkPreviewOptions = None,
         reply_markup: InlineKeyboardMarkup = None,
+        rich_message: InputRichMessage = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit text and game messages.
@@ -41,6 +43,7 @@ class EditMessageText:
             reply_markup=convert_to_inline_keyboard_markup(reply_markup)
             if isinstance(reply_markup, list)
             else reply_markup,
+            rich_message=rich_message,
         )
         return (
             Message._parse(me=self, d=result.get("result", {}))

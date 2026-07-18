@@ -97,6 +97,124 @@ def reaction_type_parse(
     ]
 
 
+def rich_text_parse(
+    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+) -> Optional["tgram.types.RichText"]:
+    if d is None:
+        return None
+
+    rich_text_type = d.get("type")
+
+    return (
+        tgram.types.RichTextBold._parse(me=me, d=d)
+        if rich_text_type == "bold"
+        else tgram.types.RichTextItalic._parse(me=me, d=d)
+        if rich_text_type == "italic"
+        else tgram.types.RichTextUnderline._parse(me=me, d=d)
+        if rich_text_type == "underline"
+        else tgram.types.RichTextStrikethrough._parse(me=me, d=d)
+        if rich_text_type == "strikethrough"
+        else tgram.types.RichTextSpoiler._parse(me=me, d=d)
+        if rich_text_type == "spoiler"
+        else tgram.types.RichTextDateTime._parse(me=me, d=d)
+        if rich_text_type == "date_time"
+        else tgram.types.RichTextTextMention._parse(me=me, d=d)
+        if rich_text_type == "text_mention"
+        else tgram.types.RichTextSubscript._parse(me=me, d=d)
+        if rich_text_type == "subscript"
+        else tgram.types.RichTextSuperscript._parse(me=me, d=d)
+        if rich_text_type == "superscript"
+        else tgram.types.RichTextMarked._parse(me=me, d=d)
+        if rich_text_type == "marked"
+        else tgram.types.RichTextCode._parse(me=me, d=d)
+        if rich_text_type == "code"
+        else tgram.types.RichTextCustomEmoji._parse(me=me, d=d)
+        if rich_text_type == "custom_emoji"
+        else tgram.types.RichTextMathematicalExpression._parse(me=me, d=d)
+        if rich_text_type == "mathematical_expression"
+        else tgram.types.RichTextUrl._parse(me=me, d=d)
+        if rich_text_type == "url"
+        else tgram.types.RichTextEmailAddress._parse(me=me, d=d)
+        if rich_text_type == "email_address"
+        else tgram.types.RichTextPhoneNumber._parse(me=me, d=d)
+        if rich_text_type == "phone_number"
+        else tgram.types.RichTextBankCardNumber._parse(me=me, d=d)
+        if rich_text_type == "bank_card_number"
+        else tgram.types.RichTextMention._parse(me=me, d=d)
+        if rich_text_type == "mention"
+        else tgram.types.RichTextHashtag._parse(me=me, d=d)
+        if rich_text_type == "hashtag"
+        else tgram.types.RichTextCashtag._parse(me=me, d=d)
+        if rich_text_type == "cashtag"
+        else tgram.types.RichTextBotCommand._parse(me=me, d=d)
+        if rich_text_type == "bot_command"
+        else tgram.types.RichTextAnchor._parse(me=me, d=d)
+        if rich_text_type == "anchor"
+        else tgram.types.RichTextAnchorLink._parse(me=me, d=d)
+        if rich_text_type == "anchor_link"
+        else tgram.types.RichTextReference._parse(me=me, d=d)
+        if rich_text_type == "reference"
+        else tgram.types.RichTextReferenceLink._parse(me=me, d=d)
+        if rich_text_type == "reference_link"
+        else None
+    )
+
+
+def rich_block_parse(
+    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+) -> Optional["tgram.types.RichBlock"]:
+    if d is None:
+        return None
+
+    block_type = d.get("type")
+
+    return (
+        tgram.types.RichBlockParagraph._parse(me=me, d=d)
+        if block_type == "paragraph"
+        else tgram.types.RichBlockSectionHeading._parse(me=me, d=d)
+        if block_type == "section_heading"
+        else tgram.types.RichBlockPreformatted._parse(me=me, d=d)
+        if block_type == "preformatted"
+        else tgram.types.RichBlockFooter._parse(me=me, d=d)
+        if block_type == "footer"
+        else tgram.types.RichBlockDivider._parse(me=me, d=d)
+        if block_type == "divider"
+        else tgram.types.RichBlockMathematicalExpression._parse(me=me, d=d)
+        if block_type == "mathematical_expression"
+        else tgram.types.RichBlockAnchor._parse(me=me, d=d)
+        if block_type == "anchor"
+        else tgram.types.RichBlockList._parse(me=me, d=d)
+        if block_type == "list"
+        else tgram.types.RichBlockBlockQuotation._parse(me=me, d=d)
+        if block_type == "block_quotation"
+        else tgram.types.RichBlockPullQuotation._parse(me=me, d=d)
+        if block_type == "pull_quotation"
+        else tgram.types.RichBlockCollage._parse(me=me, d=d)
+        if block_type == "collage"
+        else tgram.types.RichBlockSlideshow._parse(me=me, d=d)
+        if block_type == "slideshow"
+        else tgram.types.RichBlockTable._parse(me=me, d=d)
+        if block_type == "table"
+        else tgram.types.RichBlockDetails._parse(me=me, d=d)
+        if block_type == "details"
+        else tgram.types.RichBlockMap._parse(me=me, d=d)
+        if block_type == "map"
+        else tgram.types.RichBlockAnimation._parse(me=me, d=d)
+        if block_type == "animation"
+        else tgram.types.RichBlockAudio._parse(me=me, d=d)
+        if block_type == "audio"
+        else tgram.types.RichBlockPhoto._parse(me=me, d=d)
+        if block_type == "photo"
+        else tgram.types.RichBlockVideo._parse(me=me, d=d)
+        if block_type == "video"
+        else tgram.types.RichBlockVoiceNote._parse(me=me, d=d)
+        if block_type == "voice_note"
+        else tgram.types.RichBlockThinking._parse(me=me, d=d)
+        if block_type == "thinking"
+        else None
+    )
+
+
 pattern = re.compile(
     r"^(https?):\/\/" r"([a-zA-Z0-9.-]+)" r"(\.[a-zA-Z]{2,})" r"(\/[^\s]*)?$"
 )

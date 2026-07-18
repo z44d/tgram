@@ -287,6 +287,9 @@ class Message(Type_, bound.MessageB):
     :param poll_option_deleted: Optional. Service message: a poll option was deleted
     :type poll_option_deleted: :class:`tgram.types.PollOptionDeleted`
 
+    :param rich_message: Optional. Rich message
+    :type rich_message: :class:`tgram.types.RichMessage`
+
     :param forum_topic_created: Optional. Service message: forum topic created
     :type forum_topic_created: :class:`tgram.types.ForumTopicCreated`
 
@@ -472,6 +475,7 @@ class Message(Type_, bound.MessageB):
         poll_option_added: "tgram.types.PollOptionAdded" = None,
         poll_option_deleted: "tgram.types.PollOptionDeleted" = None,
         reply_to_poll_option_id: "str" = None,
+        rich_message: "tgram.types.RichMessage" = None,
         me: "tgram.TgBot" = None,
         json: "dict" = None,
     ):
@@ -589,6 +593,7 @@ class Message(Type_, bound.MessageB):
         self.poll_option_added = poll_option_added
         self.poll_option_deleted = poll_option_deleted
         self.reply_to_poll_option_id = reply_to_poll_option_id
+        self.rich_message = rich_message
 
     @staticmethod
     def _parse(
@@ -839,6 +844,11 @@ class Message(Type_, bound.MessageB):
                     me=me, d=d.get("poll_option_deleted")
                 ),
                 reply_to_poll_option_id=d.get("reply_to_poll_option_id"),
+                rich_message=tgram.types.RichMessage._parse(
+                    me=me, d=d.get("rich_message")
+                )
+                if d.get("rich_message")
+                else None,
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None
