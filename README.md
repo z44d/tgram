@@ -1,3 +1,5 @@
+
+
 <div align="center"> <h1>Tgram<h1> <h3>A developer-friendly Telegram Bot API library designed for Python enthusiasts. <br> <a href="https://t.me/tgbot_channel">Channel</a> • <a href="https://z44d.github.io/tgram/">Documentation</a> • <a href="https://github.com/z44d/tgram/tree/main/examples">Examples</a></h3> </div>
 
 
@@ -55,6 +57,7 @@ pip install tgram -U
 ## 💡 Requirements
 
 - **Python**: Version 3.10 or higher.
+- **aiohttp**: >=3.10.11
 - **Telegram Bot Token**: Obtain one by following [this guide](https://core.telegram.org/bots/tutorial#obtain-your-bot-token).
 
 ## 💬 Help & Support
