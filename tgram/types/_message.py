@@ -684,9 +684,7 @@ class Message(Type_, bound.MessageB):
                 animation=tgram.types.Animation._parse(me=me, d=d.get("animation")),
                 audio=tgram.types.Audio._parse(me=me, d=d.get("audio")),
                 document=tgram.types.Document._parse(me=me, d=d.get("document")),
-                live_photo=tgram.types.LivePhoto._parse(
-                    me=me, d=d.get("live_photo")
-                ),
+                live_photo=tgram.types.LivePhoto._parse(me=me, d=d.get("live_photo")),
                 paid_media=tgram.types.PaidMediaInfo._parse(
                     me=me, d=d.get("paid_media")
                 ),
@@ -869,9 +867,7 @@ class Message(Type_, bound.MessageB):
                 )
                 if d.get("rich_message")
                 else None,
-                receiver_user=tgram.types.User._parse(
-                    me=me, d=d.get("receiver_user")
-                ),
+                receiver_user=tgram.types.User._parse(me=me, d=d.get("receiver_user")),
                 ephemeral_message_id=d.get("ephemeral_message_id"),
                 community_chat_added=tgram.types.CommunityChatAdded._parse(
                     me=me, d=d.get("community_chat_added")

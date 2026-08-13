@@ -122,7 +122,9 @@ class Poll(Type_):
         self.open_period = open_period
         self.close_date = close_date
         self.allows_revoting = allows_revoting
-        self.description = String(description).put(description_entities) if description else None
+        self.description = (
+            String(description).put(description_entities) if description else None
+        )
         self.description_entities = description_entities
         self.media = media
         self.explanation_media = explanation_media

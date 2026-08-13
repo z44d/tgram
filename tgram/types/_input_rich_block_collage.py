@@ -26,8 +26,7 @@ class InputRichBlockCollage(Type_):
                 json=d,
                 type=d.get("type"),
                 blocks=[
-                    tgram.utils.input_rich_block_parse(me, i)
-                    for i in d.get("blocks")
+                    tgram.utils.input_rich_block_parse(me, i) for i in d.get("blocks")
                 ]
                 if d.get("blocks")
                 else None,

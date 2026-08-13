@@ -50,10 +50,7 @@ class RichBlockPhoto(Type_):
                 me=me,
                 json=d,
                 type=d.get("type"),
-                photo=[
-                    tgram.types.PhotoSize._parse(me=me, d=i)
-                    for i in d.get("photo")
-                ]
+                photo=[tgram.types.PhotoSize._parse(me=me, d=i) for i in d.get("photo")]
                 if d.get("photo")
                 else None,
                 media=tgram.types.InputMediaPhoto._parse(me=me, d=d.get("media"))

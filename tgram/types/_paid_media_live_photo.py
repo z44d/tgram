@@ -40,9 +40,7 @@ class PaidMediaLivePhoto(Type_):
                 me=me,
                 json=d,
                 type=d.get("type"),
-                live_photo=tgram.types.LivePhoto._parse(
-                    me=me, d=d.get("live_photo")
-                ),
+                live_photo=tgram.types.LivePhoto._parse(me=me, d=d.get("live_photo")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

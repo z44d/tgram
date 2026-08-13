@@ -40,10 +40,7 @@ class RichBlockSlideshow(Type_):
                 me=me,
                 json=d,
                 type=d.get("type"),
-                blocks=[
-                    tgram.utils.rich_block_parse(me, i)
-                    for i in d.get("blocks")
-                ]
+                blocks=[tgram.utils.rich_block_parse(me, i) for i in d.get("blocks")]
                 if d.get("blocks")
                 else None,
             )

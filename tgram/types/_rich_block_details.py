@@ -48,10 +48,7 @@ class RichBlockDetails(Type_):
                 text=tgram.utils.rich_text_parse(me, d.get("text"))
                 if d.get("text")
                 else None,
-                blocks=[
-                    tgram.utils.rich_block_parse(me, i)
-                    for i in d.get("blocks")
-                ]
+                blocks=[tgram.utils.rich_block_parse(me, i) for i in d.get("blocks")]
                 if d.get("blocks")
                 else None,
             )

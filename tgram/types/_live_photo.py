@@ -94,9 +94,7 @@ class LivePhoto(Type_):
                 video_width=d.get("video_width"),
                 video_height=d.get("video_height"),
                 video_duration=d.get("video_duration"),
-                thumbnail=tgram.types.PhotoSize._parse(
-                    me=me, d=d.get("thumbnail")
-                ),
+                thumbnail=tgram.types.PhotoSize._parse(me=me, d=d.get("thumbnail")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

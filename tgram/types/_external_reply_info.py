@@ -167,9 +167,7 @@ class ExternalReplyInfo(Type_):
                 animation=tgram.types.Animation._parse(me=me, d=d.get("animation")),
                 audio=tgram.types.Audio._parse(me=me, d=d.get("audio")),
                 document=tgram.types.Document._parse(me=me, d=d.get("document")),
-                live_photo=tgram.types.LivePhoto._parse(
-                    me=me, d=d.get("live_photo")
-                ),
+                live_photo=tgram.types.LivePhoto._parse(me=me, d=d.get("live_photo")),
                 paid_media=tgram.types.PaidMediaInfo._parse(
                     me=me, d=d.get("paid_media")
                 ),

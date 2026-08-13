@@ -41,8 +41,7 @@ class BotAccessSettings(Type_):
                 json=d,
                 is_access_restricted=d.get("is_access_restricted"),
                 added_users=[
-                    tgram.types.User._parse(me=me, d=i)
-                    for i in d.get("added_users")
+                    tgram.types.User._parse(me=me, d=i) for i in d.get("added_users")
                 ]
                 if d.get("added_users")
                 else None,

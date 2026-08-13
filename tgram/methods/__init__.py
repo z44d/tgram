@@ -50,7 +50,9 @@ from .messages.edit_message_text import EditMessageText
 from .messages.edit_ephemeral_message_text import EditEphemeralMessageText
 from .messages.edit_ephemeral_message_media import EditEphemeralMessageMedia
 from .messages.edit_ephemeral_message_caption import EditEphemeralMessageCaption
-from .messages.edit_ephemeral_message_reply_markup import EditEphemeralMessageReplyMarkup
+from .messages.edit_ephemeral_message_reply_markup import (
+    EditEphemeralMessageReplyMarkup,
+)
 from .payments_and_business.edit_user_star_subscription import EditUserStarSubscription
 from .chats.export_chat_invite_link import ExportChatInviteLink
 from .messages.forward_message import ForwardMessage

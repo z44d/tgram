@@ -381,9 +381,7 @@ class ChatFullInfo(Type_, bound.ChatB):
                 )
                 if d.get("unique_gift_colors")
                 else None,
-                community=tgram.types.Community._parse(
-                    me=me, d=d.get("community")
-                ),
+                community=tgram.types.Community._parse(me=me, d=d.get("community")),
             )
             if d and (force or me and __class__.__name__ not in me._custom_types)
             else None

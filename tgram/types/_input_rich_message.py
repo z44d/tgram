@@ -62,12 +62,9 @@ class InputRichMessage(Type_):
                 ]
                 if d.get("entities")
                 else None,
-                media=tgram.types.InputRichMessageMedia._parse(
-                    me=me, d=d.get("media")
-                ),
+                media=tgram.types.InputRichMessageMedia._parse(me=me, d=d.get("media")),
                 blocks=[
-                    tgram.utils.input_rich_block_parse(me, i)
-                    for i in d.get("blocks")
+                    tgram.utils.input_rich_block_parse(me, i) for i in d.get("blocks")
                 ]
                 if d.get("blocks")
                 else None,

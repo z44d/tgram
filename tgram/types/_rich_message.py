@@ -39,15 +39,10 @@ class RichMessage(Type_):
             RichMessage(
                 me=me,
                 json=d,
-                blocks=[
-                    tgram.utils.rich_block_parse(me, i)
-                    for i in d.get("blocks")
-                ]
+                blocks=[tgram.utils.rich_block_parse(me, i) for i in d.get("blocks")]
                 if d.get("blocks")
                 else None,
-                caption=tgram.types.RichBlockCaption._parse(
-                    me=me, d=d.get("caption")
-                )
+                caption=tgram.types.RichBlockCaption._parse(me=me, d=d.get("caption"))
                 if d.get("caption")
                 else None,
             )

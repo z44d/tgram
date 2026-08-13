@@ -162,7 +162,9 @@ from ._input_rich_block_section_heading import InputRichBlockSectionHeading
 from ._input_rich_block_preformatted import InputRichBlockPreformatted
 from ._input_rich_block_footer import InputRichBlockFooter
 from ._input_rich_block_divider import InputRichBlockDivider
-from ._input_rich_block_mathematical_expression import InputRichBlockMathematicalExpression
+from ._input_rich_block_mathematical_expression import (
+    InputRichBlockMathematicalExpression,
+)
 from ._input_rich_block_anchor import InputRichBlockAnchor
 from ._input_rich_block_list import InputRichBlockList
 from ._input_rich_block_block_quotation import InputRichBlockBlockQuotation

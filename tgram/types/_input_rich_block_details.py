@@ -29,8 +29,7 @@ class InputRichBlockDetails(Type_):
                 type=d.get("type"),
                 text=d.get("text"),
                 blocks=[
-                    tgram.utils.input_rich_block_parse(me, i)
-                    for i in d.get("blocks")
+                    tgram.utils.input_rich_block_parse(me, i) for i in d.get("blocks")
                 ]
                 if d.get("blocks")
                 else None,
