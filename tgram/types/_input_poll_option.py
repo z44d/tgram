@@ -32,7 +32,10 @@ class InputPollOption(Type_):
         text: "str | None" = None,
         text_parse_mode: "str | None" = None,
         text_entities: list["tgram.types.MessageEntity"] | None = None,
-        media: list[Union["tgram.types.InputPollOptionMedia", "tgram.types.InputMediaLink"]] | None = None,
+        media: list[
+            Union["tgram.types.InputPollOptionMedia", "tgram.types.InputMediaLink"]
+        ]
+        | None = None,
         me: "tgram.TgBot" = None,
         json: "dict | None" = None,
     ):

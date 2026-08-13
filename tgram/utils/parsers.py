@@ -171,9 +171,12 @@ def markdown_unparse(text: str, entities: list["tgram.types.MessageEntity"]):
             )
         )
 
-    entities_offsets = (x[1] for x in sorted(
+    entities_offsets = (
+        x[1]
+        for x in sorted(
             enumerate(entities_offsets), key=lambda x: (x[1][1], x[0]), reverse=True
-        ))
+        )
+    )
 
     for entity, offset in entities_offsets:
         text = text[:offset] + entity + text[offset:]

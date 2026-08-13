@@ -1,4 +1,3 @@
-
 import tgram
 from tgram.types import (
     ForceReply,
@@ -23,7 +22,10 @@ class SendDice:
         protect_content: bool | None = None,
         message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        reply_markup: InlineKeyboardMarkup
+        | ReplyKeyboardMarkup
+        | ReplyKeyboardRemove
+        | ForceReply = None,
         allow_paid_broadcast: bool | None = None,
         direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,

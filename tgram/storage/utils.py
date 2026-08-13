@@ -58,7 +58,6 @@ async def store_user_and_chat_info(update: "tgram.types.Update") -> None:
         await storage.add_user(user)
 
 
-
 async def check_update(update: "tgram.types.Update"):
     storage = update._me and update._me.storage
     is_muted = False

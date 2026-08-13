@@ -11,7 +11,10 @@ class VideoChatStarted(Type_):
     """
 
     def __init__(
-        self, duration: "int | None" = None, me: "tgram.TgBot" = None, json: "dict | None" = None
+        self,
+        duration: "int | None" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.duration = duration

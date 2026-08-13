@@ -19,7 +19,10 @@ class MenuButtonDefault(Type_):
     """
 
     def __init__(
-        self, type: "str | None" = None, me: "tgram.TgBot" = None, json: "dict | None" = None
+        self,
+        type: "str | None" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type

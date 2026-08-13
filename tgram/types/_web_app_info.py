@@ -19,7 +19,10 @@ class WebAppInfo(Type_):
     """
 
     def __init__(
-        self, url: "str | None" = None, me: "tgram.TgBot" = None, json: "dict | None" = None
+        self,
+        url: "str | None" = None,
+        me: "tgram.TgBot" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.url = url

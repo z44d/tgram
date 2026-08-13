@@ -188,7 +188,11 @@ exceptions = {
 # Exception for API errors
 class APIException(StrException):
     def __init__(
-        self, message: str, error_code: int, description: str, parameters: dict | None = None
+        self,
+        message: str,
+        error_code: int,
+        description: str,
+        parameters: dict | None = None,
     ) -> None:
         super().__init__(message)
         self.error_code = error_code

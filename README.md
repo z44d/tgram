@@ -15,13 +15,12 @@ from tgram.types import Message
 
 bot = TgBot("YOUR_BOT_TOKEN")
 
+
 @bot.on_message(filters.text & filters.private)
 async def on_message(bot: TgBot, message: Message) -> Message:
     # Echo the incoming message
-    return await message.reply_text(
-        message.text,
-        entities=message.entities
-    )
+    return await message.reply_text(message.text, entities=message.entities)
+
 
 asyncio.run(bot.run())
 ```

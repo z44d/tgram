@@ -1,4 +1,3 @@
-
 import tgram
 from tgram.types import (
     ChatMember,
@@ -14,7 +13,14 @@ from tgram.types import (
 class GetChatMember:
     async def get_chat_member(
         self: "tgram.TgBot", chat_id: int | str, user_id: int
-    ) -> ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberBanned | ChatMemberLeft:
+    ) -> (
+        ChatMemberOwner
+        | ChatMemberAdministrator
+        | ChatMemberMember
+        | ChatMemberRestricted
+        | ChatMemberBanned
+        | ChatMemberLeft
+    ):
         result = await self(
             "getChatMember",
             chat_id=chat_id,

@@ -4,7 +4,10 @@ from tgram.types import UserProfilePhotos
 
 class GetUserProfilePhotos:
     async def get_user_profile_photos(
-        self: "tgram.TgBot", user_id: int, offset: int | None = None, limit: int | None = None
+        self: "tgram.TgBot",
+        user_id: int,
+        offset: int | None = None,
+        limit: int | None = None,
     ) -> UserProfilePhotos:
         """
         Use this method to get a list of profile pictures for a user.

@@ -1,4 +1,3 @@
-
 import tgram
 from tgram.types import (
     ForceReply,
@@ -33,7 +32,10 @@ class SendPaidMedia:
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        reply_markup: InlineKeyboardMarkup
+        | ReplyKeyboardMarkup
+        | ReplyKeyboardRemove
+        | ForceReply = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         direct_messages_topic_id: int | None = None,

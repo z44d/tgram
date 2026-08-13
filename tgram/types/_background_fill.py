@@ -21,7 +21,14 @@ class BackgroundFill(Type_):
     @staticmethod
     def _parse(
         me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
-    ) -> Union["tgram.types.BackgroundFillSolid", "tgram.types.BackgroundFillGradient", "tgram.types.BackgroundFillFreeformGradient"] | None:
+    ) -> (
+        Union[
+            "tgram.types.BackgroundFillSolid",
+            "tgram.types.BackgroundFillGradient",
+            "tgram.types.BackgroundFillFreeformGradient",
+        ]
+        | None
+    ):
         return (
             None
             if not d

@@ -39,7 +39,9 @@ class Dispatcher:
                 except Exception:
                     logger.exception("An error occurred")
 
-    async def run_for_updates(self: "tgram.TgBot", skip_updates: bool | None = None) -> None:
+    async def run_for_updates(
+        self: "tgram.TgBot", skip_updates: bool | None = None
+    ) -> None:
         if self.plugins:
             self.load_plugins()
 

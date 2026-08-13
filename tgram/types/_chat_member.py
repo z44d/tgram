@@ -23,7 +23,17 @@ class ChatMember(Type_):
     @staticmethod
     def _parse(
         me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
-    ) -> Union["tgram.types.ChatMemberOwner", "tgram.types.ChatMemberAdministrator", "tgram.types.ChatMemberMember", "tgram.types.ChatMemberRestricted", "tgram.types.ChatMemberBanned", "tgram.types.ChatMemberLeft"] | None:
+    ) -> (
+        Union[
+            "tgram.types.ChatMemberOwner",
+            "tgram.types.ChatMemberAdministrator",
+            "tgram.types.ChatMemberMember",
+            "tgram.types.ChatMemberRestricted",
+            "tgram.types.ChatMemberBanned",
+            "tgram.types.ChatMemberLeft",
+        ]
+        | None
+    ):
         return (
             (
                 tgram.types.ChatMemberOwner._parse(me=me, d=d)

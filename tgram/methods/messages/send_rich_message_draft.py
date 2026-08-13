@@ -1,4 +1,3 @@
-
 import tgram
 from tgram.types import (
     ForceReply,
@@ -23,7 +22,10 @@ class SendRichMessageDraft:
         protect_content: bool | None = None,
         message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        reply_markup: InlineKeyboardMarkup
+        | ReplyKeyboardMarkup
+        | ReplyKeyboardRemove
+        | ForceReply = None,
         allow_paid_broadcast: bool | None = None,
     ) -> Message:
         """

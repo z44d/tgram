@@ -73,7 +73,9 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         retry_after: int | bool | None = None,
         plugins: Path | str | None = None,
         skip_updates: bool = True,
-        storage_engine: KvsqliteStorage | RedisStorage | Literal["kvsqlite", "redis"] = None,
+        storage_engine: KvsqliteStorage
+        | RedisStorage
+        | Literal["kvsqlite", "redis"] = None,
         storage_client: Any = None,
         fetch_outgoing_messages: bool = False,
     ) -> None:
@@ -279,9 +281,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                     retry_after = (
                         f.value
                         if self.retry_after is True
-                        else (
-                            min(self.retry_after, f.value)
-                        )
+                        else (min(self.retry_after, f.value))
                     )
                     logger.warning(
                         "You got FloodWait for %s seconds, I will retry after %s",

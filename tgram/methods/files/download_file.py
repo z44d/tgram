@@ -7,7 +7,10 @@ from tgram.errors import APIException
 
 class DownloadFile:
     async def download_file(
-        self: "tgram.TgBot", file_id: str, file_path: str | None = None, in_memory: bool | None = None
+        self: "tgram.TgBot",
+        file_id: str,
+        file_path: str | None = None,
+        in_memory: bool | None = None,
     ) -> Path | io.BytesIO:
         file = await self.get_file(file_id)
         file_path = file_path or file.file_path.split("/")[1]

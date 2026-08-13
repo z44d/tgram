@@ -3,7 +3,9 @@ import tgram
 
 class SetMyDescription:
     async def set_my_description(
-        self: "tgram.TgBot", description: str | None = None, language_code: str | None = None
+        self: "tgram.TgBot",
+        description: str | None = None,
+        language_code: str | None = None,
     ) -> bool:
         """
         Use this method to change the bot's description, which is shown in

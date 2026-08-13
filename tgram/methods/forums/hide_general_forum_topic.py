@@ -1,11 +1,8 @@
-
 import tgram
 
 
 class HideGeneralForumTopic:
-    async def hide_general_forum_topic(
-        self: "tgram.TgBot", chat_id: int | str
-    ) -> bool:
+    async def hide_general_forum_topic(self: "tgram.TgBot", chat_id: int | str) -> bool:
         """
         Use this method to hide the 'General' topic in a forum supergroup chat.
         The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights.

@@ -1570,7 +1570,9 @@ class MessageB:
         )
 
     async def download(
-        self: "tgram.types.Message", file_path: str | None = None, in_memory: bool | None = None
+        self: "tgram.types.Message",
+        file_path: str | None = None,
+        in_memory: bool | None = None,
     ) -> Path | BytesIO:
         """
         Downloads the media content of the message.
@@ -1673,7 +1675,19 @@ class MessageB:
     @property
     def media(
         self: "tgram.types.Message",
-    ) -> Literal["audio", "video", "photo", "animation", "voice", "video_note", "sticker", "document"] | None:
+    ) -> (
+        Literal[
+            "audio",
+            "video",
+            "photo",
+            "animation",
+            "voice",
+            "video_note",
+            "sticker",
+            "document",
+        ]
+        | None
+    ):
         """
         Returns the type of media contained in the message, if any.
 

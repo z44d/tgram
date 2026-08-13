@@ -1,11 +1,8 @@
-
 import tgram
 
 
 class UnpinAllChatMessages:
-    async def unpin_all_chat_messages(
-        self: "tgram.TgBot", chat_id: int | str
-    ) -> bool:
+    async def unpin_all_chat_messages(self: "tgram.TgBot", chat_id: int | str) -> bool:
         """
         Use this method to unpin a all pinned messages in a supergroup chat.
         The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.

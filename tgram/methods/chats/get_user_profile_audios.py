@@ -4,7 +4,10 @@ from tgram.types import UserProfileAudios
 
 class GetUserProfileAudios:
     async def get_user_profile_audios(
-        self: "tgram.TgBot", user_id: int, offset: int | None = None, limit: int | None = None
+        self: "tgram.TgBot",
+        user_id: int,
+        offset: int | None = None,
+        limit: int | None = None,
     ) -> UserProfileAudios:
         """
         Use this method to get a list of profile audios for a user. Returns a UserProfileAudios object.
