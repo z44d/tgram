@@ -1,0 +1,7 @@
+#🔮 InputRichBlockDivider
+
+****
+
+##⚙️ Properties
+
+- **`type`** (**`str`** )
