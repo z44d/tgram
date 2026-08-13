@@ -1,20 +1,18 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, Message
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class EditMessageReplyMarkup:
     async def edit_message_reply_markup(
         self: "tgram.TgBot",
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
         reply_markup: InlineKeyboardMarkup = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         """
         Use this method to edit only the reply markup of messages.
         On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.

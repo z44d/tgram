@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 
 
 class PinChatMessage:
     async def pin_chat_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        disable_notification: bool = None,
-        business_connection_id: str = None,
+        disable_notification: bool | None = None,
+        business_connection_id: str | None = None,
     ) -> bool:
         """
         Use this method to pin a message in a supergroup.

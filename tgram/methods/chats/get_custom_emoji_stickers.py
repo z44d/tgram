@@ -1,12 +1,12 @@
+
 import tgram
-from typing import List
 from tgram.types import Sticker
 
 
 class GetCustomEmojiStickers:
     async def get_custom_emoji_stickers(
-        self: "tgram.TgBot", custom_emoji_ids: List[str]
-    ) -> List[Sticker]:
+        self: "tgram.TgBot", custom_emoji_ids: list[str]
+    ) -> list[Sticker]:
         """
         Use this method to get information about custom emoji stickers by their identifiers.
         Returns an Array of Sticker objects.

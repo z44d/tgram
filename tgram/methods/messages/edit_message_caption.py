@@ -1,27 +1,22 @@
-import tgram
-from typing import List
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import MessageEntity
-from tgram.types import ParseMode
 
-from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
+import tgram
+from tgram.types import InlineKeyboardMarkup, Message, MessageEntity, ParseMode
+from tgram.utils import convert_to_inline_keyboard_markup, get_parse_mode
 
 
 class EditMessageCaption:
     async def edit_message_caption(
         self: "tgram.TgBot",
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        caption: str = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
         reply_markup: InlineKeyboardMarkup = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         """
         Use this method to edit captions of messages.
         On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.

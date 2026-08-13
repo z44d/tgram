@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultContact(Type_):
@@ -50,17 +51,17 @@ class InlineQueryResultContact(Type_):
 
     def __init__(
         self,
-        phone_number: "str" = None,
-        first_name: "str" = None,
-        last_name: "str" = None,
-        vcard: "str" = None,
+        phone_number: "str | None" = None,
+        first_name: "str | None" = None,
+        last_name: "str | None" = None,
+        vcard: "str | None" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
-        thumbnail_url: "str" = None,
-        thumbnail_width: "int" = None,
-        thumbnail_height: "int" = None,
+        thumbnail_url: "str | None" = None,
+        thumbnail_width: "int | None" = None,
+        thumbnail_height: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "contact"
@@ -77,7 +78,7 @@ class InlineQueryResultContact(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultContact"]:
         return (
             InlineQueryResultContact(

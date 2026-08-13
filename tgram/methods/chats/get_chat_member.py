@@ -1,25 +1,20 @@
+
 import tgram
-from typing import Union
-from tgram.types import ChatMember
-from tgram.types import ChatMemberAdministrator
-from tgram.types import ChatMemberBanned
-from tgram.types import ChatMemberLeft
-from tgram.types import ChatMemberMember
-from tgram.types import ChatMemberOwner
-from tgram.types import ChatMemberRestricted
+from tgram.types import (
+    ChatMember,
+    ChatMemberAdministrator,
+    ChatMemberBanned,
+    ChatMemberLeft,
+    ChatMemberMember,
+    ChatMemberOwner,
+    ChatMemberRestricted,
+)
 
 
 class GetChatMember:
     async def get_chat_member(
-        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
-    ) -> Union[
-        ChatMemberOwner,
-        ChatMemberAdministrator,
-        ChatMemberMember,
-        ChatMemberRestricted,
-        ChatMemberBanned,
-        ChatMemberLeft,
-    ]:
+        self: "tgram.TgBot", chat_id: int | str, user_id: int
+    ) -> ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberBanned | ChatMemberLeft:
         result = await self(
             "getChatMember",
             chat_id=chat_id,

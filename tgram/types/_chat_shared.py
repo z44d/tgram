@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class ChatShared(Type_):
@@ -35,13 +36,13 @@ class ChatShared(Type_):
 
     def __init__(
         self,
-        request_id: "int" = None,
-        chat_id: "int" = None,
-        title: "str" = None,
-        username: "str" = None,
-        photo: List["tgram.types.PhotoSize"] = None,
+        request_id: "int | None" = None,
+        chat_id: "int | None" = None,
+        title: "str | None" = None,
+        username: "str | None" = None,
+        photo: list["tgram.types.PhotoSize"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.request_id = request_id
@@ -52,7 +53,7 @@ class ChatShared(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatShared"]:
         return (
             ChatShared(

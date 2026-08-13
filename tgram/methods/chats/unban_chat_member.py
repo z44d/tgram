@@ -1,13 +1,13 @@
+
 import tgram
-from typing import Union
 
 
 class UnbanChatMember:
     async def unban_chat_member(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
-        only_if_banned: bool = None,
+        only_if_banned: bool | None = None,
     ) -> bool:
         """
         Use this method to unban a previously kicked user in a supergroup or channel.

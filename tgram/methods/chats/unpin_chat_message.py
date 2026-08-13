@@ -1,13 +1,13 @@
+
 import tgram
-from typing import Union
 
 
 class UnpinChatMessage:
     async def unpin_chat_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        message_id: int = None,
-        business_connection_id: str = None,
+        chat_id: int | str,
+        message_id: int | None = None,
+        business_connection_id: str | None = None,
     ) -> bool:
         """
         Use this method to unpin specific pinned message in a supergroup chat.

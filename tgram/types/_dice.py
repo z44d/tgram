@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class Dice(Type_):
@@ -22,10 +23,10 @@ class Dice(Type_):
 
     def __init__(
         self,
-        emoji: "str" = None,
-        value: "int" = None,
+        emoji: "str | None" = None,
+        value: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.emoji = emoji
@@ -33,7 +34,7 @@ class Dice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Dice"]:
         return (
             Dice(me=me, json=d, emoji=d.get("emoji"), value=d.get("value"))

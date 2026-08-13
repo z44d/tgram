@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional, Union
 
-from typing import List, Optional, Union
+import tgram
+
+from .type_ import Type_
 
 
 class ReplyKeyboardMarkup(Type_):
@@ -48,14 +49,14 @@ class ReplyKeyboardMarkup(Type_):
 
     def __init__(
         self,
-        keyboard: List[List[Union["tgram.types.KeyboardButton", "str"]]] = None,
-        is_persistent: "bool" = None,
-        resize_keyboard: "bool" = None,
-        one_time_keyboard: "bool" = None,
-        input_field_placeholder: "str" = None,
-        selective: "bool" = None,
+        keyboard: list[list[Union["tgram.types.KeyboardButton", "str"]]] | None = None,
+        is_persistent: "bool | None" = None,
+        resize_keyboard: "bool | None" = None,
+        one_time_keyboard: "bool | None" = None,
+        input_field_placeholder: "str | None" = None,
+        selective: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.keyboard = [ReplyKeyboardMarkup._convert(i) for i in keyboard]
@@ -67,8 +68,8 @@ class ReplyKeyboardMarkup(Type_):
 
     @staticmethod
     def _convert(
-        keyboard_row: List[Union["tgram.types.KeyboardButton", "str"]],
-    ) -> List["tgram.types.KeyboardButton"]:
+        keyboard_row: list[Union["tgram.types.KeyboardButton", "str"]],
+    ) -> list["tgram.types.KeyboardButton"]:
         return [
             tgram.types.KeyboardButton(i) if isinstance(i, str) else i
             for i in keyboard_row
@@ -76,7 +77,7 @@ class ReplyKeyboardMarkup(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ReplyKeyboardMarkup"]:
         return (
             ReplyKeyboardMarkup(

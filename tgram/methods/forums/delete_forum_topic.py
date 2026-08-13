@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class DeleteForumTopic:
     async def delete_forum_topic(
-        self: "tgram.TgBot", chat_id: Union[int, str], message_thread_id: int
+        self: "tgram.TgBot", chat_id: int | str, message_thread_id: int
     ) -> bool:
         """
         Use this method to delete a topic in a forum supergroup chat. The bot must be an administrator in the chat for this

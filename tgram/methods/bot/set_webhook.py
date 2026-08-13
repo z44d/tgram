@@ -1,19 +1,18 @@
-import tgram
-from typing import List
-from typing import Union
 from pathlib import Path
+
+import tgram
 
 
 class SetWebhook:
     async def set_webhook(
         self: "tgram.TgBot",
         url: str,
-        certificate: Union[Path, bytes, str] = None,
-        ip_address: str = None,
-        max_connections: int = None,
-        allowed_updates: List[str] = None,
-        drop_pending_updates: bool = None,
-        secret_token: str = None,
+        certificate: Path | bytes | str | None = None,
+        ip_address: str | None = None,
+        max_connections: int | None = None,
+        allowed_updates: list[str] | None = None,
+        drop_pending_updates: bool | None = None,
+        secret_token: str | None = None,
     ) -> bool:
         """
         Use this method to specify a URL and receive incoming updates via an outgoing webhook.

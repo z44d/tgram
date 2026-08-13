@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class RichTextAnchor(Type_):
@@ -26,10 +27,10 @@ class RichTextAnchor(Type_):
     def __init__(
         self,
         type: "str" = "anchor",
-        text: "str" = None,
-        name: "str" = None,
+        text: "str | None" = None,
+        name: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -38,7 +39,7 @@ class RichTextAnchor(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.RichTextAnchor"]:
         return (
             RichTextAnchor(

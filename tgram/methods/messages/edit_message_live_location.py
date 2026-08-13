@@ -1,8 +1,6 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, Message
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
@@ -11,16 +9,16 @@ class EditMessageLiveLocation:
         self: "tgram.TgBot",
         latitude: float,
         longitude: float,
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-        live_period: int = None,
-        horizontal_accuracy: float = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
+        live_period: int | None = None,
+        horizontal_accuracy: float | None = None,
+        heading: int | None = None,
+        proximity_alert_radius: int | None = None,
         reply_markup: InlineKeyboardMarkup = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         """
         Use this method to edit live location messages.
          A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation.

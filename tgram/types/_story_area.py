@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class StoryAreaPosition(Type_):
@@ -23,14 +25,14 @@ class StoryAreaPosition(Type_):
 
     def __init__(
         self,
-        x_percentage: float = None,
-        y_percentage: float = None,
-        width_percentage: float = None,
-        height_percentage: float = None,
-        rotation_angle: float = None,
-        corner_radius_percentage: float = None,
+        x_percentage: float | None = None,
+        y_percentage: float | None = None,
+        width_percentage: float | None = None,
+        height_percentage: float | None = None,
+        rotation_angle: float | None = None,
+        corner_radius_percentage: float | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.x_percentage = x_percentage
@@ -42,7 +44,7 @@ class StoryAreaPosition(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaPosition"]:
         return (
             StoryAreaPosition(
@@ -79,11 +81,11 @@ class StoryAreaTypeLocation(Type_):
 
     def __init__(
         self,
-        latitude: float = None,
-        longitude: float = None,
+        latitude: float | None = None,
+        longitude: float | None = None,
         address: "tgram.types.LocationAddress" = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "location"
@@ -93,7 +95,7 @@ class StoryAreaTypeLocation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaTypeLocation"]:
         return (
             StoryAreaTypeLocation(
@@ -130,10 +132,10 @@ class StoryAreaTypeSuggestedReaction(Type_):
     def __init__(
         self,
         reaction_type: "tgram.types.ReactionType" = None,
-        is_dark: bool = None,
-        is_flipped: bool = None,
+        is_dark: bool | None = None,
+        is_flipped: bool | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "suggested_reaction"
@@ -143,7 +145,7 @@ class StoryAreaTypeSuggestedReaction(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaTypeSuggestedReaction"]:
         return (
             StoryAreaTypeSuggestedReaction(
@@ -185,9 +187,9 @@ class StoryAreaTypeLink(Type_):
 
     def __init__(
         self,
-        url: str = None,
+        url: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "link"
@@ -195,7 +197,7 @@ class StoryAreaTypeLink(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaTypeLink"]:
         return (
             StoryAreaTypeLink(
@@ -227,11 +229,11 @@ class StoryAreaTypeWeather(Type_):
 
     def __init__(
         self,
-        temperature: float = None,
-        emoji: str = None,
-        background_color: int = None,
+        temperature: float | None = None,
+        emoji: str | None = None,
+        background_color: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "weather"
@@ -241,7 +243,7 @@ class StoryAreaTypeWeather(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaTypeWeather"]:
         return (
             StoryAreaTypeWeather(
@@ -271,9 +273,9 @@ class StoryAreaTypeUniqueGift(Type_):
 
     def __init__(
         self,
-        name: str = None,
+        name: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "unique_gift"
@@ -281,7 +283,7 @@ class StoryAreaTypeUniqueGift(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryAreaTypeUniqueGift"]:
         return (
             StoryAreaTypeUniqueGift(
@@ -312,7 +314,7 @@ class StoryArea(Type_):
         position: StoryAreaPosition = None,
         type: "tgram.types.StoryAreaType" = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.position = position
@@ -320,7 +322,7 @@ class StoryArea(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["StoryArea"]:
         return (
             StoryArea(

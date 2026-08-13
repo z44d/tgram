@@ -1,16 +1,16 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatPermissions
 
 
 class RestrictChatMember:
     async def restrict_chat_member(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
         permissions: ChatPermissions,
-        use_independent_chat_permissions: bool = None,
-        until_date: int = None,
+        use_independent_chat_permissions: bool | None = None,
+        until_date: int | None = None,
     ) -> bool:
         """
         Use this method to restrict a user in a supergroup.

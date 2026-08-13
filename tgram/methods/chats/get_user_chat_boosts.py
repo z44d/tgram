@@ -1,11 +1,11 @@
+
 import tgram
-from typing import Union
 from tgram.types import UserChatBoosts
 
 
 class GetUserChatBoosts:
     async def get_user_chat_boosts(
-        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: int | str, user_id: int
     ) -> UserChatBoosts:
         """
         Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.

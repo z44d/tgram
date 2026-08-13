@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class GeneralForumTopicHidden(Type_):
@@ -14,13 +15,13 @@ class GeneralForumTopicHidden(Type_):
 
     def __init__(
         self,
-        user_id: "int" = None,
-        first_name: "str" = None,
-        last_name: "str" = None,
-        username: "str" = None,
-        photo: List["tgram.types.PhotoSize"] = None,
+        user_id: "int | None" = None,
+        first_name: "str | None" = None,
+        last_name: "str | None" = None,
+        username: "str | None" = None,
+        photo: list["tgram.types.PhotoSize"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.user_id = user_id
@@ -31,7 +32,7 @@ class GeneralForumTopicHidden(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.GeneralForumTopicHidden"]:
         return (
             GeneralForumTopicHidden(

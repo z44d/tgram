@@ -1,21 +1,22 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class CallbackGame(Type_):
     def __init__(
         self,
-        user_id: "int" = None,
-        score: "int" = None,
-        force: "bool" = None,
-        disable_edit_message: "bool" = None,
-        chat_id: "int" = None,
-        message_id: "int" = None,
-        inline_message_id: "str" = None,
+        user_id: "int | None" = None,
+        score: "int | None" = None,
+        force: "bool | None" = None,
+        disable_edit_message: "bool | None" = None,
+        chat_id: "int | None" = None,
+        message_id: "int | None" = None,
+        inline_message_id: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.user_id = user_id
@@ -28,7 +29,7 @@ class CallbackGame(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.CallbackGame"]:
         return (
             CallbackGame(

@@ -1,10 +1,10 @@
+
 import tgram
-from typing import List
 from tgram.types import Sticker
 
 
 class GetForumTopicIconStickers:
-    async def get_forum_topic_icon_stickers(self: "tgram.TgBot") -> List[Sticker]:
+    async def get_forum_topic_icon_stickers(self: "tgram.TgBot") -> list[Sticker]:
         """
         Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.
         Requires no parameters. Returns an Array of Sticker objects.

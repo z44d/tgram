@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputStoryContentPhoto(Type_):
@@ -15,9 +17,9 @@ class InputStoryContentPhoto(Type_):
 
     def __init__(
         self,
-        photo: str = None,
+        photo: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "photo"
@@ -25,7 +27,7 @@ class InputStoryContentPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["InputStoryContentPhoto"]:
         return (
             InputStoryContentPhoto(
@@ -59,12 +61,12 @@ class InputStoryContentVideo(Type_):
 
     def __init__(
         self,
-        video: str = None,
-        duration: float = None,
-        cover_frame_timestamp: float = None,
-        is_animation: bool = None,
+        video: str | None = None,
+        duration: float | None = None,
+        cover_frame_timestamp: float | None = None,
+        is_animation: bool | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "video"
@@ -75,7 +77,7 @@ class InputStoryContentVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["InputStoryContentVideo"]:
         return (
             InputStoryContentVideo(

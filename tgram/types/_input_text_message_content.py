@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InputTextMessageContent(Type_):
@@ -33,12 +34,12 @@ class InputTextMessageContent(Type_):
 
     def __init__(
         self,
-        message_text: "str" = None,
-        parse_mode: "str" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
+        message_text: "str | None" = None,
+        parse_mode: "str | None" = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.message_text = message_text
@@ -48,7 +49,7 @@ class InputTextMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputTextMessageContent"]:
         return (
             InputTextMessageContent(

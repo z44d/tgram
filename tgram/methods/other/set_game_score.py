@@ -1,5 +1,5 @@
+
 import tgram
-from typing import Union
 from tgram.types import Message
 
 
@@ -8,12 +8,12 @@ class SetGameScore:
         self: "tgram.TgBot",
         user_id: int,
         score: int,
-        force: bool = None,
-        disable_edit_message: bool = None,
-        chat_id: int = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-    ) -> Union[Message, bool]:
+        force: bool | None = None,
+        disable_edit_message: bool | None = None,
+        chat_id: int | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
+    ) -> Message | bool:
         result = await self(
             "setGameScore",
             user_id=user_id,

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class RichTextSpoiler(Type_):
@@ -23,9 +24,9 @@ class RichTextSpoiler(Type_):
     def __init__(
         self,
         type: "str" = "spoiler",
-        text: "str" = None,
+        text: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -33,7 +34,7 @@ class RichTextSpoiler(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.RichTextSpoiler"]:
         return (
             RichTextSpoiler(

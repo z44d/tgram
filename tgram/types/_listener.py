@@ -1,8 +1,9 @@
 import asyncio
-from .type_ import Type_
+from collections.abc import Callable
 
-from typing import Callable
 from tgram import filters as ff
+
+from .type_ import Type_
 
 
 class Listener(Type_):
@@ -10,10 +11,10 @@ class Listener(Type_):
         self,
         chat_id: int,
         future: asyncio.Future,
-        user_id: int = None,
-        sender_id: int = None,
-        update_type: str = None,
-        cancel: Callable = None,
+        user_id: int | None = None,
+        sender_id: int | None = None,
+        update_type: str | None = None,
+        cancel: Callable | None = None,
         filters: "ff.Filter" = "ff.all",
     ) -> None:
         super().__init__(None, None)

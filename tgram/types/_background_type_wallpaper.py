@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BackgroundTypeWallpaper(Type_):
@@ -31,13 +32,13 @@ class BackgroundTypeWallpaper(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
+        type: "str | None" = None,
         document: "tgram.types.Document" = None,
-        dark_theme_dimming: "int" = None,
-        is_blurred: "bool" = None,
-        is_moving: "bool" = None,
+        dark_theme_dimming: "int | None" = None,
+        is_blurred: "bool | None" = None,
+        is_moving: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -48,7 +49,7 @@ class BackgroundTypeWallpaper(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BackgroundTypeWallpaper"]:
         return (
             BackgroundTypeWallpaper(

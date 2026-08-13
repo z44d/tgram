@@ -1,9 +1,6 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import InputMedia
-from tgram.types import Message
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, InputMedia, Message
 from tgram.utils import convert_input_media, convert_to_inline_keyboard_markup
 
 
@@ -11,12 +8,12 @@ class EditMessageMedia:
     async def edit_message_media(
         self: "tgram.TgBot",
         media: InputMedia,
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
         reply_markup: InlineKeyboardMarkup = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         """
         Use this method to edit animation, audio, document, photo, or video messages, or to add media to text messages.
         If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise.

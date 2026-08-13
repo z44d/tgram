@@ -1,17 +1,15 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Poll
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, Poll
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class StopPoll:
     async def stop_poll(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        business_connection_id: str = None,
+        business_connection_id: str | None = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Poll:
         """

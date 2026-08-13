@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class ApproveChatJoinRequest:
     async def approve_chat_join_request(
-        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: int | str, user_id: int
     ) -> bool:
         """
         Use this method to approve a chat join request.

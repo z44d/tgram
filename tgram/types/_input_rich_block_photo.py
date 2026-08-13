@@ -1,17 +1,18 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputRichBlockPhoto(Type_):
     def __init__(
         self,
         type: "str" = "photo",
-        media: "str" = None,
-        caption: "str" = None,
+        media: "str | None" = None,
+        caption: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -20,7 +21,7 @@ class InputRichBlockPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputRichBlockPhoto"]:
         return (
             InputRichBlockPhoto(

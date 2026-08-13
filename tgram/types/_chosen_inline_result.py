@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
 
+import tgram
 from tgram import bound
+
+from .type_ import Type_
 
 
 class ChosenInlineResult(Type_, bound.ChosenInlineResultB):
@@ -34,13 +34,13 @@ class ChosenInlineResult(Type_, bound.ChosenInlineResultB):
 
     def __init__(
         self,
-        result_id: "str" = None,
+        result_id: "str | None" = None,
         from_user: "tgram.types.User" = None,
-        query: "str" = None,
+        query: "str | None" = None,
         location: "tgram.types.Location" = None,
-        inline_message_id: "str" = None,
+        inline_message_id: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.result_id = result_id
@@ -51,7 +51,7 @@ class ChosenInlineResult(Type_, bound.ChosenInlineResultB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChosenInlineResult"]:
         return (
             ChosenInlineResult(

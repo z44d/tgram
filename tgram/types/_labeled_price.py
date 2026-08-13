@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class LabeledPrice(Type_):
@@ -24,10 +25,10 @@ class LabeledPrice(Type_):
 
     def __init__(
         self,
-        label: "str" = None,
-        amount: "int" = None,
+        label: "str | None" = None,
+        amount: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.label = label
@@ -35,7 +36,7 @@ class LabeledPrice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.LabeledPrice"]:
         return (
             LabeledPrice(me=me, json=d, label=d.get("label"), amount=d.get("amount"))

@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class SetChatStickerSet:
     async def set_chat_sticker_set(
-        self: "tgram.TgBot", chat_id: Union[int, str], sticker_set_name: str
+        self: "tgram.TgBot", chat_id: int | str, sticker_set_name: str
     ) -> bool:
         """
         Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat

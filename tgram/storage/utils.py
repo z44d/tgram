@@ -1,6 +1,7 @@
-import tgram
 import asyncio
-from tgram.errors import MutedError, FloodWait
+
+import tgram
+from tgram.errors import FloodWait, MutedError
 
 
 async def check_mute(m: "tgram.types.Message") -> bool:
@@ -20,7 +21,7 @@ async def check_mute(m: "tgram.types.Message") -> bool:
                     break
                 else:
                     await asyncio.sleep(f.value)
-            except Exception:
+            except Exception:  # noqa: BLE001
                 break
 
         return True
@@ -56,7 +57,6 @@ async def store_user_and_chat_info(update: "tgram.types.Update") -> None:
     if user:
         await storage.add_user(user)
 
-    return
 
 
 async def check_update(update: "tgram.types.Update"):

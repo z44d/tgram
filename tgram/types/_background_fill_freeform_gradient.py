@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class BackgroundFillFreeformGradient(Type_):
@@ -22,10 +23,10 @@ class BackgroundFillFreeformGradient(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
-        colors: List["int"] = None,
+        type: "str | None" = None,
+        colors: list["int"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -33,7 +34,7 @@ class BackgroundFillFreeformGradient(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BackgroundFillFreeformGradient"]:
         return (
             BackgroundFillFreeformGradient(

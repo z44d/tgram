@@ -1,12 +1,12 @@
+
 import tgram
-from typing import Union
-from tgram.types import WebAppInfo, SentWebAppMessage
+from tgram.types import SentWebAppMessage, WebAppInfo
 
 
 class SendChatJoinRequestWebApp:
     async def send_chat_join_request_web_app(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
         query_id: str,
         web_app_info: WebAppInfo,

@@ -4,7 +4,7 @@ from tgram.types import MenuButton
 
 class GetChatMenuButton:
     async def get_chat_menu_button(
-        self: "tgram.TgBot", chat_id: int = None
+        self: "tgram.TgBot", chat_id: int | None = None
     ) -> MenuButton:
         """
         Use this method to get the current value of the bot's menu button

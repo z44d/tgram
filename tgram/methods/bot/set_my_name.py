@@ -3,7 +3,7 @@ import tgram
 
 class SetMyName:
     async def set_my_name(
-        self: "tgram.TgBot", name: str = None, language_code: str = None
+        self: "tgram.TgBot", name: str | None = None, language_code: str | None = None
     ) -> bool:
         """
         Use this method to change the bot's name. Returns True on success.

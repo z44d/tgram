@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class BanChatSenderChat:
     async def ban_chat_sender_chat(
-        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
+        self: "tgram.TgBot", chat_id: int | str, sender_chat_id: int
     ) -> bool:
         """
         Use this method to ban a channel chat in a supergroup or a channel.

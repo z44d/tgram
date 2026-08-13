@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class KeyboardButton(Type_):
@@ -56,18 +57,18 @@ class KeyboardButton(Type_):
 
     def __init__(
         self,
-        text: "str" = None,
+        text: "str | None" = None,
         request_users: "tgram.types.KeyboardButtonRequestUsers" = None,
         request_chat: "tgram.types.KeyboardButtonRequestChat" = None,
-        request_contact: "bool" = None,
-        request_location: "bool" = None,
+        request_contact: "bool | None" = None,
+        request_location: "bool | None" = None,
         request_poll: "tgram.types.KeyboardButtonPollType" = None,
         web_app: "tgram.types.WebAppInfo" = None,
-        icon_custom_emoji_id: "str" = None,
-        style: "str" = None,
+        icon_custom_emoji_id: "str | None" = None,
+        style: "str | None" = None,
         request_managed_bot: "tgram.types.KeyboardButtonRequestManagedBot" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = text
@@ -83,7 +84,7 @@ class KeyboardButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.KeyboardButton"]:
         return (
             KeyboardButton(

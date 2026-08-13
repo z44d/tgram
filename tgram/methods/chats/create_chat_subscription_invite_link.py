@@ -1,15 +1,15 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatInviteLink
 
 
 class CreateChatSubscriptionInviteLink:
     async def create_chat_subscription_invite_link(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         subscription_period: int,
         subscription_price: int,
-        name: str = None,
+        name: str | None = None,
     ) -> ChatInviteLink:
         """
         Use this method to create a subscription invite link for a channel chat.

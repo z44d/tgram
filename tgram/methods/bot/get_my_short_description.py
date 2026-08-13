@@ -4,7 +4,7 @@ from tgram.types import BotShortDescription
 
 class GetMyShortDescription:
     async def get_my_short_description(
-        self: "tgram.TgBot", language_code: str = None
+        self: "tgram.TgBot", language_code: str | None = None
     ) -> BotShortDescription:
         """
         Use this method to get the current bot short description for the given user language.

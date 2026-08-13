@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Union
 
-from typing import Optional, Union
+import tgram
+
+from .type_ import Type_
 
 
 class BackgroundType(Type_):
@@ -20,15 +21,8 @@ class BackgroundType(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
-    ) -> Optional[
-        Union[
-            "tgram.types.BackgroundTypeFill",
-            "tgram.types.BackgroundTypeWallpaper",
-            "tgram.types.BackgroundTypePattern",
-            "tgram.types.BackgroundTypeChatTheme",
-        ]
-    ]:
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
+    ) -> Union["tgram.types.BackgroundTypeFill", "tgram.types.BackgroundTypeWallpaper", "tgram.types.BackgroundTypePattern", "tgram.types.BackgroundTypeChatTheme"] | None:
         return (
             None
             if not d

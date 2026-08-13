@@ -1,43 +1,39 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    ParseMode,
-    SuggestedPostParameters,
+    ForceReply,
     InlineKeyboardMarkup,
+    MessageEntity,
+    MessageId,
+    ParseMode,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
-    MessageId,
-    MessageEntity,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
-from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
-
-from typing import Union, List
+from tgram.utils import convert_to_inline_keyboard_markup, get_parse_mode
 
 
 class CopyMessage:
     async def copy_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
+        chat_id: int | str,
+        from_chat_id: int | str,
         message_id: int,
-        message_thread_id: int = None,
-        video_start_timestamp: int = None,
-        caption: str = None,
+        message_thread_id: int | None = None,
+        video_start_timestamp: int | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
-        message_effect_id: str = None,
+        message_effect_id: str | None = None,
     ) -> MessageId:
         """
         Use this method to copy messages of any kind.

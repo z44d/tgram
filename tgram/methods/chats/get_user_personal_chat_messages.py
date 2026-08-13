@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 from tgram.types import Message
 
 
@@ -7,7 +7,7 @@ class GetUserPersonalChatMessages:
     async def get_user_personal_chat_messages(
         self: "tgram.TgBot",
         user_id: int,
-    ) -> List[Message]:
+    ) -> list[Message]:
         """
         Use this method to get messages from the personal chat of a user.
         On success, a list of Messages is returned.

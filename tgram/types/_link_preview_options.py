@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class LinkPreviewOptions(Type_):
@@ -31,13 +32,13 @@ class LinkPreviewOptions(Type_):
 
     def __init__(
         self,
-        is_disabled: "bool" = None,
-        url: "str" = None,
-        prefer_small_media: "bool" = None,
-        prefer_large_media: "bool" = None,
-        show_above_text: "bool" = None,
+        is_disabled: "bool | None" = None,
+        url: "str | None" = None,
+        prefer_small_media: "bool | None" = None,
+        prefer_large_media: "bool | None" = None,
+        show_above_text: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.is_disabled = is_disabled
@@ -48,7 +49,7 @@ class LinkPreviewOptions(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.LinkPreviewOptions"]:
         return (
             LinkPreviewOptions(

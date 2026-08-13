@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram import bound, utils
+
+from .type_ import Type_
 
 
 class ChatFullInfo(Type_, bound.ChatB):
@@ -178,18 +179,18 @@ class ChatFullInfo(Type_, bound.ChatB):
 
     def __init__(
         self,
-        id: "int" = None,
+        id: "int | None" = None,
         type: "tgram.types.ChatType" = None,
-        title: "str" = None,
-        username: "str" = None,
-        first_name: "str" = None,
-        last_name: "str" = None,
-        is_forum: "bool" = None,
-        is_direct_messages: "bool" = None,
-        accent_color_id: "int" = None,
-        max_reaction_count: "int" = None,
+        title: "str | None" = None,
+        username: "str | None" = None,
+        first_name: "str | None" = None,
+        last_name: "str | None" = None,
+        is_forum: "bool | None" = None,
+        is_direct_messages: "bool | None" = None,
+        accent_color_id: "int | None" = None,
+        max_reaction_count: "int | None" = None,
         photo: "tgram.types.ChatPhoto" = None,
-        active_usernames: List["str"] = None,
+        active_usernames: list["str"] | None = None,
         birthdate: "tgram.types.Birthdate" = None,
         business_intro: "tgram.types.BusinessIntro" = None,
         business_location: "tgram.types.BusinessLocation" = None,
@@ -197,42 +198,42 @@ class ChatFullInfo(Type_, bound.ChatB):
         business_opening_hours: "tgram.types.BusinessOpeningHours" = None,
         personal_chat: "tgram.types.Chat" = None,
         parent_chat: "tgram.types.Chat" = None,
-        available_reactions: List["tgram.types.ReactionType"] = None,
-        background_custom_emoji_id: "str" = None,
-        profile_accent_color_id: "int" = None,
-        profile_background_custom_emoji_id: "str" = None,
-        emoji_status_custom_emoji_id: "str" = None,
-        emoji_status_expiration_date: "int" = None,
-        bio: "str" = None,
-        has_private_forwards: "bool" = None,
-        has_restricted_voice_and_video_messages: "bool" = None,
-        join_to_send_messages: "bool" = None,
-        join_by_request: "bool" = None,
-        description: "str" = None,
-        invite_link: "str" = None,
+        available_reactions: list["tgram.types.ReactionType"] | None = None,
+        background_custom_emoji_id: "str | None" = None,
+        profile_accent_color_id: "int | None" = None,
+        profile_background_custom_emoji_id: "str | None" = None,
+        emoji_status_custom_emoji_id: "str | None" = None,
+        emoji_status_expiration_date: "int | None" = None,
+        bio: "str | None" = None,
+        has_private_forwards: "bool | None" = None,
+        has_restricted_voice_and_video_messages: "bool | None" = None,
+        join_to_send_messages: "bool | None" = None,
+        join_by_request: "bool | None" = None,
+        description: "str | None" = None,
+        invite_link: "str | None" = None,
         pinned_message: "tgram.types.Message" = None,
         permissions: "tgram.types.ChatPermissions" = None,
         accepted_gift_types: "tgram.types.AcceptedGiftTypes" = None,
-        can_send_paid_media: "bool" = None,
-        slow_mode_delay: "int" = None,
-        unrestrict_boost_count: "int" = None,
-        message_auto_delete_time: "int" = None,
-        has_aggressive_anti_spam_enabled: "bool" = None,
-        has_hidden_members: "bool" = None,
-        has_protected_content: "bool" = None,
-        has_visible_history: "bool" = None,
-        sticker_set_name: "str" = None,
-        can_set_sticker_set: "bool" = None,
-        custom_emoji_sticker_set_name: "str" = None,
-        linked_chat_id: "int" = None,
+        can_send_paid_media: "bool | None" = None,
+        slow_mode_delay: "int | None" = None,
+        unrestrict_boost_count: "int | None" = None,
+        message_auto_delete_time: "int | None" = None,
+        has_aggressive_anti_spam_enabled: "bool | None" = None,
+        has_hidden_members: "bool | None" = None,
+        has_protected_content: "bool | None" = None,
+        has_visible_history: "bool | None" = None,
+        sticker_set_name: "str | None" = None,
+        can_set_sticker_set: "bool | None" = None,
+        custom_emoji_sticker_set_name: "str | None" = None,
+        linked_chat_id: "int | None" = None,
         location: "tgram.types.ChatLocation" = None,
         rating: "tgram.types.UserRating" = None,
-        paid_message_star_count: "int" = None,
+        paid_message_star_count: "int | None" = None,
         guard_bot: "tgram.types.User" = None,
         unique_gift_colors: "tgram.types.UniqueGiftColors" = None,
         community: "tgram.types.Community" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -293,7 +294,7 @@ class ChatFullInfo(Type_, bound.ChatB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatFullInfo"]:
         return (
             ChatFullInfo(

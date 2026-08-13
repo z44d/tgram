@@ -1,12 +1,13 @@
-import tgram
 import asyncio
 import logging
+from collections import OrderedDict
+from collections.abc import Callable
+from typing import Any
+
+import tgram
 
 from ..errors import MutedError
 from ..storage.utils import check_update
-
-from typing import Callable, Any
-from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
 
@@ -35,10 +36,10 @@ class Dispatcher:
                         update, (tgram.types.Message, tgram.types.MessageId)
                     ):
                         await self._process_outgoing_message(update)
-                except Exception as e:
-                    logger.exception(e)
+                except Exception:
+                    logger.exception("An error occurred")
 
-    async def run_for_updates(self: "tgram.TgBot", skip_updates: bool = None) -> None:
+    async def run_for_updates(self: "tgram.TgBot", skip_updates: bool | None = None) -> None:
         if self.plugins:
             self.load_plugins()
 
@@ -80,8 +81,8 @@ class Dispatcher:
                     self.is_running = False
                 except asyncio.TimeoutError:
                     continue
-                except Exception as e:
-                    logger.exception(e)
+                except Exception:
+                    logger.exception("An error occurred")
         finally:
             # Clean up tasks
             for task in self.handler_worker_tasks:
@@ -101,8 +102,8 @@ class Dispatcher:
         logger.debug("Checking listener in %s func", callback.__name__)
         try:
             return await callback(self, update)
-        except Exception as e:
-            logger.exception(e)
+        except Exception:
+            logger.exception("An error occurred")
 
     async def _check_listener(
         self: "tgram.TgBot", update: "tgram.types.Update"
@@ -116,7 +117,7 @@ class Dispatcher:
                 if listener.cancel is not None:
                     result = await self._check_cancel(listener.cancel, attr)
                     if result:
-                        setattr(attr, "canceled", True)
+                        attr.canceled = True
                 if not listener.future.done():
                     listener.future.set_result(attr)
                 raise tgram.ContinuePropagation()
@@ -138,14 +139,14 @@ class Dispatcher:
                     return
                 except tgram.ContinuePropagation:
                     continue
-                except Exception as e:
-                    logger.exception(e)
+                except Exception:
+                    logger.exception("An error occurred")
                     continue
 
     async def _process_update(
         self: "tgram.TgBot", update: Any, callback: Callable, group: int
     ) -> None:
-        if hasattr(update, "_groups") and group in getattr(update, "_groups"):
+        if hasattr(update, "_groups") and group in update._groups:
             return
         if not hasattr(update, "_groups"):
             update._groups = []
@@ -158,8 +159,8 @@ class Dispatcher:
         except tgram.ContinuePropagation:
             update._groups.remove(group)
             raise
-        except Exception as e:
-            logger.exception(e)
+        except Exception:
+            logger.exception("An error occurred")
 
     async def _process_exception(
         self: "tgram.TgBot", exception: Exception, method: str, **kwargs
@@ -172,8 +173,8 @@ class Dispatcher:
                             "Processing exception to %s func", handler.callback.__name__
                         )
                         await handler.callback(self, exception, method, **kwargs)
-                except Exception as e:
-                    logger.exception(e)
+                except Exception:
+                    logger.exception("An error occurred")
                     continue
 
     async def _process_outgoing_message(
@@ -196,8 +197,8 @@ class Dispatcher:
                     else:
                         continue
                     await handler.callback(self, message)
-                except Exception as e:
-                    logger.exception(e)
+                except Exception:
+                    logger.exception("An error occurred")
                     continue
 
     async def _add_grouped_handler(

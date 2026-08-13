@@ -1,9 +1,9 @@
+
 import tgram
-from typing import Union
 
 
 class DeleteChatPhoto:
-    async def delete_chat_photo(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
+    async def delete_chat_photo(self: "tgram.TgBot", chat_id: int | str) -> bool:
         """
         Use this method to delete a chat photo. Photos can't be changed for private chats.
         The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.

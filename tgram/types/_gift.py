@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class Gift(Type_):
@@ -55,21 +56,21 @@ class Gift(Type_):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         sticker: "tgram.types.Sticker" = None,
-        star_count: "int" = None,
-        upgrade_star_count: "int" = None,
-        total_count: "int" = None,
-        remaining_count: "int" = None,
+        star_count: "int | None" = None,
+        upgrade_star_count: "int | None" = None,
+        total_count: "int | None" = None,
+        remaining_count: "int | None" = None,
         publisher_chat: "tgram.types.Chat" = None,
-        personal_total_count: "int" = None,
-        personal_remaining_count: "int" = None,
-        is_premium: "bool" = None,
-        has_colors: "bool" = None,
+        personal_total_count: "int | None" = None,
+        personal_remaining_count: "int | None" = None,
+        is_premium: "bool | None" = None,
+        has_colors: "bool | None" = None,
         background: "tgram.types.GiftBackground" = None,
-        unique_gift_variant_count: "int" = None,
+        unique_gift_variant_count: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -88,7 +89,7 @@ class Gift(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Gift"]:
         return (
             Gift(

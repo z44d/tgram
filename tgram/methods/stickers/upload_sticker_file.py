@@ -1,14 +1,14 @@
-import tgram
-from typing import Union
-from tgram.types import File
 from pathlib import Path
+
+import tgram
+from tgram.types import File
 
 
 class UploadStickerFile:
     async def upload_sticker_file(
         self: "tgram.TgBot",
         user_id: int,
-        sticker: Union[Path, bytes, str],
+        sticker: Path | bytes | str,
         sticker_format: str,
     ) -> File:
         """

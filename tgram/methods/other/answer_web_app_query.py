@@ -1,6 +1,5 @@
 import tgram
-from tgram.types import InlineQueryResult
-from tgram.types import SentWebAppMessage
+from tgram.types import InlineQueryResult, SentWebAppMessage
 
 
 class AnswerWebAppQuery:

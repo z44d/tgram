@@ -6,7 +6,7 @@ class SetBusinessAccountName:
         self: "tgram.TgBot",
         business_connection_id: str,
         first_name: str,
-        last_name: str = None,
+        last_name: str | None = None,
     ) -> bool:
         """
         Changes the first and last name of a managed business account.

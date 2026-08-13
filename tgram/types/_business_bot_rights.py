@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BusinessBotRights(Type_):
@@ -46,22 +47,22 @@ class BusinessBotRights(Type_):
 
     def __init__(
         self,
-        can_reply: "bool" = None,
-        can_read_messages: "bool" = None,
-        can_delete_sent_messages: "bool" = None,
-        can_delete_all_messages: "bool" = None,
-        can_edit_name: "bool" = None,
-        can_edit_bio: "bool" = None,
-        can_edit_profile_photo: "bool" = None,
-        can_edit_username: "bool" = None,
-        can_change_gift_settings: "bool" = None,
-        can_view_gifts_and_stars: "bool" = None,
-        can_convert_gifts_to_stars: "bool" = None,
-        can_transfer_and_upgrade_gifts: "bool" = None,
-        can_transfer_stars: "bool" = None,
-        can_manage_stories: "bool" = None,
+        can_reply: "bool | None" = None,
+        can_read_messages: "bool | None" = None,
+        can_delete_sent_messages: "bool | None" = None,
+        can_delete_all_messages: "bool | None" = None,
+        can_edit_name: "bool | None" = None,
+        can_edit_bio: "bool | None" = None,
+        can_edit_profile_photo: "bool | None" = None,
+        can_edit_username: "bool | None" = None,
+        can_change_gift_settings: "bool | None" = None,
+        can_view_gifts_and_stars: "bool | None" = None,
+        can_convert_gifts_to_stars: "bool | None" = None,
+        can_transfer_and_upgrade_gifts: "bool | None" = None,
+        can_transfer_stars: "bool | None" = None,
+        can_manage_stories: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.can_reply = can_reply
@@ -81,7 +82,7 @@ class BusinessBotRights(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BusinessBotRights"]:
         return (
             BusinessBotRights(

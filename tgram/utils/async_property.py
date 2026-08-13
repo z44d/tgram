@@ -1,5 +1,6 @@
-import tgram
 import inspect
+
+import tgram
 
 
 class AsyncProperty:

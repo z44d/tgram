@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 from tgram.types import ShippingOption
 
 
@@ -8,8 +8,8 @@ class AnswerShippingQuery:
         self: "tgram.TgBot",
         shipping_query_id: str,
         ok: bool,
-        shipping_options: List[ShippingOption] = None,
-        error_message: str = None,
+        shipping_options: list[ShippingOption] | None = None,
+        error_message: str | None = None,
     ) -> bool:
         """
         Asks for an answer to a shipping question.

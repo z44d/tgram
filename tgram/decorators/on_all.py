@@ -1,6 +1,6 @@
-import tgram
+from collections.abc import Callable
 
-from typing import Callable
+import tgram
 from tgram.handlers import Handler
 
 

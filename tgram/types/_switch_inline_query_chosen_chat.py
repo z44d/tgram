@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class SwitchInlineQueryChosenChat(Type_):
@@ -33,13 +34,13 @@ class SwitchInlineQueryChosenChat(Type_):
 
     def __init__(
         self,
-        query: "str" = None,
-        allow_user_chats: "bool" = None,
-        allow_bot_chats: "bool" = None,
-        allow_group_chats: "bool" = None,
-        allow_channel_chats: "bool" = None,
+        query: "str | None" = None,
+        allow_user_chats: "bool | None" = None,
+        allow_bot_chats: "bool | None" = None,
+        allow_group_chats: "bool | None" = None,
+        allow_channel_chats: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.query = query
@@ -50,7 +51,7 @@ class SwitchInlineQueryChosenChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SwitchInlineQueryChosenChat"]:
         return (
             SwitchInlineQueryChosenChat(

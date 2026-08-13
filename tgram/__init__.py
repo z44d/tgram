@@ -1,24 +1,23 @@
 __all__ = [
-    "types",
-    "TgBot",
-    "handlers",
-    "filters",
-    "compose",
-    "StopPropagation",
     "ContinuePropagation",
-    "utils",
+    "StopPropagation",
+    "TgBot",
+    "compose",
+    "filters",
+    "handlers",
     "storage",
+    "types",
+    "utils",
 ]
 
 __version__ = "2.1.1"
 
 from . import (
     filters,
-    utils,
-    storage,
     handlers,
+    storage,
     types,
+    utils,
 )
-
 from .client import TgBot
-from .errors import StopPropagation, ContinuePropagation
+from .errors import ContinuePropagation, StopPropagation

@@ -3,7 +3,7 @@ import tgram
 
 class DeleteWebhook:
     async def delete_webhook(
-        self: "tgram.TgBot", drop_pending_updates: bool = None
+        self: "tgram.TgBot", drop_pending_updates: bool | None = None
     ) -> bool:
         """
         Use this method to remove webhook integration if you decide to switch back to getUpdates.

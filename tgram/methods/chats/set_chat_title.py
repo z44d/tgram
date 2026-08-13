@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class SetChatTitle:
     async def set_chat_title(
-        self: "tgram.TgBot", chat_id: Union[int, str], title: str
+        self: "tgram.TgBot", chat_id: int | str, title: str
     ) -> bool:
         """
         Use this method to change the title of a chat. Titles can't be changed for private chats.

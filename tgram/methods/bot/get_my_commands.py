@@ -1,13 +1,12 @@
+
 import tgram
-from typing import List
-from tgram.types import BotCommand
-from tgram.types import BotCommandScope
+from tgram.types import BotCommand, BotCommandScope
 
 
 class GetMyCommands:
     async def get_my_commands(
-        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
-    ) -> List[BotCommand]:
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str | None = None
+    ) -> list[BotCommand]:
         """
         Use this method to get the current list of the bot's commands.
         Returns List of BotCommand on success.

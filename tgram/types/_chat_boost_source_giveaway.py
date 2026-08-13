@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatBoostSourceGiveaway(Type_):
@@ -31,13 +32,13 @@ class ChatBoostSourceGiveaway(Type_):
 
     def __init__(
         self,
-        source: "str" = None,
-        giveaway_message_id: "int" = None,
+        source: "str | None" = None,
+        giveaway_message_id: "int | None" = None,
         user: "tgram.types.User" = None,
-        prize_star_count: "int" = None,
-        is_unclaimed: "bool" = None,
+        prize_star_count: "int | None" = None,
+        is_unclaimed: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.source = source
@@ -48,7 +49,7 @@ class ChatBoostSourceGiveaway(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatBoostSourceGiveaway"]:
         return (
             ChatBoostSourceGiveaway(

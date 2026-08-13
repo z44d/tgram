@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
 from tgram import bound
+
+from .type_ import Type_
 
 
 class User(Type_, bound.UserB):
@@ -76,26 +77,26 @@ class User(Type_, bound.UserB):
 
     def __init__(
         self,
-        id: "int" = None,
-        is_bot: "bool" = None,
-        first_name: "str" = None,
-        last_name: "str" = None,
-        username: "str" = None,
-        language_code: "str" = None,
-        is_premium: "bool" = None,
-        added_to_attachment_menu: "bool" = None,
-        can_join_groups: "bool" = None,
-        can_read_all_group_messages: "bool" = None,
-        supports_inline_queries: "bool" = None,
-        can_connect_to_business: "bool" = None,
-        has_main_web_app: "bool" = None,
-        has_topics_enabled: "bool" = None,
-        allows_users_to_create_topics: "bool" = None,
-        supports_guest_queries: "bool" = None,
-        can_manage_bots: "bool" = None,
-        supports_join_request_queries: "bool" = None,
+        id: "int | None" = None,
+        is_bot: "bool | None" = None,
+        first_name: "str | None" = None,
+        last_name: "str | None" = None,
+        username: "str | None" = None,
+        language_code: "str | None" = None,
+        is_premium: "bool | None" = None,
+        added_to_attachment_menu: "bool | None" = None,
+        can_join_groups: "bool | None" = None,
+        can_read_all_group_messages: "bool | None" = None,
+        supports_inline_queries: "bool | None" = None,
+        can_connect_to_business: "bool | None" = None,
+        has_main_web_app: "bool | None" = None,
+        has_topics_enabled: "bool | None" = None,
+        allows_users_to_create_topics: "bool | None" = None,
+        supports_guest_queries: "bool | None" = None,
+        can_manage_bots: "bool | None" = None,
+        supports_join_request_queries: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -119,7 +120,7 @@ class User(Type_, bound.UserB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.User"]:
         return (
             User(

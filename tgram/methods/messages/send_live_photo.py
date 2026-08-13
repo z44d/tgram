@@ -1,36 +1,36 @@
-import tgram
-from typing import List, Union
-from tgram.types import ForceReply
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import MessageEntity
-from tgram.types import ReplyKeyboardMarkup
-from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters, ParseMode
 
+import tgram
+from tgram.types import (
+    ForceReply,
+    InlineKeyboardMarkup,
+    Message,
+    MessageEntity,
+    ParseMode,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    ReplyParameters,
+)
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class SendLivePhoto:
     async def send_live_photo(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         live_photo: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        caption: str = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
-        has_spoiler: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
     ) -> Message:
         """
         Use this method to send a live photo.

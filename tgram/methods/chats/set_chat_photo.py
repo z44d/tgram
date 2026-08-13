@@ -1,11 +1,11 @@
-import tgram
-from typing import Union
 from pathlib import Path
+
+import tgram
 
 
 class SetChatPhoto:
     async def set_chat_photo(
-        self: "tgram.TgBot", chat_id: Union[int, str], photo: Union[Path, bytes, str]
+        self: "tgram.TgBot", chat_id: int | str, photo: Path | bytes | str
     ) -> bool:
         """
         Use this method to set a new profile photo for the chat. Photos can't be changed for private chats.

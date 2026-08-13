@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class Game(Type_):
@@ -36,14 +37,14 @@ class Game(Type_):
 
     def __init__(
         self,
-        title: "str" = None,
-        description: "str" = None,
-        photo: List["tgram.types.PhotoSize"] = None,
-        text: "str" = None,
-        text_entities: List["tgram.types.MessageEntity"] = None,
+        title: "str | None" = None,
+        description: "str | None" = None,
+        photo: list["tgram.types.PhotoSize"] | None = None,
+        text: "str | None" = None,
+        text_entities: list["tgram.types.MessageEntity"] | None = None,
         animation: "tgram.types.Animation" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.title = title
@@ -55,7 +56,7 @@ class Game(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Game"]:
         return (
             Game(

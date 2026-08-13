@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
-from typing import List, Union, Optional
-
 from pathlib import Path
+from typing import Optional, Union
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputMediaAnimation(Type_):
@@ -56,18 +56,18 @@ class InputMediaAnimation(Type_):
 
     def __init__(
         self,
-        media: Union["Path", "str"] = None,
+        media: Union["Path", "str"] | None = None,
         thumbnail: Union["tgram.types.InputFile", "str"] = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: "bool" = None,
-        width: "int" = None,
-        height: "int" = None,
-        duration: "int" = None,
-        has_spoiler: "bool" = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: "bool | None" = None,
+        width: "int | None" = None,
+        height: "int | None" = None,
+        duration: "int | None" = None,
+        has_spoiler: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "animation"
@@ -84,7 +84,7 @@ class InputMediaAnimation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputMediaAnimation"]:
         return (
             InputMediaAnimation(

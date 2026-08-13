@@ -1,5 +1,6 @@
-import tgram
 from typing import Union
+
+import tgram
 
 
 class SetMyProfilePhoto:

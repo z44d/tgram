@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class UnpinAllGeneralForumTopicMessages:
     async def unpin_all_general_forum_topic_messages(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> bool:
         """
         Use this method to clear the list of pinned messages in a General forum topic.

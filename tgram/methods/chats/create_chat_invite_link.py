@@ -1,16 +1,16 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatInviteLink
 
 
 class CreateChatInviteLink:
     async def create_chat_invite_link(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        name: str = None,
-        expire_date: int = None,
-        member_limit: int = None,
-        creates_join_request: bool = None,
+        chat_id: int | str,
+        name: str | None = None,
+        expire_date: int | None = None,
+        member_limit: int | None = None,
+        creates_join_request: bool | None = None,
     ) -> ChatInviteLink:
         """
         Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and

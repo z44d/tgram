@@ -1,15 +1,14 @@
-import tgram
 
-from typing import Union
+import tgram
 from tgram.types import ChatInviteLink
 
 
 class EditChatSubscriptionInviteLink:
     async def edit_chat_subscription_invite_link(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         invite_link: str,
-        name: str = None,
+        name: str | None = None,
     ) -> ChatInviteLink:
         """
         Use this method to edit a subscription invite link created by the bot.

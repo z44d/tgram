@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 
 
 class SendMessageDraft:
     async def send_message_draft(
         self: "tgram.TgBot",
         business_connection_id: str,
-        chat_id: Union[int, str],
+        chat_id: int | str,
         text: str,
-        message_thread_id: int = None,
+        message_thread_id: int | None = None,
     ) -> bool:
         """
         Use this method to send a draft message while it is being generated.

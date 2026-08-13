@@ -1,10 +1,10 @@
+
 import tgram
-from typing import List
 
 
 class SetStickerKeywords:
     async def set_sticker_keywords(
-        self: "tgram.TgBot", sticker: str, keywords: List[str] = None
+        self: "tgram.TgBot", sticker: str, keywords: list[str] | None = None
     ) -> bool:
         """
         Use this method to change search keywords assigned to a regular or custom emoji sticker.

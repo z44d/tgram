@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class CloseGeneralForumTopic:
     async def close_general_forum_topic(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> bool:
         """
         Use this method to close the 'General' topic in a forum supergroup chat.

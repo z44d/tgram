@@ -1,6 +1,6 @@
-import tgram
-
 from typing import Optional
+
+import tgram
 
 
 class PaidMediaPurchasedB:

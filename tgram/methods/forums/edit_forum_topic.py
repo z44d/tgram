@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 
 
 class EditForumTopic:
     async def edit_forum_topic(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_thread_id: int,
-        name: str = None,
-        icon_custom_emoji_id: str = None,
+        name: str | None = None,
+        icon_custom_emoji_id: str | None = None,
     ) -> bool:
         """
         Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an

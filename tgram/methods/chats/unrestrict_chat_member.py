@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatPermissions
 
 
 class UnRestrictChatMember:
     async def unrestrict_chat_member(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
-        use_independent_chat_permissions: bool = None,
+        use_independent_chat_permissions: bool | None = None,
     ) -> bool:
         """
         Use this method to unrestrict a user in a supergroup.

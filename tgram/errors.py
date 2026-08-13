@@ -1,8 +1,7 @@
-from tgram import utils, types
 from json import dumps
-
-
 from typing import Union
+
+from tgram import types, utils
 
 
 # Base exception class that converts exception details to a JSON string
@@ -189,7 +188,7 @@ exceptions = {
 # Exception for API errors
 class APIException(StrException):
     def __init__(
-        self, message: str, error_code: int, description: str, parameters: dict = None
+        self, message: str, error_code: int, description: str, parameters: dict | None = None
     ) -> None:
         super().__init__(message)
         self.error_code = error_code

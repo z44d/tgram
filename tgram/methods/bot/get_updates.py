@@ -1,16 +1,16 @@
+
 import tgram
-from typing import List
 from tgram.types import Update
 
 
 class GetUpdates:
     async def get_updates(
         self: "tgram.TgBot",
-        offset: int = None,
-        limit: int = None,
-        timeout: int = None,
-        allowed_updates: List[str] = None,
-    ) -> List[Update]:
+        offset: int | None = None,
+        limit: int | None = None,
+        timeout: int | None = None,
+        allowed_updates: list[str] | None = None,
+    ) -> list[Update]:
         """
         Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
 

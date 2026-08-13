@@ -1,6 +1,6 @@
-import tgram
+from typing import Union
 
-from typing import List, Union
+import tgram
 
 
 class EditStory:
@@ -11,10 +11,10 @@ class EditStory:
         content: Union[
             "tgram.types.InputStoryContentPhoto", "tgram.types.InputStoryContentVideo"
         ],
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        areas: List["tgram.types.StoryArea"] = None,
+        caption: str | None = None,
+        parse_mode: str | None = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        areas: list["tgram.types.StoryArea"] | None = None,
     ) -> "tgram.types.Story":
         """
         Edits a story previously posted by the bot on behalf of a managed business account.

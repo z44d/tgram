@@ -1,12 +1,12 @@
+
 import tgram
-from typing import List
 
 
 class DeleteBusinessMessages:
     async def delete_business_messages(
         self: "tgram.TgBot",
         business_connection_id: str,
-        message_ids: List[int],
+        message_ids: list[int],
     ) -> bool:
         """
         Deletes messages on behalf of a business account.

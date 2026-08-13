@@ -1,11 +1,11 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatInviteLink
 
 
 class RevokeChatInviteLink:
     async def revoke_chat_invite_link(
-        self: "tgram.TgBot", chat_id: Union[int, str], invite_link: str
+        self: "tgram.TgBot", chat_id: int | str, invite_link: str
     ) -> ChatInviteLink:
         """
         Use this method to revoke an invite link created by the bot.

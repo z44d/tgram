@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram.utils import message_origin_parse
+
+from .type_ import Type_
 
 
 class ExternalReplyInfo(Type_):
@@ -95,20 +96,20 @@ class ExternalReplyInfo(Type_):
         self,
         origin: "tgram.types.MessageOrigin" = None,
         chat: "tgram.types.Chat" = None,
-        message_id: "int" = None,
+        message_id: "int | None" = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         animation: "tgram.types.Animation" = None,
         audio: "tgram.types.Audio" = None,
         document: "tgram.types.Document" = None,
         live_photo: "tgram.types.LivePhoto" = None,
         paid_media: "tgram.types.PaidMediaInfo" = None,
-        photo: List["tgram.types.PhotoSize"] = None,
+        photo: list["tgram.types.PhotoSize"] | None = None,
         sticker: "tgram.types.Sticker" = None,
         story: "tgram.types.Story" = None,
         video: "tgram.types.Video" = None,
         video_note: "tgram.types.VideoNote" = None,
         voice: "tgram.types.Voice" = None,
-        has_media_spoiler: "bool" = None,
+        has_media_spoiler: "bool | None" = None,
         checklist: "tgram.types.Checklist" = None,
         contact: "tgram.types.Contact" = None,
         dice: "tgram.types.Dice" = None,
@@ -120,7 +121,7 @@ class ExternalReplyInfo(Type_):
         poll: "tgram.types.Poll" = None,
         venue: "tgram.types.Venue" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.origin = origin
@@ -152,7 +153,7 @@ class ExternalReplyInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ExternalReplyInfo"]:
         return (
             ExternalReplyInfo(

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class VideoQuality(Type_):
@@ -35,14 +36,14 @@ class VideoQuality(Type_):
 
     def __init__(
         self,
-        file_id: "str" = None,
-        file_unique_id: "str" = None,
-        width: "int" = None,
-        height: "int" = None,
-        codec: "str" = None,
-        file_size: "int" = None,
+        file_id: "str | None" = None,
+        file_unique_id: "str | None" = None,
+        width: "int | None" = None,
+        height: "int | None" = None,
+        codec: "str | None" = None,
+        file_size: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.file_id = file_id
@@ -54,7 +55,7 @@ class VideoQuality(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.VideoQuality"]:
         return (
             VideoQuality(

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class Giveaway(Type_):
@@ -43,17 +44,17 @@ class Giveaway(Type_):
 
     def __init__(
         self,
-        chats: List["tgram.types.Chat"] = None,
-        winners_selection_date: "int" = None,
-        winner_count: "int" = None,
-        only_new_members: "bool" = None,
-        has_public_winners: "bool" = None,
-        prize_description: "str" = None,
-        country_codes: List["str"] = None,
-        prize_star_count: "int" = None,
-        premium_subscription_month_count: "int" = None,
+        chats: list["tgram.types.Chat"] | None = None,
+        winners_selection_date: "int | None" = None,
+        winner_count: "int | None" = None,
+        only_new_members: "bool | None" = None,
+        has_public_winners: "bool | None" = None,
+        prize_description: "str | None" = None,
+        country_codes: list["str"] | None = None,
+        prize_star_count: "int | None" = None,
+        premium_subscription_month_count: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.chats = chats
@@ -68,7 +69,7 @@ class Giveaway(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Giveaway"]:
         return (
             Giveaway(

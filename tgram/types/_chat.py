@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
 from tgram import bound
+
+from .type_ import Type_
 
 
 class Chat(Type_, bound.ChatB):
@@ -43,14 +44,14 @@ class Chat(Type_, bound.ChatB):
         self,
         id: int,
         type: str,
-        title: Optional[str] = None,
-        username: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        is_forum: Optional[bool] = None,
-        is_direct_messages: Optional[bool] = None,
+        title: str | None = None,
+        username: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        is_forum: bool | None = None,
+        is_direct_messages: bool | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -64,7 +65,7 @@ class Chat(Type_, bound.ChatB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Chat"]:
         return (
             Chat(

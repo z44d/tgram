@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class PaidMediaInfo(Type_):
@@ -22,10 +23,10 @@ class PaidMediaInfo(Type_):
 
     def __init__(
         self,
-        star_count: "int" = None,
-        paid_media: List["tgram.types.PaidMedia"] = None,
+        star_count: "int | None" = None,
+        paid_media: list["tgram.types.PaidMedia"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.star_count = star_count
@@ -33,7 +34,7 @@ class PaidMediaInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.PaidMediaInfo"]:
         return (
             PaidMediaInfo(

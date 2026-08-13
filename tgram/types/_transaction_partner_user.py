@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import Optional, List
+import tgram
+
+from .type_ import Type_
 
 
 class TransactionPartnerUser(Type_):
@@ -47,16 +48,16 @@ class TransactionPartnerUser(Type_):
     def __init__(
         self,
         user: "tgram.types.User" = None,
-        transaction_type: str = None,
+        transaction_type: str | None = None,
         affiliate: "tgram.types.AffiliateInfo" = None,
-        invoice_payload: str = None,
-        subscription_period: int = None,
-        paid_media: List["tgram.types.PaidMedia"] = None,
-        paid_media_payload: str = None,
+        invoice_payload: str | None = None,
+        subscription_period: int | None = None,
+        paid_media: list["tgram.types.PaidMedia"] | None = None,
+        paid_media_payload: str | None = None,
         gift: "tgram.types.Gift" = None,
-        premium_subscription_duration: int = None,
+        premium_subscription_duration: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "user"
@@ -72,7 +73,7 @@ class TransactionPartnerUser(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.TransactionPartnerUser"]:
         return (
             TransactionPartnerUser(

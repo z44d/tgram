@@ -1,10 +1,10 @@
-import tgram
 import asyncio
-from typing import Callable, Union
-from tgram.types import Listener, Message, CallbackQuery, Update
+from collections.abc import Callable
 
-from tgram.errors import CanceledListener
+import tgram
 from tgram import filters
+from tgram.errors import CanceledListener
+from tgram.types import CallbackQuery, Listener, Message, Update
 
 
 class Ask:
@@ -12,12 +12,12 @@ class Ask:
         self: "tgram.TgBot",
         chat_id: int,
         update_type: str = "message",
-        user_id: int = None,
-        sender_id: int = None,
-        cancel: Callable[[Update], bool] = None,
+        user_id: int | None = None,
+        sender_id: int | None = None,
+        cancel: Callable[[Update], bool] | None = None,
         filters: "filters.Filter" = filters.all,
-        timeout: float = None,
-    ) -> Union[Message, CallbackQuery, Update]:
+        timeout: float | None = None,
+    ) -> Message | CallbackQuery | Update:
         """
         Waits for a user response matching given filters within a time limit.
 

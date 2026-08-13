@@ -5,7 +5,7 @@ class SetBusinessAccountUsername:
     async def set_business_account_username(
         self: "tgram.TgBot",
         business_connection_id: str,
-        username: str = None,
+        username: str | None = None,
     ) -> bool:
         """
         Changes the username of a managed business account.

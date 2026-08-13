@@ -5,10 +5,10 @@ class AnswerCallbackQuery:
     async def answer_callback_query(
         self: "tgram.TgBot",
         callback_query_id: str,
-        text: str = None,
-        show_alert: bool = None,
-        url: str = None,
-        cache_time: int = None,
+        text: str | None = None,
+        show_alert: bool | None = None,
+        url: str | None = None,
+        cache_time: int | None = None,
     ) -> bool:
         """
         Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to

@@ -3,7 +3,7 @@ import tgram
 
 class SetCustomEmojiStickerSetThumbnail:
     async def set_custom_emoji_sticker_set_thumbnail(
-        self: "tgram.TgBot", name: str, custom_emoji_id: str = None
+        self: "tgram.TgBot", name: str, custom_emoji_id: str | None = None
     ) -> bool:
         """
         Use this method to set the thumbnail of a custom emoji sticker set.

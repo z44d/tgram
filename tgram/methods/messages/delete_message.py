@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class DeleteMessage:
     async def delete_message(
-        self: "tgram.TgBot", chat_id: Union[int, str], message_id: int
+        self: "tgram.TgBot", chat_id: int | str, message_id: int
     ) -> bool:
         """
         Use this method to delete a message, including service messages, with the following limitations:

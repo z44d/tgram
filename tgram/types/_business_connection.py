@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BusinessConnection(Type_):
@@ -34,14 +35,14 @@ class BusinessConnection(Type_):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         user: "tgram.types.User" = None,
-        user_chat_id: "int" = None,
-        date: "int" = None,
+        user_chat_id: "int | None" = None,
+        date: "int | None" = None,
         rights: "tgram.types.BusinessBotRights" = None,
-        is_enabled: "bool" = None,
+        is_enabled: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -53,7 +54,7 @@ class BusinessConnection(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BusinessConnection"]:
         return (
             BusinessConnection(

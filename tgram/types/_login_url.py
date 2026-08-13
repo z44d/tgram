@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class LoginUrl(Type_):
@@ -35,12 +36,12 @@ class LoginUrl(Type_):
 
     def __init__(
         self,
-        url: "str" = None,
-        forward_text: "str" = None,
-        bot_username: "str" = None,
-        request_write_access: "bool" = None,
+        url: "str | None" = None,
+        forward_text: "str | None" = None,
+        bot_username: "str | None" = None,
+        request_write_access: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.url = url
@@ -50,7 +51,7 @@ class LoginUrl(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.LoginUrl"]:
         return (
             LoginUrl(

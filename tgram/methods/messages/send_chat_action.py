@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 
 
 class SendChatAction:
     async def send_chat_action(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         action: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
     ) -> bool:
         """
         Use this method when you need to tell the user that something is happening on the bot's side.

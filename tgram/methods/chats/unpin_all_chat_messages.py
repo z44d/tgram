@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class UnpinAllChatMessages:
     async def unpin_all_chat_messages(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> bool:
         """
         Use this method to unpin a all pinned messages in a supergroup chat.

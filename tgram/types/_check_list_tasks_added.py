@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class ChecklistTasksAdded(Type_):
@@ -19,9 +20,9 @@ class ChecklistTasksAdded(Type_):
     def __init__(
         self,
         checklist_message: "tgram.types.Message" = None,
-        tasks: List["tgram.types.ChecklistTask"] = None,
+        tasks: list["tgram.types.ChecklistTask"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.checklist_message = checklist_message
@@ -29,7 +30,7 @@ class ChecklistTasksAdded(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChecklistTasksAdded"]:
         return (
             ChecklistTasksAdded(

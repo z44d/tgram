@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
-
-from typing import Optional, Union
 from pathlib import Path
+from typing import Optional, Union
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputProfilePhotoStatic(Type_):
@@ -22,9 +23,9 @@ class InputProfilePhotoStatic(Type_):
 
     def __init__(
         self,
-        photo: Union["Path", "str"] = None,
+        photo: Union["Path", "str"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "static"
@@ -32,7 +33,7 @@ class InputProfilePhotoStatic(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputProfilePhotoStatic"]:
         return (
             InputProfilePhotoStatic(
@@ -69,10 +70,10 @@ class InputProfilePhotoAnimated(Type_):
 
     def __init__(
         self,
-        animation: Union["Path", "str"] = None,
-        main_frame_timestamp: Optional[float] = None,
+        animation: Union["Path", "str"] | None = None,
+        main_frame_timestamp: float | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "animated"
@@ -81,7 +82,7 @@ class InputProfilePhotoAnimated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputProfilePhotoAnimated"]:
         return (
             InputProfilePhotoAnimated(

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class Gifts(Type_):
@@ -19,16 +20,16 @@ class Gifts(Type_):
 
     def __init__(
         self,
-        gifts: List["tgram.types.Gift"] = None,
+        gifts: list["tgram.types.Gift"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.gifts = gifts
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Gifts"]:
         return (
             Gifts(gifts=[tgram.types.Gift._parse(me, i) for i in d.get("gifts")])

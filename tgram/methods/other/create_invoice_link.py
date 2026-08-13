@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 from tgram.types import LabeledPrice
 
 
@@ -10,24 +10,24 @@ class CreateInvoiceLink:
         description: str,
         payload: str,
         currency: str,
-        prices: List[LabeledPrice],
-        business_connection_id: str = None,
-        subscription_period: int = None,
-        provider_token: str = None,
-        max_tip_amount: int = None,
-        suggested_tip_amounts: List[int] = None,
-        provider_data: str = None,
-        photo_url: str = None,
-        photo_size: int = None,
-        photo_width: int = None,
-        photo_height: int = None,
-        need_name: bool = None,
-        need_phone_number: bool = None,
-        need_email: bool = None,
-        need_shipping_address: bool = None,
-        send_phone_number_to_provider: bool = None,
-        send_email_to_provider: bool = None,
-        is_flexible: bool = None,
+        prices: list[LabeledPrice],
+        business_connection_id: str | None = None,
+        subscription_period: int | None = None,
+        provider_token: str | None = None,
+        max_tip_amount: int | None = None,
+        suggested_tip_amounts: list[int] | None = None,
+        provider_data: str | None = None,
+        photo_url: str | None = None,
+        photo_size: int | None = None,
+        photo_width: int | None = None,
+        photo_height: int | None = None,
+        need_name: bool | None = None,
+        need_phone_number: bool | None = None,
+        need_email: bool | None = None,
+        need_shipping_address: bool | None = None,
+        send_phone_number_to_provider: bool | None = None,
+        send_email_to_provider: bool | None = None,
+        is_flexible: bool | None = None,
     ) -> str:
         """
         Use this method to create a link for an invoice.

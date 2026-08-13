@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class BotAccessSettings(Type_):
@@ -22,10 +23,10 @@ class BotAccessSettings(Type_):
 
     def __init__(
         self,
-        is_access_restricted: "bool" = None,
-        added_users: List["tgram.types.User"] = None,
+        is_access_restricted: "bool | None" = None,
+        added_users: list["tgram.types.User"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.is_access_restricted = is_access_restricted
@@ -33,7 +34,7 @@ class BotAccessSettings(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BotAccessSettings"]:
         return (
             BotAccessSettings(

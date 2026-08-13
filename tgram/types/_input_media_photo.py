@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
-from typing import List, Optional, Union
-
 from pathlib import Path
+from typing import Optional, Union
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputMediaPhoto(Type_):
@@ -40,14 +40,14 @@ class InputMediaPhoto(Type_):
 
     def __init__(
         self,
-        media: Union["Path", "str"] = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: "bool" = None,
-        has_spoiler: "bool" = None,
+        media: Union["Path", "str"] | None = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: "bool | None" = None,
+        has_spoiler: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "photo"
@@ -60,7 +60,7 @@ class InputMediaPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputMediaPhoto"]:
         return (
             InputMediaPhoto(

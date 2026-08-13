@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class WriteAccessAllowed(Type_):
@@ -25,11 +26,11 @@ class WriteAccessAllowed(Type_):
 
     def __init__(
         self,
-        from_request: "bool" = None,
-        web_app_name: "str" = None,
-        from_attachment_menu: "bool" = None,
+        from_request: "bool | None" = None,
+        web_app_name: "str | None" = None,
+        from_attachment_menu: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.from_request = from_request
@@ -38,7 +39,7 @@ class WriteAccessAllowed(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.WriteAccessAllowed"]:
         return (
             WriteAccessAllowed(

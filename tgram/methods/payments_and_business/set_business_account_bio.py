@@ -5,7 +5,7 @@ class SetBusinessAccountBio:
     async def set_business_account_bio(
         self: "tgram.TgBot",
         business_connection_id: str,
-        bio: str = None,
+        bio: str | None = None,
     ) -> bool:
         """
         Changes the bio of a managed business account.

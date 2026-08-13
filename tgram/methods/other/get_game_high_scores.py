@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 from tgram.types import GameHighScore
 
 
@@ -7,10 +7,10 @@ class GetGameHighScores:
     async def get_game_high_scores(
         self: "tgram.TgBot",
         user_id: int,
-        chat_id: int = None,
-        message_id: int = None,
-        inline_message_id: str = None,
-    ) -> List[GameHighScore]:
+        chat_id: int | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
+    ) -> list[GameHighScore]:
         """
         Use this method to get data for high score tables. Will return the score of the specified user and several of
         their neighbors in a game. On success, returns an Array of GameHighScore objects.

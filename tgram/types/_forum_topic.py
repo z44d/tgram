@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ForumTopic(Type_):
@@ -31,13 +32,13 @@ class ForumTopic(Type_):
 
     def __init__(
         self,
-        message_thread_id: "int" = None,
-        name: "str" = None,
-        icon_color: "int" = None,
-        icon_custom_emoji_id: "str" = None,
-        is_name_implicit: "bool" = None,
+        message_thread_id: "int | None" = None,
+        name: "str | None" = None,
+        icon_color: "int | None" = None,
+        icon_custom_emoji_id: "str | None" = None,
+        is_name_implicit: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.message_thread_id = message_thread_id
@@ -48,7 +49,7 @@ class ForumTopic(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ForumTopic"]:
         return (
             ForumTopic(

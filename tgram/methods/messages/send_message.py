@@ -1,47 +1,43 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    ParseMode,
-    SuggestedPostParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    LinkPreviewOptions,
+    Message,
+    MessageEntity,
+    ParseMode,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
-    MessageEntity,
-    LinkPreviewOptions,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
 from tgram.utils import (
-    get_parse_mode,
     convert_to_inline_keyboard_markup,
+    get_parse_mode,
 )
-
-from typing import Union, List
 
 
 class SendMessage:
     async def send_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         text: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: ParseMode = None,
-        entities: List[MessageEntity] = None,
+        entities: list[MessageEntity] | None = None,
         link_preview_options: LinkPreviewOptions = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
-        receiver_user_id: int = None,
-        callback_query_id: str = None,
+        receiver_user_id: int | None = None,
+        callback_query_id: str | None = None,
     ) -> Message:
         """
         Use this method to send text messages.

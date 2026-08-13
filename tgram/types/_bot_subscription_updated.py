@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BotSubscriptionUpdated(Type_):
@@ -9,10 +10,10 @@ class BotSubscriptionUpdated(Type_):
         self,
         user: "tgram.types.User" = None,
         chat: "tgram.types.Chat" = None,
-        subscription_period: "int" = None,
-        total_count: "int" = None,
+        subscription_period: "int | None" = None,
+        total_count: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.user = user
@@ -22,7 +23,7 @@ class BotSubscriptionUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BotSubscriptionUpdated"]:
         return (
             BotSubscriptionUpdated(

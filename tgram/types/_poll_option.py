@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram.utils import String
+
+from .type_ import Type_
 
 
 class PollOption(Type_):
@@ -42,15 +43,15 @@ class PollOption(Type_):
     def __init__(
         self,
         text: "String" = None,
-        voter_count: "int" = None,
-        text_entities: List["tgram.types.MessageEntity"] = None,
-        persistent_id: "str" = None,
+        voter_count: "int | None" = None,
+        text_entities: list["tgram.types.MessageEntity"] | None = None,
+        persistent_id: "str | None" = None,
         added_by_user: "tgram.types.User" = None,
         added_by_chat: "tgram.types.Chat" = None,
-        addition_date: "int" = None,
-        media: List["tgram.types.PollMedia"] = None,
+        addition_date: "int | None" = None,
+        media: list["tgram.types.PollMedia"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = String(text).put(text_entities)
@@ -64,7 +65,7 @@ class PollOption(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.PollOption"]:
         return (
             PollOption(

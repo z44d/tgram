@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class PollMedia(Type_):
@@ -34,14 +35,14 @@ class PollMedia(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
-        media: "str" = None,
-        width: "int" = None,
-        height: "int" = None,
-        duration: "int" = None,
+        type: "str | None" = None,
+        media: "str | None" = None,
+        width: "int | None" = None,
+        height: "int | None" = None,
+        duration: "int | None" = None,
         link: "tgram.types.Link" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -53,7 +54,7 @@ class PollMedia(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.PollMedia"]:
         return (
             PollMedia(

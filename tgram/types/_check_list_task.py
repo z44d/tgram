@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram.utils import String
+
+from .type_ import Type_
 
 
 class ChecklistTask(Type_):
@@ -30,14 +31,14 @@ class ChecklistTask(Type_):
 
     def __init__(
         self,
-        id: int = None,
-        text: "str" = None,
-        text_entities: List["tgram.types.MessageEntity"] = None,
+        id: int | None = None,
+        text: "str | None" = None,
+        text_entities: list["tgram.types.MessageEntity"] | None = None,
         completed_by_user: "tgram.types.User" = None,
-        completion_date: int = None,
+        completion_date: int | None = None,
         completed_by_chat: "tgram.types.Chat" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -49,7 +50,7 @@ class ChecklistTask(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChecklistTask"]:
         return (
             ChecklistTask(

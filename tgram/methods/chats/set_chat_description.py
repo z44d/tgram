@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class SetChatDescription:
     async def set_chat_description(
-        self: "tgram.TgBot", chat_id: Union[int, str], description: str = None
+        self: "tgram.TgBot", chat_id: int | str, description: str | None = None
     ) -> bool:
         """
         Use this method to change the description of a supergroup or a channel.

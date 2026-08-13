@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatPermissions(Type_):
@@ -72,24 +73,24 @@ class ChatPermissions(Type_):
 
     def __init__(
         self,
-        can_send_messages: "bool" = None,
-        can_send_audios: "bool" = None,
-        can_send_documents: "bool" = None,
-        can_send_photos: "bool" = None,
-        can_send_videos: "bool" = None,
-        can_send_video_notes: "bool" = None,
-        can_send_voice_notes: "bool" = None,
-        can_send_polls: "bool" = None,
-        can_send_other_messages: "bool" = None,
-        can_add_web_page_previews: "bool" = None,
-        can_change_info: "bool" = None,
-        can_invite_users: "bool" = None,
-        can_pin_messages: "bool" = None,
-        can_manage_topics: "bool" = None,
-        can_react_to_messages: "bool" = None,
-        can_edit_tag: "bool" = None,
+        can_send_messages: "bool | None" = None,
+        can_send_audios: "bool | None" = None,
+        can_send_documents: "bool | None" = None,
+        can_send_photos: "bool | None" = None,
+        can_send_videos: "bool | None" = None,
+        can_send_video_notes: "bool | None" = None,
+        can_send_voice_notes: "bool | None" = None,
+        can_send_polls: "bool | None" = None,
+        can_send_other_messages: "bool | None" = None,
+        can_add_web_page_previews: "bool | None" = None,
+        can_change_info: "bool | None" = None,
+        can_invite_users: "bool | None" = None,
+        can_pin_messages: "bool | None" = None,
+        can_manage_topics: "bool | None" = None,
+        can_react_to_messages: "bool | None" = None,
+        can_edit_tag: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.can_send_messages = can_send_messages
@@ -111,7 +112,7 @@ class ChatPermissions(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatPermissions"]:
         return (
             ChatPermissions(

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class MessageEntity(Type_):
@@ -45,14 +46,14 @@ class MessageEntity(Type_):
     def __init__(
         self,
         type: "tgram.types.MessageEntityType" = None,
-        offset: "int" = None,
-        length: "int" = None,
-        url: "str" = None,
+        offset: "int | None" = None,
+        length: "int | None" = None,
+        url: "str | None" = None,
         user: "tgram.types.User" = None,
-        language: "str" = None,
-        custom_emoji_id: "str" = None,
+        language: "str | None" = None,
+        custom_emoji_id: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -73,7 +74,7 @@ class MessageEntity(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.MessageEntity"]:
         return (
             MessageEntity(

@@ -1,14 +1,15 @@
+from typing import Optional, Union
+
 import tgram
-from typing import List, Union, Optional
 
 
 class CallbackB:
     async def answer(
         self: "tgram.types.CallbackQuery",
-        text: str = None,
-        show_alert: bool = None,
-        url: str = None,
-        cache_time: int = None,
+        text: str | None = None,
+        show_alert: bool | None = None,
+        url: str | None = None,
+        cache_time: int | None = None,
     ) -> bool:
         """
         Answer the callback query.
@@ -34,7 +35,7 @@ class CallbackB:
         self: "tgram.types.CallbackQuery",
         text: str,
         parse_mode: "tgram.types.ParseMode" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
@@ -66,10 +67,10 @@ class CallbackB:
 
     async def edit_message_caption(
         self: "tgram.types.CallbackQuery",
-        caption: str = None,
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
         """
@@ -150,9 +151,9 @@ class CallbackB:
         latitude: float,
         longitude: float,
         live_period: int,
-        horizontal_accuracy: float = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
+        horizontal_accuracy: float | None = None,
+        heading: int | None = None,
+        proximity_alert_radius: int | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
         """

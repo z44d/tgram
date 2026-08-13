@@ -1,15 +1,15 @@
-import tgram
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 
 
 class InlineQueryB:
     async def answer(
         self: "tgram.types.InlineQuery",
-        results: List["tgram.types.InlineQueryResult"],
-        cache_time: int = None,
-        is_personal: bool = None,
-        next_offset: str = None,
+        results: list["tgram.types.InlineQueryResult"],
+        cache_time: int | None = None,
+        is_personal: bool | None = None,
+        next_offset: str | None = None,
         button: "tgram.types.InlineQueryResultsButton" = None,
     ) -> bool:
         """

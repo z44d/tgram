@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class SuggestedPostPrice(Type_):
@@ -15,10 +17,10 @@ class SuggestedPostPrice(Type_):
 
     def __init__(
         self,
-        currency: str = None,
-        amount: int = None,
+        currency: str | None = None,
+        amount: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.currency = currency
@@ -26,7 +28,7 @@ class SuggestedPostPrice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostPrice"]:
         return (
             SuggestedPostPrice(
@@ -59,11 +61,11 @@ class SuggestedPostInfo(Type_):
 
     def __init__(
         self,
-        state: str = None,
+        state: str | None = None,
         price: "tgram.types.SuggestedPostPrice" = None,
-        send_date: int = None,
+        send_date: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.state = state
@@ -72,7 +74,7 @@ class SuggestedPostInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostInfo"]:
         return (
             SuggestedPostInfo(
@@ -105,9 +107,9 @@ class SuggestedPostParameters(Type_):
     def __init__(
         self,
         price: "tgram.types.SuggestedPostPrice" = None,
-        send_date: int = None,
+        send_date: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.price = price
@@ -115,7 +117,7 @@ class SuggestedPostParameters(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostParameters"]:
         return (
             SuggestedPostParameters(
@@ -150,9 +152,9 @@ class SuggestedPostApproved(Type_):
         self,
         suggested_post_message: "tgram.types.Message" = None,
         price: "tgram.types.SuggestedPostPrice" = None,
-        send_date: int = None,
+        send_date: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.suggested_post_message = suggested_post_message
@@ -161,7 +163,7 @@ class SuggestedPostApproved(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostApproved"]:
         return (
             SuggestedPostApproved(
@@ -198,7 +200,7 @@ class SuggestedPostApprovalFailed(Type_):
         suggested_post_message: "tgram.types.Message" = None,
         price: "tgram.types.SuggestedPostPrice" = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.suggested_post_message = suggested_post_message
@@ -206,7 +208,7 @@ class SuggestedPostApprovalFailed(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostApprovalFailed"]:
         return (
             SuggestedPostApprovalFailed(
@@ -240,9 +242,9 @@ class SuggestedPostDeclined(Type_):
     def __init__(
         self,
         suggested_post_message: "tgram.types.Message" = None,
-        comment: str = None,
+        comment: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.suggested_post_message = suggested_post_message
@@ -250,7 +252,7 @@ class SuggestedPostDeclined(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostDeclined"]:
         return (
             SuggestedPostDeclined(
@@ -288,11 +290,11 @@ class SuggestedPostPaid(Type_):
     def __init__(
         self,
         suggested_post_message: "tgram.types.Message" = None,
-        currency: str = None,
-        amount: int = None,
+        currency: str | None = None,
+        amount: int | None = None,
         star_amount: "tgram.types.StarAmount" = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.suggested_post_message = suggested_post_message
@@ -302,7 +304,7 @@ class SuggestedPostPaid(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostPaid"]:
         return (
             SuggestedPostPaid(
@@ -340,9 +342,9 @@ class SuggestedPostRefunded(Type_):
     def __init__(
         self,
         suggested_post_message: "tgram.types.Message" = None,
-        reason: str = None,
+        reason: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.suggested_post_message = suggested_post_message
@@ -350,7 +352,7 @@ class SuggestedPostRefunded(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuggestedPostRefunded"]:
         return (
             SuggestedPostRefunded(

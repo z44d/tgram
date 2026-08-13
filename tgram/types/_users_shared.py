@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class UsersShared(Type_):
@@ -23,10 +24,10 @@ class UsersShared(Type_):
 
     def __init__(
         self,
-        request_id: "int" = None,
-        users: List["tgram.types.SharedUser"] = None,
+        request_id: "int | None" = None,
+        users: list["tgram.types.SharedUser"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.request_id = request_id
@@ -34,7 +35,7 @@ class UsersShared(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.UsersShared"]:
         return (
             UsersShared(

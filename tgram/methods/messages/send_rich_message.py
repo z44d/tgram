@@ -1,34 +1,30 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    InputRichMessage,
+    Message,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
-    InputRichMessage,
+    ReplyParameters,
 )
 from tgram.utils import convert_to_inline_keyboard_markup
-
-from typing import Union
 
 
 class SendRichMessage:
     async def send_rich_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         rich_message: InputRichMessage,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
     ) -> Message:
         """
         Use this method to send a rich message.

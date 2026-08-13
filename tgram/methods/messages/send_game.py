@@ -1,8 +1,5 @@
 import tgram
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import ReplyParameters
-
+from tgram.types import InlineKeyboardMarkup, Message, ReplyParameters
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
@@ -11,14 +8,14 @@ class SendGame:
         self: "tgram.TgBot",
         chat_id: int,
         game_short_name: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
         reply_markup: InlineKeyboardMarkup = None,
-        allow_paid_broadcast: bool = None,
+        allow_paid_broadcast: bool | None = None,
     ) -> Message:
         """
         Used to send the game.

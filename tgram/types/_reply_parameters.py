@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional, Union
 
-from typing import List, Union, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class ReplyParameters(Type_):
@@ -46,18 +47,18 @@ class ReplyParameters(Type_):
 
     def __init__(
         self,
-        message_id: "int" = None,
-        chat_id: Union["int", "str"] = None,
-        allow_sending_without_reply: "bool" = None,
-        quote: "str" = None,
-        quote_parse_mode: "str" = None,
-        quote_entities: List["tgram.types.MessageEntity"] = None,
-        quote_position: "int" = None,
-        checklist_task_id: "int" = None,
-        poll_option_id: "str" = None,
-        ephemeral_message_id: "int" = None,
+        message_id: "int | None" = None,
+        chat_id: Union["int", "str"] | None = None,
+        allow_sending_without_reply: "bool | None" = None,
+        quote: "str | None" = None,
+        quote_parse_mode: "str | None" = None,
+        quote_entities: list["tgram.types.MessageEntity"] | None = None,
+        quote_position: "int | None" = None,
+        checklist_task_id: "int | None" = None,
+        poll_option_id: "str | None" = None,
+        ephemeral_message_id: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.message_id = message_id
@@ -73,7 +74,7 @@ class ReplyParameters(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ReplyParameters"]:
         return (
             ReplyParameters(

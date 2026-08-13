@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional, Union
 
-from typing import List, Union, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InputSticker(Type_):
@@ -33,12 +34,12 @@ class InputSticker(Type_):
     def __init__(
         self,
         sticker: Union["tgram.types.InputFile", "str"] = None,
-        format: "str" = None,
-        emoji_list: List["str"] = None,
+        format: "str | None" = None,
+        emoji_list: list["str"] | None = None,
         mask_position: "tgram.types.MaskPosition" = None,
-        keywords: List["str"] = None,
+        keywords: list["str"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.sticker = sticker
@@ -49,7 +50,7 @@ class InputSticker(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputSticker"]:
         return (
             InputSticker(

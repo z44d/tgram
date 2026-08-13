@@ -1,7 +1,8 @@
-import tgram
-from .base import StorageBase
+from typing import Any, Union
 
-from typing import Any, Dict, List, Tuple, Union
+import tgram
+
+from .base import StorageBase
 
 
 class KvsqliteStorage(StorageBase):
@@ -23,7 +24,7 @@ class KvsqliteStorage(StorageBase):
         return await self.update_chats(chats)
 
     async def get_chat(
-        self, chat_id: Union[int, str], parse: bool = False
+        self, chat_id: int | str, parse: bool = False
     ) -> Union[dict, "tgram.types.Chat"]:
         chats = await self.get_chats()
 
@@ -34,10 +35,10 @@ class KvsqliteStorage(StorageBase):
 
         return {}
 
-    async def get_chats(self) -> Dict[str, dict]:
+    async def get_chats(self) -> dict[str, dict]:
         return await self.client.get("chats") or {}
 
-    async def update_chats(self, chats: Dict[str, dict]) -> bool:
+    async def update_chats(self, chats: dict[str, dict]) -> bool:
         return await self.client.set("chats", chats)
 
     async def add_user(self, user: "tgram.types.User") -> bool:
@@ -49,7 +50,7 @@ class KvsqliteStorage(StorageBase):
         return await self.update_users(users)
 
     async def get_user(
-        self, user_id: Union[int, str], parse: bool = False
+        self, user_id: int | str, parse: bool = False
     ) -> Union[dict, "tgram.types.User"]:
         users = await self.get_users()
 
@@ -60,10 +61,10 @@ class KvsqliteStorage(StorageBase):
 
         return {}
 
-    async def get_users(self) -> Dict[str, Dict]:
+    async def get_users(self) -> dict[str, dict]:
         return await self.client.get("users") or {}
 
-    async def update_users(self, users: Dict[str, dict]) -> bool:
+    async def update_users(self, users: dict[str, dict]) -> bool:
         return await self.client.set("users", users)
 
     async def mute(self, chat_id: int, user_id: int) -> bool:
@@ -82,8 +83,8 @@ class KvsqliteStorage(StorageBase):
         mute_list.remove(packet)
         return await self.update_mute_list(mute_list)
 
-    async def get_mute_list(self) -> List[Tuple[int, int]]:
+    async def get_mute_list(self) -> list[tuple[int, int]]:
         return await self.get("mute") or []
 
-    async def update_mute_list(self, mute_list: List[Tuple[int, int]]) -> bool:
+    async def update_mute_list(self, mute_list: list[tuple[int, int]]) -> bool:
         return await self.set("mute", mute_list)

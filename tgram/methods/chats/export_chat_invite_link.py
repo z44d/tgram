@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class ExportChatInviteLink:
     async def export_chat_invite_link(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> str:
         """
         Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator

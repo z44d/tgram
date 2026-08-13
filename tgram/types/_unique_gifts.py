@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class UniqueGiftModel(Type_):
@@ -21,12 +23,12 @@ class UniqueGiftModel(Type_):
 
     def __init__(
         self,
-        name: "str" = None,
+        name: "str | None" = None,
         sticker: "tgram.types.Sticker" = None,
-        rarity_per_mille: "int" = None,
-        rarity: "str" = None,
+        rarity_per_mille: "int | None" = None,
+        rarity: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.name = name
@@ -36,7 +38,7 @@ class UniqueGiftModel(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGiftModel"]:
         return (
             UniqueGiftModel(
@@ -69,11 +71,11 @@ class UniqueGiftSymbol(Type_):
 
     def __init__(
         self,
-        name: "str" = None,
+        name: "str | None" = None,
         sticker: "tgram.types.Sticker" = None,
-        rarity_per_mille: "int" = None,
+        rarity_per_mille: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.name = name
@@ -82,7 +84,7 @@ class UniqueGiftSymbol(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGiftSymbol"]:
         return (
             UniqueGiftSymbol(
@@ -116,12 +118,12 @@ class UniqueGiftBackdropColors(Type_):
 
     def __init__(
         self,
-        center_color: "int" = None,
-        edge_color: "int" = None,
-        symbol_color: "int" = None,
-        text_color: "int" = None,
+        center_color: "int | None" = None,
+        edge_color: "int | None" = None,
+        symbol_color: "int | None" = None,
+        text_color: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.center_color = center_color
@@ -131,7 +133,7 @@ class UniqueGiftBackdropColors(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGiftBackdropColors"]:
         return (
             UniqueGiftBackdropColors(
@@ -164,11 +166,11 @@ class UniqueGiftBackdrop(Type_):
 
     def __init__(
         self,
-        name: "str" = None,
+        name: "str | None" = None,
         colors: "UniqueGiftBackdropColors" = None,
-        rarity_per_mille: "int" = None,
+        rarity_per_mille: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.name = name
@@ -177,7 +179,7 @@ class UniqueGiftBackdrop(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGiftBackdrop"]:
         return (
             UniqueGiftBackdrop(
@@ -227,20 +229,20 @@ class UniqueGift(Type_):
 
     def __init__(
         self,
-        base_name: "str" = None,
-        name: "str" = None,
-        number: "int" = None,
+        base_name: "str | None" = None,
+        name: "str | None" = None,
+        number: "int | None" = None,
         model: "UniqueGiftModel" = None,
         symbol: "UniqueGiftSymbol" = None,
         backdrop: "UniqueGiftBackdrop" = None,
         publisher_chat: "tgram.types.Chat" = None,
-        gift_id: "str" = None,
-        is_from_blockchain: "bool" = None,
-        is_premium: "bool" = None,
-        is_burned: "bool" = None,
+        gift_id: "str | None" = None,
+        is_from_blockchain: "bool | None" = None,
+        is_premium: "bool | None" = None,
+        is_burned: "bool | None" = None,
         colors: "tgram.types.UniqueGiftColors" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.base_name = base_name
@@ -258,7 +260,7 @@ class UniqueGift(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGift"]:
         return (
             UniqueGift(
@@ -306,14 +308,14 @@ class UniqueGiftInfo(Type_):
     def __init__(
         self,
         gift: "UniqueGift" = None,
-        origin: "str" = None,
-        last_resale_currency: str = None,
-        last_resale_amount: int = None,
-        owned_gift_id: "str" = None,
-        transfer_star_count: "int" = None,
-        next_transfer_date: int = None,
+        origin: "str | None" = None,
+        last_resale_currency: str | None = None,
+        last_resale_amount: int | None = None,
+        owned_gift_id: "str | None" = None,
+        transfer_star_count: "int | None" = None,
+        next_transfer_date: int | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.gift = gift
@@ -326,7 +328,7 @@ class UniqueGiftInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["UniqueGiftInfo"]:
         return (
             UniqueGiftInfo(

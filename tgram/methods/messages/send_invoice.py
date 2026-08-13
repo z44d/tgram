@@ -1,50 +1,48 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    SuggestedPostParameters,
-    Message,
     InlineKeyboardMarkup,
     LabeledPrice,
+    Message,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
 from tgram.utils import convert_to_inline_keyboard_markup
-
-from typing import Union, List
 
 
 class SendInvoice:
     async def send_invoice(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         title: str,
         description: str,
         payload: str,
         currency: str,
-        prices: List[LabeledPrice],
-        message_thread_id: int = None,
-        provider_token: str = None,
-        max_tip_amount: int = None,
-        suggested_tip_amounts: List[int] = None,
-        start_parameter: str = None,
-        provider_data: str = None,
-        photo_url: str = None,
-        photo_size: int = None,
-        photo_width: int = None,
-        photo_height: int = None,
-        need_name: bool = None,
-        need_phone_number: bool = None,
-        need_email: bool = None,
-        need_shipping_address: bool = None,
-        send_phone_number_to_provider: bool = None,
-        send_email_to_provider: bool = None,
-        is_flexible: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        prices: list[LabeledPrice],
+        message_thread_id: int | None = None,
+        provider_token: str | None = None,
+        max_tip_amount: int | None = None,
+        suggested_tip_amounts: list[int] | None = None,
+        start_parameter: str | None = None,
+        provider_data: str | None = None,
+        photo_url: str | None = None,
+        photo_size: int | None = None,
+        photo_width: int | None = None,
+        photo_height: int | None = None,
+        need_name: bool | None = None,
+        need_phone_number: bool | None = None,
+        need_email: bool | None = None,
+        need_shipping_address: bool | None = None,
+        send_phone_number_to_provider: bool | None = None,
+        send_email_to_provider: bool | None = None,
+        is_flexible: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
         reply_markup: InlineKeyboardMarkup = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """

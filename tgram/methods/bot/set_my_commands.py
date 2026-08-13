@@ -1,15 +1,14 @@
+
 import tgram
-from typing import List
-from tgram.types import BotCommand
-from tgram.types import BotCommandScope
+from tgram.types import BotCommand, BotCommandScope
 
 
 class SetMyCommands:
     async def set_my_commands(
         self: "tgram.TgBot",
-        commands: List[BotCommand],
+        commands: list[BotCommand],
         scope: BotCommandScope = None,
-        language_code: str = None,
+        language_code: str | None = None,
     ) -> bool:
         """
         Use this method to change the list of the bot's commands.

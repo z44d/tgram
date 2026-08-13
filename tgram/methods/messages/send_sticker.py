@@ -1,39 +1,35 @@
-import tgram
+from pathlib import Path
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    SuggestedPostParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    Message,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
 from tgram.utils import (
     convert_to_inline_keyboard_markup,
 )
 
-from pathlib import Path
-from typing import Union
-
 
 class SendSticker:
     async def send_sticker(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        sticker: Union[Path, bytes, str],
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        emoji: str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        chat_id: int | str,
+        sticker: Path | bytes | str,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        emoji: str | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """

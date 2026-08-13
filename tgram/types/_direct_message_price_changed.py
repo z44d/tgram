@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class DirectMessagePriceChanged(Type_):
@@ -17,9 +19,9 @@ class DirectMessagePriceChanged(Type_):
     def __init__(
         self,
         are_direct_messages_enabled: bool,
-        direct_message_star_count: Optional[int] = 0,
+        direct_message_star_count: int | None = 0,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.are_direct_messages_enabled = are_direct_messages_enabled
@@ -27,7 +29,7 @@ class DirectMessagePriceChanged(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.DirectMessagePriceChanged"]:
         return (
             DirectMessagePriceChanged(

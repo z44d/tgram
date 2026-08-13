@@ -1,11 +1,11 @@
+
 import tgram
-from typing import Union
 
 
 class SetChatMemberTag:
     async def set_chat_member_tag(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
         tag: str,
     ) -> bool:

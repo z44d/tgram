@@ -1,8 +1,8 @@
-import tgram
+from collections.abc import Callable
 
-from typing import Callable
-from tgram.handlers import Handler, Handlers
+import tgram
 from tgram.filters import Filter, all
+from tgram.handlers import Handler, Handlers
 
 
 class OnChosenInlineResult:

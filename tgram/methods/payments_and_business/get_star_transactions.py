@@ -4,7 +4,7 @@ from tgram.types import StarTransactions
 
 class GetStarTransactions:
     async def get_star_transactions(
-        self: "tgram.TgBot", offset: int = None, limit: int = None
+        self: "tgram.TgBot", offset: int | None = None, limit: int | None = None
     ) -> StarTransactions:
         """
         Returns the bot's Telegram Star transactions in chronological order.

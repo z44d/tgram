@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class UnbanChatSenderChat:
     async def unban_chat_sender_chat(
-        self: "tgram.TgBot", chat_id: Union[int, str], sender_chat_id: int
+        self: "tgram.TgBot", chat_id: int | str, sender_chat_id: int
     ) -> bool:
         """
         Use this method to unban a previously banned channel chat in a supergroup or channel.

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class AffiliateInfo(Type_):
@@ -33,11 +34,11 @@ class AffiliateInfo(Type_):
         self,
         affiliate_user: "tgram.types.User" = None,
         affiliate_chat: "tgram.types.Chat" = None,
-        commission_per_mille: int = None,
-        amount: int = None,
-        nanostar_amount: int = None,
+        commission_per_mille: int | None = None,
+        amount: int | None = None,
+        nanostar_amount: int | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.affiliate_user = affiliate_user
@@ -48,7 +49,7 @@ class AffiliateInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.AffiliateInfo"]:
         return (
             AffiliateInfo(

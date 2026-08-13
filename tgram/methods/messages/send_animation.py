@@ -1,47 +1,43 @@
-import tgram
+from pathlib import Path
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    ParseMode,
-    SuggestedPostParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    Message,
+    MessageEntity,
+    ParseMode,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
-    MessageEntity,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
-from tgram.utils import get_file_path, get_parse_mode, convert_to_inline_keyboard_markup
-
-from pathlib import Path
-from typing import Union, List
+from tgram.utils import convert_to_inline_keyboard_markup, get_file_path, get_parse_mode
 
 
 class SendAnimation:
     async def send_animation(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        animation: Union[Path, bytes, str],
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        duration: int = None,
-        width: int = None,
-        height: int = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        caption: str = None,
+        chat_id: int | str,
+        animation: Path | bytes | str,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        duration: int | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
-        has_spoiler: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """

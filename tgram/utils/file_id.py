@@ -1,8 +1,7 @@
 import base64
 import struct
-
-from typing import List, TypedDict
 from io import BytesIO
+from typing import TypedDict
 
 from tgram import utils
 
@@ -12,7 +11,7 @@ def b64_decode(s: str) -> bytes:
 
 
 def rle_decode(s: bytes) -> bytes:
-    r: List[int] = []
+    r: list[int] = []
     z: bool = False
 
     for b in s:

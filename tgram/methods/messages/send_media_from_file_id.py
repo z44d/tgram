@@ -1,36 +1,35 @@
-import tgram
-from typing import List
-from typing import Union
-from tgram.types import ForceReply
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import MessageEntity
-from tgram.types import ReplyKeyboardMarkup
-from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters, ParseMode
 
+import tgram
 from tgram import utils
+from tgram.types import (
+    ForceReply,
+    InlineKeyboardMarkup,
+    Message,
+    MessageEntity,
+    ParseMode,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    ReplyParameters,
+)
 
 
 class SendMediaFromFileId:
     async def send_media_from_file_id(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         file_id: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        caption: str = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
     ) -> Message:
         decoded_file_id = utils.decode_file_id(file_id)
 

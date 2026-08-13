@@ -1,58 +1,57 @@
-import tgram
-from typing import List
-from typing import Union
-from tgram.types import ForceReply
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import InputPollMedia
-from tgram.types import InputPollOption
-from tgram.types import Message
-from tgram.types import MessageEntity
-from tgram.types import ReplyKeyboardMarkup
-from tgram.types import ReplyKeyboardRemove
-from tgram.types import ReplyParameters, ParseMode
 
+import tgram
+from tgram.types import (
+    ForceReply,
+    InlineKeyboardMarkup,
+    InputPollMedia,
+    InputPollOption,
+    Message,
+    MessageEntity,
+    ParseMode,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+    ReplyParameters,
+)
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class SendPoll:
     async def send_poll(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         question: str,
-        options: List[InputPollOption],
-        business_connection_id: str = None,
-        message_thread_id: int = None,
+        options: list[InputPollOption],
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
         question_parse_mode: ParseMode = None,
-        question_entities: List[MessageEntity] = None,
-        is_anonymous: bool = None,
-        type: str = None,
-        allows_multiple_answers: bool = None,
-        correct_option_ids: List[int] = None,
-        explanation: str = None,
+        question_entities: list[MessageEntity] | None = None,
+        is_anonymous: bool | None = None,
+        type: str | None = None,
+        allows_multiple_answers: bool | None = None,
+        correct_option_ids: list[int] | None = None,
+        explanation: str | None = None,
         explanation_parse_mode: ParseMode = None,
-        explanation_entities: List[MessageEntity] = None,
-        open_period: int = None,
-        close_date: int = None,
-        is_closed: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        explanation_entities: list[MessageEntity] | None = None,
+        open_period: int | None = None,
+        close_date: int | None = None,
+        is_closed: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        allows_revoting: bool = None,
-        shuffle_options: bool = None,
-        allow_adding_options: bool = None,
-        hide_results_until_closes: bool = None,
-        description: str = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        allows_revoting: bool | None = None,
+        shuffle_options: bool | None = None,
+        allow_adding_options: bool | None = None,
+        hide_results_until_closes: bool | None = None,
+        description: str | None = None,
         description_parse_mode: ParseMode = None,
-        description_entities: List[MessageEntity] = None,
+        description_entities: list[MessageEntity] | None = None,
         media: InputPollMedia = None,
         explanation_media: InputPollMedia = None,
-        members_only: bool = None,
-        country_codes: List[str] = None,
+        members_only: bool | None = None,
+        country_codes: list[str] | None = None,
     ) -> Message:
         """
         Use this method to send a native poll.

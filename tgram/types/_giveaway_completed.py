@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class GiveawayCompleted(Type_):
@@ -28,12 +29,12 @@ class GiveawayCompleted(Type_):
 
     def __init__(
         self,
-        winner_count: "int" = None,
-        unclaimed_prize_count: "int" = None,
+        winner_count: "int | None" = None,
+        unclaimed_prize_count: "int | None" = None,
         giveaway_message: "tgram.types.Message" = None,
-        is_star_giveaway: "bool" = None,
+        is_star_giveaway: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.winner_count = winner_count
@@ -43,7 +44,7 @@ class GiveawayCompleted(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.GiveawayCompleted"]:
         return (
             GiveawayCompleted(

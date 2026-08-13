@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class VideoNote(Type_):
@@ -35,14 +36,14 @@ class VideoNote(Type_):
 
     def __init__(
         self,
-        file_id: "str" = None,
-        file_unique_id: "str" = None,
-        length: "int" = None,
-        duration: "int" = None,
+        file_id: "str | None" = None,
+        file_unique_id: "str | None" = None,
+        length: "int | None" = None,
+        duration: "int | None" = None,
         thumbnail: "tgram.types.PhotoSize" = None,
-        file_size: "int" = None,
+        file_size: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.file_id = file_id
@@ -54,7 +55,7 @@ class VideoNote(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.VideoNote"]:
         return (
             VideoNote(

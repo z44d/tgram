@@ -1,11 +1,10 @@
 import re
-import tgram
-
-from typing import Callable, Union, List, Optional, Literal
-
+from collections.abc import Callable
 from io import BytesIO
 from pathlib import Path
+from typing import Literal, Optional, Union
 
+import tgram
 
 MEDIA_TYPES = {
     "audio",
@@ -58,13 +57,13 @@ class MessageB:
     async def reply_text(
         self: "tgram.types.Message",
         text: str,
-        message_thread_id: int = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -119,16 +118,16 @@ class MessageB:
 
     async def reply_photo(
         self: "tgram.types.Message",
-        photo: Union[Path, bytes, str],
-        caption: str = None,
-        message_thread_id: int = None,
+        photo: Path | bytes | str,
+        caption: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        has_spoiler: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -186,18 +185,18 @@ class MessageB:
 
     async def reply_audio(
         self: "tgram.types.Message",
-        audio: Union[Path, bytes, str],
-        caption: str = None,
-        message_thread_id: int = None,
+        audio: Path | bytes | str,
+        caption: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        duration: int = None,
-        performer: str = None,
-        title: str = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        duration: int | None = None,
+        performer: str | None = None,
+        title: str | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -262,16 +261,16 @@ class MessageB:
 
     async def reply_document(
         self: "tgram.types.Message",
-        document: Union[Path, bytes, str],
-        message_thread_id: int = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        caption: str = None,
+        document: Path | bytes | str,
+        message_thread_id: int | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        disable_content_type_detection: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        disable_content_type_detection: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -329,21 +328,21 @@ class MessageB:
 
     async def reply_video(
         self: "tgram.types.Message",
-        video: Union[Path, bytes, str],
-        message_thread_id: int = None,
-        duration: int = None,
-        width: int = None,
-        height: int = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        caption: str = None,
+        video: Path | bytes | str,
+        message_thread_id: int | None = None,
+        duration: int | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        has_spoiler: bool = None,
-        supports_streaming: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
+        supports_streaming: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -411,20 +410,20 @@ class MessageB:
 
     async def reply_animation(
         self: "tgram.types.Message",
-        animation: Union[Path, bytes, str],
-        message_thread_id: int = None,
-        duration: int = None,
-        width: int = None,
-        height: int = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        caption: str = None,
+        animation: Path | bytes | str,
+        message_thread_id: int | None = None,
+        duration: int | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        has_spoiler: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -490,15 +489,15 @@ class MessageB:
 
     async def reply_voice(
         self: "tgram.types.Message",
-        voice: Union[Path, bytes, str],
-        caption: str = None,
-        message_thread_id: int = None,
+        voice: Path | bytes | str,
+        caption: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        duration: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        duration: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -555,14 +554,14 @@ class MessageB:
 
     async def reply_video_note(
         self: "tgram.types.Message",
-        video_note: Union[Path, bytes, str],
-        message_thread_id: int = None,
-        duration: int = None,
-        length: int = None,
-        thumbnail: Union[Path, bytes, str] = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        video_note: Path | bytes | str,
+        message_thread_id: int | None = None,
+        duration: int | None = None,
+        length: int | None = None,
+        thumbnail: Path | bytes | str | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -616,12 +615,12 @@ class MessageB:
 
     async def reply_media_group(
         self: "tgram.types.Message",
-        media: List["tgram.types.InputMedia"],
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
-    ) -> List["tgram.types.Message"]:
+        media: list["tgram.types.InputMedia"],
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
+    ) -> list["tgram.types.Message"]:
         """
         Sends a group of photos or videos as an album in reply to the current message.
 
@@ -665,14 +664,14 @@ class MessageB:
         self: "tgram.types.Message",
         latitude: float,
         longitude: float,
-        message_thread_id: int = None,
-        horizontal_accuracy: float = None,
-        live_period: int = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        message_thread_id: int | None = None,
+        horizontal_accuracy: float | None = None,
+        live_period: int | None = None,
+        heading: int | None = None,
+        proximity_alert_radius: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -731,13 +730,13 @@ class MessageB:
     async def reply_paid_media(
         self: "tgram.types.Message",
         star_count: int,
-        media: List["tgram.types.InputPaidMedia"],
-        caption: str = None,
+        media: list["tgram.types.InputPaidMedia"],
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -795,7 +794,7 @@ class MessageB:
         )
 
     async def reply_chat_action(
-        self: "tgram.types.Message", action: str, message_thread_id: int = None
+        self: "tgram.types.Message", action: str, message_thread_id: int | None = None
     ) -> bool:
         """
         Sends a chat action in reply to the current message.
@@ -825,12 +824,12 @@ class MessageB:
         self: "tgram.types.Message",
         phone_number: str,
         first_name: str,
-        last_name: str = None,
-        vcard: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        last_name: str | None = None,
+        vcard: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -884,11 +883,11 @@ class MessageB:
 
     async def reply_dice(
         self: "tgram.types.Message",
-        emoji: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        emoji: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -935,10 +934,10 @@ class MessageB:
     async def reply_game(
         self: "tgram.types.Message",
         game_short_name: str,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> "tgram.types.Message":
         """
@@ -983,27 +982,27 @@ class MessageB:
         description: str,
         payload: str,
         currency: str,
-        prices: List["tgram.types.LabeledPrice"],
-        provider_token: str = None,
-        max_tip_amount: int = None,
-        suggested_tip_amounts: List[int] = None,
-        start_parameter: str = None,
-        provider_data: str = None,
-        photo_url: str = None,
-        photo_size: int = None,
-        photo_width: int = None,
-        photo_height: int = None,
-        need_name: bool = None,
-        need_phone_number: bool = None,
-        need_email: bool = None,
-        need_shipping_address: bool = None,
-        send_phone_number_to_provider: bool = None,
-        send_email_to_provider: bool = None,
-        is_flexible: bool = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        prices: list["tgram.types.LabeledPrice"],
+        provider_token: str | None = None,
+        max_tip_amount: int | None = None,
+        suggested_tip_amounts: list[int] | None = None,
+        start_parameter: str | None = None,
+        provider_data: str | None = None,
+        photo_url: str | None = None,
+        photo_size: int | None = None,
+        photo_width: int | None = None,
+        photo_height: int | None = None,
+        need_name: bool | None = None,
+        need_phone_number: bool | None = None,
+        need_email: bool | None = None,
+        need_shipping_address: bool | None = None,
+        send_phone_number_to_provider: bool | None = None,
+        send_email_to_provider: bool | None = None,
+        is_flexible: bool | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> "tgram.types.Message":
         """
@@ -1089,12 +1088,12 @@ class MessageB:
 
     async def reply_sticker(
         self: "tgram.types.Message",
-        sticker: Union[Path, bytes, str],
-        emoji: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        sticker: Path | bytes | str,
+        emoji: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -1143,10 +1142,10 @@ class MessageB:
 
     async def forward(
         self: "tgram.types.Message",
-        chat_id: Union[int, str],
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
+        chat_id: int | str,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
     ) -> "tgram.types.Message":
         """
         Forwards the current message to another chat.
@@ -1182,14 +1181,14 @@ class MessageB:
     async def reply_media_from_file_id(
         self: "tgram.types.Message",
         file_id: str,
-        caption: str = None,
-        message_thread_id: int = None,
+        caption: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
             "tgram.types.ReplyKeyboardMarkup",
@@ -1245,14 +1244,14 @@ class MessageB:
 
     async def copy(
         self: "tgram.types.Message",
-        chat_id: Union[int, str],
-        caption: str = None,
-        message_thread_id: int = None,
+        chat_id: int | str,
+        caption: str | None = None,
+        message_thread_id: int | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
         reply_parameters: "tgram.types.ReplyParameters" = None,
         reply_markup: Union[
             "tgram.types.InlineKeyboardMarkup",
@@ -1309,7 +1308,7 @@ class MessageB:
         self: "tgram.types.Message",
         text: str,
         parse_mode: "tgram.types.ParseMode" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
@@ -1353,10 +1352,10 @@ class MessageB:
 
     async def edit_caption(
         self: "tgram.types.Message",
-        caption: str = None,
+        caption: str | None = None,
         parse_mode: "tgram.types.ParseMode" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: bool = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
         """
@@ -1467,10 +1466,10 @@ class MessageB:
         self: "tgram.types.Message",
         latitude: float,
         longitude: float,
-        live_period: int = None,
-        horizontal_accuracy: float = None,
-        heading: int = None,
-        proximity_alert_radius: int = None,
+        live_period: int | None = None,
+        horizontal_accuracy: float | None = None,
+        heading: int | None = None,
+        proximity_alert_radius: int | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
     ) -> Union["tgram.types.Message", "bool"]:
         """
@@ -1521,7 +1520,7 @@ class MessageB:
     async def react(
         self: "tgram.types.Message",
         reaction: Union[
-            List["tgram.types.ReactionType"], "tgram.types.ReactionType", List[str], str
+            list["tgram.types.ReactionType"], "tgram.types.ReactionType", list[str], str
         ],
     ) -> bool:
         """
@@ -1571,8 +1570,8 @@ class MessageB:
         )
 
     async def download(
-        self: "tgram.types.Message", file_path: str = None, in_memory: bool = None
-    ) -> Union[Path, BytesIO]:
+        self: "tgram.types.Message", file_path: str | None = None, in_memory: bool | None = None
+    ) -> Path | BytesIO:
         """
         Downloads the media content of the message.
 
@@ -1630,11 +1629,11 @@ class MessageB:
 
     async def ask(
         self: "tgram.types.Message",
-        text: str = None,
+        text: str | None = None,
         filters: "tgram.filters.Filter" = None,
         update_type: str = "message",
-        cancel: Callable[["tgram.types.Update"], bool] = None,
-        timeout: float = None,
+        cancel: Callable[["tgram.types.Update"], bool] | None = None,
+        timeout: float | None = None,
     ) -> Union[
         "tgram.types.Message", "tgram.types.CallbackQuery", "tgram.types.Update"
     ]:
@@ -1674,18 +1673,7 @@ class MessageB:
     @property
     def media(
         self: "tgram.types.Message",
-    ) -> Optional[
-        Literal[
-            "audio",
-            "video",
-            "photo",
-            "animation",
-            "voice",
-            "video_note",
-            "sticker",
-            "document",
-        ]
-    ]:
+    ) -> Literal["audio", "video", "photo", "animation", "voice", "video_note", "sticker", "document"] | None:
         """
         Returns the type of media contained in the message, if any.
 
@@ -1712,7 +1700,7 @@ class MessageB:
     @property
     def service(
         self: "tgram.types.Message",
-    ) -> Optional[str]:
+    ) -> str | None:
         """
         Returns the type of service message contained in the message, if any.
 
@@ -1737,7 +1725,7 @@ class MessageB:
         return None
 
     @property
-    def link(self: "tgram.types.Message") -> Optional[str]:
+    def link(self: "tgram.types.Message") -> str | None:
         """
         Generates a link to the message.
 
@@ -1816,7 +1804,7 @@ class MessageB:
     sender_user = user
 
     @property
-    def parameter(self: "tgram.types.Message") -> Optional[str]:
+    def parameter(self: "tgram.types.Message") -> str | None:
         if not self.text:
             return None
 

@@ -1,6 +1,6 @@
-import tgram
-
 from typing import Union
+
+import tgram
 from tgram.utils import convert_input_media
 
 
@@ -12,7 +12,7 @@ class SetBusinessAccountProfilePhoto:
             "tgram.types.InputProfilePhotoStatic",
             "tgram.types.InputProfilePhotoAnimated",
         ],
-        is_public: bool = None,
+        is_public: bool | None = None,
     ) -> bool:
         """
         Changes the profile photo of a managed business account.

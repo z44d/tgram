@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class DemoteChatMember:
     async def demote_chat_member(
-        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int
+        self: "tgram.TgBot", chat_id: int | str, user_id: int
     ) -> bool:
         """
         Use this method to demote a user in a supergroup or a channel. The bot must be an administrator

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InputInvoiceMessageContent(Type_):
@@ -86,28 +87,28 @@ class InputInvoiceMessageContent(Type_):
 
     def __init__(
         self,
-        title: "str" = None,
-        description: "str" = None,
-        payload: "str" = None,
-        currency: "str" = None,
-        prices: List["tgram.types.LabeledPrice"] = None,
-        provider_token: "str" = None,
-        max_tip_amount: "int" = None,
-        suggested_tip_amounts: List["int"] = None,
-        provider_data: "str" = None,
-        photo_url: "str" = None,
-        photo_size: "int" = None,
-        photo_width: "int" = None,
-        photo_height: "int" = None,
-        need_name: "bool" = None,
-        need_phone_number: "bool" = None,
-        need_email: "bool" = None,
-        need_shipping_address: "bool" = None,
-        send_phone_number_to_provider: "bool" = None,
-        send_email_to_provider: "bool" = None,
-        is_flexible: "bool" = None,
+        title: "str | None" = None,
+        description: "str | None" = None,
+        payload: "str | None" = None,
+        currency: "str | None" = None,
+        prices: list["tgram.types.LabeledPrice"] | None = None,
+        provider_token: "str | None" = None,
+        max_tip_amount: "int | None" = None,
+        suggested_tip_amounts: list["int"] | None = None,
+        provider_data: "str | None" = None,
+        photo_url: "str | None" = None,
+        photo_size: "int | None" = None,
+        photo_width: "int | None" = None,
+        photo_height: "int | None" = None,
+        need_name: "bool | None" = None,
+        need_phone_number: "bool | None" = None,
+        need_email: "bool | None" = None,
+        need_shipping_address: "bool | None" = None,
+        send_phone_number_to_provider: "bool | None" = None,
+        send_email_to_provider: "bool | None" = None,
+        is_flexible: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.title = title
@@ -133,7 +134,7 @@ class InputInvoiceMessageContent(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputInvoiceMessageContent"]:
         return (
             InputInvoiceMessageContent(

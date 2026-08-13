@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 
 
 class SetManagedBotAccessSettings:
@@ -7,7 +7,7 @@ class SetManagedBotAccessSettings:
         self: "tgram.TgBot",
         user_id: int,
         is_access_restricted: bool,
-        added_user_ids: List[int] = None,
+        added_user_ids: list[int] | None = None,
     ) -> bool:
         """
         Use this method to change the access settings of a managed bot.

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class RichTextEmailAddress(Type_):
@@ -26,10 +27,10 @@ class RichTextEmailAddress(Type_):
     def __init__(
         self,
         type: "str" = "email_address",
-        text: "str" = None,
-        email_address: "str" = None,
+        text: "str | None" = None,
+        email_address: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -38,7 +39,7 @@ class RichTextEmailAddress(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.RichTextEmailAddress"]:
         return (
             RichTextEmailAddress(

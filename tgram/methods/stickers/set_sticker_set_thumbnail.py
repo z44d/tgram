@@ -1,6 +1,6 @@
-import tgram
-from typing import Union
 from pathlib import Path
+
+import tgram
 from tgram.utils import get_file_path
 
 
@@ -10,7 +10,7 @@ class SetStickerSetThumbnail:
         name: str,
         user_id: int,
         format: str,
-        thumbnail: Union[Path, bytes, str] = None,
+        thumbnail: Path | bytes | str | None = None,
     ) -> bool:
         """
         Use this method to set the thumbnail of a sticker set.

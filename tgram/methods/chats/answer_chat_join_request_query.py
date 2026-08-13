@@ -1,16 +1,16 @@
+
 import tgram
-from typing import Union
 
 
 class AnswerChatJoinRequestQuery:
     async def answer_chat_join_request_query(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
         query_id: str,
-        text: str = None,
-        show_alert: bool = None,
-        url: str = None,
+        text: str | None = None,
+        show_alert: bool | None = None,
+        url: str | None = None,
     ) -> bool:
         """
         Use this method to answer a chat join request query.

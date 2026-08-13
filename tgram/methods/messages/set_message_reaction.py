@@ -1,16 +1,15 @@
+
 import tgram
-from typing import List
-from typing import Union
 from tgram.types import ReactionType
 
 
 class SetMessageReaction:
     async def set_message_reaction(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        reaction: List[ReactionType] = None,
-        is_big: bool = None,
+        reaction: list[ReactionType] | None = None,
+        is_big: bool | None = None,
     ) -> bool:
         """
         Use this method to change the chosen reactions on a message.

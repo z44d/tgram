@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultVideo(Type_):
@@ -68,22 +69,22 @@ class InlineQueryResultVideo(Type_):
 
     def __init__(
         self,
-        video_url: "str" = None,
-        mime_type: "str" = None,
-        thumbnail_url: "str" = None,
-        title: "str" = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: "bool" = None,
-        video_width: "int" = None,
-        video_height: "int" = None,
-        video_duration: "int" = None,
-        description: "str" = None,
+        video_url: "str | None" = None,
+        mime_type: "str | None" = None,
+        thumbnail_url: "str | None" = None,
+        title: "str | None" = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: "bool | None" = None,
+        video_width: "int | None" = None,
+        video_height: "int | None" = None,
+        video_duration: "int | None" = None,
+        description: "str | None" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "video"
@@ -105,7 +106,7 @@ class InlineQueryResultVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultVideo"]:
         return (
             InlineQueryResultVideo(

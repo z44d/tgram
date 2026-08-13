@@ -1,12 +1,11 @@
-import tgram
 
-from typing import Union
+import tgram
 
 
 class RemoveChatVerification:
     async def remove_chat_verification(
         self: "tgram.TgBot",
-        chat_id: Union[str, int],
+        chat_id: str | int,
     ) -> bool:
         """
         Removes verification from a chat that is currently verified on behalf of the organization represented by the bot. Returns True on success.

@@ -1,5 +1,5 @@
+
 import tgram
-from typing import Optional
 
 
 class DeclineSuggestedPost:
@@ -7,7 +7,7 @@ class DeclineSuggestedPost:
         self: "tgram.TgBot",
         chat_id: int,
         message_id: int,
-        comment: Optional[str] = None,
+        comment: str | None = None,
     ) -> bool:
         """
         Declines a suggested post in a direct messages chat.

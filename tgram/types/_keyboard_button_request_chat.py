@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class KeyboardButtonRequestChat(Type_):
@@ -56,18 +57,18 @@ class KeyboardButtonRequestChat(Type_):
 
     def __init__(
         self,
-        chat_is_channel: "bool" = None,
-        chat_is_forum: "bool" = None,
-        chat_has_username: "bool" = None,
-        chat_is_created: "bool" = None,
+        chat_is_channel: "bool | None" = None,
+        chat_is_forum: "bool | None" = None,
+        chat_has_username: "bool | None" = None,
+        chat_is_created: "bool | None" = None,
         user_administrator_rights: "tgram.types.ChatAdministratorRights" = None,
         bot_administrator_rights: "tgram.types.ChatAdministratorRights" = None,
-        bot_is_member: "bool" = None,
-        request_title: "bool" = None,
-        request_username: "bool" = None,
-        request_photo: "bool" = None,
+        bot_is_member: "bool | None" = None,
+        request_title: "bool | None" = None,
+        request_username: "bool | None" = None,
+        request_photo: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.request_id = random.randint(10000, 99999)
@@ -84,7 +85,7 @@ class KeyboardButtonRequestChat(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.KeyboardButtonRequestChat"]:
         return (
             KeyboardButtonRequestChat(

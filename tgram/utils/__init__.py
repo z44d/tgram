@@ -1,54 +1,52 @@
+from ..handlers import Handlers
 from .async_property import AsyncProperty
 from .compose import compose
 from .custom_emoji import custom_emoji
-from .file_id import decode_file_id, FILE_TYPES, SUPPORTED_FILE_TYPES_TO_SEND
+from .file_id import FILE_TYPES, SUPPORTED_FILE_TYPES_TO_SEND, decode_file_id
 from .files import get_file_name, get_file_path
 from .json_ import Json
-from .readable_time import convert_timestamp, ReadableTime
 from .mention import Mention
-from .parsers import markdown_unparse, html_unparse, String
 from .parse_mode import get_parse_mode
+from .parsers import String, html_unparse, markdown_unparse
+from .readable_time import ReadableTime, convert_timestamp
 from .types import (
-    message_origin_parse,
     convert_input_media,
-    reaction_type_parse,
     convert_to_inline_keyboard_markup,
-    rich_text_parse,
-    rich_block_parse,
     input_rich_block_parse,
+    message_origin_parse,
+    reaction_type_parse,
+    rich_block_parse,
+    rich_text_parse,
 )
 
-from ..handlers import Handlers
-from typing import List
-
 API_URL = "https://api.telegram.org/"
-ALL_UPDATES: List[str] = [
+ALL_UPDATES: list[str] = [
     getattr(Handlers, i)
     for i in filter(lambda x: not x.startswith("_"), Handlers.__dict__)
 ]
 
 __all__ = [
-    "AsyncProperty",
-    "compose",
-    "custom_emoji",
-    "decode_file_id",
     "FILE_TYPES",
     "SUPPORTED_FILE_TYPES_TO_SEND",
-    "get_file_name",
-    "get_file_path",
+    "AsyncProperty",
     "Json",
     "Mention",
-    "markdown_unparse",
-    "html_unparse",
+    "ReadableTime",
     "String",
-    "message_origin_parse",
+    "compose",
     "convert_input_media",
     "convert_timestamp",
-    "ReadableTime",
-    "get_parse_mode",
-    "reaction_type_parse",
     "convert_to_inline_keyboard_markup",
-    "rich_text_parse",
-    "rich_block_parse",
+    "custom_emoji",
+    "decode_file_id",
+    "get_file_name",
+    "get_file_path",
+    "get_parse_mode",
+    "html_unparse",
     "input_rich_block_parse",
+    "markdown_unparse",
+    "message_origin_parse",
+    "reaction_type_parse",
+    "rich_block_parse",
+    "rich_text_parse",
 ]

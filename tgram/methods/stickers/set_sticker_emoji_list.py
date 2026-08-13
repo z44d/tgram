@@ -1,10 +1,10 @@
+
 import tgram
-from typing import List
 
 
 class SetStickerEmojiList:
     async def set_sticker_emoji_list(
-        self: "tgram.TgBot", sticker: str, emoji_list: List[str]
+        self: "tgram.TgBot", sticker: str, emoji_list: list[str]
     ) -> bool:
         """
         Use this method to set the emoji list of a sticker set.

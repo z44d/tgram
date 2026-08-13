@@ -1,20 +1,18 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, Message
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class StopMessageLiveLocation:
     async def stop_message_live_location(
         self: "tgram.TgBot",
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
         reply_markup: InlineKeyboardMarkup = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         result = await self(
             "stopMessageLiveLocation",
             business_connection_id=business_connection_id,

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InputChecklist(Type_):
@@ -33,13 +34,13 @@ class InputChecklist(Type_):
     def __init__(
         self,
         title: str,
-        tasks: List["tgram.types.InputChecklistTask"],
-        parse_mode: "str" = None,
-        title_entities: List["tgram.types.MessageEntity"] = None,
-        others_can_add_tasks: "bool" = None,
-        others_can_mark_tasks_as_done: "bool" = None,
+        tasks: list["tgram.types.InputChecklistTask"],
+        parse_mode: "str | None" = None,
+        title_entities: list["tgram.types.MessageEntity"] | None = None,
+        others_can_add_tasks: "bool | None" = None,
+        others_can_mark_tasks_as_done: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.title = title
@@ -51,7 +52,7 @@ class InputChecklist(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputChecklist"]:
         return (
             InputChecklist(

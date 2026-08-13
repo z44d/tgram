@@ -1,9 +1,9 @@
+
 import tgram
-from typing import Union
 
 
 class LeaveChat:
-    async def leave_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> bool:
+    async def leave_chat(self: "tgram.TgBot", chat_id: int | str) -> bool:
         """
         Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
 

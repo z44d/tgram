@@ -1,28 +1,28 @@
+
 import tgram
-from typing import Union
 
 
 class PromoteChatMember:
     async def promote_chat_member(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
-        is_anonymous: bool = None,
-        can_manage_chat: bool = None,
-        can_delete_messages: bool = None,
-        can_manage_video_chats: bool = None,
-        can_restrict_members: bool = None,
-        can_promote_members: bool = None,
-        can_change_info: bool = None,
-        can_invite_users: bool = None,
-        can_post_stories: bool = None,
-        can_edit_stories: bool = None,
-        can_delete_stories: bool = None,
-        can_post_messages: bool = None,
-        can_edit_messages: bool = None,
-        can_pin_messages: bool = None,
-        can_manage_topics: bool = None,
-        can_manage_tags: bool = None,
+        is_anonymous: bool | None = None,
+        can_manage_chat: bool | None = None,
+        can_delete_messages: bool | None = None,
+        can_manage_video_chats: bool | None = None,
+        can_restrict_members: bool | None = None,
+        can_promote_members: bool | None = None,
+        can_change_info: bool | None = None,
+        can_invite_users: bool | None = None,
+        can_post_stories: bool | None = None,
+        can_edit_stories: bool | None = None,
+        can_delete_stories: bool | None = None,
+        can_post_messages: bool | None = None,
+        can_edit_messages: bool | None = None,
+        can_pin_messages: bool | None = None,
+        can_manage_topics: bool | None = None,
+        can_manage_tags: bool | None = None,
     ) -> bool:
         """
         Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator

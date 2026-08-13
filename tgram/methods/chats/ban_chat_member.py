@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 
 
 class BanChatMember:
     async def ban_chat_member(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         user_id: int,
-        until_date: int = None,
-        revoke_messages: bool = None,
+        until_date: int | None = None,
+        revoke_messages: bool | None = None,
     ) -> bool:
         """
         Use this method to ban a user in a group, a supergroup or a channel.

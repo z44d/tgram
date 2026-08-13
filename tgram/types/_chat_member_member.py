@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatMemberMember(Type_):
@@ -30,10 +31,10 @@ class ChatMemberMember(Type_):
         self,
         status: "tgram.types.ChatMemberStatus" = None,
         user: "tgram.types.User" = None,
-        tag: "str" = None,
-        until_date: "int" = None,
+        tag: "str | None" = None,
+        until_date: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.status = status
@@ -43,7 +44,7 @@ class ChatMemberMember(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatMemberMember"]:
         return (
             ChatMemberMember(

@@ -1,17 +1,17 @@
 import html
-import tgram
 import re
-
-from typing import List, Union, Pattern, Match, Optional
+from re import Match, Pattern
 from struct import unpack
+
+import tgram
 
 
 class String(str):
     def __init__(self, *args) -> None:
-        self._entities: List["tgram.types.MessageEntity"] = None
+        self._entities: list[tgram.types.MessageEntity] = None
         super().__init__()
 
-    def put(self, e: List["tgram.types.MessageEntity"] = None) -> "String":
+    def put(self, e: list["tgram.types.MessageEntity"] | None = None) -> "String":
         self._entities = e
         if e:
             text = add_surrogates(self)
@@ -23,8 +23,8 @@ class String(str):
         return self
 
     def match(
-        self, pattern: Union[str, Pattern[str]], flags: Union[int, re.RegexFlag] = 0
-    ) -> Optional[Match[str]]:
+        self, pattern: str | Pattern[str], flags: int | re.RegexFlag = 0
+    ) -> Match[str] | None:
         return re.match(pattern=pattern, string=self, flags=flags)
 
     @property
@@ -91,7 +91,7 @@ def remove_surrogates(text: str) -> str:
     return text.encode("utf-16", "surrogatepass").decode("utf-16")
 
 
-def markdown_unparse(text: str, entities: List["tgram.types.MessageEntity"]):
+def markdown_unparse(text: str, entities: list["tgram.types.MessageEntity"]):
     text = add_surrogates(text)
 
     entities_offsets = []
@@ -171,12 +171,9 @@ def markdown_unparse(text: str, entities: List["tgram.types.MessageEntity"]):
             )
         )
 
-    entities_offsets = map(
-        lambda x: x[1],
-        sorted(
+    entities_offsets = (x[1] for x in sorted(
             enumerate(entities_offsets), key=lambda x: (x[1][1], x[0]), reverse=True
-        ),
-    )
+        ))
 
     for entity, offset in entities_offsets:
         text = text[:offset] + entity + text[offset:]
@@ -184,7 +181,7 @@ def markdown_unparse(text: str, entities: List["tgram.types.MessageEntity"]):
     return remove_surrogates(text)
 
 
-def html_unparse(text: str, entities: List["tgram.types.MessageEntity"]) -> str:
+def html_unparse(text: str, entities: list["tgram.types.MessageEntity"]) -> str:
     def parse_one(entity: "tgram.types.MessageEntity"):
         """
         Parses a single entity and returns (start_tag, start), (end_tag, end)

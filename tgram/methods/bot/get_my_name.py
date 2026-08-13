@@ -3,7 +3,7 @@ from tgram.types import BotName
 
 
 class GetMyName:
-    async def get_my_name(self: "tgram.TgBot", language_code: str = None) -> BotName:
+    async def get_my_name(self: "tgram.TgBot", language_code: str | None = None) -> BotName:
         """
         Use this method to get the current bot name for the given user language.
         Returns BotName on success.

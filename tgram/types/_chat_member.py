@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Union
 
-from typing import Union, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class ChatMember(Type_):
@@ -21,17 +22,8 @@ class ChatMember(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
-    ) -> Optional[
-        Union[
-            "tgram.types.ChatMemberOwner",
-            "tgram.types.ChatMemberAdministrator",
-            "tgram.types.ChatMemberMember",
-            "tgram.types.ChatMemberRestricted",
-            "tgram.types.ChatMemberBanned",
-            "tgram.types.ChatMemberLeft",
-        ]
-    ]:
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
+    ) -> Union["tgram.types.ChatMemberOwner", "tgram.types.ChatMemberAdministrator", "tgram.types.ChatMemberMember", "tgram.types.ChatMemberRestricted", "tgram.types.ChatMemberBanned", "tgram.types.ChatMemberLeft"] | None:
         return (
             (
                 tgram.types.ChatMemberOwner._parse(me=me, d=d)

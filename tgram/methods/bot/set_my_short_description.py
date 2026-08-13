@@ -3,7 +3,7 @@ import tgram
 
 class SetMyShortDescription:
     async def set_my_short_description(
-        self: "tgram.TgBot", short_description: str = None, language_code: str = None
+        self: "tgram.TgBot", short_description: str | None = None, language_code: str | None = None
     ) -> bool:
         """
         Use this method to change the bot's short description, which is shown on the bot's profile page and

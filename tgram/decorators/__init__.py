@@ -11,6 +11,7 @@ from .on_deleted_business_messages import OnDeletedBusinessMessages
 from .on_edited_business_message import OnEditedBusinessMessage
 from .on_edited_channel_post import OnEditedChannelPost
 from .on_edited_message import OnEditedMessage
+from .on_exception import OnException
 from .on_inline_query import OnInlineQuery
 from .on_message import OnMessage
 from .on_message_reaction import OnMessageReaction
@@ -22,7 +23,6 @@ from .on_pre_checkout_query import OnPreCheckoutQuery
 from .on_purchased_paid_media import OnPurchasedPaidMedia
 from .on_removed_chat_boost import OnRemovedChatBoost
 from .on_shipping_query import OnShippingQuery
-from .on_exception import OnException
 from .outgoing_messages import OutgoingMessage
 
 

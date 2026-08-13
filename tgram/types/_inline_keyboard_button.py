@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InlineKeyboardButton(Type_):
@@ -69,22 +70,22 @@ class InlineKeyboardButton(Type_):
 
     def __init__(
         self,
-        text: "str" = None,
-        callback_data: "str" = None,
-        url: "str" = None,
+        text: "str | None" = None,
+        callback_data: "str | None" = None,
+        url: "str | None" = None,
         web_app: "tgram.types.WebAppInfo" = None,
         login_url: "tgram.types.LoginUrl" = None,
-        switch_inline_query: "str" = None,
-        switch_inline_query_current_chat: "str" = None,
+        switch_inline_query: "str | None" = None,
+        switch_inline_query_current_chat: "str | None" = None,
         switch_inline_query_chosen_chat: "tgram.types.SwitchInlineQueryChosenChat" = None,
         copy_text: "tgram.types.CopyTextButton" = None,
         callback_game: "tgram.types.CallbackGame" = None,
-        pay: "bool" = None,
-        icon_custom_emoji_id: "str" = None,
-        style: "str" = None,
-        user_id: "int" = None,
+        pay: "bool | None" = None,
+        icon_custom_emoji_id: "str | None" = None,
+        style: "str | None" = None,
+        user_id: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = text
@@ -104,7 +105,7 @@ class InlineKeyboardButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineKeyboardButton"]:
         return (
             InlineKeyboardButton(

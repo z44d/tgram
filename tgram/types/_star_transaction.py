@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class StarTransaction(Type_):
@@ -34,14 +35,14 @@ class StarTransaction(Type_):
 
     def __init__(
         self,
-        id: "str" = None,
-        amount: "int" = None,
-        nanostar_amount: "int" = None,
-        date: "int" = None,
+        id: "str | None" = None,
+        amount: "int | None" = None,
+        nanostar_amount: "int | None" = None,
+        date: "int | None" = None,
         source: "tgram.types.TransactionPartner" = None,
         receiver: "tgram.types.TransactionPartner" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -53,7 +54,7 @@ class StarTransaction(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.StarTransaction"]:
         return (
             StarTransaction(

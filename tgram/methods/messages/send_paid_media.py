@@ -1,46 +1,42 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    ParseMode,
-    SuggestedPostParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    InputPaidMedia,
+    Message,
+    MessageEntity,
+    ParseMode,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
-    MessageEntity,
-    InputPaidMedia,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
 from tgram.utils import (
-    get_parse_mode,
-    convert_to_inline_keyboard_markup,
     convert_input_media,
+    convert_to_inline_keyboard_markup,
+    get_parse_mode,
 )
-
-from typing import Union, List
 
 
 class SendPaidMedia:
     async def send_paid_media(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         star_count: int,
-        media: List[InputPaidMedia],
-        payload: str = None,
-        caption: str = None,
+        media: list[InputPaidMedia],
+        payload: str | None = None,
+        caption: str | None = None,
         parse_mode: ParseMode = None,
-        caption_entities: List[MessageEntity] = None,
-        show_caption_above_media: bool = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        business_connection_id: str = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        business_connection_id: str | None = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """

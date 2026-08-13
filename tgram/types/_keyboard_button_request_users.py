@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class KeyboardButtonRequestUsers(Type_):
@@ -42,14 +43,14 @@ class KeyboardButtonRequestUsers(Type_):
 
     def __init__(
         self,
-        user_is_bot: "bool" = None,
-        user_is_premium: "bool" = None,
-        max_quantity: "int" = None,
-        request_name: "bool" = None,
-        request_username: "bool" = None,
-        request_photo: "bool" = None,
+        user_is_bot: "bool | None" = None,
+        user_is_premium: "bool | None" = None,
+        max_quantity: "int | None" = None,
+        request_name: "bool | None" = None,
+        request_username: "bool | None" = None,
+        request_photo: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.request_id = random.randint(10000, 99999)
@@ -62,7 +63,7 @@ class KeyboardButtonRequestUsers(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.KeyboardButtonRequestUsers"]:
         return (
             KeyboardButtonRequestUsers(

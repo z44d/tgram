@@ -1,9 +1,5 @@
 import tgram
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
-from tgram.types import ReplyParameters
-from tgram.types import InputChecklist
-
+from tgram.types import InlineKeyboardMarkup, InputChecklist, Message, ReplyParameters
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
@@ -13,9 +9,9 @@ class SendChecklist:
         business_connection_id: str,
         chat_id: int,
         checklist: InputChecklist,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Message:

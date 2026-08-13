@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram.utils import String
+
+from .type_ import Type_
 
 
 class TextQuote(Type_):
@@ -30,11 +31,11 @@ class TextQuote(Type_):
     def __init__(
         self,
         text: "String" = None,
-        position: "int" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
-        is_manual: "bool" = None,
+        position: "int | None" = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
+        is_manual: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = String(text).put(entities)
@@ -44,7 +45,7 @@ class TextQuote(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.TextQuote"]:
         return (
             TextQuote(

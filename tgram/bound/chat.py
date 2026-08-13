@@ -1,6 +1,6 @@
-import tgram
+from typing import Union
 
-from typing import Union, List
+import tgram
 from tgram.utils import Mention
 
 
@@ -19,8 +19,8 @@ class ChatB:
     async def ban_member(
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
         user_id: int,
-        until_date: int = None,
-        revoke_messages: bool = None,
+        until_date: int | None = None,
+        revoke_messages: bool | None = None,
     ) -> bool:
         """
         Ban a member from the chat.
@@ -43,7 +43,7 @@ class ChatB:
     async def unban_member(
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
         user_id: int,
-        only_if_banned: bool = None,
+        only_if_banned: bool | None = None,
     ) -> bool:
         """
         Unban a previously banned member from the chat.
@@ -97,8 +97,8 @@ class ChatB:
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
         user_id: int,
         permissions: "tgram.types.ChatPermissions",
-        use_independent_chat_permissions: bool = None,
-        until_date: int = None,
+        use_independent_chat_permissions: bool | None = None,
+        until_date: int | None = None,
     ) -> bool:
         """
         Restrict a member in the chat.
@@ -123,7 +123,7 @@ class ChatB:
     async def unrestrict_member(
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
         user_id: int,
-        use_independent_chat_permissions: bool = None,
+        use_independent_chat_permissions: bool | None = None,
     ) -> bool:
         """
         Unrestrict a previously restricted member in the chat.
@@ -177,7 +177,7 @@ class ChatB:
 
     async def get_muted_members(
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
-    ) -> List[int]:
+    ) -> list[int]:
         """
         Get a list of muted members in the chat.
 
@@ -192,9 +192,9 @@ class ChatB:
         return [user_id for chat_id, user_id in mute_list if chat_id is self.id]
 
     @property
-    def mention(
+    def mention(  # noqa: PLR0206
         self: Union["tgram.types.Chat", "tgram.types.ChatFullInfo"],
-        name: str = None,
+        name: str | None = None,
     ) -> Mention:
         """
         Get a mention object for the chat.

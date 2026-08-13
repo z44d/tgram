@@ -1,7 +1,7 @@
-import tgram
-
-from tgram.utils import Mention, AsyncProperty
 from typing import Optional
+
+import tgram
+from tgram.utils import AsyncProperty, Mention
 
 
 class UserB:
@@ -18,9 +18,9 @@ class UserB:
         return AsyncProperty(func, self._me).__call__()
 
     @property
-    def mention(
+    def mention(  # noqa: PLR0206
         self: "tgram.types.User",
-        name: str = None,
+        name: str | None = None,
     ) -> Mention:
         return Mention(name or self.first_name, self.id)
 

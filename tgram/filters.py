@@ -1,12 +1,15 @@
-from typing import Callable, Any, Union, List, Pattern, Coroutine
-import tgram
-import re
-import inspect
 import asyncio
+import inspect
+import re
+from collections.abc import Callable, Coroutine
+from re import Pattern
+from typing import Any
+
+import tgram
 
 
 class Filter:
-    def __init__(self, filter_: Union[Callable, Coroutine]) -> None:
+    def __init__(self, filter_: Callable | Coroutine) -> None:
         self._filter = filter_
 
     async def __call__(self, bot: "tgram.TgBot", update: Any) -> bool:
@@ -338,7 +341,7 @@ suggested_post_paid.__doc__ = "Service message: payment for a suggested post was
 suggested_post_refunded.__doc__ = "Service message: payment for a suggested post was refunded; Message.suggested_post_refunded is set."
 
 
-def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
+def sender(ids: str | int | list[str | int]) -> Filter:
     """Filter messages coming from one or more sender chat"""
     ids = (
         {ids.lower() if isinstance(ids, str) else ids}
@@ -347,7 +350,7 @@ def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
     return Filter(
         lambda _, m: (
-            getattr(m, "sender_chat")
+            m.sender_chat
             and (
                 m.sender_chat.id in ids
                 or (m.sender_chat.username and m.sender_chat.username.lower() in ids)
@@ -356,7 +359,7 @@ def sender(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
 
 
-def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
+def user(ids: str | int | list[str | int]) -> Filter:
     """Filter messages coming from one or more users"""
     ids = (
         {ids.lower() if isinstance(ids, str) else ids}
@@ -365,7 +368,7 @@ def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
     return Filter(
         lambda _, m: (
-            getattr(m, "from_user")
+            m.from_user
             and (
                 m.from_user.id in ids
                 or (m.from_user.username and m.from_user.username.lower() in ids)
@@ -374,7 +377,7 @@ def user(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
 
 
-def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
+def chat(ids: str | int | list[str | int]) -> Filter:
     """Filter messages coming from one or more chats"""
     ids = (
         {ids.lower() if isinstance(ids, str) else ids}
@@ -383,7 +386,7 @@ def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
     return Filter(
         lambda _, m: (
-            getattr(m, "chat")
+            m.chat
             and (
                 m.chat.id in ids or (m.chat.username and m.chat.username.lower() in ids)
             )
@@ -391,7 +394,7 @@ def chat(ids: Union[str, int, List[Union[str, int]]]) -> Filter:
     )
 
 
-def regex(pattern: Union[str, Pattern], flags: int = 0) -> Filter:
+def regex(pattern: str | Pattern, flags: int = 0) -> Filter:
     """Filter updates that match a given regular expression pattern."""
     compiler = pattern if isinstance(pattern, Pattern) else re.compile(pattern, flags)
 
@@ -405,7 +408,7 @@ def regex(pattern: Union[str, Pattern], flags: int = 0) -> Filter:
                 tgram.types.PreCheckoutQuery,
             ),
         ):
-            raise ValueError(f"Regex filter doesn't work with {m.__class__.__name__}")
+            raise TypeError(f"Regex filter doesn't work with {m.__class__.__name__}")
 
         value = (
             (m.text or m.caption)
@@ -428,7 +431,7 @@ def regex(pattern: Union[str, Pattern], flags: int = 0) -> Filter:
     return Filter(regex_filter)
 
 
-def chat_type(types: Union[list, str]) -> Filter:
+def chat_type(types: list | str) -> Filter:
     """Filter updates that match a given chat type."""
     types = (
         {types.lower()} if not isinstance(types, list) else {i.lower() for i in types}
@@ -439,7 +442,7 @@ def chat_type(types: Union[list, str]) -> Filter:
             chat_type = m.message.chat.type
         elif isinstance(m, tgram.types.InlineQuery):
             chat_type = m.chat_type
-        elif getattr(m, "chat"):  # Most of other updates types have chat attribute.
+        elif m.chat:  # Most of other updates types have chat attribute.
             chat_type = m.chat.type
         else:
             raise ValueError(
@@ -459,8 +462,8 @@ group.__doc__ = "Update is from a group or supergroup chat."
 
 
 def command(
-    commands: Union[str, List[str]],
-    prefixes: Union[str, List[str]] = "/",
+    commands: str | list[str],
+    prefixes: str | list[str] = "/",
     case_sensitive: bool = False,
 ) -> Filter:
     """Filter commands, i.e.: text messages starting with "/" or any other custom prefix."""
@@ -511,7 +514,7 @@ def command(
     return Filter(filter_func)
 
 
-def parameter(pattern: Union[str, Pattern]) -> Filter:
+def parameter(pattern: str | Pattern) -> Filter:
     """
     Filters command parameters using the specified regular expression pattern.
 

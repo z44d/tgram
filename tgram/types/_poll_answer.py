@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class PollAnswer(Type_):
@@ -32,13 +33,13 @@ class PollAnswer(Type_):
 
     def __init__(
         self,
-        poll_id: "str" = None,
-        option_ids: List["int"] = None,
-        option_persistent_ids: List["str"] = None,
+        poll_id: "str | None" = None,
+        option_ids: list["int"] | None = None,
+        option_persistent_ids: list["str"] | None = None,
         voter_chat: "tgram.types.Chat" = None,
         user: "tgram.types.User" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.poll_id = poll_id
@@ -49,7 +50,7 @@ class PollAnswer(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.PollAnswer"]:
         return (
             PollAnswer(

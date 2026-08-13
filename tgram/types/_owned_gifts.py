@@ -1,6 +1,8 @@
+from typing import Optional, Union
+
 import tgram
+
 from .type_ import Type_
-from typing import List, Optional, Union
 
 
 class OwnedGiftRegular(Type_):
@@ -38,19 +40,19 @@ class OwnedGiftRegular(Type_):
     def __init__(
         self,
         gift: "tgram.types.Gift" = None,
-        owned_gift_id: str = None,
+        owned_gift_id: str | None = None,
         sender_user: "tgram.types.User" = None,
-        send_date: int = None,
-        text: str = None,
-        entities: List["tgram.types.MessageEntity"] = None,
-        is_private: bool = None,
-        is_saved: bool = None,
-        can_be_upgraded: bool = None,
-        was_refunded: bool = None,
-        convert_star_count: int = None,
-        prepaid_upgrade_star_count: int = None,
+        send_date: int | None = None,
+        text: str | None = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
+        is_private: bool | None = None,
+        is_saved: bool | None = None,
+        can_be_upgraded: bool | None = None,
+        was_refunded: bool | None = None,
+        convert_star_count: int | None = None,
+        prepaid_upgrade_star_count: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "regular"
@@ -69,7 +71,7 @@ class OwnedGiftRegular(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["OwnedGiftRegular"]:
         return (
             OwnedGiftRegular(
@@ -126,15 +128,15 @@ class OwnedGiftUnique(Type_):
     def __init__(
         self,
         gift: "tgram.types.UniqueGift" = None,
-        owned_gift_id: str = None,
+        owned_gift_id: str | None = None,
         sender_user: "tgram.types.User" = None,
-        send_date: int = None,
-        is_saved: bool = None,
-        can_be_transferred: bool = None,
-        transfer_star_count: int = None,
-        next_transfer_date: int = None,
+        send_date: int | None = None,
+        is_saved: bool | None = None,
+        can_be_transferred: bool | None = None,
+        transfer_star_count: int | None = None,
+        next_transfer_date: int | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "unique"
@@ -149,7 +151,7 @@ class OwnedGiftUnique(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["OwnedGiftUnique"]:
         return (
             OwnedGiftUnique(
@@ -186,11 +188,11 @@ class OwnedGifts(Type_):
 
     def __init__(
         self,
-        total_count: int = None,
-        gifts: List[Union["OwnedGiftRegular", "OwnedGiftUnique"]] = None,
-        next_offset: str = None,
+        total_count: int | None = None,
+        gifts: list[Union["OwnedGiftRegular", "OwnedGiftUnique"]] | None = None,
+        next_offset: str | None = None,
         me: "tgram.TgBot" = None,
-        json: dict = None,
+        json: dict | None = None,
     ):
         super().__init__(me=me, json=json)
         self.total_count = total_count
@@ -199,7 +201,7 @@ class OwnedGifts(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["OwnedGifts"]:
         return (
             OwnedGifts(

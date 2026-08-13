@@ -1,7 +1,8 @@
+from typing import Optional
+
 import tgram
 
 from .type_ import Type_
-from typing import List, Optional
 
 
 class GiftInfo(Type_):
@@ -33,17 +34,17 @@ class GiftInfo(Type_):
     def __init__(
         self,
         gift: "tgram.types.Gift" = None,
-        owned_gift_id: "str" = None,
-        convert_star_count: "int" = None,
-        prepaid_upgrade_star_count: "int" = None,
-        can_be_upgraded: "bool" = None,
-        text: "str" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
-        is_private: "bool" = None,
-        is_upgrade_separate: "bool" = None,
-        unique_gift_number: "int" = None,
+        owned_gift_id: "str | None" = None,
+        convert_star_count: "int | None" = None,
+        prepaid_upgrade_star_count: "int | None" = None,
+        can_be_upgraded: "bool | None" = None,
+        text: "str | None" = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
+        is_private: "bool | None" = None,
+        is_upgrade_separate: "bool | None" = None,
+        unique_gift_number: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.gift = gift
@@ -59,7 +60,7 @@ class GiftInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["GiftInfo"]:
         return (
             GiftInfo(

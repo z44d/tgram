@@ -1,23 +1,21 @@
+
 import tgram
-
 from tgram.types import Message, SuggestedPostParameters
-
-from typing import Union
 
 
 class ForwardMessage:
     async def forward_message(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
+        chat_id: int | str,
+        from_chat_id: int | str,
         message_id: int,
-        message_thread_id: int = None,
-        video_start_timestamp: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        direct_messages_topic_id: int = None,
+        message_thread_id: int | None = None,
+        video_start_timestamp: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
-        message_effect_id: str = None,
+        message_effect_id: str | None = None,
     ) -> Message:
         """
         Use this method to forward messages of any kind.

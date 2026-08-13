@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
-
 from typing import Optional
+
+import tgram
 from tgram import bound
+
+from .type_ import Type_
 
 
 class CallbackQuery(Type_, bound.CallbackB):
@@ -42,15 +42,15 @@ class CallbackQuery(Type_, bound.CallbackB):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         from_user: "tgram.types.User" = None,
-        chat_instance: "str" = None,
+        chat_instance: "str | None" = None,
         message: "tgram.types.Message" = None,
-        inline_message_id: "str" = None,
-        data: "str" = None,
-        game_short_name: "str" = None,
+        inline_message_id: "str | None" = None,
+        data: "str | None" = None,
+        game_short_name: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -63,7 +63,7 @@ class CallbackQuery(Type_, bound.CallbackB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.CallbackQuery"]:
         return (
             CallbackQuery(

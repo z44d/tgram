@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultsButton(Type_):
@@ -33,11 +34,11 @@ class InlineQueryResultsButton(Type_):
 
     def __init__(
         self,
-        text: "str" = None,
+        text: "str | None" = None,
         web_app: "tgram.types.WebAppInfo" = None,
-        start_parameter: "str" = None,
+        start_parameter: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.text = text
@@ -46,7 +47,7 @@ class InlineQueryResultsButton(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultsButton"]:
         return (
             InlineQueryResultsButton(

@@ -5,7 +5,7 @@ class RemoveBusinessAccountProfilePhoto:
     async def remove_business_account_profile_photo(
         self: "tgram.TgBot",
         business_connection_id: str,
-        is_public: bool = None,
+        is_public: bool | None = None,
     ) -> bool:
         """
         Removes the current profile photo of a managed business account.

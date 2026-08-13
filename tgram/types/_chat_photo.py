@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatPhoto(Type_):
@@ -32,12 +33,12 @@ class ChatPhoto(Type_):
 
     def __init__(
         self,
-        small_file_id: "str" = None,
-        small_file_unique_id: "str" = None,
-        big_file_id: "str" = None,
-        big_file_unique_id: "str" = None,
+        small_file_id: "str | None" = None,
+        small_file_unique_id: "str | None" = None,
+        big_file_id: "str | None" = None,
+        big_file_unique_id: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.small_file_id = small_file_id
@@ -47,7 +48,7 @@ class ChatPhoto(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatPhoto"]:
         return (
             ChatPhoto(

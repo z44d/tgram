@@ -4,7 +4,7 @@ from tgram.types import BotDescription
 
 class GetMyDescription:
     async def get_my_description(
-        self: "tgram.TgBot", language_code: str = None
+        self: "tgram.TgBot", language_code: str | None = None
     ) -> BotDescription:
         """
         Use this method to get the current bot description for the given user language.

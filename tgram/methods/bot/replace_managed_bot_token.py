@@ -5,7 +5,7 @@ class ReplaceManagedBotToken:
     async def replace_managed_bot_token(
         self: "tgram.TgBot",
         managed_bot_user_id: int,
-        reason: str = None,
+        reason: str | None = None,
     ) -> str:
         """
         Use this method to replace the current bot token for a managed bot.

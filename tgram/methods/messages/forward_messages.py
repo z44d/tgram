@@ -1,20 +1,19 @@
+
 import tgram
-from typing import List
-from typing import Union
 from tgram.types import MessageId
 
 
 class ForwardMessages:
     async def forward_messages(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
-        message_ids: List[int],
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        direct_messages_topic_id: int = None,
-    ) -> List[MessageId]:
+        chat_id: int | str,
+        from_chat_id: int | str,
+        message_ids: list[int],
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        direct_messages_topic_id: int | None = None,
+    ) -> list[MessageId]:
         """
         Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded,
         they are skipped. Service messages and messages with protected content can't be forwarded.

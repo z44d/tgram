@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
-from typing import List, Union, Optional
-
 from pathlib import Path
+from typing import Optional, Union
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputMediaAudio(Type_):
@@ -50,16 +50,16 @@ class InputMediaAudio(Type_):
 
     def __init__(
         self,
-        media: Union["Path", "str"] = None,
+        media: Union["Path", "str"] | None = None,
         thumbnail: Union["tgram.types.InputFile", "str"] = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        duration: "int" = None,
-        performer: "str" = None,
-        title: "str" = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        duration: "int | None" = None,
+        performer: "str | None" = None,
+        title: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "audio"
@@ -74,7 +74,7 @@ class InputMediaAudio(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputMediaAudio"]:
         return (
             InputMediaAudio(

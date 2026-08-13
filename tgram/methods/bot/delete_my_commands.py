@@ -4,7 +4,7 @@ from tgram.types import BotCommandScope
 
 class DeleteMyCommands:
     async def delete_my_commands(
-        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str = None
+        self: "tgram.TgBot", scope: BotCommandScope = None, language_code: str | None = None
     ) -> bool:
         """
         Use this method to delete the list of the bot's commands for the given scope and user language.

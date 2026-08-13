@@ -7,7 +7,7 @@ class TransferGift:
         business_connection_id: str,
         owned_gift_id: str,
         new_owner_chat_id: int,
-        star_count: int = None,
+        star_count: int | None = None,
     ) -> bool:
         """
         Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business bot right.

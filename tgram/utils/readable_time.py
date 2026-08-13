@@ -1,5 +1,4 @@
 import datetime
-from typing import Union
 
 
 class ReadableTime(datetime.datetime):
@@ -61,7 +60,7 @@ class ReadableTime(datetime.datetime):
         return self.strftime("%Y/%m/%d - %H:%M:%S")
 
 
-def convert_timestamp(timestamp: Union[int, float]) -> ReadableTime:
+def convert_timestamp(timestamp: float) -> ReadableTime:
     """
     Converts a Unix timestamp into a ReadableTime object.
 

@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatFullInfo
 
 
 class GetChat:
-    async def get_chat(self: "tgram.TgBot", chat_id: Union[int, str]) -> ChatFullInfo:
+    async def get_chat(self: "tgram.TgBot", chat_id: int | str) -> ChatFullInfo:
         """
         Use this method to get up to date information about the chat (current name of the user for one-on-one
         conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.

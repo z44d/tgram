@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultCachedVoice(Type_):
@@ -46,15 +47,15 @@ class InlineQueryResultCachedVoice(Type_):
 
     def __init__(
         self,
-        voice_file_id: "str" = None,
-        title: "str" = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
+        voice_file_id: "str | None" = None,
+        title: "str | None" = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "cachedvoice"
@@ -69,7 +70,7 @@ class InlineQueryResultCachedVoice(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultCachedVoice"]:
         return (
             InlineQueryResultCachedVoice(

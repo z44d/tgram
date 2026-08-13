@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultDocument(Type_):
@@ -61,20 +62,20 @@ class InlineQueryResultDocument(Type_):
 
     def __init__(
         self,
-        title: "str" = None,
-        document_url: "str" = None,
-        mime_type: "str" = None,
-        caption: "str" = None,
-        parse_mode: "str" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        description: "str" = None,
+        title: "str | None" = None,
+        document_url: "str | None" = None,
+        mime_type: "str | None" = None,
+        caption: "str | None" = None,
+        parse_mode: "str | None" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        description: "str | None" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
-        thumbnail_url: "str" = None,
-        thumbnail_width: "int" = None,
-        thumbnail_height: "int" = None,
+        thumbnail_url: "str | None" = None,
+        thumbnail_width: "int | None" = None,
+        thumbnail_height: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "document"
@@ -94,7 +95,7 @@ class InlineQueryResultDocument(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultDocument"]:
         return (
             InlineQueryResultDocument(

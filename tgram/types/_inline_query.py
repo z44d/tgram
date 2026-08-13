@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
 from tgram import bound
+
+from .type_ import Type_
 
 
 class InlineQuery(Type_, bound.InlineQueryB):
@@ -38,14 +39,14 @@ class InlineQuery(Type_, bound.InlineQueryB):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         from_user: "tgram.types.User" = None,
-        query: "str" = None,
-        offset: "str" = None,
+        query: "str | None" = None,
+        offset: "str | None" = None,
         chat_type: "tgram.types.ChatType" = None,
         location: "tgram.types.Location" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -57,7 +58,7 @@ class InlineQuery(Type_, bound.InlineQueryB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQuery"]:
         return (
             InlineQuery(

@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class UnhideGeneralForumTopic:
     async def unhide_general_forum_topic(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> bool:
         """
         Use this method to unhide the 'General' topic in a forum supergroup chat.

@@ -1,7 +1,7 @@
-import tgram
 import random
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 
 
 class InputChecklistTask:
@@ -25,8 +25,8 @@ class InputChecklistTask:
     def __init__(
         self,
         text: str,
-        parse_mode: Optional[str] = None,
-        text_entities: Optional[List["tgram.types.MessageEntity"]] = None,
+        parse_mode: str | None = None,
+        text_entities: list["tgram.types.MessageEntity"] | None = None,
     ):
         self.id = random.randint(10000, 99999)
         self.text = text
@@ -34,7 +34,7 @@ class InputChecklistTask:
         self.text_entities = text_entities
 
     @staticmethod
-    def _parse(d: dict = None) -> Optional["InputChecklistTask"]:
+    def _parse(d: dict | None = None) -> Optional["InputChecklistTask"]:
         return (
             InputChecklistTask(
                 id=d.get("id"),

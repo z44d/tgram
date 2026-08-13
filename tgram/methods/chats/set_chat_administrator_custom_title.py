@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class SetChatAdministratorCustomTitle:
     async def set_chat_administrator_custom_title(
-        self: "tgram.TgBot", chat_id: Union[int, str], user_id: int, custom_title: str
+        self: "tgram.TgBot", chat_id: int | str, user_id: int, custom_title: str
     ) -> bool:
         """
         Use this method to set a custom title for an administrator in a supergroup promoted by the bot.

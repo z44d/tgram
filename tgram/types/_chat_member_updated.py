@@ -1,9 +1,9 @@
+from typing import Optional, Union
+
 import tgram
-from .type_ import Type_
-
-from typing import Union, Optional
-
 from tgram import bound
+
+from .type_ import Type_
 
 
 class ChatMemberUpdated(Type_, bound.ChatMemberUpdatedB):
@@ -45,7 +45,7 @@ class ChatMemberUpdated(Type_, bound.ChatMemberUpdatedB):
         self,
         chat: "tgram.types.Chat" = None,
         from_user: "tgram.types.User" = None,
-        date: "int" = None,
+        date: "int | None" = None,
         old_chat_member: Union[
             "tgram.types.ChatMemberOwner",
             "tgram.types.ChatMemberAdministrator",
@@ -63,10 +63,10 @@ class ChatMemberUpdated(Type_, bound.ChatMemberUpdatedB):
             "tgram.types.ChatMemberLeft",
         ] = None,
         invite_link: "tgram.types.ChatInviteLink" = None,
-        via_join_request: "bool" = None,
-        via_chat_folder_invite_link: "bool" = None,
+        via_join_request: "bool | None" = None,
+        via_chat_folder_invite_link: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.chat = chat
@@ -80,7 +80,7 @@ class ChatMemberUpdated(Type_, bound.ChatMemberUpdatedB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatMemberUpdated"]:
         return (
             ChatMemberUpdated(

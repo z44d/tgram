@@ -1,6 +1,6 @@
-from .filters import Filter, all
+from collections.abc import Callable
 
-from typing import Callable
+from .filters import Filter, all
 
 
 class Handlers:

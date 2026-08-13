@@ -1,11 +1,10 @@
+
 import tgram
-from typing import List
-from typing import Union
 
 
 class DeleteMessages:
     async def delete_messages(
-        self: "tgram.TgBot", chat_id: Union[int, str], message_ids: List[int]
+        self: "tgram.TgBot", chat_id: int | str, message_ids: list[int]
     ) -> bool:
         """
         Use this method to delete multiple messages simultaneously.

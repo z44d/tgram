@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class SentWebAppMessage(Type_):
@@ -20,16 +21,16 @@ class SentWebAppMessage(Type_):
 
     def __init__(
         self,
-        inline_message_id: "str" = None,
+        inline_message_id: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.inline_message_id = inline_message_id
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SentWebAppMessage"]:
         return (
             SentWebAppMessage(

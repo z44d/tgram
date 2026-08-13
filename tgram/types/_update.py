@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class Update(Type_):
@@ -112,7 +113,7 @@ class Update(Type_):
 
     def __init__(
         self,
-        update_id: "int" = None,
+        update_id: "int | None" = None,
         message: "tgram.types.Message" = None,
         edited_message: "tgram.types.Message" = None,
         channel_post: "tgram.types.Message" = None,
@@ -140,7 +141,7 @@ class Update(Type_):
         managed_bot: "tgram.types.ManagedBotUpdated" = None,
         subscription: "tgram.types.BotSubscriptionUpdated" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.update_id = update_id
@@ -173,7 +174,7 @@ class Update(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Update"]:
         return (
             Update(

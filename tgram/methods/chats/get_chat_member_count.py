@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class GetChatMemberCount:
     async def get_chat_member_count(
-        self: "tgram.TgBot", chat_id: Union[int, str]
+        self: "tgram.TgBot", chat_id: int | str
     ) -> int:
         """
         Use this method to get the number of members in a chat.

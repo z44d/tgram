@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ShippingAddress(Type_):
@@ -34,14 +35,14 @@ class ShippingAddress(Type_):
 
     def __init__(
         self,
-        country_code: "str" = None,
-        state: "str" = None,
-        city: "str" = None,
-        street_line1: "str" = None,
-        street_line2: "str" = None,
-        post_code: "str" = None,
+        country_code: "str | None" = None,
+        state: "str | None" = None,
+        city: "str | None" = None,
+        street_line1: "str | None" = None,
+        street_line2: "str | None" = None,
+        post_code: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.country_code = country_code
@@ -53,7 +54,7 @@ class ShippingAddress(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ShippingAddress"]:
         return (
             ShippingAddress(

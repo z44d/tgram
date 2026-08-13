@@ -1,6 +1,5 @@
 import tgram
-from tgram.types import InlineQueryResult
-from tgram.types import SentGuestMessage
+from tgram.types import InlineQueryResult, SentGuestMessage
 
 
 class AnswerGuestQuery:

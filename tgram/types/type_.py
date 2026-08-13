@@ -1,8 +1,9 @@
-import tgram
 import logging
 from json import dumps
+from typing import TypedDict
+
+import tgram
 from tgram.utils import Json
-from typing import TypedDict, Union
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -10,14 +11,14 @@ logger = logging.getLogger(__name__)
 
 class Response(TypedDict):
     ok: bool
-    result: Union[dict, bool]
+    result: dict | bool
     error_code: int
     description: str
     parameters: dict
 
 
 class Type_:
-    def __init__(self, me: "tgram.TgBot" = None, json: dict = None) -> None:
+    def __init__(self, me: "tgram.TgBot" = None, json: dict | None = None) -> None:
         # Define the types that are bounded to the bot instance
         BOUNDED_TYPES = (
             tgram.types.User,
@@ -73,14 +74,14 @@ class Type_:
         return "tgram.types.{}({})".format(
             self.__class__.__name__,
             ", ".join(
-                f"{attr}={repr(getattr(self, attr))}"
+                f"{attr}={getattr(self, attr)!r}"
                 for attr in filter(lambda x: not x.startswith("_"), self.__dict__)
                 if getattr(self, attr) is not None
             ),
         )
 
     @staticmethod
-    def _custom_parse(a: "Type_" = None, b: type = None) -> type:
+    def _custom_parse(a: "Type_" = None, b: type | None = None) -> type:
         # Custom parse method to convert one type to another
         if b is None:
             return a
@@ -97,7 +98,7 @@ class Type_:
                 else:
                     setattr(obj, attr, getattr(a, attr))
             return obj
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(
                 "You got an error (%s) (The original type returned) when the bot trying to give you custom type, make sure you are doing it in right way, see the example here %s",
                 str(e),

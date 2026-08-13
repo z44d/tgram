@@ -1,11 +1,11 @@
+
 import tgram
-from typing import Union
 
 
 class DeleteMessageReaction:
     async def delete_message_reaction(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
     ) -> bool:
         """

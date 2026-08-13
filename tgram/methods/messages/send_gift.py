@@ -1,19 +1,18 @@
-import tgram
 
+import tgram
 from tgram.types import MessageEntity, ParseMode
-from typing import List, Union
 
 
 class SendGift:
     async def send_gift(
         self: "tgram.TgBot",
         gift_id: str,
-        user_id: int = None,
-        chat_id: Union[int, str] = None,
-        pay_for_upgrade: bool = None,
-        text: str = None,
+        user_id: int | None = None,
+        chat_id: int | str | None = None,
+        pay_for_upgrade: bool | None = None,
+        text: str | None = None,
         text_parse_mode: ParseMode = None,
-        text_entities: List[MessageEntity] = None,
+        text_entities: list[MessageEntity] | None = None,
     ) -> bool:
         """
         Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver. Returns True on success.

@@ -1,29 +1,30 @@
-import tgram
-from typing import List
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import LinkPreviewOptions
-from tgram.types import Message
-from tgram.types import MessageEntity, ParseMode
-from tgram.types import InputRichMessage
 
-from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
+import tgram
+from tgram.types import (
+    InlineKeyboardMarkup,
+    InputRichMessage,
+    LinkPreviewOptions,
+    Message,
+    MessageEntity,
+    ParseMode,
+)
+from tgram.utils import convert_to_inline_keyboard_markup, get_parse_mode
 
 
 class EditMessageText:
     async def edit_message_text(
         self: "tgram.TgBot",
-        text: str = None,
-        business_connection_id: str = None,
-        chat_id: Union[int, str] = None,
-        message_id: int = None,
-        inline_message_id: str = None,
+        text: str | None = None,
+        business_connection_id: str | None = None,
+        chat_id: int | str | None = None,
+        message_id: int | None = None,
+        inline_message_id: str | None = None,
         parse_mode: ParseMode = None,
-        entities: List[MessageEntity] = None,
+        entities: list[MessageEntity] | None = None,
         link_preview_options: LinkPreviewOptions = None,
         reply_markup: InlineKeyboardMarkup = None,
         rich_message: InputRichMessage = None,
-    ) -> Union[Message, bool]:
+    ) -> Message | bool:
         """
         Use this method to edit text and game messages.
         On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.

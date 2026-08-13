@@ -4,7 +4,7 @@ from tgram.types import MenuButton
 
 class SetChatMenuButton:
     async def set_chat_menu_button(
-        self: "tgram.TgBot", chat_id: int = None, menu_button: MenuButton = None
+        self: "tgram.TgBot", chat_id: int | None = None, menu_button: MenuButton = None
     ) -> bool:
         """
         Use this method to change the bot's menu button in a private chat,

@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
+import tgram
 from tgram import bound
 
-from typing import Optional
+from .type_ import Type_
 
 
 class PreCheckoutQuery(Type_, bound.PreCheckoutQueryB):
@@ -41,15 +41,15 @@ class PreCheckoutQuery(Type_, bound.PreCheckoutQueryB):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         from_user: "tgram.types.User" = None,
-        currency: "str" = None,
-        total_amount: "int" = None,
-        invoice_payload: "str" = None,
-        shipping_option_id: "str" = None,
+        currency: "str | None" = None,
+        total_amount: "int | None" = None,
+        invoice_payload: "str | None" = None,
+        shipping_option_id: "str | None" = None,
         order_info: "tgram.types.OrderInfo" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -62,7 +62,7 @@ class PreCheckoutQuery(Type_, bound.PreCheckoutQueryB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.PreCheckoutQuery"]:
         return (
             PreCheckoutQuery(

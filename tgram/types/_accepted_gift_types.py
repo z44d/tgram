@@ -1,6 +1,8 @@
-import tgram
-from .type_ import Type_
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class AcceptedGiftTypes(Type_):
@@ -30,13 +32,13 @@ class AcceptedGiftTypes(Type_):
 
     def __init__(
         self,
-        unlimited_gifts: bool = None,
-        limited_gifts: bool = None,
-        unique_gifts: bool = None,
-        premium_subscription: bool = None,
-        gifts_from_channels: bool = None,
+        unlimited_gifts: bool | None = None,
+        limited_gifts: bool | None = None,
+        unique_gifts: bool | None = None,
+        premium_subscription: bool | None = None,
+        gifts_from_channels: bool | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.unlimited_gifts = unlimited_gifts
@@ -47,7 +49,7 @@ class AcceptedGiftTypes(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.AcceptedGiftTypes"]:
         return (
             AcceptedGiftTypes(

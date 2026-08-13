@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultLocation(Type_):
@@ -59,20 +60,20 @@ class InlineQueryResultLocation(Type_):
 
     def __init__(
         self,
-        latitude: "float" = None,
-        longitude: "float" = None,
-        title: "str" = None,
-        horizontal_accuracy: "float" = None,
-        live_period: "int" = None,
-        heading: "int" = None,
-        proximity_alert_radius: "int" = None,
+        latitude: "float | None" = None,
+        longitude: "float | None" = None,
+        title: "str | None" = None,
+        horizontal_accuracy: "float | None" = None,
+        live_period: "int | None" = None,
+        heading: "int | None" = None,
+        proximity_alert_radius: "int | None" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
-        thumbnail_url: "str" = None,
-        thumbnail_width: "int" = None,
-        thumbnail_height: "int" = None,
+        thumbnail_url: "str | None" = None,
+        thumbnail_width: "int | None" = None,
+        thumbnail_height: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "location"
@@ -92,7 +93,7 @@ class InlineQueryResultLocation(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultLocation"]:
         return (
             InlineQueryResultLocation(

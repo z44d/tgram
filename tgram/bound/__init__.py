@@ -1,7 +1,7 @@
 from .callback_query import CallbackB
+from .chat import ChatB
 from .chat_join_request import ChatJoinRequestB
 from .chat_member_updated import ChatMemberUpdatedB
-from .chat import ChatB
 from .chosen_inline_result import ChosenInlineResultB
 from .inline_query import InlineQueryB
 from .message import MessageB
@@ -12,9 +12,9 @@ from .user import UserB
 
 __all__ = [
     "CallbackB",
+    "ChatB",
     "ChatJoinRequestB",
     "ChatMemberUpdatedB",
-    "ChatB",
     "ChosenInlineResultB",
     "InlineQueryB",
     "MessageB",

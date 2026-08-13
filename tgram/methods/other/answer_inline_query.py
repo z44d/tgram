@@ -1,17 +1,16 @@
+
 import tgram
-from typing import List
-from tgram.types import InlineQueryResult
-from tgram.types import InlineQueryResultsButton
+from tgram.types import InlineQueryResult, InlineQueryResultsButton
 
 
 class AnswerInlineQuery:
     async def answer_inline_query(
         self: "tgram.TgBot",
         inline_query_id: str,
-        results: List[InlineQueryResult],
-        cache_time: int = None,
-        is_personal: bool = None,
-        next_offset: str = None,
+        results: list[InlineQueryResult],
+        cache_time: int | None = None,
+        is_personal: bool | None = None,
+        next_offset: str | None = None,
         button: InlineQueryResultsButton = None,
     ) -> bool:
         """

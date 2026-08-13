@@ -1,22 +1,23 @@
-import tgram
-from typing import List
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import LinkPreviewOptions
-from tgram.types import Message
-from tgram.types import MessageEntity, ParseMode
 
-from tgram.utils import get_parse_mode, convert_to_inline_keyboard_markup
+import tgram
+from tgram.types import (
+    InlineKeyboardMarkup,
+    LinkPreviewOptions,
+    Message,
+    MessageEntity,
+    ParseMode,
+)
+from tgram.utils import convert_to_inline_keyboard_markup, get_parse_mode
 
 
 class EditEphemeralMessageText:
     async def edit_ephemeral_message_text(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         text: str,
         parse_mode: ParseMode = None,
-        entities: List[MessageEntity] = None,
+        entities: list[MessageEntity] | None = None,
         link_preview_options: LinkPreviewOptions = None,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Message:

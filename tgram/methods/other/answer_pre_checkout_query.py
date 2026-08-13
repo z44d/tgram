@@ -6,7 +6,7 @@ class AnswerPreCheckoutQuery:
         self: "tgram.TgBot",
         pre_checkout_query_id: str,
         ok: bool,
-        error_message: str = None,
+        error_message: str | None = None,
     ) -> bool:
         """
         Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the

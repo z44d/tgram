@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
+
+from .type_ import Type_
 
 
 class WebhookInfo(Type_):
@@ -48,17 +49,17 @@ class WebhookInfo(Type_):
 
     def __init__(
         self,
-        url: "str" = None,
-        has_custom_certificate: "bool" = None,
-        pending_update_count: "int" = None,
-        ip_address: "str" = None,
-        last_error_date: "int" = None,
-        last_error_message: "str" = None,
-        last_synchronization_error_date: "int" = None,
-        max_connections: "int" = None,
-        allowed_updates: List["str"] = None,
+        url: "str | None" = None,
+        has_custom_certificate: "bool | None" = None,
+        pending_update_count: "int | None" = None,
+        ip_address: "str | None" = None,
+        last_error_date: "int | None" = None,
+        last_error_message: "str | None" = None,
+        last_synchronization_error_date: "int | None" = None,
+        max_connections: "int | None" = None,
+        allowed_updates: list["str"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.url = url
@@ -73,7 +74,7 @@ class WebhookInfo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.WebhookInfo"]:
         return (
             WebhookInfo(

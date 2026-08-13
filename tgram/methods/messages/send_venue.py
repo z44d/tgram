@@ -1,44 +1,40 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    SuggestedPostParameters,
-    Message,
+    ForceReply,
     InlineKeyboardMarkup,
+    Message,
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
-    ForceReply,
+    ReplyParameters,
+    SuggestedPostParameters,
 )
 from tgram.utils import (
     convert_to_inline_keyboard_markup,
 )
 
-from typing import Union
-
 
 class SendVenue:
     async def send_venue(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         latitude: float,
         longitude: float,
         title: str,
         address: str,
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        foursquare_id: str = None,
-        foursquare_type: str = None,
-        google_place_id: str = None,
-        google_place_type: str = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        foursquare_id: str | None = None,
+        foursquare_type: str | None = None,
+        google_place_id: str | None = None,
+        google_place_type: str | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        reply_markup: Union[
-            InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply
-        ] = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
+        reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply = None,
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         suggested_post_parameters: SuggestedPostParameters = None,
     ) -> Message:
         """

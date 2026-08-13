@@ -1,6 +1,5 @@
-import tgram
 
-from typing import List
+import tgram
 
 
 class GiftPremiumSubscription:
@@ -9,9 +8,9 @@ class GiftPremiumSubscription:
         user_id: int,
         month_count: int,
         star_count: int,
-        text: str = None,
-        text_parse_mode: str = None,
-        text_entities: List["tgram.types.MessageEntity"] = None,
+        text: str | None = None,
+        text_parse_mode: str | None = None,
+        text_entities: list["tgram.types.MessageEntity"] | None = None,
     ) -> bool:
         """
         Gifts a Telegram Premium subscription to the given user.

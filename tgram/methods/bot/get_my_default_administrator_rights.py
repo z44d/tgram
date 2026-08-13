@@ -4,7 +4,7 @@ from tgram.types import ChatAdministratorRights
 
 class GetMyDefaultAdministratorRights:
     async def get_my_default_administrator_rights(
-        self: "tgram.TgBot", for_channels: bool = None
+        self: "tgram.TgBot", for_channels: bool | None = None
     ) -> ChatAdministratorRights:
         """
         Use this method to get the current default administrator rights of the bot.

@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BackgroundFillSolid(Type_):
@@ -22,10 +23,10 @@ class BackgroundFillSolid(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
-        color: "int" = None,
+        type: "str | None" = None,
+        color: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -33,7 +34,7 @@ class BackgroundFillSolid(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BackgroundFillSolid"]:
         return (
             BackgroundFillSolid(me=me, json=d, type=d.get("type"), color=d.get("color"))

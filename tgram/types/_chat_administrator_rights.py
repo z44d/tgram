@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatAdministratorRights(Type_):
@@ -69,24 +70,24 @@ class ChatAdministratorRights(Type_):
 
     def __init__(
         self,
-        is_anonymous: "bool" = None,
-        can_manage_chat: "bool" = None,
-        can_delete_messages: "bool" = None,
-        can_manage_video_chats: "bool" = None,
-        can_restrict_members: "bool" = None,
-        can_promote_members: "bool" = None,
-        can_change_info: "bool" = None,
-        can_invite_users: "bool" = None,
-        can_post_stories: "bool" = None,
-        can_edit_stories: "bool" = None,
-        can_delete_stories: "bool" = None,
-        can_post_messages: "bool" = None,
-        can_edit_messages: "bool" = None,
-        can_pin_messages: "bool" = None,
-        can_manage_topics: "bool" = None,
-        can_manage_tags: "bool" = None,
+        is_anonymous: "bool | None" = None,
+        can_manage_chat: "bool | None" = None,
+        can_delete_messages: "bool | None" = None,
+        can_manage_video_chats: "bool | None" = None,
+        can_restrict_members: "bool | None" = None,
+        can_promote_members: "bool | None" = None,
+        can_change_info: "bool | None" = None,
+        can_invite_users: "bool | None" = None,
+        can_post_stories: "bool | None" = None,
+        can_edit_stories: "bool | None" = None,
+        can_delete_stories: "bool | None" = None,
+        can_post_messages: "bool | None" = None,
+        can_edit_messages: "bool | None" = None,
+        can_pin_messages: "bool | None" = None,
+        can_manage_topics: "bool | None" = None,
+        can_manage_tags: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.is_anonymous = is_anonymous
@@ -108,7 +109,7 @@ class ChatAdministratorRights(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatAdministratorRights"]:
         return (
             ChatAdministratorRights(

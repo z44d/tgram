@@ -1,9 +1,9 @@
-import tgram
-from .type_ import Type_
-
-from typing import Union, Optional
-
 from pathlib import Path
+from typing import Optional, Union
+
+import tgram
+
+from .type_ import Type_
 
 
 class InputPaidMediaVideo(Type_):
@@ -54,16 +54,16 @@ class InputPaidMediaVideo(Type_):
 
     def __init__(
         self,
-        media: Union["Path", "str"] = None,
+        media: Union["Path", "str"] | None = None,
         thumbnail: "tgram.types.InputFile" = None,
         cover: "tgram.types.InputFile" = None,
-        start_timestamp: int = None,
-        width: "int" = None,
-        height: "int" = None,
-        duration: "int" = None,
-        supports_streaming: "bool" = None,
+        start_timestamp: int | None = None,
+        width: "int | None" = None,
+        height: "int | None" = None,
+        duration: "int | None" = None,
+        supports_streaming: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "video"
@@ -78,7 +78,7 @@ class InputPaidMediaVideo(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InputPaidMediaVideo"]:
         return (
             InputPaidMediaVideo(

@@ -1,30 +1,29 @@
-import aiohttp
 import asyncio
-import logging
-import json
-import tgram
-import os
-import io
-import ssl
-import certifi
 import inspect
-
-from ..methods import TelegramBotMethods
-from ..decorators import Decorators
-from ..errors import APIException
-from ..utils import API_URL, get_file_name, ALL_UPDATES
-from ..storage import KvsqliteStorage, RedisStorage, StorageBase
-from ..types.type_ import Type_, Response
-from .dispatcher import Dispatcher
-
-from typing import List, Any, Literal, Union, Optional
+import io
+import json
+import logging
+import os
+import ssl
 from collections import OrderedDict
-
-from pathlib import Path
 from importlib import import_module
+from pathlib import Path
+from typing import Any, Literal
 
+import aiohttp
+import certifi
 from aiohttp.hdrs import USER_AGENT
 from aiohttp.http import SERVER_SOFTWARE
+
+import tgram
+
+from ..decorators import Decorators
+from ..errors import APIException
+from ..methods import TelegramBotMethods
+from ..storage import KvsqliteStorage, RedisStorage, StorageBase
+from ..types.type_ import Response, Type_
+from ..utils import ALL_UPDATES, API_URL, get_file_name
+from .dispatcher import Dispatcher
 
 logger = logging.getLogger(__name__)
 
@@ -66,20 +65,20 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self,
         bot_token: str,
         api_url: str = API_URL,
-        allowed_updates: List[str] = [],
+        allowed_updates: list[str] | None = None,
         link_preview_options: tgram.types.LinkPreviewOptions = None,
         parse_mode: tgram.types.ParseMode = None,
-        protect_content: bool = None,
-        workers: int = None,
-        retry_after: Union[int, bool] = None,
-        plugins: Union[Path, str] = None,
+        protect_content: bool | None = None,
+        workers: int | None = None,
+        retry_after: int | bool | None = None,
+        plugins: Path | str | None = None,
         skip_updates: bool = True,
-        storage_engine: Union[
-            KvsqliteStorage, RedisStorage, Literal["kvsqlite", "redis"]
-        ] = None,
+        storage_engine: KvsqliteStorage | RedisStorage | Literal["kvsqlite", "redis"] = None,
         storage_client: Any = None,
         fetch_outgoing_messages: bool = False,
     ) -> None:
+        if allowed_updates is None:
+            allowed_updates = []
         self.bot_token = bot_token
         self.api_url = api_url
         self.allowed_updates = allowed_updates
@@ -90,19 +89,19 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         self.retry_after = retry_after
         self.plugins = Path(plugins) if isinstance(plugins, str) else plugins
         self.skip_updates = skip_updates
-        self.storage: Optional[StorageBase] = None
+        self.storage: StorageBase | None = None
         self.storage_client = storage_engine
         self.fetch_outgoing_messages = fetch_outgoing_messages
 
         self.is_running: bool = None
-        self._me: "tgram.types.User" = None
+        self._me: tgram.types.User = None
 
-        self._listen_handlers: List["tgram.types.Listener"] = []
+        self._listen_handlers: list[tgram.types.Listener] = []
         self._custom_types: dict = {}
-        self._session: "aiohttp.ClientSession" = None
+        self._session: aiohttp.ClientSession = None
 
-        self.handler_worker_tasks: List["asyncio.Task"] = []
-        self.locks_list: List["asyncio.Lock"] = []
+        self.handler_worker_tasks: list[asyncio.Task] = []
+        self.locks_list: list[asyncio.Lock] = []
         self.updates_queue = asyncio.Queue()
         self.groups = OrderedDict()
 
@@ -233,7 +232,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                 continue
             if isinstance(value, Path):
                 has_files = True
-                with open(value, "rb") as f:
+                with open(value, "rb") as f:  # noqa: ASYNC230
                     value = f
                     file = f.read()
             elif isinstance(value, (io.BytesIO, io.BufferedReader, bytes)):
@@ -281,7 +280,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
                         f.value
                         if self.retry_after is True
                         else (
-                            f.value if f.value < self.retry_after else self.retry_after
+                            min(self.retry_after, f.value)
                         )
                     )
                     logger.warning(
@@ -303,7 +302,7 @@ class TgBot(TelegramBotMethods, Decorators, Dispatcher):
         for path in sorted(self.plugins.rglob("*.py")):
             module_path = ".".join(path.parent.parts + (path.stem,))
             module = import_module(module_path)
-            for name in vars(module).keys():
+            for name in vars(module):
                 obj = getattr(module, name)
 
                 if hasattr(obj, "handlers"):

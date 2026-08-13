@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class ChatInviteLink(Type_):
@@ -45,17 +46,17 @@ class ChatInviteLink(Type_):
 
     def __init__(
         self,
-        invite_link: "str" = None,
+        invite_link: "str | None" = None,
         creator: "tgram.types.User" = None,
-        creates_join_request: "bool" = None,
-        is_primary: "bool" = None,
-        is_revoked: "bool" = None,
-        name: "str" = None,
-        expire_date: "int" = None,
-        member_limit: "int" = None,
-        pending_join_request_count: "int" = None,
+        creates_join_request: "bool | None" = None,
+        is_primary: "bool | None" = None,
+        is_revoked: "bool | None" = None,
+        name: "str | None" = None,
+        expire_date: "int | None" = None,
+        member_limit: "int | None" = None,
+        pending_join_request_count: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.invite_link = invite_link
@@ -70,7 +71,7 @@ class ChatInviteLink(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.ChatInviteLink"]:
         return (
             ChatInviteLink(

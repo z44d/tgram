@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram import utils
+
+from .type_ import Type_
 
 
 class MessageReactionUpdated(Type_):
@@ -39,14 +40,14 @@ class MessageReactionUpdated(Type_):
     def __init__(
         self,
         chat: "tgram.types.Chat" = None,
-        message_id: "int" = None,
-        date: "int" = None,
-        old_reaction: List["tgram.types.ReactionType"] = None,
-        new_reaction: List["tgram.types.ReactionType"] = None,
+        message_id: "int | None" = None,
+        date: "int | None" = None,
+        old_reaction: list["tgram.types.ReactionType"] | None = None,
+        new_reaction: list["tgram.types.ReactionType"] | None = None,
         user: "tgram.types.User" = None,
         actor_chat: "tgram.types.Chat" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.chat = chat
@@ -59,7 +60,7 @@ class MessageReactionUpdated(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.MessageReactionUpdated"]:
         return (
             MessageReactionUpdated(

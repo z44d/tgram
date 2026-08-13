@@ -1,5 +1,5 @@
+
 import tgram
-from typing import List
 from tgram.types import InputSticker
 
 
@@ -9,9 +9,9 @@ class CreateNewStickerSet:
         user_id: int,
         name: str,
         title: str,
-        stickers: List[InputSticker],
-        sticker_type: str = None,
-        needs_repainting: bool = None,
+        stickers: list[InputSticker],
+        sticker_type: str | None = None,
+        needs_repainting: bool | None = None,
     ) -> bool:
         """
         Use this method to create new sticker set owned by a user.

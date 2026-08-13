@@ -1,10 +1,10 @@
+
 import tgram
-from typing import Union
 
 
 class EditGeneralForumTopic:
     async def edit_general_forum_topic(
-        self: "tgram.TgBot", chat_id: Union[int, str], name: str
+        self: "tgram.TgBot", chat_id: int | str, name: str
     ) -> bool:
         """
         Use this method to edit the name of the 'General' topic in a forum supergroup chat.

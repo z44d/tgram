@@ -1,14 +1,14 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatPermissions
 
 
 class SetChatPermissions:
     async def set_chat_permissions(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         permissions: ChatPermissions,
-        use_independent_chat_permissions: bool = None,
+        use_independent_chat_permissions: bool | None = None,
     ) -> bool:
         """
         Use this method to set default chat permissions for all members.

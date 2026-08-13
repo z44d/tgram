@@ -1,6 +1,5 @@
 import tgram
-
-from tgram.types import PreparedInlineMessage, InlineQueryResult
+from tgram.types import InlineQueryResult, PreparedInlineMessage
 
 
 class SavePreparedInlineMessage:
@@ -8,10 +7,10 @@ class SavePreparedInlineMessage:
         self: "tgram.TgBot",
         user_id: int,
         result: InlineQueryResult,
-        allow_user_chats: bool = None,
-        allow_bot_chats: bool = None,
-        allow_group_chats: bool = None,
-        allow_channel_chats: bool = None,
+        allow_user_chats: bool | None = None,
+        allow_bot_chats: bool | None = None,
+        allow_group_chats: bool | None = None,
+        allow_channel_chats: bool | None = None,
     ) -> PreparedInlineMessage:
         """
         Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.

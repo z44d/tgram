@@ -6,7 +6,7 @@ class SetMyDefaultAdministratorRights:
     async def set_my_default_administrator_rights(
         self: "tgram.TgBot",
         rights: ChatAdministratorRights = None,
-        for_channels: bool = None,
+        for_channels: bool | None = None,
     ) -> bool:
         """
         Use this method to change the default administrator rights requested by the bot

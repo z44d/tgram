@@ -1,8 +1,9 @@
-import tgram
 import random
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class InlineQueryResultArticle(Type_):
@@ -47,16 +48,16 @@ class InlineQueryResultArticle(Type_):
 
     def __init__(
         self,
-        title: "str" = None,
+        title: "str | None" = None,
         input_message_content: "tgram.types.InputMessageContent" = None,
         reply_markup: "tgram.types.InlineKeyboardMarkup" = None,
-        url: "str" = None,
-        description: "str" = None,
-        thumbnail_url: "str" = None,
-        thumbnail_width: "int" = None,
-        thumbnail_height: "int" = None,
+        url: "str | None" = None,
+        description: "str | None" = None,
+        thumbnail_url: "str | None" = None,
+        thumbnail_width: "int | None" = None,
+        thumbnail_height: "int | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = "article"
@@ -72,7 +73,7 @@ class InlineQueryResultArticle(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.InlineQueryResultArticle"]:
         return (
             InlineQueryResultArticle(

@@ -1,15 +1,15 @@
+
 import tgram
-from typing import Union
 from tgram.types import ForumTopic
 
 
 class CreateForumTopic:
     async def create_forum_topic(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         name: str,
-        icon_color: int = None,
-        icon_custom_emoji_id: str = None,
+        icon_color: int | None = None,
+        icon_custom_emoji_id: str | None = None,
     ) -> ForumTopic:
         """
         Use this method to create a topic in a forum supergroup chat. The bot must be an administrator

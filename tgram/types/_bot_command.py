@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BotCommand(Type_):
@@ -26,11 +27,11 @@ class BotCommand(Type_):
 
     def __init__(
         self,
-        command: "str" = None,
-        description: "str" = None,
-        is_ephemeral: "bool" = None,
+        command: "str | None" = None,
+        description: "str | None" = None,
+        is_ephemeral: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.command = command
@@ -39,7 +40,7 @@ class BotCommand(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BotCommand"]:
         return (
             BotCommand(

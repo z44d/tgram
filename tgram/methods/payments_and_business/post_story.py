@@ -1,6 +1,6 @@
-import tgram
+from typing import Union
 
-from typing import List, Union
+import tgram
 
 
 class PostStory:
@@ -11,12 +11,12 @@ class PostStory:
             "tgram.types.InputStoryContentPhoto", "tgram.types.InputStoryContentVideo"
         ],
         active_period: int,
-        caption: str = None,
-        parse_mode: str = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        areas: List["tgram.types.StoryArea"] = None,
-        post_to_chat_page: bool = None,
-        protect_content: bool = None,
+        caption: str | None = None,
+        parse_mode: str | None = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        areas: list["tgram.types.StoryArea"] | None = None,
+        post_to_chat_page: bool | None = None,
+        protect_content: bool | None = None,
     ) -> "tgram.types.Story":
         """
         Posts a story on behalf of a managed business account.

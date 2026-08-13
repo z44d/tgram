@@ -1,9 +1,10 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram import bound
 from tgram.utils import String, message_origin_parse
+
+from .type_ import Type_
 
 
 class Message(Type_, bound.MessageB):
@@ -374,56 +375,56 @@ class Message(Type_, bound.MessageB):
 
     def __init__(
         self,
-        message_id: "int" = None,
-        message_thread_id: "int" = None,
+        message_id: "int | None" = None,
+        message_thread_id: "int | None" = None,
         direct_messages_topic: "tgram.types.DirectMessagesTopic" = None,
         from_user: "tgram.types.User" = None,
         sender_chat: "tgram.types.Chat" = None,
-        sender_boost_count: "int" = None,
+        sender_boost_count: "int | None" = None,
         sender_business_bot: "tgram.types.User" = None,
-        date: "int" = None,
-        guest_query_id: "str" = None,
-        business_connection_id: "str" = None,
+        date: "int | None" = None,
+        guest_query_id: "str | None" = None,
+        business_connection_id: "str | None" = None,
         chat: "tgram.types.Chat" = None,
         forward_origin: "tgram.types.MessageOrigin" = None,
-        is_topic_message: "bool" = None,
-        is_automatic_forward: "bool" = None,
+        is_topic_message: "bool | None" = None,
+        is_automatic_forward: "bool | None" = None,
         reply_to_message: "tgram.types.Message" = None,
         external_reply: "tgram.types.ExternalReplyInfo" = None,
         quote: "tgram.types.TextQuote" = None,
         reply_to_story: "tgram.types.Story" = None,
-        reply_to_checklist_task_id: "int" = None,
+        reply_to_checklist_task_id: "int | None" = None,
         via_bot: "tgram.types.User" = None,
         guest_bot_caller_user: "tgram.types.User" = None,
         guest_bot_caller_chat: "tgram.types.Chat" = None,
-        edit_date: "int" = None,
-        has_protected_content: "bool" = None,
-        is_from_offline: "bool" = None,
-        is_paid_post: "bool" = None,
-        media_group_id: "str" = None,
-        author_signature: "str" = None,
-        sender_tag: "str" = None,
-        paid_star_count: "int" = None,
+        edit_date: "int | None" = None,
+        has_protected_content: "bool | None" = None,
+        is_from_offline: "bool | None" = None,
+        is_paid_post: "bool | None" = None,
+        media_group_id: "str | None" = None,
+        author_signature: "str | None" = None,
+        sender_tag: "str | None" = None,
+        paid_star_count: "int | None" = None,
         text: "String" = None,
-        entities: List["tgram.types.MessageEntity"] = None,
+        entities: list["tgram.types.MessageEntity"] | None = None,
         link_preview_options: "tgram.types.LinkPreviewOptions" = None,
         suggested_post_info: "tgram.types.SuggestedPostInfo" = None,
-        effect_id: "str" = None,
+        effect_id: "str | None" = None,
         animation: "tgram.types.Animation" = None,
         audio: "tgram.types.Audio" = None,
         document: "tgram.types.Document" = None,
         live_photo: "tgram.types.LivePhoto" = None,
         paid_media: "tgram.types.PaidMediaInfo" = None,
-        photo: List["tgram.types.PhotoSize"] = None,
+        photo: list["tgram.types.PhotoSize"] | None = None,
         sticker: "tgram.types.Sticker" = None,
         story: "tgram.types.Story" = None,
         video: "tgram.types.Video" = None,
         video_note: "tgram.types.VideoNote" = None,
         voice: "tgram.types.Voice" = None,
         caption: "String" = None,
-        caption_entities: List["tgram.types.MessageEntity"] = None,
-        show_caption_above_media: "bool" = None,
-        has_media_spoiler: "bool" = None,
+        caption_entities: list["tgram.types.MessageEntity"] | None = None,
+        show_caption_above_media: "bool | None" = None,
+        has_media_spoiler: "bool | None" = None,
         checklist: "tgram.types.Checklist" = None,
         contact: "tgram.types.Contact" = None,
         dice: "tgram.types.Dice" = None,
@@ -431,17 +432,17 @@ class Message(Type_, bound.MessageB):
         poll: "tgram.types.Poll" = None,
         venue: "tgram.types.Venue" = None,
         location: "tgram.types.Location" = None,
-        new_chat_members: List["tgram.types.User"] = None,
+        new_chat_members: list["tgram.types.User"] | None = None,
         left_chat_member: "tgram.types.User" = None,
-        new_chat_title: "str" = None,
-        new_chat_photo: List["tgram.types.PhotoSize"] = None,
-        delete_chat_photo: "bool" = None,
-        group_chat_created: "bool" = None,
-        supergroup_chat_created: "bool" = None,
-        channel_chat_created: "bool" = None,
+        new_chat_title: "str | None" = None,
+        new_chat_photo: list["tgram.types.PhotoSize"] | None = None,
+        delete_chat_photo: "bool | None" = None,
+        group_chat_created: "bool | None" = None,
+        supergroup_chat_created: "bool | None" = None,
+        channel_chat_created: "bool | None" = None,
         message_auto_delete_timer_changed: "tgram.types.MessageAutoDeleteTimerChanged" = None,
-        migrate_to_chat_id: "int" = None,
-        migrate_from_chat_id: "int" = None,
+        migrate_to_chat_id: "int | None" = None,
+        migrate_from_chat_id: "int | None" = None,
         pinned_message: "tgram.types.MaybeInaccessibleMessage" = None,
         invoice: "tgram.types.Invoice" = None,
         successful_payment: "tgram.types.SuccessfulPayment" = None,
@@ -450,7 +451,7 @@ class Message(Type_, bound.MessageB):
         chat_shared: "tgram.types.ChatShared" = None,
         gift: "tgram.types.GiftInfo" = None,
         unique_gift: "tgram.types.UniqueGiftInfo" = None,
-        connected_website: "str" = None,
+        connected_website: "str | None" = None,
         write_access_allowed: "tgram.types.WriteAccessAllowed" = None,
         passport_data: "tgram.types.PassportData" = None,
         proximity_alert_triggered: "tgram.types.ProximityAlertTriggered" = None,
@@ -486,14 +487,14 @@ class Message(Type_, bound.MessageB):
         managed_bot_created: "tgram.types.ManagedBotCreated" = None,
         poll_option_added: "tgram.types.PollOptionAdded" = None,
         poll_option_deleted: "tgram.types.PollOptionDeleted" = None,
-        reply_to_poll_option_id: "str" = None,
+        reply_to_poll_option_id: "str | None" = None,
         rich_message: "tgram.types.RichMessage" = None,
         receiver_user: "tgram.types.User" = None,
-        ephemeral_message_id: "int" = None,
+        ephemeral_message_id: "int | None" = None,
         community_chat_added: "tgram.types.CommunityChatAdded" = None,
         community_chat_removed: "tgram.types.CommunityChatRemoved" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.message_id = message_id
@@ -617,7 +618,7 @@ class Message(Type_, bound.MessageB):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Message"]:
         r = (
             Message(

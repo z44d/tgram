@@ -1,6 +1,5 @@
 import tgram
-from tgram.types import InlineKeyboardMarkup, Message, InputChecklist
-
+from tgram.types import InlineKeyboardMarkup, InputChecklist, Message
 from tgram.utils import convert_to_inline_keyboard_markup
 
 

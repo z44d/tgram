@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class BackgroundTypePattern(Type_):
@@ -34,14 +35,14 @@ class BackgroundTypePattern(Type_):
 
     def __init__(
         self,
-        type: "str" = None,
+        type: "str | None" = None,
         document: "tgram.types.Document" = None,
         fill: "tgram.types.BackgroundFill" = None,
-        intensity: "int" = None,
-        is_inverted: "bool" = None,
-        is_moving: "bool" = None,
+        intensity: "int | None" = None,
+        is_inverted: "bool | None" = None,
+        is_moving: "bool | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.type = type
@@ -53,7 +54,7 @@ class BackgroundTypePattern(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.BackgroundTypePattern"]:
         return (
             BackgroundTypePattern(

@@ -1,31 +1,29 @@
-import tgram
 
+import tgram
 from tgram.types import (
-    ReplyParameters,
-    Message,
     InputMedia,
+    Message,
+    ReplyParameters,
 )
 from tgram.utils import (
     convert_input_media,
 )
 
-from typing import Union, List
-
 
 class SendMediaGroup:
     async def send_media_group(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
-        media: List[InputMedia],
-        business_connection_id: str = None,
-        message_thread_id: int = None,
-        disable_notification: bool = None,
-        protect_content: bool = None,
-        message_effect_id: str = None,
+        chat_id: int | str,
+        media: list[InputMedia],
+        business_connection_id: str | None = None,
+        message_thread_id: int | None = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_effect_id: str | None = None,
         reply_parameters: ReplyParameters = None,
-        allow_paid_broadcast: bool = None,
-        direct_messages_topic_id: int = None,
-    ) -> List[Message]:
+        allow_paid_broadcast: bool | None = None,
+        direct_messages_topic_id: int | None = None,
+    ) -> list[Message]:
         """
         Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files
         can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.

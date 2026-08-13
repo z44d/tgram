@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class SuccessfulPayment(Type_):
@@ -39,18 +40,18 @@ class SuccessfulPayment(Type_):
 
     def __init__(
         self,
-        currency: "str" = None,
-        total_amount: "int" = None,
-        invoice_payload: "str" = None,
-        subscription_expiration_date: int = None,
-        is_recurring: bool = None,
-        is_first_recurring: bool = None,
-        telegram_payment_charge_id: "str" = None,
-        provider_payment_charge_id: "str" = None,
-        shipping_option_id: "str" = None,
+        currency: "str | None" = None,
+        total_amount: "int | None" = None,
+        invoice_payload: "str | None" = None,
+        subscription_expiration_date: int | None = None,
+        is_recurring: bool | None = None,
+        is_first_recurring: bool | None = None,
+        telegram_payment_charge_id: "str | None" = None,
+        provider_payment_charge_id: "str | None" = None,
+        shipping_option_id: "str | None" = None,
         order_info: "tgram.types.OrderInfo" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.currency = currency
@@ -66,7 +67,7 @@ class SuccessfulPayment(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.SuccessfulPayment"]:
         return (
             SuccessfulPayment(

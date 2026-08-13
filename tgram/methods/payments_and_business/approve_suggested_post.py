@@ -1,5 +1,5 @@
+
 import tgram
-from typing import Optional
 
 
 class ApproveSuggestedPost:
@@ -7,7 +7,7 @@ class ApproveSuggestedPost:
         self: "tgram.TgBot",
         chat_id: int,
         message_id: int,
-        send_date: Optional[int] = None,
+        send_date: int | None = None,
     ) -> bool:
         """
         Approves a suggested post in a direct messages chat.

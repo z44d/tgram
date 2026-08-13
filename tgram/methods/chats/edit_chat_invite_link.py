@@ -1,17 +1,17 @@
+
 import tgram
-from typing import Union
 from tgram.types import ChatInviteLink
 
 
 class EditChatInviteLink:
     async def edit_chat_invite_link(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         invite_link: str,
-        name: str = None,
-        expire_date: int = None,
-        member_limit: int = None,
-        creates_join_request: bool = None,
+        name: str | None = None,
+        expire_date: int | None = None,
+        member_limit: int | None = None,
+        creates_join_request: bool | None = None,
     ) -> ChatInviteLink:
         """
         Use this method to edit a non-primary invite link created by the bot.

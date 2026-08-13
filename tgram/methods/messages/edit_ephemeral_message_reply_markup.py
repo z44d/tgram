@@ -1,15 +1,13 @@
-import tgram
-from typing import Union
-from tgram.types import InlineKeyboardMarkup
-from tgram.types import Message
 
+import tgram
+from tgram.types import InlineKeyboardMarkup, Message
 from tgram.utils import convert_to_inline_keyboard_markup
 
 
 class EditEphemeralMessageReplyMarkup:
     async def edit_ephemeral_message_reply_markup(
         self: "tgram.TgBot",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         reply_markup: InlineKeyboardMarkup = None,
     ) -> Message:

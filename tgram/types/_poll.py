@@ -1,8 +1,9 @@
-import tgram
-from .type_ import Type_
+from typing import Optional
 
-from typing import List, Optional
+import tgram
 from tgram.utils import String
+
+from .type_ import Type_
 
 
 class Poll(Type_):
@@ -80,29 +81,29 @@ class Poll(Type_):
 
     def __init__(
         self,
-        id: "str" = None,
+        id: "str | None" = None,
         question: "String" = None,
-        options: List["tgram.types.PollOption"] = None,
-        total_voter_count: "int" = None,
-        is_closed: "bool" = None,
-        is_anonymous: "bool" = None,
-        type: "str" = None,
-        allows_multiple_answers: "bool" = None,
-        question_entities: List["tgram.types.MessageEntity"] = None,
-        correct_option_ids: List["int"] = None,
+        options: list["tgram.types.PollOption"] | None = None,
+        total_voter_count: "int | None" = None,
+        is_closed: "bool | None" = None,
+        is_anonymous: "bool | None" = None,
+        type: "str | None" = None,
+        allows_multiple_answers: "bool | None" = None,
+        question_entities: list["tgram.types.MessageEntity"] | None = None,
+        correct_option_ids: list["int"] | None = None,
         explanation: "String" = None,
-        explanation_entities: List["tgram.types.MessageEntity"] = None,
-        open_period: "int" = None,
-        close_date: "int" = None,
-        allows_revoting: "bool" = None,
+        explanation_entities: list["tgram.types.MessageEntity"] | None = None,
+        open_period: "int | None" = None,
+        close_date: "int | None" = None,
+        allows_revoting: "bool | None" = None,
         description: "String" = None,
-        description_entities: List["tgram.types.MessageEntity"] = None,
+        description_entities: list["tgram.types.MessageEntity"] | None = None,
         media: "tgram.types.PollMedia" = None,
         explanation_media: "tgram.types.PollMedia" = None,
-        members_only: "bool" = None,
-        country_codes: List["str"] = None,
+        members_only: "bool | None" = None,
+        country_codes: list["str"] | None = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.id = id
@@ -133,7 +134,7 @@ class Poll(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Poll"]:
         return (
             Poll(

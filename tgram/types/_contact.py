@@ -1,7 +1,8 @@
-import tgram
-from .type_ import Type_
-
 from typing import Optional
+
+import tgram
+
+from .type_ import Type_
 
 
 class Contact(Type_):
@@ -33,13 +34,13 @@ class Contact(Type_):
 
     def __init__(
         self,
-        phone_number: "str" = None,
-        first_name: "str" = None,
-        last_name: "str" = None,
-        user_id: "int" = None,
-        vcard: "str" = None,
+        phone_number: "str | None" = None,
+        first_name: "str | None" = None,
+        last_name: "str | None" = None,
+        user_id: "int | None" = None,
+        vcard: "str | None" = None,
         me: "tgram.TgBot" = None,
-        json: "dict" = None,
+        json: "dict | None" = None,
     ):
         super().__init__(me=me, json=json)
         self.phone_number = phone_number
@@ -50,7 +51,7 @@ class Contact(Type_):
 
     @staticmethod
     def _parse(
-        me: "tgram.TgBot" = None, d: dict = None, force: bool = None
+        me: "tgram.TgBot" = None, d: dict | None = None, force: bool | None = None
     ) -> Optional["tgram.types.Contact"]:
         return (
             Contact(

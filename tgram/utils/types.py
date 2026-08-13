@@ -1,16 +1,15 @@
-import tgram
 import os
 import re
-
-from typing import Optional, List, Union, Tuple
-from pathlib import Path
 from io import BytesIO
+from pathlib import Path
+from typing import Optional, Union
 
+import tgram
 from tgram import utils
 
 
 def message_origin_parse(
-    d: Optional[dict] = None, me: Optional["tgram.TgBot"] = None
+    d: dict | None = None, me: Optional["tgram.TgBot"] = None
 ) -> Optional["tgram.types.MessageOrigin"]:
     if d is None:
         return None
@@ -29,7 +28,7 @@ def message_origin_parse(
 
 
 def convert_input_media(
-    x: List[
+    x: list[
         Union[
             "tgram.types.InputMedia",
             "tgram.types.InputPaidMedia",
@@ -78,7 +77,7 @@ def convert_input_media(
 
 def reaction_type_parse(
     bot: "tgram.TgBot",
-    x: Optional[Union[List[dict], dict]],
+    x: list[dict] | dict | None,
 ) -> "tgram.types.ReactionType":
     if x is None:
         return None
@@ -98,7 +97,7 @@ def reaction_type_parse(
 
 
 def rich_text_parse(
-    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+    me: Optional["tgram.TgBot"] = None, d: dict | None = None
 ) -> Optional["tgram.types.RichText"]:
     if d is None:
         return None
@@ -161,7 +160,7 @@ def rich_text_parse(
 
 
 def rich_block_parse(
-    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+    me: Optional["tgram.TgBot"] = None, d: dict | None = None
 ) -> Optional["tgram.types.RichBlock"]:
     if d is None:
         return None
@@ -216,7 +215,7 @@ def rich_block_parse(
 
 
 def input_rich_block_parse(
-    me: Optional["tgram.TgBot"] = None, d: Optional[dict] = None
+    me: Optional["tgram.TgBot"] = None, d: dict | None = None
 ) -> Optional["tgram.types.InputRichBlock"]:
     if d is None:
         return None
@@ -275,7 +274,7 @@ pattern = re.compile(
 )
 
 
-def convert_to_inline_keyboard_markup(v: List[List[Tuple]]):
+def convert_to_inline_keyboard_markup(v: list[list[tuple]]):
     return tgram.types.InlineKeyboardMarkup(
         [
             [
